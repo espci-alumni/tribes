@@ -1,0 +1,12 @@
+<!--
+AGENT $form
+
+AGENT $f_sexe _caption_='Civilité'
+AGENT $f_nom_civil _caption_='Nom'
+AGENT $f_prenom_civil _caption_='Prénom'
+AGENT $f_categorie _caption_='Promotion'
+AGENT $f_email _caption_='Email'
+AGENT $f_save value='Enregistrer'
+
+AGENT $form _mode_='close'
+-->
