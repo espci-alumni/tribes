@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_form
+class extends agent_pForm
 {
 	public $get = '__1__:i:1';
 
@@ -18,7 +18,7 @@ class extends agent_form
 		$this->data || p::redirect('index');
 	}
 
-	protected function composeForm($o, &$f, &$save)
+	protected function composeForm($o, $f, $send)
 	{
 		$o->prenom_civil = $this->data->prenom_civil;
 		$o->nom_civil = $this->data->nom_civil;
@@ -29,7 +29,7 @@ class extends agent_form
 			'item' => array('accepted' => 'accepter', 'refused' => 'refuser')
 		));
 
-		$save->attach(
+		$send->attach(
 		//	'prenom_usuel', '', '',
 			'statut_inscription', 'faire une action', ''
 		);

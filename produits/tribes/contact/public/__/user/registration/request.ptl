@@ -2,8 +2,10 @@
 <!--
 
 AGENT $form
+
 AGENT $f_statut_inscription
-AGENT $f_save value='Enregistrer'
+AGENT $f_send value="Enregistrer"
+
 AGENT $form _mode_='close'
 
 -->

@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_form
+class extends agent_pForm
 {
 	function control()
 	{

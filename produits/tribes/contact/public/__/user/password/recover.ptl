@@ -2,8 +2,8 @@
 
 AGENT $form
 
-AGENT $f_email _caption_='Email'
-AGENT $f_save value='Envoyer'
+AGENT $f_email _caption_="Email"
+AGENT $f_send value="Envoyer"
 
 AGENT $form _mode_='close'
 

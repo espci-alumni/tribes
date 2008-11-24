@@ -1,34 +1,28 @@
 <?php
 
-class extends agent_form
+class extends agent_pForm
 {
 	protected $maxage = -1;
 
-	protected function composeForm($o, &$f, &$save)
+	protected function composeForm($o, $f, $send)
 	{
-		//TODO: ajouter les rèlges pour les noms/prenoms
 		$f->add('check', 'sexe', array('item' => array(
 			'F' => 'Mme, Mlle',
 			'M' => 'M.'
 		)));
 
-		$f->add('text', 'nom_civil');
-		$f->add('text', 'prenom_civil');
+		$altern_case_rx = ".*[A-Z][^A-Z\s]+";
+		$altern_case_msg = "Merci de respecter minuscules, majuscules et accents pour vos nom et prénom";
 
-		$f->add('select', 'categorie',array(
-			'firstItem' => '-- Quelle est votre promotion ? --',
-			'sql' => 'SELECT categorie_id AS K, categorie AS V
-		   				FROM categorie',
-		));
-
+		$f->add('text', 'nom_etudiant', $altern_case_rx);
+		$f->add('text', 'prenom_usuel', $altern_case_rx);
 		$f->add('email', 'email');
 
-		$save->attach(
-			'sexe', 'Veuillez choisir votre civilité', '',
-			'nom_civil', 'Veuillez renseigner votre nom', '',
-			'prenom_civil', 'Veuillez renseigner votre prénom', '',
-			'email', 'Veuillez renseigner votre email', '',
-			'categorie', 'Veuillez renseigner votre promotion', ''
+		$send->attach(
+			'sexe', "Veuillez renseigner le champs Mme Mlle M.", '',
+			'nom_etudiant', "Veuillez renseigner votre nom (à l'école)", $altern_case_msg,
+			'prenom_usuel', "Veuillez renseigner votre prénom usuel", $altern_case_msg,
+			'email', "Veuillez renseigner votre email", ''
 		);
 
 		return $o;
@@ -38,31 +32,73 @@ class extends agent_form
 	{
 		$db = DB();
 		
-		$email = strtolower($data['email']);
+		$sql = "SELECT contact_id, statut_inscription
+				FROM contact c
+				WHERE " . $this->buildSqlMatchingContact($data);
+		$contact = $db->queryRow($sql);
+
+		if (!$contact)
+		{
+			$db->autoExecute('contact', $data + array('origine' => 'registration'));
+			$contact = (object) array(
+				'contact_id' => $db->lastInsertId(),
+				'statut_inscription' => 'aucune',
+			);
+		}
+
+		$email = array(
+			'contact_id' => $contact->contact_id,
+			'email'      => $data['email'],
+			'token'      => p::strongid(8),
+		);
+
 		unset($data['email']);
 
-		if (!$db->queryOne('SELECT 1 FROM contact_email WHERE email=' . $db->quote($email)))
+		if ('accepted' === $contact->statut_inscription)
 		{
-			$categorie_id = $data['categorie'];
-			unset($data['categorie']);
+			$sql = "INSERT IGNORE INTO contact_email (" . implode(',', array_keys($email)) . ", token_date)
+					VALUES ('" . implode("','", $email) . "', NOW())";
+			if ($db->exec($sql))
+			{
+				// Procédure de contre-vérification du mail
+			}
 
-			$data['password_token'] = p::strongid(8);
-			$data['password_token_date'] = $data['contact_confirmed'] = date('Y-m-d H:i:s');
+			return 'user/registration/receipt/collision';
+		}
+		else
+		{
+			$sql = "REPLACE INTO contact_email (" . implode(',', array_keys($email)) . ", token_date)
+					VALUES ('" . implode("','", $email) . "', NOW())";
+			$db->exec($sql);
 
-			$db->autoExecute('contact', $data);
-			$contact_id = $db->lastInsertId();
+			$password_token = p::strongid(8);
 
-			$db->autoExecute('contact_categorie', array('contact_id' => $contact_id, 'categorie_id' => $categorie_id));
-			$db->autoExecute('contact_email', array('contact_id' => $contact_id, 'email' => $email));
+			$sql = "UPDATE contact
+					SET password_token='{$password_token}',
+						password_token_date=NOW(),
+						contact_confirmed=NOW(),
+						contact_confirmed_data=" . $db->quote(serialize($data)) . "
+					WHERE contact_id={$contact->contact_id}";
+			$db->exec($sql);
 
 			pMail::sendAgent(
-				array('To' => $email),
+				array('To' => $email['email']),
 				'email/user/registration/receipt',
-				array('password_token' => $data['password_token'])
+				array('password_token' => $password_token)
 			);
+
+			if ('demande' === $contact->statut_inscription)
+			{
+				//re-notification administrateur
+			}
 
 			return 'user/registration/receipt';
 		}
-		else return 'index';
+	}
+
+	protected function buildSqlMatchingContact($data)
+	{
+		return "nom_etudiant=" . DB()->quote($data['nom_etudiant']) . "
+					AND prenom_usuel=" . DB()->quote($data['prenom_usuel']);;
 	}
 }

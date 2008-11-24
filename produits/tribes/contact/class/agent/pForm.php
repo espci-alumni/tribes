@@ -9,28 +9,28 @@ class extends agent
 		$f = new pForm($o);
 		$f->setDefaults($this->data);
 
-		$save = $f->add('submit', 'save');
+		$send = $f->add('submit', 'send');
 
-		$o = $this->composeForm($o, $f, $save);
+		$o = $this->composeForm($o, $f, $send);
 
-		if ($save->isOn() && $this->formIsOk($f))
+		if ($send->isOn() && $this->formIsOk($f))
 		{
 			$a = $this->data ? 'save' : 'create';
 
-			list($save, $b) = (array) $this->save($save->getData()) + array(null, null);
+			list($send, $b) = (array) $this->save($send->getData()) + array(null, null);
 
-			if (null === $save) W(get_class($this) . '->save() result must be non-null');
-			else if (false !== $save)
+			if (null === $send) W(get_class($this) . '->save() result must be non-null');
+			else if (false !== $send)
 			{
 				$b && s::flash('headerMessage', true !== $b ? $b : $a);
-				p::redirect($save);
+				p::redirect($send);
 			}
 		}
 
 		return $o;
 	}
 
-	protected function composeForm($o, &$f, &$save)
+	protected function composeForm($o, $f, $send)
 	{
 		return $o;
 	}

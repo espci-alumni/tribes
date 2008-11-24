@@ -4,11 +4,11 @@ class extends agent_form
 {
 	protected $maxage = -1;
 
-	protected function composeForm($o, &$f, &$save)
+	protected function composeForm($o, $f, $send)
 	{
 		$f->add('email', 'email');
 
-		$save->attach('email', 'Veuillez renseigner votre email', '');
+		$send->attach('email', 'Veuillez renseigner votre email', '');
 
 		return $o;
 	}

@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_form
+class extends agent_pForm
 {
 	public $get = '__1__:c:[A-Za-z0-9]{8}';
 
@@ -37,11 +37,11 @@ class extends agent_form
 		return parent::compose($o);
 	}
 
-	protected function composeForm($o, &$f, &$save)
+	protected function composeForm($o, $f, $send)
 	{
 		$f->add('text', 'prenom_usuel');
 
-		$save->attach(
+		$send->attach(
 			'prenom_usuel', '', ''
 		);
 

@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_form
+class extends agent_pForm
 {
 	public $get = '__1__:c:[A-Za-z0-9]{8}';
 
@@ -20,12 +20,12 @@ class extends agent_form
 		$this->data || p::redirect('index');
 	}
 	
-	protected function composeForm($o, &$f, &$save)
+	protected function composeForm($o, $f, $send)
 	{
 		$f->add('password', 'new_pwd');
 		$f->add('password', 'con_pwd');
 
-		$save->attach(
+		$send->attach(
 			'new_pwd', 'Veuillez saisir un mot de passe', '',
 			'con_pwd', 'Veuillez confirmer votre mot de passe', ''
 		);

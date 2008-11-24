@@ -1,12 +1,13 @@
 <!--
+
 AGENT $form
 
-AGENT $f_sexe _caption_='Civilité'
-AGENT $f_nom_civil _caption_='Nom'
-AGENT $f_prenom_civil _caption_='Prénom'
-AGENT $f_categorie _caption_='Promotion'
-AGENT $f_email _caption_='Email'
-AGENT $f_save value='Enregistrer'
+AGENT $f_sexe
+AGENT $f_nom_etudiant _caption_="Nom (à l'école)"
+AGENT $f_prenom_usuel _caption_="Prénom usuel"
+AGENT $f_email _caption_="Email"
+AGENT $f_send value="Envoyer"
 
 AGENT $form _mode_='close'
+
 -->
