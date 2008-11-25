@@ -1,1 +1,3 @@
-<a href="{~}user/registration/request/{a$contact_id}">ici</a>
+<!-- AGENT 'email/header' title="Nouvelle demande d'inscription" -->
+<a href="{~}user/registration/request/{a$password_token}">ici</a>
+<!-- AGENT 'email/footer' -->

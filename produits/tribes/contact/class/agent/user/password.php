@@ -4,24 +4,23 @@ class extends agent_pForm
 {
 	public $get = '__1__:c:[A-Za-z0-9]{8}';
 
-	const DELAY = '1 HOUR';
-
 	function control()
 	{
-		if ($this->get->__1__)
-		{
-			$sql = "SELECT contact_id, login
-					FROM contact
-					WHERE password_token='{$this->get->__1__}'
-					AND password_token_date > NOW() - INTERVAL " . self::DELAY;
-			$this->data = DB()->queryRow($sql);
-		}
+		$this->get->__1__ || p::forbidden();
 
+		$sql = "SELECT contact_id, login
+				FROM contact
+				WHERE statut_inscription='accepted'
+					AND password_token='{$this->get->__1__}'
+					AND password_token_date > NOW() - INTERVAL " . tribes::PENDING_PERIOD;
+		$this->data = DB()->queryRow($sql);
 		$this->data || p::redirect('index');
 	}
 	
 	protected function composeForm($o, $f, $send)
 	{
+		$o->login = $this->data->login;
+
 		$f->add('password', 'new_pwd');
 		$f->add('password', 'con_pwd');
 
@@ -47,10 +46,10 @@ class extends agent_pForm
 	protected function save($data)
 	{
 		$sql = "UPDATE contact
-				SET password='" . p::saltedHash($data['new_pwd']) . "', password_token=''
+				SET password='" . p::saltedHash($data['new_pwd']) . "', password_token=NULL
 				WHERE contact_id={$this->data->contact_id}";
-
 		DB()->exec($sql);
-		return 'user/edit/' . $this->data->contact_id;
+
+		return 'user/edit';
 	}
 }

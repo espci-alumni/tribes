@@ -14,15 +14,17 @@ class extends agent_pForm
 		$altern_case_rx = ".*[A-Z][^A-Z\s]+";
 		$altern_case_msg = "Merci de respecter minuscules, majuscules et accents pour vos nom et prénom";
 
-		$f->add('text', 'nom_etudiant', $altern_case_rx);
-		$f->add('text', 'prenom_usuel', $altern_case_rx);
+		$f->add('text', 'nom_civil', $altern_case_rx);
+		$f->add('text', 'prenom_civil', $altern_case_rx);
+		$f->add('date', 'date_naissance');
 		$f->add('email', 'email');
 
 		$send->attach(
-			'sexe', "Veuillez renseigner le champs Mme Mlle M.", '',
-			'nom_etudiant', "Veuillez renseigner votre nom (à l'école)", $altern_case_msg,
-			'prenom_usuel', "Veuillez renseigner votre prénom usuel", $altern_case_msg,
-			'email', "Veuillez renseigner votre email", ''
+			'sexe',           "Veuillez renseigner le champs Mme Mlle M.",   '',
+			'nom_civil',      "Veuillez renseigner votre nom",               $altern_case_msg,
+			'prenom_civil',   "Veuillez renseigner votre prénom",            $altern_case_msg,
+			'email',          "Veuillez renseigner votre email",             '',
+			'date_naissance', 'Veuillez renseigner votre date de naissance', ''
 		);
 
 		return $o;
@@ -31,50 +33,57 @@ class extends agent_pForm
 	protected function save($data)
 	{
 		$db = DB();
-		
+
 		$sql = "SELECT contact_id, statut_inscription
 				FROM contact c
-				WHERE " . $this->buildSqlMatchingContact($data);
+				WHERE " . $this->sqlWhereMatchingContact($data) . "
+				ORDER BY " . $this->sqlOrderMatchingContact($data) . "
+				LIMIT 1";
 		$contact = $db->queryRow($sql);
+
+		$email['email'] = $data['email'];
+		unset($data['email']);
 
 		if (!$contact)
 		{
-			$db->autoExecute('contact', $data + array('origine' => 'registration'));
+			$db->autoExecute(
+				'contact',
+				$data + array(
+					'origine' => 'registration'
+					'login' => self::getLogin($data),
+				)
+			);
+
 			$contact = (object) array(
 				'contact_id' => $db->lastInsertId(),
-				'statut_inscription' => 'aucune',
+				'statut_inscription' => '',
 			);
 		}
 
-		$email = array(
+		$email += array(
 			'contact_id' => $contact->contact_id,
-			'email'      => $data['email'],
 			'token'      => p::strongid(8),
+			'origine'    => 'registration',
 		);
 
-		unset($data['email']);
+		$sql = "INSERT INTO contact_email (" . implode(',', array_keys($email)) . ", token_date)
+				VALUES ('" . implode("','", $email) . "', NOW())
+				ON DUPLICATE KEY UPDATE token=VALUES(token), token_date=VALUES(token_date)";
+		$db->exec($sql);
 
 		if ('accepted' === $contact->statut_inscription)
 		{
-			$sql = "INSERT IGNORE INTO contact_email (" . implode(',', array_keys($email)) . ", token_date)
-					VALUES ('" . implode("','", $email) . "', NOW())";
-			if ($db->exec($sql))
-			{
-				// Procédure de contre-vérification du mail
-			}
-
 			return 'user/registration/receipt/collision';
 		}
 		else
 		{
-			$sql = "REPLACE INTO contact_email (" . implode(',', array_keys($email)) . ", token_date)
-					VALUES ('" . implode("','", $email) . "', NOW())";
-			$db->exec($sql);
-
-			$password_token = p::strongid(8);
+			// password_token est mis à jour avec la même valeur que celui de l'email.
+			// De cette façon, on peut savoir, sur la base de ce token, quel email
+			// parmi ceux disponibles est à l'origine de la dernière inscription.
 
 			$sql = "UPDATE contact
-					SET password_token='{$password_token}',
+					SET statut_inscription='',
+						password_token='{$email['token']}',
 						password_token_date=NOW(),
 						contact_confirmed=NOW(),
 						contact_confirmed_data=" . $db->quote(serialize($data)) . "
@@ -84,21 +93,30 @@ class extends agent_pForm
 			pMail::sendAgent(
 				array('To' => $email['email']),
 				'email/user/registration/receipt',
-				array('password_token' => $password_token)
+				array('password_token' => $email['token'])
 			);
-
-			if ('demande' === $contact->statut_inscription)
-			{
-				//re-notification administrateur
-			}
 
 			return 'user/registration/receipt';
 		}
 	}
 
-	protected function buildSqlMatchingContact($data)
+	protected static function sqlWhereMatchingContact($data)
 	{
-		return "nom_etudiant=" . DB()->quote($data['nom_etudiant']) . "
-					AND prenom_usuel=" . DB()->quote($data['prenom_usuel']);;
+		$login = self::getLogin($data);
+
+		return "login LIKE " . DB()->quote($login . '%') . "
+			 OR login LIKE " . DB()->quote(substr($login, 0, -10) . '0000-00-00%')
+	}
+
+	protected static function sqlOrderMatchingContact($data)
+	{
+		return 'login DESC';
+	}
+
+	protected static function getLogin($data)
+	{
+		return tribes::filterLogin($data['prenom_civil'])
+			. '.' . tribes::filterLogin($data['nom_civil'])
+			. '.' . $data['date_naissance'];
 	}
 }

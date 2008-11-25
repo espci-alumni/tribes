@@ -1,11 +1,17 @@
-{$prenom_civil} {$nom_civil}
 <!--
+
+AGENT 'header' title="Demande d'inscription"
 
 AGENT $form
 
+AGENT $f_nom_civil _caption_="Nom"
+AGENT $f_prenom_civil _caption_="Prénom"
+AGENT $f_date_naissance _caption_="Date de naissance"
 AGENT $f_statut_inscription
 AGENT $f_send value="Enregistrer"
 
 AGENT $form _mode_='close'
+
+AGENT 'footer'
 
 -->

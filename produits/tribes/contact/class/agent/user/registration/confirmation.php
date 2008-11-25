@@ -4,45 +4,47 @@ class extends agent_pForm
 {
 	public $get = '__1__:c:[A-Za-z0-9]{8}';
 
-	const PENDING_PERIOD = '4 HOUR';
 
 	function control()
 	{
-		if ($this->get->__1__)
-		{
-			$sql = "SELECT * FROM contact
-					WHERE password_token=" . DB()->quote($this->get->__1__) . "
-						AND password_token_date > NOW() - INTERVAL " . self::PENDING_PERIOD . "
-						AND statut_inscription IN ('aucune', 'demande')";
+		$this->get->__1__ || p::forbidden();
 
-			$this->data = DB()->queryRow($sql);
-		}
-	
-		$this->data || p::redirect('index');
-	}
+		$db = DB();
 
-	function compose($o)
-	{
-		if ($this->data->statut_inscription === 'aucune')
+		$sql = "SELECT contact_id, statut_inscription, contact_confirmed_data, password_token, date_naissance
+				FROM contact
+				WHERE password_token='{$this->get->__1__}'
+					AND password_token_date > NOW() - INTERVAL " . tribes::PENDING_PERIOD . "
+					AND statut_inscription != 'accepted'";
+		$this->data = $db->queryRow($sql);
+		$this->data || p::redirect('index'); //XXX aller à un message d'erreur plus explicite
+
+		$this->data = (object) ((array) $this->data + unserialize($this->data->contact_confirmed_data));
+
+		if (!$this->data->statut_inscription)
 		{
-			DB()->exec("UPDATE contact SET statut_inscription='demande' WHERE contact_id={$this->data->contact_id}");
+			$sql = "UPDATE contact_email SET contact_confirmed=NOW()
+					WHERE token='{$this->get->__1__}'";
+			$db->exec($sql);
+
+			$sql = "UPDATE contact SET statut_inscription='demande'
+					WHERE contact_id={$this->data->contact_id}";
+			$db->exec($sql);
 
 			pMail::sendAgent(
-				array('To' => tribes::getAdminEmails()),
+				array('To' => tribes::getAdminEmails()), //XXX remplacer par un système de notification
 				'email/user/registration/request',
 				$this->data
 			);
 		}
-
-		return parent::compose($o);
 	}
 
 	protected function composeForm($o, $f, $send)
 	{
-		$f->add('text', 'prenom_usuel');
+		$f->add('text', 'adresse');
 
 		$send->attach(
-			'prenom_usuel', '', ''
+			'adresse', '', ''
 		);
 
 		return $o;

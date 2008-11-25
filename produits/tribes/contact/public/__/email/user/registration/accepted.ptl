@@ -1,1 +1,3 @@
+<!-- AGENT 'email/header' title="Inscription acceptée" -->
 inscription validée <a href="{~}user/password/{a$password_token}">ici</a>
+<!-- AGENT 'email/footer' -->
