@@ -4,7 +4,7 @@ class extends agent_pForm
 {
 	protected $maxage = -1;
 
-	protected function composeForm($o, $f, $send)
+	protected function composeForm($f, $send)
 	{
 		$f->add('check', 'sexe', array('item' => array(
 			'F' => 'Mme, Mlle',
@@ -23,11 +23,9 @@ class extends agent_pForm
 			'sexe',           "Veuillez renseigner le champs Mme Mlle M.",   '',
 			'nom_civil',      "Veuillez renseigner votre nom",               $altern_case_msg,
 			'prenom_civil',   "Veuillez renseigner votre prénom",            $altern_case_msg,
-			'email',          "Veuillez renseigner votre email",             '',
-			'date_naissance', 'Veuillez renseigner votre date de naissance', ''
+			'date_naissance', 'Veuillez renseigner votre date de naissance', '',
+			'email',          "Veuillez renseigner votre email",             ''
 		);
-
-		return $o;
 	}
 
 	protected function save($data)
@@ -49,10 +47,9 @@ class extends agent_pForm
 			$db->autoExecute(
 				'contact',
 				$data + array(
-					'origine' => 'registration'
-					'login' => self::getLogin($data),
-				)
-			);
+					'origine' => 'registration',
+					'login' => tribes::buildLogin($data)
+			));
 
 			$contact = (object) array(
 				'contact_id' => $db->lastInsertId(),
@@ -66,57 +63,61 @@ class extends agent_pForm
 			'origine'    => 'registration',
 		);
 
-		$sql = "INSERT INTO contact_email (" . implode(',', array_keys($email)) . ", token_date)
-				VALUES ('" . implode("','", $email) . "', NOW())
-				ON DUPLICATE KEY UPDATE token=VALUES(token), token_date=VALUES(token_date)";
+		$sql = "INSERT INTO contact_email (" . implode(',', array_keys($email)) . ", token_expires)
+				VALUES ('" . implode("','", $email) . "', NOW() + INTERVAL " . tribes::PENDING_PERIOD . ")
+				ON DUPLICATE KEY UPDATE token=VALUES(token), token_expires=VALUES(token_expires)";
 		$db->exec($sql);
+
 
 		if ('accepted' === $contact->statut_inscription)
 		{
-			return 'user/registration/receipt/collision';
+			$sql = "SELECT 1
+					FROM contact_email
+					WHERE contact_id={$contact->contact_id}
+						AND is_active=1
+						AND admin_confirmed
+						AND is_obsolete<1
+					LIMIT 1";
+			if ($db->queryOne($sql))
+			{
+				s::set('password_contact_id', $contact->contact_id);
+				return 'user/registration/collision';
+			}
 		}
-		else
-		{
-			// password_token est mis à jour avec la même valeur que celui de l'email.
-			// De cette façon, on peut savoir, sur la base de ce token, quel email
-			// parmi ceux disponibles est à l'origine de la dernière inscription.
 
-			$sql = "UPDATE contact
-					SET statut_inscription='',
-						password_token='{$email['token']}',
-						password_token_date=NOW(),
-						contact_confirmed=NOW(),
-						contact_confirmed_data=" . $db->quote(serialize($data)) . "
-					WHERE contact_id={$contact->contact_id}";
-			$db->exec($sql);
+		// password_token est mis à jour avec la même valeur que celui de l'email.
+		// De cette façon, on peut savoir, sur la base de ce token, quel email
+		// parmi ceux disponibles est à l'origine de la dernière inscription.
 
-			pMail::sendAgent(
-				array('To' => $email['email']),
-				'email/user/registration/receipt',
-				array('password_token' => $email['token'])
-			);
+		$sql = "UPDATE contact
+				SET statut_inscription='',
+					date_naissance='{$data['date_naissance']}',
+					password_token='{$email['token']}',
+					password_token_expires=NOW() + INTERVAL " . tribes::PENDING_PERIOD . ",
+					contact_confirmed=NOW(),
+					contact_confirmed_data=" . $db->quote(serialize($data)) . "
+				WHERE contact_id={$contact->contact_id}";
+		$db->exec($sql);
 
-			return 'user/registration/receipt';
-		}
+		pMail::sendAgent(
+			array('To' => $email['email']),
+			'email/user/registration/receipt',
+			array('password_token' => $email['token'])
+		);
+
+		return 'user/registration/receipt';
 	}
 
 	protected static function sqlWhereMatchingContact($data)
 	{
-		$login = self::getLogin($data);
+		$login = tribes::buildLogin($data);
 
 		return "login LIKE " . DB()->quote($login . '%') . "
-			 OR login LIKE " . DB()->quote(substr($login, 0, -10) . '0000-00-00%')
+			 OR login LIKE " . DB()->quote(substr($login, 0, -10) . '0000-00-00%');
 	}
 
 	protected static function sqlOrderMatchingContact($data)
 	{
 		return 'login DESC';
-	}
-
-	protected static function getLogin($data)
-	{
-		return tribes::filterLogin($data['prenom_civil'])
-			. '.' . tribes::filterLogin($data['nom_civil'])
-			. '.' . $data['date_naissance'];
 	}
 }

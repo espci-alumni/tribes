@@ -4,11 +4,8 @@ AGENT 'header' title="S'inscrire"
 
 AGENT $form
 
-AGENT $f_sexe _glue_=' '
-AGENT $f_nom_civil _caption_="Nom civil"
-AGENT $f_prenom_civil _caption_="Prénom civil"
-AGENT $f_email _caption_="Email"
-AGENT $f_date_naissance _caption_="Date de naissance"
+INLINE user/_registration
+
 AGENT $f_send value="Envoyer"
 
 AGENT $form _mode_='close'

@@ -1,0 +1,20 @@
+<!-- AGENT 'header' title="Compte déjà existant" -->
+
+<p>
+Un compte à ce nom existe déjà.
+Auriez-vous perdu votre mot de passe&nbsp;?
+</p>
+
+<!--
+
+AGENT $form
+AGENT $f_send value="Oui, j'ai perdu mon mot de passe"
+AGENT $form _mode_='close'
+
+-->
+
+<p>
+Si vous pensez recevoir ce message par erreur, merci de nous contacter.
+</p>
+
+<!-- AGENT 'footer' -->

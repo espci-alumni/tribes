@@ -4,7 +4,8 @@ AGENT 'header' title="Demande d'inscription enregistrée"
 
 AGENT $form
 
-AGENT $f_adresse _caption_="Adresse"
+INLINE user/_edit
+
 AGENT $f_send value="Enregistrer"
 
 AGENT $form _mode_='close'

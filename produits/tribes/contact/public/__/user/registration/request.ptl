@@ -4,10 +4,11 @@ AGENT 'header' title="Demande d'inscription"
 
 AGENT $form
 
-AGENT $f_nom_civil _caption_="Nom"
-AGENT $f_prenom_civil _caption_="Prénom"
-AGENT $f_date_naissance _caption_="Date de naissance"
-AGENT $f_statut_inscription
+INLINE user/_edit
+
+AGENT $f_doublon_contact_id _caption_="Fusionner avec"
+AGENT $f_updateDoublons value="Update"
+AGENT $f_message _caption_="Message"
 AGENT $f_send value="Enregistrer"
 
 AGENT $form _mode_='close'

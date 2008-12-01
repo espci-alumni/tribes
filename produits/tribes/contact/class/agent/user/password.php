@@ -12,14 +12,22 @@ class extends agent_pForm
 				FROM contact
 				WHERE statut_inscription='accepted'
 					AND password_token='{$this->get->__1__}'
-					AND password_token_date > NOW() - INTERVAL " . tribes::PENDING_PERIOD;
+					AND password_token_expires >= NOW()";
 		$this->data = DB()->queryRow($sql);
-		$this->data || p::redirect('index');
+		$this->data || p::redirect('error/token');
 	}
-	
-	protected function composeForm($o, $f, $send)
+
+	function compose($o)
 	{
+		//XXX mettre un login plus user friendly
 		$o->login = $this->data->login;
+
+		return parent::compose($o);
+	}
+
+	protected function composeForm($f, $send)
+	{
+		//XXX ajouter une vérification de la complexité du mot de passe
 
 		$f->add('password', 'new_pwd');
 		$f->add('password', 'con_pwd');
@@ -28,8 +36,6 @@ class extends agent_pForm
 			'new_pwd', 'Veuillez saisir un mot de passe', '',
 			'con_pwd', 'Veuillez confirmer votre mot de passe', ''
 		);
-
-		return $o;
 	}
 
 	protected function formIsOk($f)
@@ -47,9 +53,14 @@ class extends agent_pForm
 	{
 		$sql = "UPDATE contact
 				SET password='" . p::saltedHash($data['new_pwd']) . "', password_token=NULL
-				WHERE contact_id={$this->data->contact_id}";
+				WHERE password_token='{$this->get->__1__}'";
 		DB()->exec($sql);
 
-		return 'user/edit';
+		$sql = "UPDATE contact_email
+				SET contact_confirmed=NOW(), is_obsolete=0
+				WHERE token='{$this->get->__1__}'";
+		DB()->exec($sql);
+
+		return array('user/edit', 'Mot de passe mis à jour');
 	}
 }
