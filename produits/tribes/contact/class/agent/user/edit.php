@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_user_registration
+class extends agent_registration
 {
 	protected $maxage = 0;
 

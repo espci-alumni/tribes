@@ -34,6 +34,6 @@ class extends agent_pForm
 			'password_token' => $password_token,
 		));
 
-		return 'user/registration/collision/sent';
+		return 'registration/collision/sent';
 	}
 }

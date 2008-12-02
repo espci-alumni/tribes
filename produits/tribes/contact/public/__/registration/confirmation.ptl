@@ -1,0 +1,20 @@
+<!-- AGENT 'header' title="Demande d'inscription enregistrée" -->
+
+<p>
+Votre demande a été transmise aux personnes chargées de valider les inscriptions.
+</p>
+
+<p>
+En attendant l'activation de votre compte, merci de compléter le formulaire ci-dessous.
+</p>
+
+<!-- AGENT $form -->
+<table>
+<!-- INLINE user/_edit -->
+</table>
+
+<!-- AGENT $f_send value="Enregistrer" -->
+
+<!-- AGENT $form _mode_='close' -->
+
+<!-- AGENT 'footer' -->

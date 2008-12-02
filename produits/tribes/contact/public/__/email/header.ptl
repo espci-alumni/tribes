@@ -7,6 +7,12 @@ IF !g+1$headerNesting
 	<title>{a$title}</title>
 </head>
 <body>
+
+
+<p>
+Bonjour,
+</p>
+
 <!--
 
 END:IF

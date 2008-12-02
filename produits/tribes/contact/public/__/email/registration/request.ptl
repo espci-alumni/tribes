@@ -1,0 +1,17 @@
+<!-- AGENT 'email/header' title="Nouvelle demande d'inscription" -->
+
+<p>
+Nouvelle demande d'inscription&nbsp;:
+
+<ul>
+	<li>Sexe&nbsp;: {a$sexe}</li>
+	<li>Nom&nbsp;: {a$nom_civil}</li>
+	<li>Prénom&nbsp;: {a$prenom_civil}</li>
+	<li>Email&nbsp;: {a$email}</li>
+	<li>Date de naissance&nbsp;: {a$date_naissance}</li>
+</ul>
+
+<a href="{~}registration/request/{a$password_token}">Cliquez ici pour traiter cette demande</a>.
+</p>
+
+<!-- AGENT 'email/footer' -->

@@ -1,7 +1,0 @@
-<!-- AGENT 'email/header' title="Demande d'inscription à confirmer" -->
-
-<p>
-<a href="{~}user/registration/confirmation/{a$password_token}">cliquez ici</a>
-</p>
-
-<!-- AGENT 'email/footer' -->

@@ -1,5 +1,7 @@
 <!-- IF !g$headerNesting -->
 
+<!-- SET g$inputFormat --><tr><td class="label">%0&nbsp;:</td><td class="input">%1%2</td></tr><!-- END:SET -->
+
 <!-- INLINE header -->
 
 <p>{$message}</p>

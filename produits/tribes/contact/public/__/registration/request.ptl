@@ -1,0 +1,34 @@
+<!--
+
+AGENT 'header' title="Demande d'inscription"
+
+AGENT $form
+
+-->
+
+<table>
+<!--
+
+INLINE user/_edit
+
+SET $f
+	--><tr>
+		<td class="label">%0&nbsp;:<br /><!--
+		AGENT $f_updateDoublons value="Actualiser"
+		--></td>
+		<td class="input">%1%2</td>
+	</tr><!--
+END:SET
+
+AGENT $f_doublon_contact_id _caption_="Fusionner avec" _format_=$f
+
+AGENT $f_message _caption_="Message"
+
+-->
+</table>
+
+<!-- AGENT $f_send value="Enregistrer" -->
+
+<!-- AGENT $form _mode_='close' -->
+
+<!-- AGENT 'footer' -->

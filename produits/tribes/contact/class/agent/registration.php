@@ -81,7 +81,7 @@ class extends agent_pForm
 			if ($db->queryOne($sql))
 			{
 				s::set('password_contact_id', $contact->contact_id);
-				return 'user/registration/collision';
+				return 'registration/collision';
 			}
 		}
 
@@ -101,11 +101,13 @@ class extends agent_pForm
 
 		pMail::sendAgent(
 			array('To' => $email['email']),
-			'email/user/registration/receipt',
+			'email/registration/receipt',
 			array('password_token' => $email['token'])
 		);
 
-		return 'user/registration/receipt';
+		s::set('registration_token', $email['token']);
+
+		return 'registration/receipt';
 	}
 
 	protected static function sqlWhereMatchingContact($data)

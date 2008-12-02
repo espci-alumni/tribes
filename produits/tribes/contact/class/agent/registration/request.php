@@ -6,6 +6,8 @@ class extends agent_user_edit
 
 	const PENDING_PERIOD = '3 DAY';
 
+	protected $doublon_contact_id = 0;
+
 	function control()
 	{
 		parent::control();
@@ -26,6 +28,26 @@ class extends agent_user_edit
 		$this->data = (object) ((array) $this->data + unserialize($this->data->contact_confirmed_data));
 	}
 
+	function compose($o)
+	{
+		$o = parent::compose($o);
+		$f = $o->form;
+
+		$doublon_contact_items = self::buildDoublonKey($f, clone $this->data);
+		$doublon_contact_items = tribes::getDoublonSuggestions($this->data->contact_id, $doublon_contact_items);
+		$doublon_contact_items += array(
+			$this->data->contact_id => '(ajouter un nouveau nom au fichier)',
+			0 => '(refuser la demande)'
+		);
+
+		$f->add('check', 'doublon_contact_id', array('item' => $doublon_contact_items));
+		$f->add('submit', 'updateDoublons');
+
+		$o->f_send->attach('doublon_contact_id', 'Merci de choisir doublon_contact_id', '');
+
+		return $o;
+	}
+
 	protected function composeForm($f, $send)
 	{
 		parent::composeForm($f, $send);
@@ -35,19 +57,23 @@ class extends agent_user_edit
 		$send->attach(
 			'message', '', ''
 		);
+	}
 
-		$doublon_contact_items = self::buildDoublonKey($f, clone $this->data);
-		$doublon_contact_items = tribes::getDoublonSuggestions($this->data->contact_id, $doublon_contact_items);
-		$doublon_contact_items += array(
-			0  => '(ajouter un nouveau nom au fichier)',
-			-1 => '(Refuser la demande)'
-		);
+	protected function formIsOk($f)
+	{
+		if (!isset($_POST['f_doublon_contact_id'])) return false;
 
-		$f->add('check', 'doublon_contact_id', array('item' => $doublon_contact_items));
+		$d = (int) $_POST['f_doublon_contact_id'];
 
-		$f->add('submit', 'updateDoublons');
+		if ($d === 0) return true;
+		if ($d  <  0) return false;
 
-		$send->attach('doublon_contact_id', 'Merci de choisir doublon_contact_id', '');
+		$sql = "SELECT 1 FROM contact WHERE contact_id={$d}";
+		if (!DB()->queryOne($sql)) return false;
+
+		$this->doublon_contact_id = $d;
+
+		return true;
 	}
 
 	protected function save($data)
@@ -59,31 +85,31 @@ class extends agent_user_edit
 		$adresse = $data['adresse'];
 		$message = $data['message'];
 		$email   = $data['email'];
-		$doublon_contact_id = $data['doublon_contact_id'];
 
-		unset($data['adresse'], $data['message'], $data['email'], $data['doublon_contact_id']);
+		unset($data['adresse'], $data['message'], $data['email']);
 
-		if ($doublon_contact_id >= 0)
+		if ($this->doublon_contact_id)
 		{
-			if ($doublon_contact_id)
+			if ($this->doublon_contact_id != $this->data->contact_id)
 			{
-				self::mergeContacts($this->data->contact_id, $doublon_contact_id);
-				$this->data->contact_id = $doublon_contact_id;
+				self::mergeContacts($this->data->contact_id, $this->doublon_contact_id);
+				$this->data->contact_id = $this->doublon_contact_id;
 			}
 
 			$sql = "UPDATE contact
 					SET is_active=1,
 						admin_confirmed=NOW(),
+						statut_inscription='accepted',
 						login=" . $db->quote(tribes::getLogin($this->data->contact_id, $data)) . ",";
 			$sql .= "password_token_expires=NOW() + INTERVAL " . self::PENDING_PERIOD;
 			foreach ($data as $k => $v) $sql .= ",{$k}=" . $db->quote($v);
 			$sql .= "WHERE password_token='{$password_token}'";
 			$db->exec($sql);
 
-			$sql = "INSERT IGNORE INTO contact_email
+			$sql = "INSERT INTO contact_email
 						(contact_id, email, token, origine, is_active, admin_confirmed)
 					VALUES ({$this->data->contact_id},'{$email}','{$password_token}', 'admin', 1, NOW())
-					ON DUPLICATE KEY UPDATE is_active=1, admin_confirmed=NOW()";E($sql);
+					ON DUPLICATE KEY UPDATE is_active=1, admin_confirmed=NOW()";
 			$db->exec($sql);
 		}
 		else
@@ -96,7 +122,7 @@ class extends agent_user_edit
 		}
 
 		notification::send(
-			"user/registration/" . ($doublon_contact_id >= 0 ? 'accepted' : 'refused'),
+			"registration/" . ($this->doublon_contact_id ? 'accepted' : 'refused'),
 			array(
 				'contact_id'     => $this->data->contact_id,
 				'email.To'       => $email,
@@ -105,7 +131,7 @@ class extends agent_user_edit
 			)
 		);
 
-		return array('user/registration/requests', true);
+		return array('registration/requests', true);
 	}
 
 	static function mergeContacts($from_contact_id, $to_contact_id)
@@ -127,16 +153,12 @@ class extends agent_user_edit
 
 		foreach ($table as $table => $info)
 		{
-			$ids = array();
-
-			$sql = "SELECT *, {$info[0]} AS id
-					FROM {$table}
-					WHERE contact_id={$from_contact_id}";
+			$sql = "SELECT * FROM {$table} WHERE contact_id={$from_contact_id}";
 			$result = $db->query($sql);
 			while ($from = (array) $result->fetchRow())
 			{
-				$ids[] = $from['id'];
-				unset($from['id']);
+				$sql = "DELETE FROM {$table} WHERE {$info[0]}={$from[$info[0]]}";
+				$db->exec($sql);
 
 				$from['contact_id'] = $to_contact_id;
 				$from = array_map(array($db, 'quote'), $from);
@@ -150,26 +172,21 @@ class extends agent_user_edit
 
 				$db->exec($sql);
 			}
-
-			if ($ids)
-			{
-				$sql = "DELETE FROM {$table} WHERE {$info[0]} IN (" . implode(',', $ids) . ")";
-				$db->exec($sql);
-			}
 		}
 
 
 		$table = array(
-			'contact_historique',
-			'contact_alias',
-			'contact_categorie',
+			'contact_historique' => array('origine_contact_id' => $to_contact_id),
+			'contact_alias' => array(),
+			'contact_categorie' => array(),
 		);
 
-		foreach ($table as $table)
+		foreach ($table as $table => $info)
 		{
 			$sql = "UPDATE IGNORE {$table}
-					SET contact_id={$to_contact_id}
-					WHERE contact_id={$from_contact_id}";
+					SET contact_id={$to_contact_id}";
+			foreach ($info as $k => $v) $sql .= ",{$k}={$v}";
+			$sql .= " WHERE contact_id={$from_contact_id}";
 			$db->exec($sql);
 
 			$sql = "DELETE FROM {$table}

@@ -1,0 +1,13 @@
+<!-- AGENT 'header' title="S'inscrire" -->
+
+<!-- AGENT $form -->
+
+<table>
+<!-- INLINE _registration -->
+</table>
+
+<!-- AGENT $f_send value="Envoyer" -->
+
+<!-- AGENT $form _mode_='close' -->
+
+<!-- AGENT 'footer' -->

@@ -1,0 +1,12 @@
+<!-- AGENT 'email/header' title="Inscription acceptée" -->
+
+<p>
+Votre demande d'inscription vient d'être validée.
+Vous devez maintenant <a href="{~}user/password/{a$password_token}">définir votre mot de passe</a>.
+</p>
+
+<!-- IF a$message -->
+<p>{a$message|nl2br}</p>
+<!-- END:IF -->
+
+<!-- AGENT 'email/footer' -->
