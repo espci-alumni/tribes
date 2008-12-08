@@ -5,7 +5,7 @@ class
 	const
 
 	PENDING_PERIOD = '4 HOUR',
-	MAX_DOUBLON_DISTANCE = 0.2;
+	MAX_DOUBLON_DISTANCE = 0.5;
 
 	static function getAdminEmails()
 	{
@@ -15,6 +15,12 @@ class
 	static function getConnectedId($login = true)
 	{
 		return false;
+	}
+
+	static function newInstance($table, $contact_id, $confirmed, $row_id = 0)
+	{
+		$table = 'tribes_' . $table;
+		return new $table($contact_id, $confirmed, $row_id);
 	}
 
 	static function filterLogin($a)
@@ -39,7 +45,7 @@ class
 
 		$sql = strlen($login) + 2;
 		$sql = "SELECT login
-				FROM contact
+				FROM contact_contact
 				WHERE login LIKE " . DB()->quote($login . '%') . "
 					AND contact_id!={$contact_id}
 				ORDER BY SUBSTRING(login,{$sql})+0 DESC
@@ -58,27 +64,20 @@ class
 		$doublons  = array();
 		$distances = array();
 
-		$sql = "SELECT contact_id, nom_civil, prenom_civil, nom_etudiant, nom_usuel
-				FROM contact
+		$data = self::buildDoublonReference($data);
+
+		$sql = "SELECT contact_id, " . self::$sqlSelectDoublonReference . "
+				FROM contact_contact
 				WHERE contact_id!={$contact_id}";
-
-		$data = $data->nom_civil;
-
 		$result = DB()->query($sql);
 		while ($row = $result->fetchRow())
 		{
-			$nom_civil = self::filterLogin($data);
+			$d = self::getDoublonDistance($data, self::buildDoublonReference($row));
 
-			$d_civil    = self::getLoginDistance($nom_civil, $row->nom_civil);
-			$d_usuel    = self::getLoginDistance($nom_civil, $row->nom_usuel);
-			$d_etudiant = self::getLoginDistance($nom_civil, $row->nom_etudiant);
-
-			$d_min = min($d_civil, $d_etudiant, $d_usuel);
-
-			if ($d_min <= self::MAX_DOUBLON_DISTANCE)
+			if ($d <= self::MAX_DOUBLON_DISTANCE)
 			{
-				$doublons[$row->contact_id . ' '] = $row->prenom_civil . ' ' . $row->nom_civil;
-				$distances[] = $d_min;
+				$doublons[$row->contact_id . ' '] = self::buildDoublonLabel($row);
+				$distances[] = $d;
 			}
 		}
 
@@ -87,10 +86,20 @@ class
 		return $doublons;
 	}
 
-	static function getLoginDistance($a, $b)
+	static function getDoublonDistance($a, $b)
 	{
-		$b = self::filterLogin($b);
+		return levenshtein($a, $b) / max(strlen($a), strlen($b));
+	}
 
-		return levenshtein($a,$b) / max(strlen($a), strlen($b));
+	protected static $sqlSelectDoublonReference = 'nom_civil, prenom_civil';
+
+	protected static function buildDoublonReference($data)
+	{
+		return self::filterLogin($data->nom_civil) . '.' . self::filterLogin($data->prenom_civil);
+	}
+
+	protected static function buildDoublonLabel($data)
+	{
+		return $data->nom_civil . ' ' . $data->prenom_civil;
 	}
 }

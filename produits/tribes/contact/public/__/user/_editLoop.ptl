@@ -1,0 +1,11 @@
+<tr>
+	<td><!-- AGENT $f_row_id _format_='%1' --></td>
+	<td>{$data}</td>
+	<td>{$description}</td>
+	<td><!--
+		IF !$contact_confirmed
+		-->Non confirmé<!--
+		ELSEIF $is_obsolete == -1
+		-->Toujours valide ?<!--END:IF
+	--></td>
+</tr>

@@ -9,7 +9,7 @@ class extends agent_pForm
 		$this->get->__1__ || p::forbidden();
 
 		$sql = "SELECT contact_id, login
-				FROM contact
+				FROM contact_contact
 				WHERE statut_inscription='accepted'
 					AND password_token='{$this->get->__1__}'
 					AND password_token_expires >= NOW()";
@@ -51,7 +51,7 @@ class extends agent_pForm
 
 	protected function save($data)
 	{
-		$sql = "UPDATE contact
+		$sql = "UPDATE contact_contact
 				SET password='" . p::saltedHash($data['new_pwd']) . "', password_token=NULL
 				WHERE password_token='{$this->get->__1__}'";
 		DB()->exec($sql);

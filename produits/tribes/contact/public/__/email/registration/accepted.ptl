@@ -2,7 +2,7 @@
 
 <p>
 Votre demande d'inscription vient d'être validée.
-Vous devez maintenant <a href="{~}user/password/{a$password_token}">définir votre mot de passe</a>.
+Vous devez maintenant <a href="{~}user/password/{a$token}">définir votre mot de passe</a>.
 </p>
 
 <!-- IF a$message -->

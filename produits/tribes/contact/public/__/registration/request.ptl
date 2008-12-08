@@ -9,10 +9,10 @@ AGENT $form
 <table>
 <!--
 
-INLINE user/_edit
+INLINE _registration
 
 SET $f
-	--><tr>
+	--><tr valign="top">
 		<td class="label">%0&nbsp;:<br /><!--
 		AGENT $f_updateDoublons value="Actualiser"
 		--></td>
@@ -23,6 +23,8 @@ END:SET
 AGENT $f_doublon_contact_id _caption_="Fusionner avec" _format_=$f
 
 AGENT $f_message _caption_="Message"
+
+INLINE user/_edit
 
 -->
 </table>

@@ -2,9 +2,18 @@
 
 class extends agent_pForm
 {
-	protected $maxage = -1;
+	protected
+
+	$maxage = -1,
+	$mandatoryEmail = true;
 
 	protected function composeForm($f, $send)
+	{
+		$this->composeFormContact($f, $send);
+		$this->composeFormEmail($f, $send);
+	}
+
+	protected function composeFormContact($f, $send)
 	{
 		$f->add('check', 'sexe', array('item' => array(
 			'F' => 'Mme, Mlle',
@@ -17,15 +26,20 @@ class extends agent_pForm
 		$f->add('text', 'nom_civil', $altern_case_rx);
 		$f->add('text', 'prenom_civil', $altern_case_rx);
 		$f->add('date', 'date_naissance');
-		$f->add('email', 'email');
 
 		$send->attach(
 			'sexe',           "Veuillez renseigner le champs Mme Mlle M.",   '',
 			'nom_civil',      "Veuillez renseigner votre nom",               $altern_case_msg,
 			'prenom_civil',   "Veuillez renseigner votre prénom",            $altern_case_msg,
-			'date_naissance', 'Veuillez renseigner votre date de naissance', '',
-			'email',          "Veuillez renseigner votre email",             ''
+			'date_naissance', 'Veuillez renseigner votre date de naissance', ''
 		);
+	}
+
+	protected function composeFormEmail($f, $send)
+	{
+		$f->add('email', 'email');
+
+		$send->attach('email', $this->mandatoryEmail ? "Veuillez renseigner votre email" : '', '');
 	}
 
 	protected function save($data)
@@ -33,39 +47,58 @@ class extends agent_pForm
 		$db = DB();
 
 		$sql = "SELECT contact_id, statut_inscription
-				FROM contact c
+				FROM contact_contact c
 				WHERE " . $this->sqlWhereMatchingContact($data) . "
 				ORDER BY " . $this->sqlOrderMatchingContact($data) . "
 				LIMIT 1";
 		$contact = $db->queryRow($sql);
 
-		$email['email'] = $data['email'];
+		$email = array(
+			'email' => $data['email'],
+			'description' => '',
+		);
+
 		unset($data['email']);
 
 		if (!$contact)
 		{
 			$db->autoExecute(
-				'contact',
+				'contact_contact',
 				$data + array(
 					'origine' => 'registration',
 					'login' => tribes::buildLogin($data)
-			));
+				)
+			);
 
 			$contact = (object) array(
 				'contact_id' => $db->lastInsertId(),
 				'statut_inscription' => '',
 			);
 		}
+		else if ('accepted' !== $contact->statut_inscription)
+		{
+			$sql = "UPDATE contact_email   SET contact_confirmed_data=''
+					WHERE contact_id={$contact->contact_id}";
+			$db->exec($sql);
+
+			$sql = "UPDATE contact_adresse SET contact_confirmed_data=''
+					WHERE contact_id={$contact->contact_id}";
+			$db->exec($sql);
+		}
 
 		$email += array(
 			'contact_id' => $contact->contact_id,
 			'token'      => p::strongid(8),
 			'origine'    => 'registration',
+			'contact_confirmed_data' => serialize($email),
 		);
 
 		$sql = "INSERT INTO contact_email (" . implode(',', array_keys($email)) . ", token_expires)
 				VALUES ('" . implode("','", $email) . "', NOW() + INTERVAL " . tribes::PENDING_PERIOD . ")
-				ON DUPLICATE KEY UPDATE token=VALUES(token), token_expires=VALUES(token_expires)";
+				ON DUPLICATE KEY UPDATE
+					token=VALUES(token),
+					token_expires=VALUES(token_expires),
+					contact_confirmed_data=VALUES(contact_confirmed_data)";
 		$db->exec($sql);
 
 
@@ -89,7 +122,7 @@ class extends agent_pForm
 		// De cette façon, on peut savoir, sur la base de ce token, quel email
 		// parmi ceux disponibles est à l'origine de la dernière inscription.
 
-		$sql = "UPDATE contact
+		$sql = "UPDATE contact_contact
 				SET statut_inscription='',
 					date_naissance='{$data['date_naissance']}',
 					password_token='{$email['token']}',

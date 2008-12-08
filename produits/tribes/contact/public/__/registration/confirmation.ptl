@@ -9,8 +9,14 @@ En attendant l'activation de votre compte, merci de compléter le formulaire ci-
 </p>
 
 <!-- AGENT $form -->
+
 <table>
-<!-- INLINE user/_edit -->
+<!--
+
+INLINE _registration
+INLINE user/_edit
+
+-->
 </table>
 
 <!-- AGENT $f_send value="Enregistrer" -->

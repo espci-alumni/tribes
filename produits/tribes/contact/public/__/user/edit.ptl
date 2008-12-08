@@ -1,4 +1,4 @@
-<!-- AGENT 'header' title="S'inscrire" -->
+<!-- AGENT 'header' title="Mon profil" -->
 
 <!-- AGENT $form -->
 
@@ -6,13 +6,12 @@
 <!--
 
 INLINE _registration
+INLINE user/_edit
 
-AGENT $f_email _caption_="Email"
-
- -->
+-->
 </table>
 
-<!-- AGENT $f_send value="Envoyer" -->
+<!-- AGENT $f_send value="Enregistrer" -->
 
 <!-- AGENT $form _mode_='close' -->
 

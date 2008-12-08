@@ -7,7 +7,6 @@ Nouvelle demande d'inscription&nbsp;:
 	<li>Sexe&nbsp;: {a$sexe}</li>
 	<li>Nom&nbsp;: {a$nom_civil}</li>
 	<li>Prénom&nbsp;: {a$prenom_civil}</li>
-	<li>Email&nbsp;: {a$email}</li>
 	<li>Date de naissance&nbsp;: {a$date_naissance}</li>
 </ul>
 

@@ -15,7 +15,7 @@ class extends agent_pForm
 		$db = DB();
 		$password_token = p::strongid(8);
 
-		$sql = "UPDATE contact
+		$sql = "UPDATE contact_contact
 				SET password_token='{$password_token}',
 					password_token_expires=NOW() + INTERVAL " . tribes::PENDING_PERIOD . "
 				WHERE contact_id={$this->data}";

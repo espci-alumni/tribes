@@ -2,12 +2,8 @@
 
 class extends agent_registration_receipt
 {
-	public $get = '__1__:c:[A-Za-z0-9]{8}';
-
 	function control()
 	{
-		s::set('registration_token', $this->get->__1__);
-
 		parent::control();
 
 		if (!$this->data->statut_inscription)
@@ -16,7 +12,7 @@ class extends agent_registration_receipt
 					WHERE token='{$this->data->password_token}'";
 			DB()->exec($sql);
 
-			$sql = "UPDATE contact SET statut_inscription='demande'
+			$sql = "UPDATE contact_contact SET statut_inscription='demande'
 					WHERE password_token='{$this->data->password_token}'";
 			DB()->exec($sql);
 
@@ -26,6 +22,8 @@ class extends agent_registration_receipt
 
 	protected function save($data)
 	{
-		return 'registration/confirmation/receipt';
+		$data = parent::save($data);
+		$data && $data = 'registration/confirmation/saved';
+		return $data;
 	}
 }
