@@ -2,7 +2,7 @@
 
 <p>
 Vous avez effectué une demande d'inscription.
-Vous devez maintenant <a href="{~}registration/confirmation/{a$password_token}">cliquer ici pour la confirmer</a>.
+Vous devez maintenant <a href="{~}registration/confirmation/{a$token}">cliquer ici pour la confirmer</a>.
 </p>
 
 <!-- AGENT 'email/footer' -->

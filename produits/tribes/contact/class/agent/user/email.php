@@ -8,27 +8,8 @@ class extends agent
 	{
 		$this->get->__1__ || p::forbidden();
 
-		$db = DB();
+		tribes_email::confirm($this->get->__1__) || p::redirect('error/token');
 
-		$sql = "SELECT email, description
-				FROM contact_email
-				WHERE token='{$this->get->__1__}'
-					AND token_expires>=NOW()";
-		$sql = (array) $db->queryRow($sql);
-
-		$sql || p::redirect('error/token');
-
-		$sql = serialize($sql);
-
-		$sql = "UPDATE contact_email
-				SET contact_confirmed=NOW(),
-					token=NULL,
-					is_obsolete=0,
-					contact_confirmed_data=" . $db->quote($sql) . "
-				WHERE token='{$this->get->__1__}'
-					AND token_expires>=NOW()";
-		DB()->exec($sql) || p::redirect('error/token');
-
-		// XXX Si non-admin-confirmé => authentification obligatoire
+		// XXX Si non-contact-confirmé => authentification
 	}
 }

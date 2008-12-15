@@ -4,6 +4,8 @@ class extends agent_user_edit
 {
 	public $get = array('__1__:c:[A-Za-z0-9]{8}', 'email:i:1', 'adresse:i:1');
 
+	protected $connected_id = false;
+
 	function control()
 	{
 		$token = empty($this->get->__1__) ? s::get('registration_token') : $this->get->__1__;
@@ -11,8 +13,8 @@ class extends agent_user_edit
 
 		$sql = "SELECT contact_id, statut_inscription
 				FROM contact_contact
-				WHERE password_token='{$token}'
-					AND password_token_expires > NOW()
+				WHERE token='{$token}'
+					AND token_expires > NOW()
 					AND statut_inscription != 'accepted'";
 		$data = DB()->queryRow($sql);
 
@@ -22,16 +24,22 @@ class extends agent_user_edit
 
 		parent::control();
 
-		$this->data->password_token = $token;
+		$this->data->token = $token;
 		$this->data->statut_inscription = $data->statut_inscription;
 	}
 
 	protected function save($data)
 	{
-		empty($this->get->__1__) || s::free('registration_token');
+		empty($this->get->__1__) && s::free('registration_token');
 
 		$data = parent::save($data);
 		$data && $data = 'registration/receipt/saved';
 		return $data;
+	}
+
+	protected function saveFormAdresse($data)
+	{
+		$data['contact_confirmed'] = true;
+		parent::saveFormAdresse($data);
 	}
 }

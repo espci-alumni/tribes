@@ -10,7 +10,7 @@ Nouvelle demande d'inscription&nbsp;:
 	<li>Date de naissance&nbsp;: {a$date_naissance}</li>
 </ul>
 
-<a href="{~}registration/request/{a$password_token}">Cliquez ici pour traiter cette demande</a>.
+<a href="{~}registration/request/{a$token}">Cliquez ici pour traiter cette demande</a>.
 </p>
 
 <!-- AGENT 'email/footer' -->

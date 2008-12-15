@@ -2,21 +2,35 @@
 
 class extends agent_registration_receipt
 {
+	const NOTIFICATION_DELAY = 300;
+
 	function control()
 	{
+		$token = $this->get->__1__;
+		$token || p::forbidden();
+
+		$sql = "UPDATE contact_contact
+				SET statut_inscription='demande'
+				WHERE token='{$token}'
+					AND token_expires > NOW()
+					AND statut_inscription=''";
+		if (DB()->exec($sql))
+		{
+			tribes_email::confirm($token, false);
+
+			$notice = true;
+		}
+
 		parent::control();
 
-		if (!$this->data->statut_inscription)
+		if (!empty($notice))
 		{
-			$sql = "UPDATE contact_email SET contact_confirmed=NOW()
-					WHERE token='{$this->data->password_token}'";
-			DB()->exec($sql);
+			$notice = new pTask(
+				array('notification', 'send'),
+				array('registration/request', $this->data)
+			);
 
-			$sql = "UPDATE contact_contact SET statut_inscription='demande'
-					WHERE password_token='{$this->data->password_token}'";
-			DB()->exec($sql);
-
-			notification::send('registration/request', $this->data);
+			$notice->run(self::NOTIFICATION_DELAY);
 		}
 	}
 

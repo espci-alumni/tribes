@@ -7,20 +7,34 @@ class
 	PENDING_PERIOD = '4 HOUR',
 	MAX_DOUBLON_DISTANCE = 0.5;
 
-	static function getAdminEmails()
-	{
-		return array('iekhad@hotmail.fr');
-	}
 
 	static function getConnectedId($login = true)
 	{
-		return false;
+		if ($login)
+		{
+			$id = self::getConnectedId(false);
+			$id || p::redirect('login');
+		}
+		else
+		{
+			$id = 1; //XXX
+		}
+
+		return $id;
 	}
 
-	static function newInstance($table, $contact_id, $confirmed, $row_id = 0)
+	static function requireAuth($type, $id)
 	{
-		$table = 'tribes_' . $table;
-		return new $table($contact_id, $confirmed, $row_id);
+		switch ($type)
+		{
+		case 'user/edit':
+			if ($id == self::getConnectedId(false)) return true;
+
+		}
+
+		return true; //XXX
+
+		p::forbidden();
 	}
 
 	static function filterLogin($a)

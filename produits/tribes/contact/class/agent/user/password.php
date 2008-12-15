@@ -11,10 +11,12 @@ class extends agent_pForm
 		$sql = "SELECT contact_id, login
 				FROM contact_contact
 				WHERE statut_inscription='accepted'
-					AND password_token='{$this->get->__1__}'
-					AND password_token_expires >= NOW()";
+					AND token='{$this->get->__1__}'
+					AND token_expires >= NOW()";
 		$this->data = DB()->queryRow($sql);
 		$this->data || p::redirect('error/token');
+
+		tribes_email::confirm($this->get->__1__);
 	}
 
 	function compose($o)
@@ -51,15 +53,14 @@ class extends agent_pForm
 
 	protected function save($data)
 	{
-		$sql = "UPDATE contact_contact
-				SET password='" . p::saltedHash($data['new_pwd']) . "', password_token=NULL
-				WHERE password_token='{$this->get->__1__}'";
-		DB()->exec($sql);
-
-		$sql = "UPDATE contact_email
-				SET contact_confirmed=NOW(), is_obsolete=0
-				WHERE token='{$this->get->__1__}'";
-		DB()->exec($sql);
+		$contact = new tribes_contact($this->data->contact_id);
+		$contact->save(
+			array(
+				'password' => p::saltedHash($data['new_pwd']),
+				'token' => '',
+			),
+			'user/password/confirmation'
+		);
 
 		return array('user/edit', 'Mot de passe mis à jour');
 	}

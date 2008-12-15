@@ -1,33 +1,27 @@
+</table>
+
+<h3>Nom d'usage</h3>
+
+<table>
 <!--
 
 AGENT $f_nom_etudiant _caption_="Nom étudiant"
 AGENT $f_nom_usuel _caption_="Nom usuel"
 AGENT $f_prenom_usuel _caption_="Prénom usuel"
 
-AGENT $f_email _caption_="Email"
-AGENT $f_email_description _caption_="Description"
-
-AGENT $f_adresse _caption_="Adresse"
-AGENT $f_adresse_description _caption_="Description"
-AGENT $f_ville_avant _caption_="Code postal"
-AGENT $f_ville_apres _caption_="Zip code"
-AGENT $f_ville _caption_="Ville"
-AGENT $f_tel_portable _caption_="Téléphone portable"
-AGENT $f_tel_fixe _caption_="Téléphone fixe"
-AGENT $f_tel_fax _caption_="Fax"
-
 -->
-<tr>
-	<td colspan="2">
+</table>
+
+<h3>Emails</h3>
 
 <table>
 <tr>
+	<td>&nbsp;</td>
 	<td>
-		Emails :
 		<table>
 		<!-- LOOP $emails -->
 			<!-- IF a$email != $id -->
-			<!-- SET $data --><a href="?email={$id}">{$email}</a><!-- END:SET -->
+			<!-- SET $data -->{$email}<!-- END:SET -->
 			<!-- INLINE user/_editLoop -->
 			<!-- END:IF -->
 		<!-- END:LOOP -->
@@ -35,41 +29,78 @@ AGENT $f_tel_fax _caption_="Fax"
 			<td>&nbsp;</td>
 			<td colspan="3">
 			<!--
-				AGENT $f_email_action _format_='%1'
+				AGENT $f_email_is_obsolete _format_='%1'
 				AGENT $f_email_confirm value="Valider"
 			-->
 			</td>
 		</tr>
 		</table>
 	</td>
-	<!-- IF $adresses -->
-	<td>
-		Adresses :
-		<table>
-		<!-- LOOP $adresses -->
-			<!-- IF a$adresse != $id -->
-			<!-- SET $data -->
-				<a href="?adresse={$id}">{$adresse}</a>
-				{$ville_avant} {$ville} {$ville_apres} {$pays}
-				{$tel_portable} {$tel_fixe} {$tel_fax}
-			<!-- END:SET -->
-			<!-- INLINE user/_editLoop -->
-			<!-- END:IF -->
-		<!-- END:LOOP -->
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan="3">
-			<!--
-				AGENT $f_adresse_action _format_='%1'
-				AGENT $f_adresse_confirm value="Valider"
-			-->
-			</td>
-		</tr>
-		</table>
-	</td>
-	<!-- END:IF -->
 </tr>
+<!--
+
+AGENT $f_email _caption_="Email"
+
+-->
 </table>
 
+<h3>Coordonnées</h3>
+
+<!-- SET d$form_adresse -->
+<table>
+<!--
+
+AGENT $f_adresse _caption_="Adresse"
+AGENT $f_description _caption_="Description"
+AGENT $f_ville_avant _caption_="Code postal"
+AGENT $f_ville_apres _caption_="Zip code"
+AGENT $f_ville _caption_="Ville"
+AGENT $f_email_list _caption_="Email(s)"
+AGENT $f_tel_portable _caption_="Téléphone portable"
+AGENT $f_tel_fixe _caption_="Téléphone fixe"
+AGENT $f_tel_fax _caption_="Fax"
+
+-->
+</table>	
+<!-- END:SET -->
+
+<!-- IF $adresses -->
+<table>
+<!--
+
+LOOP $adresses
+	IF a$adresse != $id
+		SET $data -->
+			<a href="?adresse={$id}">{$adresse}</a>
+			{$ville_avant} {$ville} {$ville_apres} {$pays}
+			{$tel_portable} {$tel_fixe} {$tel_fax}<!--
+		END:SET
+
+		INLINE user/_editLoop
+	ELSE
+		-->
+		<tr>
+			<td><!-- AGENT $f_row_id _format_='%1' --></td>
+			<td colspan="3">{d$form_adresse}</td>
+		</tr><!--
+
+		SET d$form_adresse --><!-- END:SET
+	END:IF
+END:LOOP -->
+<tr>
+	<td>&nbsp;</td>
+	<td colspan="3">
+	<!--
+		AGENT $f_adresse_is_obsolete _format_='%1'
+		AGENT $f_adresse_confirm value="Valider"
+	-->
 	</td>
 </tr>
+</table>
+<!-- END:IF -->
+
+<!-- IF d$form_adresse -->
+<h4>Ajouter de nouvelles coordonnées</h4>
+
+{d$form_adresse}
+<!-- END:IF -->

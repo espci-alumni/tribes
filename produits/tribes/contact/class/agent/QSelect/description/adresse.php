@@ -1,6 +1,21 @@
 <?php
 
-class extends agent_QSelect_description_email
+class extends agent_QSelect
 {
-	protected $table = 'adresse';
+	protected
+
+	$template = 'QSelect/Search.js';
+
+
+	function compose($o)
+	{
+		$sql = "SELECT description AS VALUE
+			FROM contact_adresse
+			WHERE description!=''
+			GROUP BY description";
+
+		$o->DATA = new loop_sql($sql);
+
+		return $o;
+	}
 }

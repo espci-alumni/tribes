@@ -2,40 +2,42 @@
 
 class extends agent_registration
 {
-	public $get = array('email:i:1', 'adresse:i:1', 'contact:i:1' => 9); //XXX enlever "9"
+	public $get = array('adresse:i:1', 'contact:i:1' => 1);
 
 	protected
 
 	$maxage = 0,
-	$action = array('confirm' => 'Confirmer', 'delete' => 'Supprimer'),
+	$connected_id = true,
+	$mandatoryEmail   = false,
+	$mandatoryAdresse = false,
 
 	$contact_id,
-	$mandatoryEmail = false,
-	$mandatoryAdresse = false;
+	$confirmed = false,
+	$contact = false,
+	$email = false,
+	$adresse = false;
 
 
 	function control()
 	{
 		parent::control();
 
-		// XXX controle d'accès à ce contact_id là
 		$this->contact_id = $this->get->contact;
 
-		$this->data = (array) $this->data;
-		$this->data += tribes::newInstance('contact', $this->contact_id, 0)->fetchRow('contact_id');
+		tribes::requireAuth('user/edit', $this->contact_id);
 
-		if ($this->get->email)
-		{
-			$data = tribes::newInstance('email', $this->contact_id, 0, $this->get->email)->fetchRow('email_id, is_obsolete, contact_confirmed');
-			$data['email_description'] =& $data['description'];
-			unset($data['description']);
-			$this->data += $data;
-		}
+		$this->contact = new tribes_contact($this->contact_id, $this->confirmed);
+
+		$this->data = (array) $this->data;
+		$this->data += $this->contact->fetchRow('contact_id, contact_data');
+
+		$this->email = new tribes_email($this->contact_id, $this->confirmed);
+
+		$this->adresse = new tribes_adresse($this->contact_id, $this->confirmed);
 
 		if ($this->get->adresse)
 		{
-			$data = tribes::newInstance('adresse', $this->contact_id, 0, $this->get->adresse)->fetchRow('adresse_id');
-			$data['adresse_description'] =& $data['description'];
+			$data = $this->adresse->fetchRow('adresse_id, contact_data', $this->get->adresse);
 			isset($data['pays']) && $data['ville'] .= ', ' . $data['pays'];
 			unset($data['description']);
 			$this->data += $data;
@@ -43,25 +45,26 @@ class extends agent_registration
 
 		$sql = "SELECT 1 FROM contact_email
 				WHERE contact_id={$this->contact_id}
-					AND is_obsolete=0 AND contact_confirmed
+					AND is_obsolete<=0 AND contact_data!=''
 				LIMIT 1";
 		$this->mandatoryEmail = DB()->queryOne($sql) ? false : true;
 
 		$sql = "SELECT 1 FROM contact_adresse
 				WHERE contact_id={$this->contact_id}
-					AND is_obsolete=0 AND contact_confirmed
+					AND is_obsolete<=0 AND contact_data!=''
 				LIMIT 1";
 		$this->mandatoryAdresse = DB()->queryOne($sql) ? false : true;
 
 		$this->data = (object) $this->data;
+		$this->data->contact_id =& $this->contact_id;
 	}
 
 	function compose($o)
 	{
 		$o = parent::compose($o);
 
-		$o->emails   = new loop_user_edit_email($this->data->contact_id, $o->form);
-		$o->adresses = new loop_user_edit_adresse($this->data->contact_id, $o->form);
+		$o->emails   = new loop_user_edit_email($this->contact_id, $o->form);
+		$o->adresses = new loop_user_edit_adresse($this->contact_id, $o->form);
 
 		return $o;
 	}
@@ -73,80 +76,75 @@ class extends agent_registration
 		$this->composeFormAdresse($f, $send);
 	}
 
+	protected function formIsOk($f)
+	{
+		if (!$f->getElement('adresse')->getStatus())
+		{
+			$adresse = array(
+				'description',
+				'ville_avant',
+				'ville',
+				'ville_apres',
+				'email_list',
+				'tel_portable',
+				'tel_fixe',
+				'tel_fax',
+			);
+
+			foreach ($adresse as $adresse) if ($f->getElement($adresse)->getStatus())
+			{
+				!$f->getElement('adresse')->setError('Veuillez saisir une adresse');
+				return false;
+			}
+		}
+
+		if ($f->getElement('adresse')->getStatus() && !$f->getElement('ville')->getStatus())
+		{
+			!$f->getElement('ville')->setError('Veuillez renseigner une ville');
+			return false;
+		}
+
+		return parent::formIsOk($f);
+	}
+
 	protected function composeFormContact($f, $send)
 	{
 		parent::composeFormContact($f, $send);
 
-		$altern_case_rx = ".*[A-Z][^A-Z\s]+";
-		$altern_case_msg = "Merci de respecter minuscules, majuscules et accents pour vos nom et prénom";
-
-		$f->add('text', 'nom_etudiant', $altern_case_rx);
-		$f->add('text', 'nom_usuel',    $altern_case_rx);
-		$f->add('text', 'prenom_usuel', $altern_case_rx);
+		$f->add('text', 'nom_etudiant', self::$altern_case_rx);
+		$f->add('text', 'nom_usuel',    self::$altern_case_rx);
+		$f->add('text', 'prenom_usuel', self::$altern_case_rx);
 
 		$send->attach(
-			'nom_etudiant', '', $altern_case_msg,
-			'nom_usuel',    '', $altern_case_msg,
-			'prenom_usuel', '', $altern_case_msg
+			'nom_etudiant', '', self::$altern_case_msg,
+			'nom_usuel',    '', self::$altern_case_msg,
+			'prenom_usuel', '', self::$altern_case_msg
 		);
 	}
 
 	protected function composeFormEmail($f, $send)
 	{
-		parent::composeFormEmail($f, $send);
-
-		$f->add('QSelect', 'email_description', array(
-			'src' => 'QSelect/description/email',
+		$f->add('textarea', 'email', array(
+			'valid' => 'text', '.*' . FILTER::EMAIL_RX . '.*',
 		));
 
-		$send->attach('email_description', '', '');
+		$send->attach('email', '', '');
 
-		$f->add('select', 'email_action', array(
+		$action = array(0 => 'Confirmer', 1 => 'Supprimer');
+		$this->confirmed && $action[-1] = 'À vérifier';
+
+		$f->add('select', 'email_is_obsolete', array(
 			'firstItem' => '---',
-			'item' => $this->action
+			'item' => $action
 		));
 
-		$email_confirm = $f->add('submit', 'email_confirm');
-		$email_confirm->attach('email_action', 'Quelle action effectuer sur les emails sélectionnés ?', '');
+		$confirm = $f->add('submit', 'email_confirm');
+		$confirm->attach('email_is_obsolete', 'Quelle action effectuer sur les emails sélectionnés ?', '');
 
-		if ($email_confirm->isOn())
+		if ($confirm->isOn())
 		{
-			$this->saveEmails($email_confirm->getData());
+			$this->saveEmails($confirm->getData());
 			p::redirect();
-		}
-	}
-
-	protected function saveEmails($data)
-	{
-		$email = array_map('intval', (array) @$_POST['email_id']) + array(0);
-
-		$db = DB();
-
-		if ('confirm' === $data['email_action'])
-		{
-			$sql = "SELECT email_id, email
-					FROM contact_email
-					WHERE email_id IN (" . implode(',', $email) . ")
-						AND (!contact_confirmed OR is_obsolete<0)";
-			$result = $db->query($sql);
-
-			while ($row = $result->fetchRow())
-			{
-				$email = array(
-					'token' => "'" . p::strongid(8) . "'",
-					'token_expires' => 'NOW()+INTERVAL ' . tribes::PENDING_PERIOD
-				);
-
-				tribes::newInstance('email', $this->contact_id, 0, $row->email_id)->update(array('email' => $row->email), $email);
-			}
-		}
-		else if ('delete' === $data['email_action'])
-		{
-			foreach ($email as $email)
-			{
-				tribes::newInstance('email', $this->contact_id, 0, $email)->delete();
-			}
-
 		}
 	}
 
@@ -154,7 +152,7 @@ class extends agent_registration
 	{
 		$f->add('textarea', 'adresse');
 
-		$f->add('QSelect', 'adresse_description', array(
+		$f->add('QSelect', 'description', array(
 			'src' => 'QSelect/description/adresse',
 		));
 
@@ -162,86 +160,116 @@ class extends agent_registration
 		$f->add('city', 'ville');
 		$f->add('text', 'ville_apres');
 
+		$f->add('textarea', 'email_list');
+
 		$f->add('text', 'tel_portable');
 		$f->add('text', 'tel_fixe');
 		$f->add('text', 'tel_fax');
 
 		$send->attach(
 			'adresse', $this->mandatoryAdresse ? 'Veuillez renseigner une adresse' : '', '',
-			'adresse_description', '', '',
+			'description', '', '',
 			'ville_avant', '', '',
 			'ville', $this->mandatoryAdresse ? 'Veuillez renseigner une ville' : '', '',
 			'ville_apres', '', '',
+			'email_list', '', '',
 			'tel_portable', '', '',
 			'tel_fixe', '', '',
 			'tel_fax', '', ''
 		);
 
-		$f->add('select', 'adresse_action', array(
+
+		$action = array(0 => 'Confirmer', 1 => 'Supprimer');
+		$this->confirmed && $action[-1] = 'À vérifier';
+
+		$f->add('select', 'adresse_is_obsolete', array(
 			'firstItem' => '---',
-			'item' => $this->action
+			'item' => $action
 		));
 
-		$adresse_confirm = $f->add('submit', 'adresse_confirm');
-		$adresse_confirm->attach('adresse_action', 'Quelle action effectuer sur les adresses sélectionnées ?', '');
+		$confirm = $f->add('submit', 'adresse_confirm');
+		$confirm->attach('adresse_is_obsolete', 'Quelle action effectuer sur les adresses sélectionnées ?', '');
 
-		if ($adresse_confirm->isOn())
+		if ($confirm->isOn())
 		{
-			$this->saveAdresses($adresse_confirm->getData());
+			$this->saveAdresses($confirm->getData());
 			p::redirect();
 		}
 	}
 
-	protected function saveAdresses($data)
-	{
-		$adresse = array_map('intval', (array) @$_POST['adresse_id']) + array(0);
-
-		$sql = 'confirm' === $data['adresse_action'] ? 'contact_confirmed=NOW()' : 'is_obsolete=1';
-		$sql = "UPDATE contact_adresse
-				SET {$sql}
-				WHERE adresse_id IN (" . implode(',', $adresse) . ")";
-		DB()->exec($sql);
-	}
 
 	protected function save($data)
 	{
-		tribes::newInstance('contact', $this->contact_id, 0)->update($data, array());
-
-		if ($data['email'])
-		{
-			$metadata = array(
-				'token' => "'" . p::strongid(8) . "'",
-				'token_expires' => 'NOW()+INTERVAL ' . tribes::PENDING_PERIOD
-			);
-
-			if (isset($this->data->email_id) && $this->data->email === $data['email'])
-			{
-				tribes::newInstance('email', $this->contact_id, 0, $this->data->email_id)->update($data, $metadata);
-			}
-			else
-			{
-				if (isset($this->data->email_id) && $this->data->email !== $data['email'])
-				{
-					tribes::newInstance('email', $this->contact_id, 0, $this->data->email_id)->delete();
-				}
-
-				tribes::newInstance('email', $this->contact_id, 0)->insert($data, $metadata);
-			}
-		}
-
-		if ($data['adresse'])
-		{
-			if (!isset($this->data->adresse_id))
-			{
-				tribes::newInstance('adresse', $this->contact_id, 0)->insert($data, array());
-			}
-			else
-			{
-				$metadata = array('origine' => "'user/edit'");
-				tribes::newInstance('adresse', $this->contact_id, 0, $this->data->adresse_id)->update($data, $metadata);
-			}
-		}
+		$this->saveFormContact($data);
+		$data['email']   && $this->saveFormEmail($data);
+		$data['adresse'] && $this->saveFormAdresse($data);
 
 		return 'user/edit';
+	}
+
+	protected function saveFormContact($data)
+	{
+		$this->contact->save($data);
+	}
+
+	protected function saveFormEmail($data)
+	{
+		$data['is_active'] = $this->mandatoryEmail;
+
+		preg_match_all("'" . FILTER::EMAIL_RX . "'", $data['email'], $email);
+
+		foreach ($email[0] as $email)
+		{
+			$data['email'] = $email;
+			$this->email->save($data);
+			unset($data['is_active']);
+		}
+	}
+
+	protected function saveFormAdresse($data)
+	{
+		$adresse_id = isset($this->data->adresse_id) ? $this->data->adresse_id : 0;
+
+		$data['is_active'] = $this->mandatoryAdresse;
+
+		if ($data['email_list'])
+		{
+			preg_match_all("'" . FILTER::EMAIL_RX . "'", $data['email_list'], $email);
+
+			$data['email_list'] = '';
+
+			foreach ($email[0] as $email)
+			{
+				$data['email_list'] .= $email . "\n";
+				$this->email->save(array('email' => $email));
+			}
+		}
+
+		$this->adresse->save($data, null, $adresse_id);
+	}
+
+	protected function saveEmails($data)
+	{
+		$this->saveContactInfo('email', $data);
+	}
+
+	protected function saveAdresses($data)
+	{
+		$this->saveContactInfo('adresse', $data);
+	}
+
+	protected function saveContactInfo($type, $data)
+	{
+		$ids = array_map('intval', (array) @$_POST[$type . '_id']) + array(0);
+
+		$sql = "SELECT {$type}_id AS id
+				FROM contact_{$type}
+				WHERE {$type}_id IN (" . implode(',', $ids) . ")
+					AND contact_id={$this->contact_id} AND is_obsolete<=0 AND contact_data!=''";
+		$result = DB()->query($sql);
+		while ($row = $result->fetchRow())
+		{
+			$this->{$type}->save(array('is_obsolete' => $data[$type . '_is_obsolete']), null, $row->id);
+		}
 	}
 }

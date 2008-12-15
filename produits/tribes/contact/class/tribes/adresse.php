@@ -1,6 +1,6 @@
 <?php
 
-class extends tribes_contact
+class extends tribes_common
 {
 	protected
 
@@ -12,14 +12,15 @@ class extends tribes_contact
 		'ville',
 		'ville_apres',
 		'pays',
+		'email_list',
 		'tel_portable',
 		'tel_fixe',
 		'tel_fax'
 	);
 
-	protected function extractData($data)
+	protected function filterData($data)
 	{
-		$adresse = parent::extractData($data);
+		$adresse = parent::filterData($data);
 
 		if (isset($adresse['ville']))
 		{

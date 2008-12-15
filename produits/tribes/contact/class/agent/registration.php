@@ -5,7 +5,14 @@ class extends agent_pForm
 	protected
 
 	$maxage = -1,
+	$connected_id = false,
 	$mandatoryEmail = true;
+
+	protected static
+
+	$altern_case_rx = ".*[A-Z][^A-Z\s]+",
+	$altern_case_msg = "Merci de respecter minuscules, majuscules et accents pour vos nom et prénom";
+
 
 	protected function composeForm($f, $send)
 	{
@@ -20,17 +27,14 @@ class extends agent_pForm
 			'M' => 'M.'
 		)));
 
-		$altern_case_rx = ".*[A-Z][^A-Z\s]+";
-		$altern_case_msg = "Merci de respecter minuscules, majuscules et accents pour vos nom et prénom";
-
-		$f->add('text', 'nom_civil', $altern_case_rx);
-		$f->add('text', 'prenom_civil', $altern_case_rx);
+		$f->add('text', 'nom_civil',    self::$altern_case_rx);
+		$f->add('text', 'prenom_civil', self::$altern_case_rx);
 		$f->add('date', 'date_naissance');
 
 		$send->attach(
 			'sexe',           "Veuillez renseigner le champs Mme Mlle M.",   '',
-			'nom_civil',      "Veuillez renseigner votre nom",               $altern_case_msg,
-			'prenom_civil',   "Veuillez renseigner votre prénom",            $altern_case_msg,
+			'nom_civil',      "Veuillez renseigner votre nom",               self::$altern_case_msg,
+			'prenom_civil',   "Veuillez renseigner votre prénom",            self::$altern_case_msg,
 			'date_naissance', 'Veuillez renseigner votre date de naissance', ''
 		);
 	}
@@ -53,22 +57,19 @@ class extends agent_pForm
 				LIMIT 1";
 		$contact = $db->queryRow($sql);
 
-		$email = array(
-			'email' => $data['email'],
-			'description' => '',
-		);
-
-		unset($data['email']);
-
 		if (!$contact)
 		{
-			$db->autoExecute(
-				'contact_contact',
-				$data + array(
-					'origine' => 'registration',
-					'login' => tribes::buildLogin($data)
-				)
+			$sql = $data + array(
+				'nom_etudiant' => $data['nom_civil'],
+				'nom_usuel'    => $data['nom_civil'],
+				'prenom_usuel' => $data['prenom_civil'],
+				'origine' => 'registration',
+				'login' => tribes::buildLogin($data)
 			);
+
+			unset($sql['email']);
+
+			$db->autoExecute('contact_contact', $sql);
 
 			$contact = (object) array(
 				'contact_id' => $db->lastInsertId(),
@@ -77,39 +78,32 @@ class extends agent_pForm
 		}
 		else if ('accepted' !== $contact->statut_inscription)
 		{
-			$sql = "UPDATE contact_email   SET contact_confirmed_data=''
+			$sql = "UPDATE contact_email   SET contact_data=''
 					WHERE contact_id={$contact->contact_id}";
 			$db->exec($sql);
 
-			$sql = "UPDATE contact_adresse SET contact_confirmed_data=''
+			$sql = "UPDATE contact_adresse SET contact_data=''
 					WHERE contact_id={$contact->contact_id}";
 			$db->exec($sql);
 		}
 
-		$email += array(
-			'contact_id' => $contact->contact_id,
-			'token'      => p::strongid(8),
-			'origine'    => 'registration',
-			'contact_confirmed_data' => serialize($email),
+		$data += array(
+			'statut_inscription' => '',
+			'token'              => p::strongid(8),
+			'origine'            => 'registration',
 		);
 
-		$sql = "INSERT INTO contact_email (" . implode(',', array_keys($email)) . ", token_expires)
-				VALUES ('" . implode("','", $email) . "', NOW() + INTERVAL " . tribes::PENDING_PERIOD . ")
-				ON DUPLICATE KEY UPDATE
-					token=VALUES(token),
-					token_expires=VALUES(token_expires),
-					contact_confirmed_data=VALUES(contact_confirmed_data)";
-		$db->exec($sql);
-
+		$sql = new tribes_email($contact->contact_id, false);
+		$sql->save($data, false);
 
 		if ('accepted' === $contact->statut_inscription)
 		{
 			$sql = "SELECT 1
 					FROM contact_email
 					WHERE contact_id={$contact->contact_id}
-						AND is_active=1
 						AND admin_confirmed
-						AND is_obsolete<1
+						AND contact_confirmed
+						AND is_obsolete<=0
 					LIMIT 1";
 			if ($db->queryOne($sql))
 			{
@@ -118,27 +112,14 @@ class extends agent_pForm
 			}
 		}
 
-		// password_token est mis à jour avec la même valeur que celui de l'email.
+		// token est mis à jour avec la même valeur que celui de l'email.
 		// De cette façon, on peut savoir, sur la base de ce token, quel email
 		// parmi ceux disponibles est à l'origine de la dernière inscription.
 
-		$sql = "UPDATE contact_contact
-				SET statut_inscription='',
-					date_naissance='{$data['date_naissance']}',
-					password_token='{$email['token']}',
-					password_token_expires=NOW() + INTERVAL " . tribes::PENDING_PERIOD . ",
-					contact_confirmed=NOW(),
-					contact_confirmed_data=" . $db->quote(serialize($data)) . "
-				WHERE contact_id={$contact->contact_id}";
-		$db->exec($sql);
+		$sql = new tribes_contact($contact->contact_id, false);
+		$sql->save($data, 'registration/receipt');
 
-		pMail::sendAgent(
-			array('To' => $email['email']),
-			'email/registration/receipt',
-			array('password_token' => $email['token'])
-		);
-
-		s::set('registration_token', $email['token']);
+		s::set('registration_token', $data['token']);
 
 		return 'registration/receipt';
 	}

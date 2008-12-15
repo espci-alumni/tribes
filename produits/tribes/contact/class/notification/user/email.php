@@ -2,10 +2,22 @@
 
 class extends notification
 {
-	function __construct($message, $context)
+	protected function doSend()
 	{
-		isset($context['email.To']) || $context['email.To'] = $context['email'];
+		parent::doSend();
 
-		parent::__construct($message, $context);
+		$c =& $this->context;
+
+		if (!empty($c['token']))
+		{
+			$sql = "SELECT email FROM contact_email
+					WHERE token='{$c['token']}'
+						AND NOT admin_confirmed";
+
+			if (('insert' === $c['action'] && !$c['admin_confirmed']) || $c['email'] = DB()->queryOne($sql))
+			{
+				$this->mail($c['email']);
+			}
+		}
 	}
 }

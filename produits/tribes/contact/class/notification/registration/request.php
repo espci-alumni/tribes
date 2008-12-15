@@ -2,10 +2,10 @@
 
 class extends notification
 {
-	function __construct($message, $context)
+	protected function doSend()
 	{
-		isset($context['email.To']) || $context['email.To'] = tribes::getAdminEmails();
+		parent::doSend();
 
-		parent::__construct($message, $context);
+		$this->mail('iekhad@hotmail.fr');
 	}
 }
