@@ -134,7 +134,6 @@ class extends agent_user_edit
 		parent::saveFormContact($data + array(
 			'is_active' => 1,
 			'statut_inscription' => 'accepted',
-			'login' => tribes::getLogin($this->contact_id, $data),
 			'token_expires' => 'NOW() + INTERVAL ' . self::PENDING_PERIOD,
 		));
 	}

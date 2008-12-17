@@ -27,40 +27,13 @@ class
 		return false;
 	}
 
-	static function filterLogin($a)
+	static function filterIdentifier($a)
 	{
 		$a = p::toASCII($a);
 		$a = strtolower($a);
 		$a = preg_replace("/[^a-z]+/", '', $a);
 
 		return $a;
-	}
-
-	static function buildLogin($data)
-	{
-		return self::filterLogin($data['prenom_civil'])
-			. '.' . self::filterLogin($data['nom_civil'])
-			. '.' . $data['date_naissance'];
-	}
-
-	static function getLogin($contact_id, $data)
-	{
-		$login = self::buildLogin($data);
-
-		$sql = strlen($login) + 2;
-		$sql = "SELECT login
-				FROM contact_contact
-				WHERE login LIKE " . DB()->quote($login . '%') . "
-					AND contact_id!={$contact_id}
-				ORDER BY SUBSTRING(login,{$sql})+0 DESC
-				LIMIT 1";
-
-		if ($sql = DB()->queryOne($sql))
-		{
-			$login .= '.' . (substr($sql, strlen($login) + 1) + 1);
-		}
-
-		return $login;
 	}
 
 	static function getDoublonSuggestions($contact_id, $data)
@@ -99,7 +72,7 @@ class
 
 	protected static function buildDoublonReference($data)
 	{
-		return self::filterLogin($data->nom_civil) . '.' . self::filterLogin($data->prenom_civil);
+		return self::filterIdentifier($data->nom_civil) . '.' . self::filterIdentifier($data->prenom_civil);
 	}
 
 	protected static function buildDoublonLabel($data)

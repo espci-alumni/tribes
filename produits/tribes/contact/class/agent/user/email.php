@@ -8,6 +8,6 @@ class extends agent
 	{
 		$this->get->__1__ || p::forbidden();
 
-		tribes_email::confirm($this->get->__1__);
+		tribes_email::confirm($this->get->__1__) || p::redirect('error/token');
 	}
 }

@@ -2,16 +2,23 @@
 
 class
 {
+	const
+
+	ACTION_CONFIRM = 3,
+	ACTION_UPDATE  = 2,
+	ACTION_INSERT  = 1;
+
+
+	public
+
+	$contact_id,
+	$confirmed;
+
+
 	protected
 
-	$table = '',
-	$contact_id,
-	$confirmed,
-	$row_id,
-
-	$dataFields = array(
-	),
-
+	$table,
+	$dataFields = array(),
 	$metaFields = array(
 		'origine'     => 'string',
 		'is_active'   => 'int',
@@ -27,6 +34,7 @@ class
 		$this->confirmed = (bool) $confirmed;
 		$this->metaFields['contact_id'] = 'int';
 		$this->metaFields[$this->table . '_id'] = 'int';
+		$this->contact_id || $this->contact_id = -1;
 	}
 
 	function &fetchRow($select, $row_id = 0)
@@ -57,7 +65,7 @@ class
 	{
 		$db = DB();
 
-		$data['contact_id'] = $this->contact_id;
+		$this->contact_id && $data['contact_id'] = $this->contact_id;
 
 		if ($id) $data[$this->table . '_id'] = $id;
 		else if (!empty($data[$this->table . '_id'])) $id = $data[$this->table . '_id'];
@@ -78,10 +86,8 @@ class
 		{
 			ksort($data);
 			$meta['contact_data'] = $db->quote(serialize($data));
-			isset($meta['contact_confirmed']) || $meta['contact_confirmed'] = $this->contact_id == tribes::getConnectedId();
 		}
 
-		isset($meta['contact_confirmed']) && $meta['contact_confirmed'] = $meta['contact_confirmed'] ? 'NOW()' : 0;
 
 		if ($this->confirmed)
 		{
@@ -93,7 +99,7 @@ class
 			);
 
 			$meta = array_keys($data);
-			$meta = array_diff($meta, array('contact_data', 'contact_confirmed'));
+			$meta = array_diff($meta, array('contact_data'));
 		}
 		else
 		{
@@ -104,6 +110,13 @@ class
 
 			$meta = array_keys($meta);
 		}
+
+		if (isset($data['contact_data']) && !isset($data['contact_confirmed']))
+		{
+			$data['contact_confirmed'] = $this->contact_id == tribes::getConnectedId();
+		}
+
+		isset($data['contact_confirmed']) && $data['contact_confirmed'] = $data['contact_confirmed'] ? 'NOW()' : 0;
 
 		$meta = array_diff($meta, array('origine'));
 
@@ -121,7 +134,7 @@ class
 			foreach ($meta as $k) isset($data[$k]) && $sql .= ",{$k}=" . $data[$k];
 			$sql .= " WHERE contact_id={$this->contact_id}
 						AND {$this->table}_id={$id}";
-			$action = $db->exec($sql) || !$contact_confirmed ? 'update' : 'confirm';
+			$action = $db->exec($sql) || !$contact_confirmed ? 2 : 3;
 
 			if ($contact_confirmed)
 			{
@@ -141,7 +154,7 @@ class
 					ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
 			foreach ($meta as $k) $sql .= ",{$k}=VALUES({$k})";
 			$action = $db->exec($sql);
-			$action = $action ? (2 === $action ? 'update' : 'insert') : false;
+			$action || $action = false;
 		}
 
 		if ($action && (null === $message || $message))

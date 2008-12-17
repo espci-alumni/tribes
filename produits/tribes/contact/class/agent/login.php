@@ -10,7 +10,7 @@ class extends agent_pForm
 		$f->add('password', 'password');
 
 		$send->attach(
-			'login', 'Veuillez saisir votre login', '',
+			'login', 'Veuillez saisir votre identifiant', '',
 			'password', 'Veuillez saisir votre mot de passe', ''
 		);
 
@@ -25,34 +25,32 @@ class extends agent_pForm
 				WHERE a.login=" . DB()->quote($data['login']);
 		$row = DB()->queryRow($sql);
 
-		if ($row && p::matchSaltedHash($data['password'], $row->password))
+		if (!$row || !p::matchSaltedHash($data['password'], $row->password)) return 'login/failed';
+
+		$contact_id = $row->contact_id;
+
+		if ($sql = s::flash('confirmed_email_id'))
 		{
-			$contact_id = $row->contact_id;
-
-			if ($sql = s::flash('confirmed_email_id'))
-			{
-				$row = new tribes_email($contact_id);
-				$row->save(array('contact_confirmed' => true), null, $sql);
-			}
-
-			$sql = "SELECT 1 FROM contact_email
-					WHERE contact_id={$contact_id}
-						AND NOT contact_confirmed";
-			if (DB()->queryOne($sql))
-			{
-				$sql = 'user/email/confirm';
-			}
-			else
-			{
-				$sql = s::flash('referer');
-				$sql || $sql = 'index';
-			}
-
-			s::regenerateId(true, true);
-			s::set('contact_id', $contact_id);
-
-			return $sql;
+			$row = new tribes_email($contact_id);
+			$row->save(array('contact_confirmed' => true), null, $sql);
 		}
-		else return 'login/failed';
+
+		$sql = "SELECT 1 FROM contact_email
+				WHERE contact_id={$contact_id}
+					AND NOT contact_confirmed";
+		if (DB()->queryOne($sql))
+		{
+			$sql = 'user/email/confirm';
+		}
+		else
+		{
+			$sql = s::flash('referer');
+			$sql || $sql = 'index';
+		}
+
+		s::regenerateId(true, true);
+		s::set('contact_id', $contact_id);
+
+		return $sql;
 	}
 }

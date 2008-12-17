@@ -61,20 +61,19 @@ class extends agent_pForm
 
 		if (!$contact)
 		{
-			$sql = $data + array(
-				'nom_etudiant' => $data['nom_civil'],
-				'nom_usuel'    => $data['nom_civil'],
-				'prenom_usuel' => $data['prenom_civil'],
-				'origine' => 'registration',
-				'login' => tribes::buildLogin($data)
+			$sql = new tribes_contact(0);
+			$sql->save(
+				$data + array(
+					'nom_etudiant' => $data['nom_civil'],
+					'nom_usuel'    => $data['nom_civil'],
+					'prenom_usuel' => $data['prenom_civil'],
+					'origine'      => 'registration',
+				),
+				false
 			);
 
-			unset($sql['email']);
-
-			$db->autoExecute('contact_contact', $sql);
-
 			$contact = (object) array(
-				'contact_id' => $db->lastInsertId(),
+				'contact_id' => $sql->contact_id,
 				'statut_inscription' => '',
 			);
 		}
@@ -128,7 +127,7 @@ class extends agent_pForm
 
 	protected static function sqlWhereMatchingContact($data)
 	{
-		$login = tribes::buildLogin($data);
+		$login = tribes_contact::buildLogin($data);
 
 		return "login LIKE " . DB()->quote($login . '%') . "
 			 OR login LIKE " . DB()->quote(substr($login, 0, -10) . '0000-00-00%');

@@ -74,7 +74,7 @@ class extends tribes_common
 				WHERE token='{$token}'
 					AND token_expires>=NOW()";
 		$row = DB()->queryRow($sql);
-		$row || p::redirect('error/token');
+		if (!$row) return false;
 
 		$email = new self($row->contact_id, true);
 
@@ -97,5 +97,7 @@ class extends tribes_common
 			s::flash('confirmed_email_id', $row->email_id);
 			p::redirect('login/confirmEmail');
 		}
+
+		return true;
 	}
 }
