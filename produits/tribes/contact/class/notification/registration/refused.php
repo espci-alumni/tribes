@@ -1,5 +1,11 @@
 <?php
 
-class extends notification_registration_receipt
+class extends notification
 {
+	protected function doSend()
+	{
+		parent::doSend();
+
+		$this->mail($this->context['email']);
+	}
 }

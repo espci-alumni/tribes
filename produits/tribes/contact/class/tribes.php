@@ -8,33 +8,23 @@ class
 	MAX_DOUBLON_DISTANCE = 0.5;
 
 
-	static function getConnectedId($login = true)
+	static function getConnectedId()
 	{
-		if ($login)
-		{
-			$id = self::getConnectedId(false);
-			$id || p::redirect('login');
-		}
-		else
-		{
-			$id = 1; //XXX
-		}
-
-		return $id;
+		return (int) s::get('contact_id');
 	}
 
-	static function requireAuth($type, $id)
+	static function isAuth($type, $id)
 	{
+		if (!$id)           return false;
+		if (true === $type) return true;
+
 		switch ($type)
 		{
-		case 'user/edit':
-			if ($id == self::getConnectedId(false)) return true;
-
+		case 'admin':
+			if (1 == $id) return true; //XXX
 		}
 
-		return true; //XXX
-
-		p::forbidden();
+		return false;
 	}
 
 	static function filterLogin($a)

@@ -8,6 +8,7 @@ class extends agent_user_edit
 
 	protected
 
+	$requiredAuth = 'admin',
 	$confirmed = true,
 	$doublon_contact_id = 0;
 
@@ -18,8 +19,8 @@ class extends agent_user_edit
 				FROM contact_contact
 				WHERE token='{$this->get->__1__}'
 					AND statut_inscription='demande'";
-		$this->get->contact = DB()->queryOne($sql);
-
+		$this->contact_id = DB()->queryOne($sql);
+		$this->contact_id || p::redirect('error/token');
 
 		$sql = "SELECT email
 				FROM contact_email
@@ -54,13 +55,15 @@ class extends agent_user_edit
 		return $o;
 	}
 
-	protected function composeForm($f, $send)
+	protected function composeForm($o, $f, $send)
 	{
-		parent::composeForm($f, $send);
+		$o = parent::composeForm($o, $f, $send);
 
 		$f->add('textarea', 'message');
 
 		$send->attach('message', '', '');
+
+		return $o;
 	}
 
 	protected function formIsOk($f)
@@ -114,12 +117,6 @@ class extends agent_user_edit
 			{
 				self::mergeContacts($this->contact_id, $this->doublon_contact_id);
 			}
-
-			notification::send('registration/accepted', array(
-				'contact_id' => $this->doublon_contact_id,
-				'token' => $this->data->token
-				) + $data
-			);
 		}
 		else
 		{
@@ -149,11 +146,14 @@ class extends agent_user_edit
 				WHERE token='{$this->data->token}'";
 		DB()->exec($sql);
 
-		$this->email->save($data + array(
+		$data += array(
+			'contact_confirmed' => true,
 			'is_active' => 1,
 			'token' => $this->data->token,
 			'token_expires' => 'NOW() + INTERVAL ' . self::PENDING_PERIOD,
-		));
+		);
+
+		$this->email->save($data, 'registration/accepted');
 	}
 
 

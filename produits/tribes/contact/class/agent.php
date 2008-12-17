@@ -2,10 +2,24 @@
 
 class extends self
 {
-	protected $connected_id = true;
+	protected
+
+	$requiredAuth = true,
+	$connected_id = 0;
 
 	function control()
 	{
-		$this->connected_id = $this->connected_id ? tribes::getConnectedId() : 0;
+		if ($this->requiredAuth)
+		{
+			$this->connected_id = tribes::getConnectedId();
+
+			if (!$this->connected_id)
+			{
+				s::flash('referer', p::__URI__());
+				p::redirect('login');
+			}
+
+			tribes::isAuth($this->requiredAuth, $this->connected_id) || p::forbidden();
+		}
 	}
 }

@@ -2,12 +2,12 @@
 
 class extends agent_registration
 {
-	public $get = array('adresse:i:1', 'contact:i:1' => 1);
+	public $get = array('adresse:i:1');
 
 	protected
 
 	$maxage = 0,
-	$connected_id = true,
+	$requiredAuth = true,
 	$mandatoryEmail   = false,
 	$mandatoryAdresse = false,
 
@@ -22,9 +22,7 @@ class extends agent_registration
 	{
 		parent::control();
 
-		$this->contact_id = $this->get->contact;
-
-		tribes::requireAuth('user/edit', $this->contact_id);
+		empty($this->contact_id) && $this->contact_id = $this->connected_id;
 
 		$this->contact = new tribes_contact($this->contact_id, $this->confirmed);
 
@@ -59,21 +57,17 @@ class extends agent_registration
 		$this->data->contact_id =& $this->contact_id;
 	}
 
-	function compose($o)
+
+	protected function composeForm($o, $f, $send)
 	{
-		$o = parent::compose($o);
-
-		$o->emails   = new loop_user_edit_email($this->contact_id, $o->form);
-		$o->adresses = new loop_user_edit_adresse($this->contact_id, $o->form);
-
-		return $o;
-	}
-
-	protected function composeForm($f, $send)
-	{
-		parent::composeForm($f, $send);
+		$o = parent::composeForm($o, $f, $send);
 
 		$this->composeFormAdresse($f, $send);
+
+		$o->emails   = new loop_user_edit_email($this->contact_id, $f);
+		$o->adresses = new loop_user_edit_adresse($this->contact_id, $f);
+
+		return $o;
 	}
 
 	protected function formIsOk($f)

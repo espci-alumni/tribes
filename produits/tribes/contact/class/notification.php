@@ -45,7 +45,7 @@ class
 		$h = array(
 			'historique'         => $this->message,
 			'contact_id'         => $this->contact_id,
-			'origine_contact_id' => tribes::getConnectedId(false),
+			'origine_contact_id' => tribes::getConnectedId(),
 			'details'            => serialize($h),
 		);
 

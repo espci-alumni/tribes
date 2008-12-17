@@ -4,7 +4,8 @@ class extends agent_QSelect
 {
 	protected
 
-	$template = 'QSelect/Search.js';
+	$template = 'QSelect/Search.js',
+	$requiredAuth = false;
 
 
 	function compose($o)

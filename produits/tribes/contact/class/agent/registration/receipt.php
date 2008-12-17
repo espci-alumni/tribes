@@ -4,7 +4,7 @@ class extends agent_user_edit
 {
 	public $get = array('__1__:c:[A-Za-z0-9]{8}', 'email:i:1', 'adresse:i:1');
 
-	protected $connected_id = false;
+	protected $requiredAuth = false;
 
 	function control()
 	{
@@ -17,10 +17,9 @@ class extends agent_user_edit
 					AND token_expires > NOW()
 					AND statut_inscription != 'accepted'";
 		$data = DB()->queryRow($sql);
-
 		$data || p::redirect('error/token');
 
-		$this->get->contact = $data->contact_id;
+		$this->contact_id = $data->contact_id;
 
 		parent::control();
 

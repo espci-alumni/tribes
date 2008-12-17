@@ -58,19 +58,13 @@ class
 		$db = DB();
 
 		$data['contact_id'] = $this->contact_id;
-		$id && $data[$this->table . '_id'] = $id;
+
+		if ($id) $data[$this->table . '_id'] = $id;
+		else if (!empty($data[$this->table . '_id'])) $id = $data[$this->table . '_id'];
 
 		empty($data['token']) || $data += array('token_expires' => 'NOW() + INTERVAL ' . tribes::PENDING_PERIOD);
 
-		$notice = array('admin_confirmed' => $this->confirmed);
-
-		foreach ($this->metaFields as $k => $v)
-		{
-			if ('sql' !== $v && isset($data[$k]))
-			{
-				$notice[$k] = $data[$k];
-			}
-		}
+		$notice = array('admin_confirmed' => $this->confirmed) + $data;
 
 		$meta = $this->filterMeta($data);
 		$data = $this->filterData($data);
@@ -80,13 +74,11 @@ class
 			$data['origine'] = 'contact/' . tribes::getConnectedId(false);
 		}
 
-		$notice += $data;
-
 		if ($data)
 		{
 			ksort($data);
 			$meta['contact_data'] = $db->quote(serialize($data));
-			isset($meta['contact_confirmed']) || $meta['contact_confirmed'] = $this->contact_id == tribes::getConnectedId(false);
+			isset($meta['contact_confirmed']) || $meta['contact_confirmed'] = $this->contact_id == tribes::getConnectedId();
 		}
 
 		isset($meta['contact_confirmed']) && $meta['contact_confirmed'] = $meta['contact_confirmed'] ? 'NOW()' : 0;
@@ -127,15 +119,17 @@ class
 			$sql = "UPDATE contact_{$this->table}
 					SET {$this->table}_id={$id}";
 			foreach ($meta as $k) isset($data[$k]) && $sql .= ",{$k}=" . $data[$k];
-			$sql .= " WHERE {$this->table}_id={$id}";
+			$sql .= " WHERE contact_id={$this->contact_id}
+						AND {$this->table}_id={$id}";
 			$action = $db->exec($sql) || !$contact_confirmed ? 'update' : 'confirm';
 
 			if ($contact_confirmed)
 			{
 				$sql = "UPDATE contact_{$this->table}
 						SET contact_confirmed={$contact_confirmed}
-						WHERE {$this->table}_id={$id}";
-				$db->exec($sql);
+						WHERE contact_id={$this->contact_id}
+							AND {$this->table}_id={$id}";
+				$db->exec($sql) || $action = false;
 			}
 		}
 		else
@@ -146,10 +140,11 @@ class
 						(" . implode(',', $data) . ")
 					ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
 			foreach ($meta as $k) $sql .= ",{$k}=VALUES({$k})";
-			$action = 2 === $db->exec($sql) ? 'update' : 'insert';
+			$action = $db->exec($sql);
+			$action = $action ? (2 === $action ? 'update' : 'insert') : false;
 		}
 
-		if (null === $message || $message)
+		if ($action && (null === $message || $message))
 		{
 			is_string($message) || $message = "user/{$this->table}";
 
@@ -165,7 +160,8 @@ class
 	{
 		$sql = "UPDATE contact_{$this->table}
 				SET is_obsolete=1
-				WHERE {$this->table}_id={$row_id}";
+				WHERE contact_id={$this->contact_id}
+					AND {$this->table}_id={$row_id}";
 		DB()->exec($sql);
 	}
 

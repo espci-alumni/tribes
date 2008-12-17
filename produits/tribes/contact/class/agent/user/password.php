@@ -19,18 +19,13 @@ class extends agent_pForm
 		tribes_email::confirm($this->get->__1__);
 	}
 
-	function compose($o)
+
+	protected function composeForm($o, $f, $send)
 	{
 		//XXX mettre un login plus user friendly
 		$o->login = $this->data->login;
 
-		return parent::compose($o);
-	}
-
-	protected function composeForm($f, $send)
-	{
 		//XXX ajouter une vérification de la complexité du mot de passe
-
 		$f->add('password', 'new_pwd');
 		$f->add('password', 'con_pwd');
 
@@ -38,6 +33,8 @@ class extends agent_pForm
 			'new_pwd', 'Veuillez saisir un mot de passe', '',
 			'con_pwd', 'Veuillez confirmer votre mot de passe', ''
 		);
+
+		return $o;
 	}
 
 	protected function formIsOk($f)
@@ -62,6 +59,8 @@ class extends agent_pForm
 			'user/password/confirmation'
 		);
 
-		return array('user/edit', 'Mot de passe mis à jour');
+		s::flash('referer', 'user/edit');
+
+		return array('login', 'Mot de passe mis à jour');
 	}
 }

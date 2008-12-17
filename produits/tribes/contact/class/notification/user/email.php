@@ -8,16 +8,9 @@ class extends notification
 
 		$c =& $this->context;
 
-		if (!empty($c['token']))
+		if (!empty($c['token']) && isset($c['email']))
 		{
-			$sql = "SELECT email FROM contact_email
-					WHERE token='{$c['token']}'
-						AND NOT admin_confirmed";
-
-			if (('insert' === $c['action'] && !$c['admin_confirmed']) || $c['email'] = DB()->queryOne($sql))
-			{
-				$this->mail($c['email']);
-			}
+			$this->mail($c['email']);
 		}
 	}
 }

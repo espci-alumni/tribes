@@ -1,0 +1,19 @@
+<!-- AGENT 'header' title="Identification" -->
+
+<!-- IF a$__1__=='failed' -->
+<p>Identification échouée</p>
+<!-- ELSEIF a$__1__ == 'confirmEmail' -->
+<p>
+Pour nous assurer que cet email vous appartient réellement, merci de vous connecter ci-dessous.
+</p>
+<!-- END:IF -->
+
+<!-- AGENT $form -->
+<table>
+<!-- AGENT $f_login _caption_="Identifiant" -->
+<!-- AGENT $f_password _caption_="Mot de passe" -->
+</table>
+<!-- AGENT $f_send value="Connexion" -->
+<!-- AGENT $form mode='close' -->
+
+<!-- AGENT 'footer' -->

@@ -5,7 +5,7 @@ class extends agent_pForm
 	protected
 
 	$maxage = -1,
-	$connected_id = false,
+	$requiredAuth = false,
 	$mandatoryEmail = true;
 
 	protected static
@@ -14,10 +14,12 @@ class extends agent_pForm
 	$altern_case_msg = "Merci de respecter minuscules, majuscules et accents pour vos nom et prénom";
 
 
-	protected function composeForm($f, $send)
+	protected function composeForm($o, $f, $send)
 	{
 		$this->composeFormContact($f, $send);
 		$this->composeFormEmail($f, $send);
+
+		return $o;
 	}
 
 	protected function composeFormContact($f, $send)
