@@ -4,6 +4,7 @@ class
 {
 	const
 
+	ACTION_DELETE  = 4,
 	ACTION_CONFIRM = 3,
 	ACTION_UPDATE  = 2,
 	ACTION_INSERT  = 1;
@@ -79,7 +80,7 @@ class
 
 		if ($data && empty($data['origine']))
 		{
-			$data['origine'] = 'contact/' . tribes::getConnectedId(false);
+			$data['origine'] = 'contact/' . tribes::getConnectedId();
 		}
 
 		if ($data)
@@ -99,7 +100,6 @@ class
 			);
 
 			$meta = array_keys($data);
-			$meta = array_diff($meta, array('contact_data'));
 		}
 		else
 		{
@@ -134,7 +134,7 @@ class
 			foreach ($meta as $k) isset($data[$k]) && $sql .= ",{$k}=" . $data[$k];
 			$sql .= " WHERE contact_id={$this->contact_id}
 						AND {$this->table}_id={$id}";
-			$action = $db->exec($sql) || !$contact_confirmed ? 2 : 3;
+			$action = $db->exec($sql) || !$contact_confirmed ? self::ACTION_UPDATE : self::ACTION_CONFIRM;
 
 			if ($contact_confirmed)
 			{
@@ -155,6 +155,11 @@ class
 			foreach ($meta as $k) $sql .= ",{$k}=VALUES({$k})";
 			$action = $db->exec($sql);
 			$action || $action = false;
+		
+			if (!$this->contact_id && self::ACTION_INSERT === $action)
+			{
+				$this->contact_id = $db->lastInsertId();
+			}
 		}
 
 		if ($action && (null === $message || $message))
@@ -175,7 +180,15 @@ class
 				SET is_obsolete=1
 				WHERE contact_id={$this->contact_id}
 					AND {$this->table}_id={$row_id}";
-		DB()->exec($sql);
+
+		if (DB()->exec($sql))
+		{
+			notification::send("user/{$this->table}", array(
+				'contact_id' => $this->contact_id,
+				'action'     => self::ACTION_DELETE,
+				$this->table . '_id' => $row_id,
+			));
+		}
 	}
 
 	protected function filterData($data)

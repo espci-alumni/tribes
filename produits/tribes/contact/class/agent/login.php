@@ -37,7 +37,9 @@ class extends agent_pForm
 
 		$sql = "SELECT 1 FROM contact_email
 				WHERE contact_id={$contact_id}
-					AND NOT contact_confirmed";
+					AND NOT contact_confirmed
+					AND admin_confirmed
+					AND is_obsolete<=0";
 		if (DB()->queryOne($sql))
 		{
 			$sql = 'user/email/confirm';

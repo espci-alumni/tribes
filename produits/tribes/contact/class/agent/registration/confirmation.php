@@ -4,6 +4,8 @@ class extends agent_registration_receipt
 {
 	const NOTIFICATION_DELAY = 300;
 
+	public $get = array('__1__:c:[A-Za-z0-9]{8}', 'email:i:1', 'adresse:i:1');
+
 	function control()
 	{
 		$token = $this->get->__1__;
@@ -37,7 +39,7 @@ class extends agent_registration_receipt
 	protected function save($data)
 	{
 		$data = parent::save($data);
-		$data && $data = 'registration/confirmation/saved';
+		false !== $data && $data = 'registration/confirmation/saved';
 		return $data;
 	}
 }

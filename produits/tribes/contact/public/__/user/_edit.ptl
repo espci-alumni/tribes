@@ -1,5 +1,20 @@
 </table>
 
+<h3>Photo</h3>
+
+<img src="{~}user/photo/{$photo_token}?contact=1" /><br />
+<!--
+
+IF $hasPhoto
+	AGENT $f_delete value="Supprimer"
+END:IF
+
+-->
+
+<table>
+<!-- AGENT $f_photo _caption_="Photo" -->
+</table>
+
 <h3>Nom d'usage</h3>
 
 <table>

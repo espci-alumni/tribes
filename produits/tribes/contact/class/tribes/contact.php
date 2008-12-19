@@ -26,6 +26,7 @@ class extends tribes_common
 			'statut_inscription' => 'string',
 			'login'              => 'string',
 			'password'           => 'string',
+			'photo_token'        => 'string',
 		);
 
 		parent::__construct($contact_id, $confirmed);
@@ -55,9 +56,9 @@ class extends tribes_common
 			}
 		}
 
-		$message = parent::save($data, $message, $this->contact_id);
+		$this->contact_id || $data['photo_token'] = p::strongid(8);
 
-		self::ACTION_INSERT === $message && $this->contact_id = DB()->lastInsertId();
+		$message = parent::save($data, $message, $this->contact_id);
 
 		if ($this->confirmed && isset($data['login']))
 		{

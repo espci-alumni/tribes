@@ -83,7 +83,7 @@ class extends agent_user_edit
 		return parent::formIsOk($f);
 	}
 
-	protected function composeFormEmail($f, $send)
+	protected function composeFormEmail($o, $f, $send)
 	{
 		$f->add('email', 'email');
 
@@ -105,6 +105,8 @@ class extends agent_user_edit
 			$this->saveEmails($confirm->getData());
 			p::redirect();
 		}
+
+		return $o;
 	}
 
 	protected function save($data)

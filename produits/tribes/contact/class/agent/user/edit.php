@@ -2,6 +2,11 @@
 
 class extends agent_registration
 {
+	const
+
+	PHOTO_WIDTH  = 128,
+	PHOTO_HEIGHT = 128;
+
 	public $get = array('adresse:i:1');
 
 	protected
@@ -10,6 +15,8 @@ class extends agent_registration
 	$requiredAuth = true,
 	$mandatoryEmail   = false,
 	$mandatoryAdresse = false,
+
+	$photoField,
 
 	$contact_id,
 	$confirmed = false,
@@ -27,7 +34,7 @@ class extends agent_registration
 		$this->contact = new tribes_contact($this->contact_id, $this->confirmed);
 
 		$this->data = (array) $this->data;
-		$this->data += $this->contact->fetchRow('contact_id, contact_data');
+		$this->data += $this->contact->fetchRow('contact_id, photo_token, contact_data');
 
 		$this->email = new tribes_email($this->contact_id, $this->confirmed);
 
@@ -60,12 +67,12 @@ class extends agent_registration
 
 	protected function composeForm($o, $f, $send)
 	{
+		$o->contact_id = $this->contact_id;
+
 		$o = parent::composeForm($o, $f, $send);
 
-		$this->composeFormAdresse($f, $send);
-
-		$o->emails   = new loop_user_edit_email($this->contact_id, $f);
-		$o->adresses = new loop_user_edit_adresse($this->contact_id, $f);
+		$o = $this->composePhoto($o, $f, $send);
+		$o = $this->composeFormAdresse($o, $f, $send);
 
 		return $o;
 	}
@@ -101,22 +108,24 @@ class extends agent_registration
 		return parent::formIsOk($f);
 	}
 
-	protected function composeFormContact($f, $send)
+	protected function composeFormContact($o, $f, $send)
 	{
-		parent::composeFormContact($f, $send);
+		$o = parent::composeFormContact($o, $f, $send);
 
 		$f->add('text', 'nom_etudiant', self::$altern_case_rx);
 		$f->add('text', 'nom_usuel',    self::$altern_case_rx);
 		$f->add('text', 'prenom_usuel', self::$altern_case_rx);
 
 		$send->attach(
-			'nom_etudiant', '', self::$altern_case_msg,
-			'nom_usuel',    '', self::$altern_case_msg,
-			'prenom_usuel', '', self::$altern_case_msg
+			'nom_etudiant', "Veuillez renseigner le nom d'étudiant", self::$altern_case_msg,
+			'nom_usuel',    "Veuillez renseigner le nom usuel",      self::$altern_case_msg,
+			'prenom_usuel', "Veuillez renseigner le prénom usuel",   self::$altern_case_msg
 		);
+
+		return $o;
 	}
 
-	protected function composeFormEmail($f, $send)
+	protected function composeFormEmail($o, $f, $send)
 	{
 		$f->add('textarea', 'email', array(
 			'valid' => 'text', '.*' . FILTER::EMAIL_RX . '.*',
@@ -140,9 +149,53 @@ class extends agent_registration
 			$this->saveEmails($confirm->getData());
 			p::redirect();
 		}
+
+		$o->emails = new loop_user_edit_email($this->contact_id, $f);
+
+		return $o;
 	}
 
-	protected function composeFormAdresse($f, $send)
+	protected function composePhoto($o, $f, $send)
+	{
+		$o->photo_token = $this->data->photo_token;
+
+		$file = patchworkPath('data/photo/') . $this->data->photo_token;
+
+		switch (true)
+		{
+		case file_exists($file . '.contact.jpg'):
+			$o->hasPhoto = true;
+			$file .= '.contact.jpg';
+			break;
+
+		case file_exists($file . '.jpg'):
+			$o->hasPhoto = true;
+			$file .= '.jpg';
+			break;
+
+		default:
+			$o->hasPhoto = false;
+		}
+
+		if ($o->hasPhoto)
+		{
+			$delete = $f->add('submit', 'delete');
+
+			if ($delete->isOn())
+			{
+				unlink($file);
+				p::redirect();
+			}
+		}
+
+		$this->photoField = $f->add('file', 'photo', array('valid' => 'image', null, array('jpg','gif','png')));
+		
+		$send->attach('photo', '', "Format d'image non valide");
+
+		return $o;
+	}
+
+	protected function composeFormAdresse($o, $f, $send)
 	{
 		$f->add('textarea', 'adresse');
 
@@ -189,16 +242,21 @@ class extends agent_registration
 			$this->saveAdresses($confirm->getData());
 			p::redirect();
 		}
+
+		$o->adresses = new loop_user_edit_adresse($this->contact_id, $f);
+
+		return $o;
 	}
 
 
 	protected function save($data)
 	{
 		$this->saveFormContact($data);
+		$this->savePhoto();
 		$data['email']   && $this->saveFormEmail($data);
 		$data['adresse'] && $this->saveFormAdresse($data);
 
-		return 'user/edit';
+		return '';
 	}
 
 	protected function saveFormContact($data)
@@ -264,6 +322,49 @@ class extends agent_registration
 		while ($row = $result->fetchRow())
 		{
 			$this->{$type}->save(array('is_obsolete' => $data[$type . '_is_obsolete']), null, $row->id);
+		}
+	}
+
+	protected function savePhoto()
+	{
+		if ($file = $this->photoField->getValue())
+		{
+			$th_w = self::PHOTO_WIDTH;
+			$th_h = self::PHOTO_HEIGHT;
+
+			list($src_w, $src_h, $src_type) = $file['info'];
+
+			switch ($src_type)
+			{
+				case 'gif': $src_img = imagecreatefromgif($file['tmp_name']); break;
+				case 'jpg': $src_img = imagecreatefromjpeg($file['tmp_name']); break;
+				case 'png': $src_img = imagecreatefrompng($file['tmp_name']); break;
+				default : return;
+			}
+
+			if ($src_w > $src_h) $th_h *= $src_h / $src_w;
+			else if ($src_w < $src_h) $th_w *= $src_w / $src_h;
+
+			$th_img = imagecreatetruecolor($th_w, $th_h);
+			$bgcolor = imagecolorallocate($th_img, 255, 255, 255);
+			imagefilledrectangle($th_img, 0, 0, $th_w, $th_h, $bgcolor);
+			imagecopyresampled($th_img, $src_img, 0, 0, 0, 0, $th_w, $th_h, $src_w, $src_h);
+
+			$file = patchworkPath('data/photo/') . $this->data->photo_token . '.contact.jpg';
+
+			imagejpeg($th_img, $file, 90);
+		}
+
+		if ($this->confirmed)
+		{
+			$file = patchworkPath('data/photo/');
+
+			$photo_token = p::strongid(8);
+
+			@unlink($file . $this->data->photo_token . '.jpg');
+			@rename($file . $this->data->photo_token . '.contact.jpg', $file . $photo_token . '.jpg');
+
+			$this->contact->save(array('photo_token' => $photo_token), 'user/photo');
 		}
 	}
 }
