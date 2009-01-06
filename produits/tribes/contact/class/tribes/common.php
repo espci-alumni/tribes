@@ -155,7 +155,7 @@ class
 			foreach ($meta as $k) $sql .= ",{$k}=VALUES({$k})";
 			$action = $db->exec($sql);
 			$action || $action = false;
-		
+
 			if (!$this->contact_id && self::ACTION_INSERT === $action)
 			{
 				$this->contact_id = $db->lastInsertId();

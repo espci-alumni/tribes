@@ -1,5 +1,11 @@
 <!-- AGENT 'header' title="Mon profil" -->
 
+<!-- IF !$is_admin_confirmed -->
+<p>
+Ces informations sont en attente de publication par un modérateur.
+</p>
+<!-- END:IF -->
+
 <!-- AGENT $form -->
 
 <h3>Etat civil officiel à la naissance</h3>

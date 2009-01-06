@@ -34,7 +34,7 @@ class extends agent_registration
 		$this->contact = new tribes_contact($this->contact_id, $this->confirmed);
 
 		$this->data = (array) $this->data;
-		$this->data += $this->contact->fetchRow('contact_id, photo_token, contact_data');
+		$this->data += $this->contact->fetchRow('contact_id, contact_confirmed, admin_confirmed, photo_token, contact_data');
 
 		$this->email = new tribes_email($this->contact_id, $this->confirmed);
 
@@ -69,6 +69,8 @@ class extends agent_registration
 	{
 		$o->contact_id = $this->contact_id;
 
+		$o->is_admin_confirmed = $this->data->admin_confirmed > $this->data->contact_confirmed;
+
 		$o = parent::composeForm($o, $f, $send);
 
 		$o = $this->composePhoto($o, $f, $send);
@@ -101,8 +103,17 @@ class extends agent_registration
 
 		if ($f->getElement('adresse')->getStatus() && !$f->getElement('ville')->getStatus())
 		{
-			!$f->getElement('ville')->setError('Veuillez renseigner une ville');
+			$f->getElement('ville')->setError('Veuillez renseigner une ville');
 			return false;
+		}
+
+		if ($this->confirmed && $f->getElement('ville')->getStatus())
+		{
+			if (!(int) $f->getElement('ville')->getDbValue())
+			{
+				$f->getElement('ville')->setError('Veuillez renseigner une ville connue');
+				return false;
+			}
 		}
 
 		return parent::formIsOk($f);

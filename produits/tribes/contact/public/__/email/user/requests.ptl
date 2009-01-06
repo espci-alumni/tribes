@@ -1,0 +1,18 @@
+<!-- AGENT 'email/header' title="Fiches à valider en attente" -->
+
+<p>
+Fiches à valider en attente&nbsp;:
+</p>
+
+<!-- LOOP $contacts -->
+<ul>
+	<li>Nom&nbsp;: {$nom_civil}</li>
+	<li>Prénom&nbsp;: {$prenom_civil}</li>
+</ul>
+
+<a href="{~}user/request/{$contact_id}">Cliquez ici pour traiter cette modification</a>.
+
+<hr>
+<!-- END:LOOP -->
+
+<!-- AGENT 'email/footer' -->

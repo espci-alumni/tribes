@@ -18,16 +18,10 @@ class
 
 	protected function __construct($message, $context)
 	{
-		if (empty($context['contact_id']))
-		{
-			W("No contact_id specified for notification: {$message}");
-			return;
-		}
-
 		isset($context['password']) && $context['password'] = (bool) $context['password'];
 
 		$this->message = $message;
-		$this->contact_id = $context['contact_id'];
+		$this->contact_id = empty($context['contact_id']) ? 0 : $context['contact_id'];
 		$this->context =& $context;
 	}
 
@@ -39,6 +33,12 @@ class
 	protected function store()
 	{
 		$h = $this->context;
+
+		if (empty($h['contact_id']))
+		{
+			W("No contact_id specified for notification: {$this->message}");
+			return;
+		}
 
 		unset($h['contact_id'], $h['token']);
 
@@ -60,14 +60,12 @@ class
 		$db->exec($sql);
 	}
 
-	protected function mail($email, $data = array())
+	protected function mail($email)
 	{
-		$data += $this->context;
-
 		pMail::sendAgent(
 			array('To' => $email),
 			"email/{$this->message}",
-			$data
+			$this->context
 		);
 	}
 }

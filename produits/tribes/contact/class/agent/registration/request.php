@@ -29,6 +29,12 @@ class extends agent_user_edit
 
 		parent::control();
 
+		if ($this->isAliasCollision())
+		{
+			$this->data->login = tribes::makeIdentifier($this->data->prenom_civil, '-a-z')
+				. '.' . tribes::makeIdentifier($this->data->nom_usuel, '-a-z');
+		}
+
 		$this->mandatoryEmail = true;
 		$this->mandatoryAdresse = false;
 
@@ -66,21 +72,59 @@ class extends agent_user_edit
 		return $o;
 	}
 
+	protected function composeFormContact($o, $f, $send)
+	{
+		$o = parent::composeFormContact($o, $f, $send);
+
+		if (isset($this->data->login))
+		{
+			$f = $f->add('text', 'login', '[-a-z]{2,}\.[-a-z]{2,}');
+
+			$send->attach('login', 'Veuillez saisir un identifiant', 'Veuillez saisir un identifiant valide');
+
+			$send->getStatus() || $f->setError("Attention, identifiant déjà utilisé");
+		}
+
+		return $o;
+	}
+
 	protected function formIsOk($f)
 	{
+		if (!parent::formIsOk($f)) return false;
+
+
 		if (!isset($_POST['f_doublon_contact_id'])) return false;
 
 		$d = (int) $_POST['f_doublon_contact_id'];
+		if ($d < 0) return false;
 
-		if ($d === 0) return parent::formIsOk($f);
-		if ($d  <  0) return false;
+		if ($d === 0) return true; // Rejet de la demande
+
+		$db = DB();
 
 		$sql = "SELECT 1 FROM contact_contact WHERE contact_id={$d}";
-		if (!DB()->queryOne($sql)) return false;
+		if (!$db->queryOne($sql)) return false;
 
 		$this->doublon_contact_id = $d;
 
-		return parent::formIsOk($f);
+
+		if (isset($this->data->login))
+		{
+			$d = $f->getElement('login');
+
+			$sql = str_replace('-', '', $d->getValue());
+			$sql = "SELECT 1
+					FROM contact_alias
+						WHERE alias=" . $db->quote($sql) . "
+						AND contact_id!={$this->contact_id}";
+			if ($db->queryOne($sql))
+			{
+				$d->setError('Identifiant déjà utilisé');
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	protected function composeFormEmail($o, $f, $send)
@@ -122,8 +166,10 @@ class extends agent_user_edit
 		}
 		else
 		{
-			$data['token'] = '';
-			$data['statut_inscription'] = '';
+			$data = array(
+				'token' => '',
+				'statut_inscription' => '',
+			);
 
 			$this->contact->save($data, 'registration/refused', $this->contact_id);
 		}
@@ -133,6 +179,22 @@ class extends agent_user_edit
 
 	protected function saveFormContact($data)
 	{
+		if (isset($this->data->login))
+		{
+			$sql = str_replace('-', '', $data['login']);
+			$sql = "INSERT IGNORE INTO contact_alias (contact_id, alias)
+					VALUES ({$this->contact_id},'{$sql}')";
+
+			if (DB()->exec($sql))
+			{
+				$sql = "UPDATE contact_contact
+						SET login='{$data['login']}'
+						WHERE contact_id={$this->contact_id}
+							AND login=''";
+				DB()->exec($sql);
+			}
+		}
+
 		parent::saveFormContact($data + array(
 			'is_active' => 1,
 			'statut_inscription' => 'accepted',
@@ -224,5 +286,26 @@ class extends agent_user_edit
 		$data->prenom_civil = $f->getElement('prenom_civil')->getValue();
 
 		return $data;
+	}
+
+	protected function isAliasCollision()
+	{
+		$db = DB();
+
+		for ($i = 0; $i < count(tribes_contact::$alias); ++$i)
+		{
+			$sql = tribes_contact::$alias[$i];
+
+			$sql = tribes::makeIdentifier($this->data->{$sql[0]})
+				. '.' . tribes::makeIdentifier($this->data->{$sql[1]});
+
+			$sql = "SELECT 1
+					FROM contact_alias
+					WHERE alias='{$sql}'";
+
+			if (!$db->queryOne($sql)) return false;
+		}
+
+		return true;
 	}
 }

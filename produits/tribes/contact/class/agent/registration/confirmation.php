@@ -27,6 +27,8 @@ class extends agent_registration_receipt
 
 		if (!empty($notice))
 		{
+			$this->data->token = $token;
+
 			$notice = new pTask(
 				array('notification', 'send'),
 				array('registration/request', $this->data)

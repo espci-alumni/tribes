@@ -18,13 +18,22 @@ class extends tribes_common
 		'conjoint_contact_id',
 	);
 
+	static
+
+	$alias = array(
+		array('prenom_civil', 'nom_usuel'),
+		array('prenom_usuel', 'nom_etudiant'),
+		array('prenom_civil', 'nom_civil'),
+	);
+
+
 	function __construct($contact_id, $confirmed = 0)
 	{
 		$this->metaFields += array(
 			'token'              => 'stringNull',
 			'token_expires'      => 'sql',
 			'statut_inscription' => 'string',
-			'login'              => 'string',
+			'reference'          => 'string',
 			'password'           => 'string',
 			'photo_token'        => 'string',
 		);
@@ -36,23 +45,23 @@ class extends tribes_common
 
 	function save($data, $message = null, $id = 0)
 	{
-		if (isset($data['login']))
+		if (isset($data['reference']))
 		{
-			W(__METHOD__ . '() input error: $data[\'login\'] must not be set');
-			unset($data['login']);
+			W(__METHOD__ . '() input error: $data[\'reference\'] must not be set');
+			unset($data['reference']);
 		}
 
 		if ($this->confirmed || !$this->contact_id)
 		{
-			if ($data['login'] = self::buildLogin($data))
+			if ($data['reference'] = self::buildReference($data))
 			{
-				$data['login'] = $this->buildUniqueLogin($data['login']);
+				$data['reference'] = $this->buildUniqueReference($data['reference']);
 			}
 			else
 			{
-				$this->contact_id || W(__METHOD__ . '() error: unable to build a valid login');
+				$this->contact_id || W(__METHOD__ . '() error: unable to build a valid reference');
 
-				unset($data['login']);
+				unset($data['reference']);
 			}
 		}
 
@@ -60,64 +69,98 @@ class extends tribes_common
 
 		$message = parent::save($data, $message, $this->contact_id);
 
-		if ($this->confirmed && isset($data['login']))
+		if ($this->confirmed && (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message))
 		{
-			$sql = "INSERT INTO contact_alias
-						(login,contact_id)
-					VALUES
-						(" . DB()->quote($data['login']) . ",{$this->contact_id})
-					ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
-			DB()->exec($sql);
+			$db = DB();
+
+			if (isset($data['reference']))
+			{
+				$sql = "INSERT INTO contact_alias (alias,contact_id)
+						VALUES ('{$data['reference']}',{$this->contact_id})
+						ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
+				$db->exec($sql);
+			}
+
+			for ($i = 0; $i < count(self::$alias); ++$i)
+			{
+				$sql = self::$alias[$i];
+
+				if (!isset($data[$sql[0]])) continue;
+				if (!isset($data[$sql[1]])) continue;
+
+				$login = tribes::makeIdentifier($data[$sql[0]], '-a-z') . '.' . tribes::makeIdentifier($data[$sql[1]], '-a-z');
+				$sql = "INSERT IGNORE INTO contact_alias (contact_id, alias)
+						VALUES ({$this->contact_id},'" . str_replace('-', '', $login) . "')";
+
+				if ($db->exec($sql))
+				{
+					$sql = "UPDATE contact_contact
+							SET login='{$login}'
+							WHERE contact_id={$this->contact_id}
+								AND login=''";
+					$db->exec($sql);
+				}
+			}
 		}
 
 		return $message;
 	}
 
-
-	static function buildLogin($data)
+	function delete($contact_id)
 	{
-		$login = false;
+		$sql = "DELETE FROM contact_alias WHERE contact_id={$contact_id}";
+		DB()->exec($sql);
+
+		parent::delete($contact_id);
+	}
+
+
+	static function buildReference($data)
+	{
+		$reference = false;
 
 		if (   isset($data['prenom_civil'])
 			&& isset($data['nom_civil'])
 			&& isset($data['date_naissance']))
 		{
-			$login = tribes::filterIdentifier($data['prenom_civil'])
-				. '.' . tribes::filterIdentifier($data['nom_civil'])
+			$reference = tribes::makeIdentifier($data['prenom_civil'])
+				. '.' . tribes::makeIdentifier($data['nom_civil'])
 				. '.' . $data['date_naissance'];
 		}
 
-		return $login;
+		return $reference;
 	}
 
 
-	protected function buildUniqueLogin($login)
+	protected function buildUniqueReference($reference)
 	{
+		$db = DB();
+
 		if ($this->contact_id)
 		{
-			$sql = "SELECT login
+			$sql = "SELECT reference
 					FROM contact_contact
-					WHERE login LIKE " . DB()->quote($login . '%') . "
+					WHERE reference LIKE " . $db->quote($reference . '%') . "
 						AND contact_id={$this->contact_id}";
-			if ($sql = DB()->queryOne($sql))
+			if ($sql = $db->queryOne($sql))
 			{
 				return $sql;
 			}
 		}
 
-		$sql = strlen($login) + 2;
-		$sql = "SELECT login
+		$sql = strlen($reference) + 2;
+		$sql = "SELECT reference
 				FROM contact_contact
-				WHERE login LIKE " . DB()->quote($login . '%') . "
+				WHERE reference LIKE " . $db->quote($reference . '%') . "
 					AND contact_id!={$this->contact_id}
-				ORDER BY SUBSTRING(login,{$sql})+0 DESC
+				ORDER BY SUBSTRING(reference,{$sql})+0 DESC
 				LIMIT 1";
 
-		if ($sql = DB()->queryOne($sql))
+		if ($sql = $db->queryOne($sql))
 		{
-			$login .= '.' . (substr($sql, strlen($login) + 1) + 1);
+			$reference .= '.' . (substr($sql, strlen($reference) + 1) + 1);
 		}
 
-		return $login;
+		return $reference;
 	}
 }

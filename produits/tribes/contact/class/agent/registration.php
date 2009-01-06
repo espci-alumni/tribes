@@ -134,14 +134,14 @@ class extends agent_pForm
 
 	protected static function sqlWhereMatchingContact($data)
 	{
-		$login = tribes_contact::buildLogin($data);
+		$reference = tribes_contact::buildReference($data);
 
-		return "login LIKE " . DB()->quote($login . '%') . "
-			 OR login LIKE " . DB()->quote(substr($login, 0, -10) . '0000-00-00%');
+		return "reference LIKE " . DB()->quote($reference . '%') . "
+			 OR reference LIKE " . DB()->quote(substr($reference, 0, -10) . '0000-00-00%');
 	}
 
 	protected static function sqlOrderMatchingContact($data)
 	{
-		return 'login DESC';
+		return 'reference DESC';
 	}
 }

@@ -2,6 +2,10 @@
 
 <p>
 Votre demande d'inscription vient d'être validée.
+</p>
+
+<p>
+Voici votre identifiant&nbsp;: <strong>{a$login}</strong><br />
 Vous devez maintenant <a href="{~}user/password/{a$token}">définir votre mot de passe</a>.
 </p>
 

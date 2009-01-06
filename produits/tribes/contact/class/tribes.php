@@ -27,11 +27,11 @@ class
 		return false;
 	}
 
-	static function filterIdentifier($a)
+	static function makeIdentifier($a, $auth_chars = 'a-z')
 	{
 		$a = p::toASCII($a);
 		$a = strtolower($a);
-		$a = preg_replace("/[^a-z]+/", '', $a);
+		$a = preg_replace("/[^{$auth_chars}]+/", '', $a);
 
 		return $a;
 	}
@@ -72,7 +72,7 @@ class
 
 	protected static function buildDoublonReference($data)
 	{
-		return self::filterIdentifier($data->nom_civil) . '.' . self::filterIdentifier($data->prenom_civil);
+		return self::makeIdentifier($data->nom_civil) . '.' . self::makeIdentifier($data->prenom_civil);
 	}
 
 	protected static function buildDoublonLabel($data)
