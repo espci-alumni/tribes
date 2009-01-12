@@ -10,7 +10,8 @@ class extends agent_user_edit
 
 	$requiredAuth = 'admin',
 	$confirmed = true,
-	$doublon_contact_id = 0;
+	$doublon_contact_id = 0,
+	$loginField = false;
 
 
 	function control()
@@ -33,6 +34,8 @@ class extends agent_user_edit
 		{
 			$this->data->login = tribes::makeIdentifier($this->data->prenom_civil, '-a-z')
 				. '.' . tribes::makeIdentifier($this->data->nom_usuel, '-a-z');
+
+			$this->loginField = true;
 		}
 
 		$this->mandatoryEmail = true;
@@ -72,17 +75,13 @@ class extends agent_user_edit
 		return $o;
 	}
 
-	protected function composeFormContact($o, $f, $send)
+	protected function composeContact($o, $f, $send)
 	{
-		$o = parent::composeFormContact($o, $f, $send);
+		$o = parent::composeContact($o, $f, $send);
 
-		if (isset($this->data->login))
+		if ($this->loginField)
 		{
-			$f = $f->add('text', 'login', '[-a-z]{2,}\.[-a-z]{2,}');
-
-			$send->attach('login', 'Veuillez saisir un identifiant', 'Veuillez saisir un identifiant valide');
-
-			$send->getStatus() || $f->setError("Attention, identifiant déjà utilisé");
+			$send->getStatus() || $o->f_login->setError("Attention, identifiant déjà utilisé");
 		}
 
 		return $o;
@@ -107,27 +106,10 @@ class extends agent_user_edit
 
 		$this->doublon_contact_id = $d;
 
-
-		if (isset($this->data->login))
-		{
-			$d = $f->getElement('login');
-
-			$sql = str_replace('-', '', $d->getValue());
-			$sql = "SELECT 1
-					FROM contact_alias
-						WHERE alias=" . $db->quote($sql) . "
-						AND contact_id!={$this->contact_id}";
-			if ($db->queryOne($sql))
-			{
-				$d->setError('Identifiant déjà utilisé');
-				return false;
-			}
-		}
-
 		return true;
 	}
 
-	protected function composeFormEmail($o, $f, $send)
+	protected function composeEmail($o, $f, $send)
 	{
 		$f->add('email', 'email');
 
@@ -146,7 +128,7 @@ class extends agent_user_edit
 
 		if ($confirm->isOn())
 		{
-			$this->saveEmails($confirm->getData());
+			$this->saveCheckedEmails($confirm->getData());
 			p::redirect();
 		}
 
@@ -177,32 +159,16 @@ class extends agent_user_edit
 		return array('registration/requests', true);
 	}
 
-	protected function saveFormContact($data)
+	protected function saveContact($data)
 	{
-		if (isset($this->data->login))
-		{
-			$sql = str_replace('-', '', $data['login']);
-			$sql = "INSERT IGNORE INTO contact_alias (contact_id, alias)
-					VALUES ({$this->contact_id},'{$sql}')";
-
-			if (DB()->exec($sql))
-			{
-				$sql = "UPDATE contact_contact
-						SET login='{$data['login']}'
-						WHERE contact_id={$this->contact_id}
-							AND login=''";
-				DB()->exec($sql);
-			}
-		}
-
-		parent::saveFormContact($data + array(
+		parent::saveContact($data + array(
 			'is_active' => 1,
 			'statut_inscription' => 'accepted',
 			'token_expires' => 'NOW() + INTERVAL ' . self::PENDING_PERIOD,
 		));
 	}
 
-	protected function saveFormEmail($data)
+	protected function saveEmail($data)
 	{
 		$sql = "UPDATE contact_email
 				SET token=NULL

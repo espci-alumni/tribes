@@ -16,6 +16,7 @@ class
 	static function isAuth($type, $id)
 	{
 		if (!$id)           return false;
+		if (-1 === $id)     return true;
 		if (true === $type) return true;
 
 		switch ($type)
@@ -25,6 +26,16 @@ class
 		}
 
 		return false;
+	}
+
+	static function startFakeSession()
+	{
+		if (!self::getConnectedId())
+		{
+			s::set('contact_id', -1);
+
+			SESSION::regenerateId(false, false);
+		}
 	}
 
 	static function makeIdentifier($a, $auth_chars = 'a-z')

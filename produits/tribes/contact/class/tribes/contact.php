@@ -16,6 +16,7 @@ class extends tribes_common
 		'date_naissance',
 		'date_deces',
 		'conjoint_contact_id',
+		'login',
 	);
 
 	static
@@ -36,6 +37,7 @@ class extends tribes_common
 			'reference'          => 'string',
 			'password'           => 'string',
 			'photo_token'        => 'string',
+			'contact_modified'   => 'sql',
 		);
 
 		parent::__construct($contact_id, $confirmed);
@@ -67,7 +69,14 @@ class extends tribes_common
 
 		$this->contact_id || $data['photo_token'] = p::strongid(8);
 
+		$id || $data['contact_modified'] = 'NOW()';
+
 		$message = parent::save($data, $message, $this->contact_id);
+
+		if (!$this->confirmed && self::ACTION_UPDATE === $message)
+		{
+			$this->updateContactModified($id);
+		}
 
 		if ($this->confirmed && (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message))
 		{
@@ -78,6 +87,15 @@ class extends tribes_common
 				$sql = "INSERT INTO contact_alias (alias,contact_id)
 						VALUES ('{$data['reference']}',{$this->contact_id})
 						ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
+				$db->exec($sql);
+			}
+
+			if (isset($data['login']))
+			{
+				$login = str_replace('-', '', $data['login']);
+
+				$sql = "INSERT IGNORE INTO contact_alias (alias,contact_id)
+						VALUES ('{$login}',{$this->contact_id})";
 				$db->exec($sql);
 			}
 

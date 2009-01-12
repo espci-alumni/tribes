@@ -16,13 +16,13 @@ class extends agent_pForm
 
 	protected function composeForm($o, $f, $send)
 	{
-		$o = $this->composeFormContact($o, $f, $send);
-		$o = $this->composeFormEmail($o, $f, $send);
+		$o = $this->composeContact($o, $f, $send);
+		$o = $this->composeEmail($o, $f, $send);
 
 		return $o;
 	}
 
-	protected function composeFormContact($o, $f, $send)
+	protected function composeContact($o, $f, $send)
 	{
 		$f->add('check', 'sexe', array('item' => array(
 			'F' => 'Mme, Mlle',
@@ -43,7 +43,7 @@ class extends agent_pForm
 		return $o;
 	}
 
-	protected function composeFormEmail($o, $f, $send)
+	protected function composeEmail($o, $f, $send)
 	{
 		$f->add('email', 'email');
 

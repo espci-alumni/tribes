@@ -20,6 +20,10 @@ END:IF
 <table>
 <!--
 
+IF $f_login
+	AGENT $f_login _caption_="Identifiant"
+END:IF
+
 AGENT $f_nom_etudiant _caption_="Nom étudiant"
 AGENT $f_nom_usuel _caption_="Nom usuel"
 AGENT $f_prenom_usuel _caption_="Prénom usuel"
@@ -86,9 +90,16 @@ AGENT $f_tel_fax _caption_="Fax"
 LOOP $adresses
 	IF a$adresse != $id
 		SET $data -->
-			<a href="?adresse={$id}">{$adresse}</a>
-			{$ville_avant} {$ville} {$ville_apres} {$pays}
-			{$tel_portable} {$tel_fixe} {$tel_fax}<!--
+			<ul>
+				<!-- IF $adresse      --><li>Adresse&nbsp;: <a href="?adresse={$id}">{$adresse}</a></li><!-- END:IF -->
+				<!-- IF $ville_avant  --><li>Code postal&nbsp;: {$ville_avant}</li><!-- END:IF -->
+				<!-- IF $ville        --><li>Ville&nbsp;: {$ville}</li><!-- END:IF -->
+				<!-- IF $zipcode      --><li>Zipcode&nbsp;: {$ville_apres}</li><!-- END:IF -->
+				<!-- IF $pays         --><li>Pays&nbsp;: {$pays}</li><!-- END:IF -->
+				<!-- IF $tel_portable --><li>Téléphone portable&nbsp;: {$tel_portable}</li><!-- END:IF -->
+				<!-- IF $tel_fixe     --><li>Téléphone fixe&nbsp;: {$tel_fixe}</li><!-- END:IF -->
+				<!-- IF $tel_fax      --><li>Fax&nbsp;: {$tel_fax}</li><!-- END:IF -->
+			</ul><!--
 		END:SET
 
 		INLINE user/_editLoop

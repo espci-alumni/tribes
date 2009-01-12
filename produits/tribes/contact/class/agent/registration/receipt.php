@@ -4,7 +4,10 @@ class extends agent_user_edit
 {
 	public $get = array('__1__:c:[A-Za-z0-9]{4}', 'email:i:1', 'adresse:i:1');
 
-	protected $requiredAuth = false;
+	protected
+
+	$requiredAuth = false,
+	$loginField = false;
 
 	function control()
 	{
@@ -32,9 +35,9 @@ class extends agent_user_edit
 		return $data;
 	}
 
-	protected function saveFormAdresse($data)
+	protected function saveAdresse($data)
 	{
 		$data['contact_confirmed'] = true;
-		parent::saveFormAdresse($data);
+		parent::saveAdresse($data);
 	}
 }

@@ -45,7 +45,7 @@ class
 		$data = DB()->queryRow($sql, null, MDB2_FETCHMODE_ASSOC);
 		$data || p::forbidden();
 
-		empty($data['contact_data']) || $data += unserialize($data['contact_data']);
+		empty($data['contact_data']) || $data = array_merge($data, unserialize($data['contact_data']));
 
 		return $data;
 	}
@@ -78,17 +78,16 @@ class
 		$meta = $this->filterMeta($data);
 		$data = $this->filterData($data);
 
-		if ($data && empty($data['origine']))
-		{
-			$data['origine'] = 'contact/' . tribes::getConnectedId();
-		}
-
 		if ($data)
 		{
 			ksort($data);
 			$meta['contact_data'] = $db->quote(serialize($data));
 		}
 
+		if ($data && empty($data['origine']))
+		{
+			$data['origine'] = 'contact/' . tribes::getConnectedId();
+		}
 
 		if ($this->confirmed)
 		{
@@ -221,5 +220,13 @@ class
 		}
 
 		return $meta;
+	}
+
+	protected function updateContactModified($id)
+	{
+		$sql = "UPDATE contact_contact
+				SET contact_modified=NOW()
+				WHERE contact_id={$id}";
+		DB()->exec($sql);
 	}
 }

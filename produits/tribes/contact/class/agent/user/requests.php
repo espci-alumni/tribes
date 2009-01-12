@@ -9,8 +9,8 @@ class extends agent
 		$sql = "SELECT sexe, nom_civil, prenom_civil, date_naissance, contact_id
 				FROM contact_contact
 				WHERE statut_inscription='accepted'
-					AND admin_confirmed<contact_confirmed
-				ORDER BY contact_confirmed";
+					AND admin_confirmed<contact_modified
+				ORDER BY contact_modified";
 
 		$o->contacts = new loop_sql($sql);
 

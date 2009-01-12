@@ -15,6 +15,7 @@ class extends agent_registration
 	$requiredAuth = true,
 	$mandatoryEmail   = false,
 	$mandatoryAdresse = false,
+	$loginField = true,
 
 	$photoField,
 
@@ -34,7 +35,7 @@ class extends agent_registration
 		$this->contact = new tribes_contact($this->contact_id, $this->confirmed);
 
 		$this->data = (array) $this->data;
-		$this->data += $this->contact->fetchRow('contact_id, contact_confirmed, admin_confirmed, photo_token, contact_data');
+		$this->data += $this->contact->fetchRow('contact_id, login, contact_confirmed, admin_confirmed, contact_modified, photo_token, contact_data');
 
 		$this->email = new tribes_email($this->contact_id, $this->confirmed);
 
@@ -44,7 +45,6 @@ class extends agent_registration
 		{
 			$data = $this->adresse->fetchRow('adresse_id, contact_data', $this->get->adresse);
 			isset($data['pays']) && $data['ville'] .= ', ' . $data['pays'];
-			unset($data['description']);
 			$this->data += $data;
 		}
 
@@ -69,59 +69,26 @@ class extends agent_registration
 	{
 		$o->contact_id = $this->contact_id;
 
-		$o->is_admin_confirmed = $this->data->admin_confirmed > $this->data->contact_confirmed;
+		$o->is_admin_confirmed = $this->data->admin_confirmed > $this->data->contact_modified;
 
 		$o = parent::composeForm($o, $f, $send);
 
 		$o = $this->composePhoto($o, $f, $send);
-		$o = $this->composeFormAdresse($o, $f, $send);
+		$o = $this->composeAdresse($o, $f, $send);
 
 		return $o;
 	}
 
 	protected function formIsOk($f)
 	{
-		if (!$f->getElement('adresse')->getStatus())
-		{
-			$adresse = array(
-				'description',
-				'ville_avant',
-				'ville',
-				'ville_apres',
-				'email_list',
-				'tel_portable',
-				'tel_fixe',
-				'tel_fax',
-			);
-
-			foreach ($adresse as $adresse) if ($f->getElement($adresse)->getStatus())
-			{
-				!$f->getElement('adresse')->setError('Veuillez saisir une adresse');
-				return false;
-			}
-		}
-
-		if ($f->getElement('adresse')->getStatus() && !$f->getElement('ville')->getStatus())
-		{
-			$f->getElement('ville')->setError('Veuillez renseigner une ville');
-			return false;
-		}
-
-		if ($this->confirmed && $f->getElement('ville')->getStatus())
-		{
-			if (!(int) $f->getElement('ville')->getDbValue())
-			{
-				$f->getElement('ville')->setError('Veuillez renseigner une ville connue');
-				return false;
-			}
-		}
+		$this->loginField && $this->isLoginCollision($f);
 
 		return parent::formIsOk($f);
 	}
 
-	protected function composeFormContact($o, $f, $send)
+	protected function composeContact($o, $f, $send)
 	{
-		$o = parent::composeFormContact($o, $f, $send);
+		$o = parent::composeContact($o, $f, $send);
 
 		$f->add('text', 'nom_etudiant', self::$altern_case_rx);
 		$f->add('text', 'nom_usuel',    self::$altern_case_rx);
@@ -133,10 +100,17 @@ class extends agent_registration
 			'prenom_usuel', "Veuillez renseigner le prénom usuel",   self::$altern_case_msg
 		);
 
+		if ($this->loginField)
+		{
+			$f = $f->add('text', 'login', '[a-z]+-?[a-z]+\.[a-z]+-?[a-z]+');
+
+			$send->attach('login', 'Veuillez saisir un identifiant', 'Veuillez saisir un identifiant valide');
+		}
+
 		return $o;
 	}
 
-	protected function composeFormEmail($o, $f, $send)
+	protected function composeEmail($o, $f, $send)
 	{
 		$f->add('textarea', 'email', array(
 			'valid' => 'text', '.*' . FILTER::EMAIL_RX . '.*',
@@ -157,7 +131,7 @@ class extends agent_registration
 
 		if ($confirm->isOn())
 		{
-			$this->saveEmails($confirm->getData());
+			$this->saveCheckedEmails($confirm->getData());
 			p::redirect();
 		}
 
@@ -206,36 +180,9 @@ class extends agent_registration
 		return $o;
 	}
 
-	protected function composeFormAdresse($o, $f, $send)
+	protected function composeAdresse($o, $f, $send)
 	{
-		$f->add('textarea', 'adresse');
-
-		$f->add('QSelect', 'description', array(
-			'src' => 'QSelect/description/adresse',
-		));
-
-		$f->add('text', 'ville_avant');
-		$f->add('city', 'ville');
-		$f->add('text', 'ville_apres');
-
-		$f->add('textarea', 'email_list');
-
-		$f->add('text', 'tel_portable');
-		$f->add('text', 'tel_fixe');
-		$f->add('text', 'tel_fax');
-
-		$send->attach(
-			'adresse', $this->mandatoryAdresse ? 'Veuillez renseigner une adresse' : '', '',
-			'description', '', '',
-			'ville_avant', '', '',
-			'ville', $this->mandatoryAdresse ? 'Veuillez renseigner une ville' : '', '',
-			'ville_apres', '', '',
-			'email_list', '', '',
-			'tel_portable', '', '',
-			'tel_fixe', '', '',
-			'tel_fax', '', ''
-		);
-
+		$o = $this->composeFormAdresse($o, $f, $send);
 
 		$action = array(0 => 'Confirmer', 1 => 'Supprimer');
 		$this->confirmed && $action[-1] = 'À vérifier';
@@ -250,7 +197,7 @@ class extends agent_registration
 
 		if ($confirm->isOn())
 		{
-			$this->saveAdresses($confirm->getData());
+			$this->saveCheckedAdresses($confirm->getData());
 			p::redirect();
 		}
 
@@ -262,20 +209,20 @@ class extends agent_registration
 
 	protected function save($data)
 	{
-		$this->saveFormContact($data);
+		$this->saveContact($data);
 		$this->savePhoto();
-		$data['email']   && $this->saveFormEmail($data);
-		$data['adresse'] && $this->saveFormAdresse($data);
+		$data['email']   && $this->saveEmail($data);
+		$data['adresse'] && $this->saveAdresse($data);
 
-		return '';
+		return 'user/edit';
 	}
 
-	protected function saveFormContact($data)
+	protected function saveContact($data)
 	{
 		$this->contact->save($data);
 	}
 
-	protected function saveFormEmail($data)
+	protected function saveEmail($data)
 	{
 		$data['is_active'] = $this->mandatoryEmail;
 
@@ -289,7 +236,7 @@ class extends agent_registration
 		}
 	}
 
-	protected function saveFormAdresse($data)
+	protected function saveAdresse($data)
 	{
 		$adresse_id = isset($this->data->adresse_id) ? $this->data->adresse_id : 0;
 
@@ -311,17 +258,17 @@ class extends agent_registration
 		$this->adresse->save($data, null, $adresse_id);
 	}
 
-	protected function saveEmails($data)
+	protected function saveCheckedEmails($data)
 	{
-		$this->saveContactInfo('email', $data);
+		$this->saveCheckedContactInfo('email', $data);
 	}
 
-	protected function saveAdresses($data)
+	protected function saveCheckedAdresses($data)
 	{
-		$this->saveContactInfo('adresse', $data);
+		$this->saveCheckedContactInfo('adresse', $data);
 	}
 
-	protected function saveContactInfo($type, $data)
+	protected function saveCheckedContactInfo($type, $data)
 	{
 		$ids = array_map('intval', (array) @$_POST[$type . '_id']) + array(0);
 
@@ -372,10 +319,60 @@ class extends agent_registration
 
 			$photo_token = p::strongid(8);
 
-			@unlink($file . $this->data->photo_token . '.jpg');
 			@rename($file . $this->data->photo_token . '.contact.jpg', $file . $photo_token . '.jpg');
 
 			$this->contact->save(array('photo_token' => $photo_token), 'user/photo');
 		}
+	}
+
+	protected function isLoginCollision($f)
+	{
+		$d = $f->getElement('login');
+
+		$sql = str_replace('-', '', $d->getValue());
+		$sql = "SELECT 1
+				FROM contact_alias
+				WHERE alias='{$sql}'
+					AND contact_id!={$this->contact_id}";
+		if (DB()->queryOne($sql))
+		{
+			$d->setError('Identifiant déjà utilisé');
+			return false;
+		}
+
+		return true;
+	}
+
+	protected function composeFormAdresse($o, $f, $send)
+	{
+		$f->add('textarea', 'adresse');
+
+		$f->add('QSelect', 'description', array(
+			'src' => 'QSelect/description/adresse',
+		));
+
+		$f->add('text', 'ville_avant');
+		$f->add('city', 'ville');
+		$f->add('text', 'ville_apres');
+
+		$f->add('textarea', 'email_list');
+
+		$f->add('text', 'tel_portable');
+		$f->add('text', 'tel_fixe');
+		$f->add('text', 'tel_fax');
+
+		$send->attach(
+			'adresse', $this->mandatoryAdresse ? 'Veuillez renseigner une adresse' : '', '',
+			'description', '', '',
+			'ville_avant', '', '',
+			'ville', $this->mandatoryAdresse ? 'Veuillez renseigner une ville' : '', '',
+			'ville_apres', '', '',
+			'email_list', '', '',
+			'tel_portable', '', '',
+			'tel_fixe', '', '',
+			'tel_fax', '', ''
+		);
+
+		return $o;
 	}
 }
