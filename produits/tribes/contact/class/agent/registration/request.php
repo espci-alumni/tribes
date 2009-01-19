@@ -111,26 +111,13 @@ class extends agent_user_edit
 
 	protected function composeEmail($o, $f, $send)
 	{
+		$o = parent::composeEmail($o, $f, $send);
+
 		$f->add('email', 'email');
 
 		$send->attach('email', "Veuillez renseigner un email", '');
 
-		$action = array(0 => 'Confirmer', 1 => 'Supprimer');
-		$this->confirmed && $action[-1] = 'À vérifier';
-
-		$f->add('select', 'email_is_obsolete', array(
-			'firstItem' => '---',
-			'item' => $action
-		));
-
-		$confirm = $f->add('submit', 'email_confirm');
-		$confirm->attach('email_is_obsolete', 'Quelle action effectuer sur les emails sélectionnés ?', '');
-
-		if ($confirm->isOn())
-		{
-			$this->saveCheckedEmails($confirm->getData());
-			p::redirect();
-		}
+		unset($o->emails);
 
 		return $o;
 	}

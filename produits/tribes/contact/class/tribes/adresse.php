@@ -18,17 +18,8 @@ class extends tribes_common
 		'tel_fax'
 	);
 
-	function __construct($contact_id, $confirmed = 0)
-	{
-		$this->metaFields['contact_modified'] = 'sql';
-
-		parent::__construct($contact_id, $confirmed);
-	}
-
 	function save($data, $message = null, $id = 0)
 	{
-		$id || $data['contact_modified'] = 'NOW()';
-
 		$message = parent::save($data, $message, $id);
 
 		if (!$this->confirmed && $message === self::ACTION_UPDATE)
@@ -72,7 +63,7 @@ class extends tribes_common
 		return $adresse;
 	}
 
-	protected function updateContactModified($id)
+	function updateContactModified($id)
 	{
 		$sql = "UPDATE contact_adresse
 				SET contact_modified=NOW()

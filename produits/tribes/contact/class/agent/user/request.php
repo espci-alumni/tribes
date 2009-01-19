@@ -144,7 +144,7 @@ class extends agent_user_edit
 	{
 		$o = (object) ((array) $o + unserialize($o->contact_data));
 
-		isset($o->city_id) && $o->ville = $o->city_id . ':' . $o->ville . ', ' . $o->pays;
+		empty($o->city_id) || $o->ville = $o->city_id . ':' . $o->ville . ', ' . $o->pays;
 
 		$this->form->pushContext($o, 'adresse_' . $o->adresse_id);
 

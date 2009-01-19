@@ -1,5 +1,4 @@
 <tr>
-	<td><!-- AGENT $f_row_id _format_='%1' --></td>
 	<td>{$data}</td>
 	<td>{$description|default:'&nbsp;'}</td>
 	<td>
@@ -10,4 +9,5 @@
 		END:IF
 	-->
 	</td>
+	<td><!-- AGENT $f_is_obsolete _format_='%1' _glue_='&nbsp;' --></td>
 </tr>

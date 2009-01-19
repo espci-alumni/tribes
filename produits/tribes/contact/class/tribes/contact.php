@@ -37,7 +37,6 @@ class extends tribes_common
 			'reference'          => 'string',
 			'password'           => 'string',
 			'photo_token'        => 'string',
-			'contact_modified'   => 'sql',
 		);
 
 		parent::__construct($contact_id, $confirmed);
@@ -69,13 +68,11 @@ class extends tribes_common
 
 		$this->contact_id || $data['photo_token'] = p::strongid(8);
 
-		$id || $data['contact_modified'] = 'NOW()';
-
 		$message = parent::save($data, $message, $this->contact_id);
 
 		if (!$this->confirmed && self::ACTION_UPDATE === $message)
 		{
-			$this->updateContactModified($id);
+			$this->updateContactModified($this->contact_id);
 		}
 
 		if ($this->confirmed && (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message))

@@ -1,4 +1,4 @@
-<!-- AGENT 'header' title="Identification" -->
+<!-- AGENT 'header' title="Identification" public=1 -->
 
 <!-- IF a$__1__=='failed' -->
 <p>Identification échouée</p>
@@ -15,5 +15,6 @@ Pour nous assurer que cet email vous appartient réellement, merci de vous conne
 </table>
 <!-- AGENT $f_send value="Connexion" -->
 <!-- AGENT $form mode='close' -->
-
+<br />
+<a href="{~}registration/password">Mot de passe perdu&nbsp;?</a>
 <!-- AGENT 'footer' -->

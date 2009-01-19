@@ -1,0 +1,7 @@
+<!--
+
+AGENT $form_logout
+AGENT $f_logout value="Déconnexion"
+AGENT $form_logout _mode_='close'
+
+-->

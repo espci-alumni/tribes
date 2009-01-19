@@ -36,6 +36,11 @@ class extends agent_pForm
 			$row->save(array('contact_confirmed' => true), null, $sql);
 		}
 
+		$data = array(
+			'contact_id' => $contact_id,
+			'referer'    => s::flash('referer'),
+		);
+
 		$sql = "SELECT 1 FROM contact_email
 				WHERE contact_id={$contact_id}
 					AND NOT contact_confirmed
@@ -43,17 +48,12 @@ class extends agent_pForm
 					AND is_obsolete<=0";
 		if (DB()->queryOne($sql))
 		{
-			$sql = 'user/email/confirm';
-		}
-		else
-		{
-			$sql = s::flash('referer');
-			$sql || $sql = 'index';
+			$data['iframe_src'] = 'user/email/confirm';
 		}
 
 		s::regenerateId(true, true);
-		s::set('contact_id', $contact_id);
+		s::set($data);
 
-		return $sql;
+		return 'index';
 	}
 }

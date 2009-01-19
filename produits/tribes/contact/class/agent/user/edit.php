@@ -23,7 +23,10 @@ class extends agent_registration
 	$confirmed = false,
 	$contact = false,
 	$email = false,
-	$adresse = false;
+	$adresse = false,
+
+	$emails,
+	$adresses;
 
 
 	function control()
@@ -118,24 +121,7 @@ class extends agent_registration
 
 		$send->attach('email', '', '');
 
-		$action = array(0 => 'Confirmer', 1 => 'Supprimer');
-		$this->confirmed && $action[-1] = 'À vérifier';
-
-		$f->add('select', 'email_is_obsolete', array(
-			'firstItem' => '---',
-			'item' => $action
-		));
-
-		$confirm = $f->add('submit', 'email_confirm');
-		$confirm->attach('email_is_obsolete', 'Quelle action effectuer sur les emails sélectionnés ?', '');
-
-		if ($confirm->isOn())
-		{
-			$this->saveCheckedEmails($confirm->getData());
-			p::redirect();
-		}
-
-		$o->emails = new loop_user_edit_email($this->contact_id, $f);
+		$this->emails = $o->emails = new loop_user_edit_email($this->contact_id, $f, $send, $this->confirmed);
 
 		return $o;
 	}
@@ -174,7 +160,7 @@ class extends agent_registration
 		}
 
 		$this->photoField = $f->add('file', 'photo', array('valid' => 'image', null, array('jpg','gif','png')));
-		
+
 		$send->attach('photo', '', "Format d'image non valide");
 
 		return $o;
@@ -184,24 +170,7 @@ class extends agent_registration
 	{
 		$o = $this->composeFormAdresse($o, $f, $send);
 
-		$action = array(0 => 'Confirmer', 1 => 'Supprimer');
-		$this->confirmed && $action[-1] = 'À vérifier';
-
-		$f->add('select', 'adresse_is_obsolete', array(
-			'firstItem' => '---',
-			'item' => $action
-		));
-
-		$confirm = $f->add('submit', 'adresse_confirm');
-		$confirm->attach('adresse_is_obsolete', 'Quelle action effectuer sur les adresses sélectionnées ?', '');
-
-		if ($confirm->isOn())
-		{
-			$this->saveCheckedAdresses($confirm->getData());
-			p::redirect();
-		}
-
-		$o->adresses = new loop_user_edit_adresse($this->contact_id, $f);
+		$this->adresses = $o->adresses = new loop_user_edit_adresse($this->contact_id, $f, $send, $this->confirmed);
 
 		return $o;
 	}
@@ -213,6 +182,9 @@ class extends agent_registration
 		$this->savePhoto();
 		$data['email']   && $this->saveEmail($data);
 		$data['adresse'] && $this->saveAdresse($data);
+
+		$this->saveCheckedInfo('email');
+		$this->saveCheckedInfo('adresse');
 
 		return 'user/edit';
 	}
@@ -258,28 +230,16 @@ class extends agent_registration
 		$this->adresse->save($data, null, $adresse_id);
 	}
 
-	protected function saveCheckedEmails($data)
+	protected function saveCheckedInfo($type)
 	{
-		$this->saveCheckedContactInfo('email', $data);
-	}
-
-	protected function saveCheckedAdresses($data)
-	{
-		$this->saveCheckedContactInfo('adresse', $data);
-	}
-
-	protected function saveCheckedContactInfo($type, $data)
-	{
-		$ids = array_map('intval', (array) @$_POST[$type . '_id']) + array(0);
-
-		$sql = "SELECT {$type}_id AS id
-				FROM contact_{$type}
-				WHERE {$type}_id IN (" . implode(',', $ids) . ")
-					AND contact_id={$this->contact_id} AND is_obsolete<=0 AND contact_data!=''";
-		$result = DB()->query($sql);
-		while ($row = $result->fetchRow())
+		while ($status = $this->{$type . 's'}->loop())
 		{
-			$this->{$type}->save(array('is_obsolete' => $data[$type . '_is_obsolete']), null, $row->id);
+			$data = array(
+				'is_obsolete' => $status->f_is_obsolete->getValue()
+			);
+			$data['is_obsolete'] > 0 && $data['token'] = '';
+
+			$this->{$type}->save($data, null, $status->id);
 		}
 	}
 
@@ -311,6 +271,8 @@ class extends agent_registration
 			$file = patchworkPath('data/photo/') . $this->data->photo_token . '.contact.jpg';
 
 			imagejpeg($th_img, $file, 90);
+
+			$this->confirmed || $this->contact->updateContactModified($this->contact_id);
 		}
 
 		if ($this->confirmed)

@@ -110,7 +110,7 @@ class extends agent_pForm
 
 			$sql = "UPDATE contact_email
 					SET token='{$token}',
-						token_expires=NOW()+INTERVAL 5 MINUTES
+						token_expires=NOW()+INTERVAL 5 MINUTE
 					WHERE contact_id={$contact->contact_id}
 						AND admin_confirmed
 						AND contact_confirmed

@@ -1,4 +1,14 @@
-<!-- AGENT 'header' title="S'inscrire" -->
+<!--
+SET $title
+	IF a$__1__ == 'password' -->Mot de passe perdu<!--
+	ELSE -->S'incrire<!--
+	END:IF
+END:SET
+-->
+
+<!-- AGENT 'header' title=$title public=1 -->
+
+<!-- IF a$__1__ == 'password' --><p>Veuillez remplir ce formulaire afin de redéfinir un nouveau mot de passe</p><!-- END:IF -->
 
 <!-- AGENT $form -->
 

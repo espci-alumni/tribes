@@ -222,7 +222,7 @@ class
 		return $meta;
 	}
 
-	protected function updateContactModified($id)
+	function updateContactModified($id)
 	{
 		$sql = "UPDATE contact_contact
 				SET contact_modified=NOW()

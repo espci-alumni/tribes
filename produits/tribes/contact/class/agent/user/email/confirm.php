@@ -40,7 +40,7 @@ class extends agent_pForm
 
 		$sql = s::flash('referer');
 
-		return $sql ? $sql : 'index';
+		return $sql ? $sql : agent_index::ACCUEIL_CONNECTED;
 	}
 
 	function filterRow($o)

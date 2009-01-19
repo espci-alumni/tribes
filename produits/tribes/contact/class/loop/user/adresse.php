@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_user_edit_email
+class extends loop_user_email
 {
 	protected $table = 'adresse';
 }

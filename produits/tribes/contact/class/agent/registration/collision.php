@@ -10,7 +10,8 @@ class extends agent_pForm
 
 		$sql = "SELECT contact_id
 				FROM contact_email
-				WHERE token='{$this->get->__1__}'";
+				WHERE token='{$this->get->__1__}'
+					AND token_expires > NOW()";
 		$this->data = DB()->queryOne($sql);
 		$this->data || p::forbidden();
 	}

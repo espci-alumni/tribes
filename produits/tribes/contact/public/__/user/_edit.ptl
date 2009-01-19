@@ -34,28 +34,21 @@ AGENT $f_prenom_usuel _caption_="Prénom usuel"
 <h3>Emails</h3>
 
 <table>
+
+<!-- IF $emails -->
 <tr>
 	<td>&nbsp;</td>
 	<td>
 		<table>
 		<!-- LOOP $emails -->
-			<!-- IF a$email != $id -->
 			<!-- SET $data -->{$email}<!-- END:SET -->
 			<!-- INLINE user/_editLoop -->
-			<!-- END:IF -->
 		<!-- END:LOOP -->
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan="3">
-			<!--
-				AGENT $f_email_is_obsolete _format_='%1'
-				AGENT $f_email_confirm value="Valider"
-			-->
-			</td>
-		</tr>
 		</table>
 	</td>
 </tr>
+<!-- END:IF -->
+
 <!--
 
 AGENT $f_email _caption_="Email"
@@ -106,22 +99,21 @@ LOOP $adresses
 	ELSE
 		-->
 		<tr>
-			<td><!-- AGENT $f_row_id _format_='%1' --></td>
+			<td><!--
+				IF $f_is_obsolete
+					AGENT $f_is_obsolete _format_='%1' _glue_='&nbsp;'
+				ELSE
+					-->&nbsp;<!--
+				END:IF
+			--></td>
 			<td colspan="3">{d$form_adresse}</td>
 		</tr><!--
 
 		SET d$form_adresse --><!-- END:SET
 	END:IF
-END:LOOP -->
-<tr>
-	<td>&nbsp;</td>
-	<td colspan="3">
-	<!--
-		AGENT $f_adresse_is_obsolete _format_='%1'
-		AGENT $f_adresse_confirm value="Valider"
-	-->
-	</td>
-</tr>
+END:LOOP
+
+-->
 </table>
 <!-- END:IF -->
 

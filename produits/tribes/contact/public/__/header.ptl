@@ -2,19 +2,12 @@
 
 <!-- SET g$inputFormat --><tr><td class="label">%0&nbsp;:</td><td class="input">%1%2</td></tr><!-- END:SET -->
 
-<!--
+<!-- INLINE header -->
 
-INLINE header
-
-IF $form_logout
-	AGENT $form_logout
-	AGENT $f_logout value="Déconnexion"
-	AGENT $form_logout _mode_='close'
-END:IF
-
--->
+<!-- IF !a$basic -->
+<!-- IF a$public --><a href="{~}">Accueil</a><!-- END:IF -->
 <p>{$message}</p>
-
 <h1>{a$title}</h1>
+<!-- END:IF -->
 
 <!-- END:IF -->

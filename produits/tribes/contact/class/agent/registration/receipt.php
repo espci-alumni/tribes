@@ -28,6 +28,26 @@ class extends agent_user_edit
 		$this->mandatoryAdresse = false;
 	}
 
+	protected function composeAdresse($o, $f, $send)
+	{
+		$o->adresses = new loop_user_adresse($this->contact_id);
+
+		return $this->composeFormAdresse($o, $f, $send);
+	}
+
+	protected function composeEmail($o, $f, $send)
+	{
+		$f->add('textarea', 'email', array(
+			'valid' => 'text', '.*' . FILTER::EMAIL_RX . '.*',
+		));
+
+		$send->attach('email', '', '');
+
+		$o->emails = new loop_user_email($this->contact_id);
+
+		return $o;
+	}
+
 	protected function save($data)
 	{
 		$data = parent::save($data);
