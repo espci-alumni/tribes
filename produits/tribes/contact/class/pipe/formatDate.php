@@ -6,7 +6,7 @@ class
 
 	static function __constructStatic()
 	{
-		self::$format = t(self::$format);
+		self::$format = T(self::$format);
 	}
 
 	static function php($s)

@@ -136,6 +136,7 @@ class extends agent_user_edit
 		else
 		{
 			$data = array(
+				'email' => $this->data->email,
 				'token' => '',
 				'statut_inscription' => '',
 			);
@@ -231,6 +232,8 @@ class extends agent_user_edit
 					WHERE contact_id={$from_contact_id}";
 			$db->exec($sql);
 		}
+
+		notification::send('contact/fusion', array('contact_id' => $to_contact_id));
 	}
 
 	protected static function buildDoublonData($f, $data)

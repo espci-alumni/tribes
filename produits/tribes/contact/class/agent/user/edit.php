@@ -51,17 +51,20 @@ class extends agent_registration
 			$this->data += $data;
 		}
 
-		$sql = "SELECT 1 FROM contact_email
-				WHERE contact_id={$this->contact_id}
-					AND is_obsolete<=0 AND contact_data!=''
-				LIMIT 1";
-		$this->mandatoryEmail = DB()->queryOne($sql) ? false : true;
+		if (!$this->confirmed)
+		{
+			$sql = "SELECT 1 FROM contact_email
+					WHERE contact_id={$this->contact_id}
+						AND is_obsolete<=0 AND contact_data!=''
+					LIMIT 1";
+			$this->mandatoryEmail = DB()->queryOne($sql) ? false : true;
 
-		$sql = "SELECT 1 FROM contact_adresse
-				WHERE contact_id={$this->contact_id}
-					AND is_obsolete<=0 AND contact_data!=''
-				LIMIT 1";
-		$this->mandatoryAdresse = DB()->queryOne($sql) ? false : true;
+			$sql = "SELECT 1 FROM contact_adresse
+					WHERE contact_id={$this->contact_id}
+						AND is_obsolete<=0 AND contact_data!=''
+					LIMIT 1";
+			$this->mandatoryAdresse = DB()->queryOne($sql) ? false : true;
+		}
 
 		$this->data = (object) $this->data;
 		$this->data->contact_id =& $this->contact_id;
@@ -119,7 +122,7 @@ class extends agent_registration
 			'valid' => 'text', '.*' . FILTER::EMAIL_RX . '.*',
 		));
 
-		$send->attach('email', '', '');
+		$send->attach('email', $this->mandatoryEmail ? 'Veuillez renseigner un email' : '', '');
 
 		$this->emails = $o->emails = new loop_user_edit_email($this->contact_id, $f, $send, $this->confirmed);
 
@@ -150,13 +153,13 @@ class extends agent_registration
 
 		if ($o->hasPhoto)
 		{
-			$delete = $f->add('submit', 'delete');
+			$f->add('check', 'del_photo', array(
+				'item'     => array(1 => 'Supprimer cette photo'),
+				'multiple' => true,
+				'isdata'   => true,
+			));
 
-			if ($delete->isOn())
-			{
-				unlink($file);
-				p::redirect();
-			}
+			$send->attach('del_photo', '', '');
 		}
 
 		$this->photoField = $f->add('file', 'photo', array('valid' => 'image', null, array('jpg','gif','png')));
@@ -178,13 +181,18 @@ class extends agent_registration
 
 	protected function save($data)
 	{
+		if (0 && !empty($data['del_photo']))
+		{
+			$file = patchworkPath('data/photo/') . $this->data->photo_token;
+
+			if (file_exists($file . '.contact.jpg')) unlink($file . '.contact.jpg');
+			else $data['photo_token'] = p::strongid(8);
+		}
+
 		$this->saveContact($data);
 		$this->savePhoto();
-		$data['email']   && $this->saveEmail($data);
-		$data['adresse'] && $this->saveAdresse($data);
-
-		$this->saveCheckedInfo('email');
-		$this->saveCheckedInfo('adresse');
+		$this->saveEmail($data);
+		$this->saveAdresse($data);
 
 		return 'user/edit';
 	}
@@ -196,7 +204,11 @@ class extends agent_registration
 
 	protected function saveEmail($data)
 	{
-		$data['is_active'] = $this->mandatoryEmail;
+		$this->saveCheckedInfo('email');
+
+		if (!$data['email']) return;
+
+			$data['is_active'] = $this->mandatoryEmail;
 
 		preg_match_all("'" . FILTER::EMAIL_RX . "'", $data['email'], $email);
 
@@ -210,6 +222,10 @@ class extends agent_registration
 
 	protected function saveAdresse($data)
 	{
+		$this->saveCheckedInfo('adresse');
+
+		if (!$data['adresse']) return;
+
 		$adresse_id = isset($this->data->adresse_id) ? $this->data->adresse_id : 0;
 
 		$data['is_active'] = $this->mandatoryAdresse;

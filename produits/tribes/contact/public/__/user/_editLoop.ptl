@@ -9,5 +9,5 @@
 		END:IF
 	-->
 	</td>
-	<td><!-- AGENT $f_is_obsolete _format_='%1' _glue_='&nbsp;' --></td>
+	<td><!-- AGENT $f_is_obsolete _format_='%1%2' _glue_='&nbsp;' --></td>
 </tr>
