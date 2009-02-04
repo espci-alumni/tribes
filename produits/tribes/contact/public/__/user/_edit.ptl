@@ -99,13 +99,15 @@ LOOP $adresses
 	ELSE
 		-->
 		<tr>
-			<td><!--
+			<td>
+			<!--
 				IF $f_is_obsolete
 					AGENT $f_is_obsolete _format_='%1' _glue_='&nbsp;'
 				ELSE
 					-->&nbsp;<!--
 				END:IF
-			--></td>
+			-->
+			</td>
 			<td colspan="3">{d$form_adresse}</td>
 		</tr><!--
 

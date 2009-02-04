@@ -20,20 +20,35 @@ class extends agent_pForm
 	protected function save($data)
 	{
 		$sql = str_replace('-', '', $data['login']);
-		$sql = "SELECT c.contact_id, password
+		$sql = "SELECT c.contact_id, password, login, nom_usuel, prenom_usuel
 				FROM contact_contact c
 					JOIN contact_alias a ON c.contact_id=a.contact_id
-				WHERE a.alias=" . DB()->quote($sql);
+				WHERE c.is_active=1
+					AND c.statut_inscription='accepted'
+					AND a.alias=" . DB()->quote($sql);
 		$row = DB()->queryRow($sql);
 
-		if (!$row || !p::matchSaltedHash($data['password'], $row->password)) return 'login/failed';
+		if (!$row || !p::matchSaltedHash($data['password'], $row->password))
+		{
+			return 'login/failed';
+		}
 
 		$contact_id = $row->contact_id;
 
+		$row->email = $row->login . $CONFIG['tribes.emailDomain'];
+		$row->password = $data['password'];
+
+		$this->login($row);
+
+		return 'index';
+	}
+
+	protected function login($contact)
+	{
 		if ($sql = s::flash('confirmed_email_id'))
 		{
-			$row = new tribes_email($contact_id);
-			$row->save(array('contact_confirmed' => true), null, $sql);
+			$email = new tribes_email($contact_id);
+			$email->save(array('contact_confirmed' => true), null, $sql);
 		}
 
 		$data = array(
@@ -41,7 +56,8 @@ class extends agent_pForm
 			'referer'    => s::flash('referer'),
 		);
 
-		$sql = "SELECT 1 FROM contact_email
+		$sql = "SELECT 1
+				FROM contact_email
 				WHERE contact_id={$contact_id}
 					AND NOT contact_confirmed
 					AND admin_confirmed
@@ -53,7 +69,5 @@ class extends agent_pForm
 
 		s::regenerateId(true, true);
 		s::set($data);
-
-		return 'index';
 	}
 }

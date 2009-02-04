@@ -132,6 +132,16 @@ class extends agent_user_edit
 			{
 				self::mergeContacts($this->contact_id, $this->doublon_contact_id);
 			}
+
+			$sql = "SELECT contact_id, login, nom_usuel, prenom_usuel
+				FROM contact_contact
+				WHERE contact_id={$this->doublon_contact_id}";
+			if ($sql = DB()->queryRow($sql))
+			{
+				$sql->email = $sql->login . $CONFIG['tribes.emailDomain'];
+
+				$this->createAccount($sql);
+			}
 		}
 		else
 		{
@@ -263,5 +273,9 @@ class extends agent_user_edit
 		}
 
 		return true;
+	}
+
+	protected function createAccount($contact)
+	{
 	}
 }
