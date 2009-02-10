@@ -47,18 +47,18 @@ class extends agent_pForm
 	{
 		if ($sql = s::flash('confirmed_email_id'))
 		{
-			$email = new tribes_email($contact_id);
+			$email = new tribes_email($contact->contact_id);
 			$email->save(array('contact_confirmed' => true), null, $sql);
 		}
 
 		$data = array(
-			'contact_id' => $contact_id,
+			'contact_id' => $contact->contact_id,
 			'referer'    => s::flash('referer'),
 		);
 
 		$sql = "SELECT 1
 				FROM contact_email
-				WHERE contact_id={$contact_id}
+				WHERE contact_id={$contact->contact_id}
 					AND NOT contact_confirmed
 					AND admin_confirmed
 					AND is_obsolete<=0";
