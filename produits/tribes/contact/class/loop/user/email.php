@@ -2,11 +2,23 @@
 
 class extends loop_sql
 {
-	protected $table = 'email';
+	protected
+
+	$table = 'email',
+	$extraSelect = 'is_active';
+
 
 	function __construct($contact_id)
 	{
-		$sql = "SELECT {$this->table}_id AS id, is_active, is_obsolete, admin_confirmed, contact_confirmed, contact_data
+		$sql = $this->extraSelect ? ', ' . $this->extraSelect : '';
+		$sql = "SELECT
+					{$this->table}_id,
+					{$this->table}_id AS id,
+					is_obsolete,
+					admin_confirmed,
+					contact_confirmed,
+					contact_data
+					{$sql}
 				FROM contact_{$this->table}
 				WHERE contact_id={$contact_id} AND is_obsolete<=0 AND contact_data!=''
 				ORDER BY sort_key";
@@ -16,7 +28,7 @@ class extends loop_sql
 
 	function filterRow($o)
 	{
-		$o = (object) ((array) $o + (array) unserialize($o->contact_data));
+		$o = (object) ((array) $o + unserialize($o->contact_data));
 
 		unset($o->contact_data);
 

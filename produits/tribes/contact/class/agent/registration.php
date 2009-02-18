@@ -5,8 +5,7 @@ class extends agent_pForm
 	protected
 
 	$maxage = -1,
-	$requiredAuth = false,
-	$mandatoryEmail = true;
+	$requiredAuth = false;
 
 	protected static
 
@@ -47,7 +46,7 @@ class extends agent_pForm
 	{
 		$f->add('email', 'email');
 
-		$send->attach('email', $this->mandatoryEmail ? "Veuillez renseigner votre email" : '', '');
+		$send->attach('email', "Veuillez renseigner votre email", '');
 
 		return $o;
 	}

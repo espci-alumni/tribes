@@ -20,10 +20,6 @@ END:IF
 <table>
 <!--
 
-IF $f_login
-	AGENT $f_login _caption_="Identifiant"
-END:IF
-
 AGENT $f_nom_etudiant _caption_="Nom étudiant"
 AGENT $f_nom_usuel _caption_="Nom usuel"
 AGENT $f_prenom_usuel _caption_="Prénom usuel"
@@ -31,87 +27,40 @@ AGENT $f_prenom_usuel _caption_="Prénom usuel"
 -->
 </table>
 
+<!-- IF $f_email_add -->
+
 <h3>Emails</h3>
 
-<table>
+<!-- AGENT $f_email_add value="ajouter un autre e-mail" class='additem' _preserveScroll_=1 -->
 
 <!-- IF $emails -->
-<tr>
-	<td>&nbsp;</td>
-	<td>
-		<table>
-		<!-- LOOP $emails -->
-			<!-- SET $data -->{$email}<!-- END:SET -->
-			<!-- INLINE user/_editLoop -->
-		<!-- END:LOOP -->
-		</table>
-	</td>
-</tr>
-<!-- END:IF -->
-
-<!--
-
-AGENT $f_email _caption_="Email"
-
--->
-</table>
-
-<h3>Coordonnées</h3>
-
-<!-- SET d$form_adresse -->
 <table>
 <!--
 
-AGENT $f_adresse _caption_="Adresse"
-AGENT $f_description _caption_="Description"
-AGENT $f_ville_avant _caption_="Code postal"
-AGENT $f_ville_apres _caption_="Zip code"
-AGENT $f_ville _caption_="Ville"
-AGENT $f_email_list _caption_="Email(s)"
-AGENT $f_tel_portable _caption_="Téléphone portable"
-AGENT $f_tel_fixe _caption_="Téléphone fixe"
-AGENT $f_tel_fax _caption_="Fax"
-
--->
-</table>	
-<!-- END:SET -->
-
-<!-- IF $adresses -->
-<table>
-<!--
-
-LOOP $adresses
-	IF a$adresse != $id
-		SET $data -->
-			<ul>
-				<!-- IF $adresse      --><li>Adresse&nbsp;: <a href="?adresse={$id}">{$adresse}</a></li><!-- END:IF -->
-				<!-- IF $ville_avant  --><li>Code postal&nbsp;: {$ville_avant}</li><!-- END:IF -->
-				<!-- IF $ville        --><li>Ville&nbsp;: {$ville}</li><!-- END:IF -->
-				<!-- IF $zipcode      --><li>Zipcode&nbsp;: {$ville_apres}</li><!-- END:IF -->
-				<!-- IF $pays         --><li>Pays&nbsp;: {$pays}</li><!-- END:IF -->
-				<!-- IF $tel_portable --><li>Téléphone portable&nbsp;: {$tel_portable}</li><!-- END:IF -->
-				<!-- IF $tel_fixe     --><li>Téléphone fixe&nbsp;: {$tel_fixe}</li><!-- END:IF -->
-				<!-- IF $tel_fax      --><li>Fax&nbsp;: {$tel_fax}</li><!-- END:IF -->
-			</ul><!--
-		END:SET
-
-		INLINE user/_editLoop
+LOOP $emails
+	IF $deleted
+		-->
+		<tr>
+			<td><input type="hidden" name="deleted_email[]" value="{$deleted}" /></td>
+			<td><del>{$email}</del></td>
+		</tr>
+		<!--
 	ELSE
 		-->
 		<tr>
-			<td>
+			<td colspan="2">
 			<!--
-				IF $f_is_obsolete
-					AGENT $f_is_obsolete _format_='%1' _glue_='&nbsp;'
-				ELSE
-					-->&nbsp;<!--
+				IF !$admin_confirmed -->non confirmé<!--
+				ELSEIF $is_obsolete == -1 -->toujours valide ?<!--
+				ELSE -->{"mail validé par l'administrateur"}<!--
 				END:IF
 			-->
 			</td>
-			<td colspan="3">{d$form_adresse}</td>
-		</tr><!--
+		</tr>
+		<!--
 
-		SET d$form_adresse --><!-- END:SET
+		AGENT $f_email _caption_="Email"
+		AGENT $f_email_del value="supprimer cet e-mail" class='additem' _format_=g$inputFormat _preserveScroll_=1
 	END:IF
 END:LOOP
 
@@ -119,8 +68,47 @@ END:LOOP
 </table>
 <!-- END:IF -->
 
-<!-- IF d$form_adresse -->
-<h4>Ajouter de nouvelles coordonnées</h4>
+<!-- END:IF -->
 
-{d$form_adresse}
+
+<h3>Coordonnées</h3>
+
+<!-- AGENT $f_adresse_add value="ajouter une autre adresse" class='additem' _preserveScroll_=1 -->
+
+<!-- IF $adresses -->
+<table>
+<!--
+
+LOOP $adresses
+	IF $deleted --><input type="hidden" name="deleted_adresse[]" value="{$deleted}" /><!--
+	ELSE
+	-->
+	<tr>
+		<td colspan="2">
+		<!--
+			IF !$admin_confirmed -->non confirmé<!--
+			ELSEIF $is_obsolete == -1 -->toujours valide ?<!--
+			ELSE -->{"Adresse validée par l'administrateur"}<!--
+			END:IF
+		-->
+		</td>
+	</tr>
+	<!--
+		AGENT $f_is_shared
+		AGENT $f_adresse_del value="supprimer cette adresse" class='additem' _format_=g$inputFormat _preserveScroll_=1
+		AGENT $f_description _caption_="Description"
+		AGENT $f_adresse _caption_="Adresse"
+		AGENT $f_ville_avant _caption_="Code postal"
+		AGENT $f_ville _caption_="Ville"
+		AGENT $f_ville_apres _caption_="Zip code"
+		AGENT $f_pays _caption_="Pays"
+		AGENT $f_email_list _caption_="Email(s)"
+		AGENT $f_tel_portable _caption_="Téléphone portable"
+		AGENT $f_tel_fixe _caption_="Téléphone fixe"
+		AGENT $f_tel_fax _caption_="Fax"
+	END:IF
+END:LOOP
+
+-->
+</table>
 <!-- END:IF -->

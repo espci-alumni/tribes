@@ -2,7 +2,7 @@
 
 class extends agent_user_edit
 {
-	public $get = array('__1__:c:[A-Za-z0-9]{8}', 'adresse:i:1');
+	public $get = array('__1__:c:[A-Za-z0-9]{8}');
 
 	const PENDING_PERIOD = '3 DAY';
 
@@ -37,9 +37,6 @@ class extends agent_user_edit
 
 			$this->loginField = true;
 		}
-
-		$this->mandatoryEmail = true;
-		$this->mandatoryAdresse = false;
 
 		$this->data->token = $this->get->__1__;
 	}
@@ -111,15 +108,7 @@ class extends agent_user_edit
 
 	protected function composeEmail($o, $f, $send)
 	{
-		$o = parent::composeEmail($o, $f, $send);
-
-		$f->add('email', 'email');
-
-		$send->attach('email', "Veuillez renseigner un email", '');
-
-		unset($o->emails);
-
-		return $o;
+		return agent_registration::composeEmail($o, $f, $send);
 	}
 
 	protected function save($data)

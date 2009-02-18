@@ -11,6 +11,8 @@ SET $f -->
 </tr><!--
 END:SET
 
+SET $p -->(supprimé)<!-- END:SET
+
 AGENT $form
 
 -->
@@ -34,14 +36,14 @@ END:SET
 AGENT $f_sexe _glue_=' ' _format_=$c
 
 SET $c -->{$f|diffFormat:$c_nom_civil:$nom_civil}<!-- END:SET
-AGENT $f_nom_civil _caption_="Nom civil" _format_=$c
+AGENT $f_nom_civil _caption_="Nom civil" _format_=$c placeholder=d$p
 
 SET $c -->{$f|diffFormat:$c_prenom_civil:$prenom_civil}<!-- END:SET
-AGENT $f_prenom_civil _caption_="Prénom civil" _format_=$c
+AGENT $f_prenom_civil _caption_="Prénom civil" _format_=$c placeholder=d$p
 
 SET $c -->{$f|diffFormat:$c_date_naissance:$date_naissance}<!-- END:SET
 SET $c -->{$c|formatDate}<!-- END:SET
-AGENT $f_date_naissance _caption_="Date de naissance" _format_=$c
+AGENT $f_date_naissance _caption_="Date de naissance" _format_=$c placeholder=d$p
 
 -->
 
@@ -65,29 +67,25 @@ AGENT $f_date_naissance _caption_="Date de naissance" _format_=$c
 <!--
 
 IF $newPhoto
+	SET $c -->
+	<tr>
+		<td>%0&nbsp;:</td>
+		<td>&nbsp;</td>
+		<td>%1%2</td>
+	</tr><!--
+	END:SET
 
-SET $c -->
-<tr>
-	<td>%0&nbsp;:</td>
-	<td>&nbsp;</td>
-	<td>%1%2</td>
-</tr><!--
-END:SET
-AGENT $f_photo _caption_="Photo" _format_=$c
-
+	AGENT $f_photo _caption_="Photo" _format_=$c
 END:IF
 
-SET $c -->{$f|diffFormat:$c_login:$login}<!-- END:SET
-AGENT $f_login _caption_="Identifiant" _format_=$c
-
 SET $c -->{$f|diffFormat:$c_nom_etudiant:$nom_etudiant}<!-- END:SET
-AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$c
+AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$c placeholder=d$p
 
 SET $c -->{$f|diffFormat:$c_nom_usuel:$nom_usuel}<!-- END:SET
-AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$c
+AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$c placeholder=d$p
 
 SET $c -->{$f|diffFormat:$c_prenom_usuel:$prenom_usuel}<!-- END:SET
-AGENT $f_prenom_usuel _caption_="Prénom usuel" _format_=$c
+AGENT $f_prenom_usuel _caption_="Prénom usuel" _format_=$c placeholder=d$p
 
 SET $fnew -->
 <tr>
@@ -107,39 +105,34 @@ LOOP $adresses
 
 	
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_description:$description}<!-- END:SET
-	AGENT $f_description _caption_="Description" _format_=$c
+	AGENT $f_description _caption_="Description" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_adresse:$adresse}<!-- END:SET
-	AGENT $f_adresse _caption_="Adresse" _format_=$c
+	AGENT $f_adresse _caption_="Adresse" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville_avant:$ville_avant}<!-- END:SET
-	AGENT $f_ville_avant _caption_="Code postal" _format_=$c
+	AGENT $f_ville_avant _caption_="Code postal" _format_=$c placeholder=d$p
 
-	SET $c -->{$c_city_id}:{$c_ville}, {$c_pays}<!-- END:SET
-	SET $c -->
-	<tr>
-		<td class="label">%0&nbsp;</td>
-		<td>{$c_ville}, {$c_pays}</td>
-		<td class="input"><!-- IF $c != $ville -->%1%2<!-- ELSE -->&nbsp;<!-- END:IF --></td>
-	</tr><!--
-	END:SET
-	SET $c -->{$new_adresse|test:d$fnew:$c}<!-- END:SET
-	AGENT $f_ville _caption_="Ville" _format_=$c
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville:$ville}<!-- END:SET
+	AGENT $f_ville _caption_="Code postal" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville_apres:$ville_apres}<!-- END:SET
-	AGENT $f_ville_apres _caption_="Zip code" _format_=$c
+	AGENT $f_ville_apres _caption_="Zip code" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_pays:$pays}<!-- END:SET
+	AGENT $f_pays _caption_="Code postal" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_email_list:$email_list}<!-- END:SET
-	AGENT $f_email_list _caption_="Email(s)" _format_=$c
+	AGENT $f_email_list _caption_="Email(s)" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_portable:$tel_portable}<!-- END:SET
-	AGENT $f_tel_portable _caption_="Téléphone portable" _format_=$c
+	AGENT $f_tel_portable _caption_="Téléphone portable" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_fixe:$tel_fixe}<!-- END:SET
-	AGENT $f_tel_fixe _caption_="Téléphone fixe" _format_=$c
+	AGENT $f_tel_fixe _caption_="Téléphone fixe" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_fax:$tel_fax}<!-- END:SET
-	AGENT $f_tel_fax _caption_="Fax" _format_=$c
+	AGENT $f_tel_fax _caption_="Fax" _format_=$c placeholder=d$p
 
 END:LOOP
 

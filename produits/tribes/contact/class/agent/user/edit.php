@@ -7,15 +7,11 @@ class extends agent_registration
 	PHOTO_WIDTH  = 128,
 	PHOTO_HEIGHT = 128;
 
-	public $get = array('adresse:i:1');
-
 	protected
 
 	$maxage = 0,
 	$requiredAuth = true,
-	$mandatoryEmail   = false,
-	$mandatoryAdresse = false,
-	$loginField = true,
+	$loginField = false,
 
 	$photoField,
 
@@ -26,7 +22,8 @@ class extends agent_registration
 	$adresse = false,
 
 	$emails,
-	$adresses;
+	$adresses,
+	$deletedEmail = array();
 
 
 	function control()
@@ -43,28 +40,6 @@ class extends agent_registration
 		$this->email = new tribes_email($this->contact_id, $this->confirmed);
 
 		$this->adresse = new tribes_adresse($this->contact_id, $this->confirmed);
-
-		if ($this->get->adresse)
-		{
-			$data = $this->adresse->fetchRow('adresse_id, contact_data', $this->get->adresse);
-			isset($data['pays']) && $data['ville'] .= ', ' . $data['pays'];
-			$this->data += $data;
-		}
-
-		if (!$this->confirmed)
-		{
-			$sql = "SELECT 1 FROM contact_email
-					WHERE contact_id={$this->contact_id}
-						AND is_obsolete<=0 AND contact_data!=''
-					LIMIT 1";
-			$this->mandatoryEmail = DB()->queryOne($sql) ? false : true;
-
-			$sql = "SELECT 1 FROM contact_adresse
-					WHERE contact_id={$this->contact_id}
-						AND is_obsolete<=0 AND contact_data!=''
-					LIMIT 1";
-			$this->mandatoryAdresse = DB()->queryOne($sql) ? false : true;
-		}
 
 		$this->data = (object) $this->data;
 		$this->data->contact_id =& $this->contact_id;
@@ -118,13 +93,7 @@ class extends agent_registration
 
 	protected function composeEmail($o, $f, $send)
 	{
-		$f->add('textarea', 'email', array(
-			'valid' => 'text', '.*' . FILTER::EMAIL_RX . '.*',
-		));
-
-		$send->attach('email', $this->mandatoryEmail ? 'Veuillez renseigner un email' : '', '');
-
-		$this->emails = $o->emails = new loop_user_edit_email($this->contact_id, $f, $send, $this->confirmed);
+		$this->emails = $o->emails = new loop_edit_user_email($f, $this->contact_id);
 
 		return $o;
 	}
@@ -171,9 +140,7 @@ class extends agent_registration
 
 	protected function composeAdresse($o, $f, $send)
 	{
-		$o = $this->composeFormAdresse($o, $f, $send);
-
-		$this->adresses = $o->adresses = new loop_user_edit_adresse($this->contact_id, $f, $send, $this->confirmed);
+		$this->adresses = $o->adresses = new loop_edit_user_adresse($f, $this->contact_id);
 
 		return $o;
 	}
@@ -204,58 +171,94 @@ class extends agent_registration
 
 	protected function saveEmail($data)
 	{
-		$this->saveCheckedInfo('email');
+		$counter = 0;
 
-		if (!$data['email']) return;
-
-			$data['is_active'] = $this->mandatoryEmail;
-
-		preg_match_all("'" . FILTER::EMAIL_RX . "'", $data['email'], $email);
-
-		foreach ($email[0] as $email)
+		while ($b = $this->emails->loop())
 		{
-			$data['email'] = $email;
-			$this->email->save($data);
-			unset($data['is_active']);
+			if (empty($b->deleted) && $b->f_email->getStatus())
+			{
+				$a = array(
+					'email' => $b->f_email->getDbValue(),
+				);
+
+				if ('' !== implode('', $a))
+				{
+					$a += array(
+						'contact_id' => $this->contact_id,
+						'sort_key'   => ++$counter,
+					);
+
+					!$counter && $a->is_active = true;
+
+					$this->email->save($a, null, $b->id);
+				}
+				else $b->deleted = true;
+			}
+
+			if (!empty($b->deleted) && $b->id)
+			{
+				$this->deletedEmail[$b->email] = 1;
+				$this->email->delete($b->id);
+			}
 		}
 	}
 
 	protected function saveAdresse($data)
 	{
-		$this->saveCheckedInfo('adresse');
+		$counter = 0;
 
-		if (!$data['adresse']) return;
-
-		$adresse_id = isset($this->data->adresse_id) ? $this->data->adresse_id : 0;
-
-		$data['is_active'] = $this->mandatoryAdresse;
-
-		if ($data['email_list'])
+		while ($b = $this->adresses->loop())
 		{
-			preg_match_all("'" . FILTER::EMAIL_RX . "'", $data['email_list'], $email);
-
-			$data['email_list'] = '';
-
-			foreach ($email[0] as $email)
+			if (empty($b->deleted))
 			{
-				$data['email_list'] .= $email . "\n";
-				$this->email->save(array('email' => $email));
+				$a = array(
+					'adresse'      => $b->f_adresse->getDbValue(),
+					'description'  => $b->f_description->getDbValue(),
+					'ville_avant'  => $b->f_ville_avant->getDbValue(),
+					'ville'        => $b->f_ville->getDbValue(),
+					'ville_apres'  => $b->f_ville_apres->getDbValue(),
+					'pays'         => $b->f_pays->getDbValue(),
+					'email_list'   => $b->f_email_list->getDbValue(),
+					'tel_portable' => $b->f_tel_portable->getDbValue(),
+					'tel_fixe'     => $b->f_tel_fixe->getDbValue(),
+					'fax'          => $b->f_tel_fax->getDbValue(),
+					'is_shared'    => $b->f_is_shared->getDbValue(),
+				);
+
+				if ('' !== $a['email_list'])
+				{
+					preg_match_all("'" . FILTER::EMAIL_RX . "'", $a['email_list'], $email);
+
+					$a['email_list'] = '';
+
+					foreach ($email[0] as $email)
+					{
+						if (isset($this->deletedEmail[strtolower($email)])) continue;
+
+						$a['email_list'] .= $email . "\n";
+						$this->email->save(array('email' => $email));
+					}
+				}
+
+				if ('' !== implode('', $a))
+				{
+					$a += array(
+						'contact_id' => $this->contact_id,
+						'is_active'  => !$counter,
+						'sort_key'   => ++$counter,
+					);
+
+					isset($data['contact_confirmed']) && $a['contact_confirmed'] = $data['contact_confirmed'];
+
+					$this->adresse->save($a, null, $b->id);
+				}
+				else $b->deleted = true;
 			}
-		}
 
-		$this->adresse->save($data, null, $adresse_id);
-	}
-
-	protected function saveCheckedInfo($type)
-	{
-		while ($status = $this->{$type . 's'}->loop())
-		{
-			$data = array(
-				'is_obsolete' => $status->f_is_obsolete->getValue()
-			);
-			$data['is_obsolete'] > 0 && $data['token'] = '';
-
-			$this->{$type}->save($data, null, $status->id);
+			if (!empty($b->deleted) && $b->id)
+			{
+				$this->adresse->delete($b->id);
+			}
 		}
 	}
 
@@ -319,38 +322,5 @@ class extends agent_registration
 		}
 
 		return true;
-	}
-
-	protected function composeFormAdresse($o, $f, $send)
-	{
-		$f->add('textarea', 'adresse');
-
-		$f->add('QSelect', 'description', array(
-			'src' => 'QSelect/description/adresse',
-		));
-
-		$f->add('text', 'ville_avant');
-		$f->add('city', 'ville');
-		$f->add('text', 'ville_apres');
-
-		$f->add('textarea', 'email_list');
-
-		$f->add('text', 'tel_portable');
-		$f->add('text', 'tel_fixe');
-		$f->add('text', 'tel_fax');
-
-		$send->attach(
-			'adresse', $this->mandatoryAdresse ? 'Veuillez renseigner une adresse' : '', '',
-			'description', '', '',
-			'ville_avant', '', '',
-			'ville', $this->mandatoryAdresse ? 'Veuillez renseigner une ville' : '', '',
-			'ville_apres', '', '',
-			'email_list', '', '',
-			'tel_portable', '', '',
-			'tel_fixe', '', '',
-			'tel_fax', '', ''
-		);
-
-		return $o;
 	}
 }

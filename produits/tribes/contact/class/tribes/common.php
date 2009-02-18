@@ -175,8 +175,9 @@ class
 
 	function delete($row_id)
 	{
+		$sql = $this->confirmed ? -1 : 1;
 		$sql = "UPDATE contact_{$this->table}
-				SET is_obsolete=1
+				SET is_obsolete={$sql}
 				WHERE contact_id={$this->contact_id}
 					AND {$this->table}_id={$row_id}";
 

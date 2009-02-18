@@ -15,7 +15,6 @@ class extends agent_user_edit
 	function control()
 	{
 		$this->contact_id = $this->get->__1__;
-		$this->get->adresse = false;
 
 		parent::control();
 	}
@@ -48,8 +47,8 @@ class extends agent_user_edit
 		$this->send = $send;
 
 		$o = $this->composeContact($o, $f, $send);
-		$o = $this->composeAdresse($o, $f, $send);
 		$o = $this->composePhoto($o, $f, $send);
+		$o = $this->composeAdresse($o, $f, $send);
 
 		return $o;
 	}
@@ -78,25 +77,7 @@ class extends agent_user_edit
 
 	protected function composeAdresse($o, $f, $send)
 	{
-		$sql = "SELECT adresse_id,
-					description  AS c_description,
-					adresse      AS c_adresse,
-					ville_avant  AS c_ville_avant,
-					city_id      AS c_city_id,
-					ville        AS c_ville,
-					pays         AS c_pays,
-					ville_apres  AS c_ville_apres,
-					email_list   AS c_email_list,
-					tel_portable AS c_tel_portable,
-					tel_fixe     AS c_tel_fixe,
-					tel_fax      AS c_tel_fax,
-					admin_confirmed,
-					contact_data
-				FROM contact_adresse
-				WHERE contact_id={$this->contact_id}
-					AND admin_confirmed<contact_modified";
-
-		$o->adresses = $this->adresses = new loop_sql($sql, array($this, 'filterAdresse'));
+		$this->adresses = $o->adresses = new loop_edit_user_adresseDiff($f, $this->contact_id);
 
 		return $o;
 	}
@@ -118,43 +99,5 @@ class extends agent_user_edit
 		$this->saveAdresse($data);
 
 		return 'user/requests';
-	}
-
-	protected function saveAdresse($data)
-	{
-		while ($data = $this->adresses->loop())
-		{
-			$this->data->adresse_id = $data->adresse_id;
-
-			parent::saveAdresse(array(
-				'description'  => $data->f_description->getDbValue(),
-				'adresse'      => $data->f_adresse->getDbValue(),
-				'ville_avant'  => $data->f_ville_avant->getDbValue(),
-				'ville'        => $data->f_ville->getDbValue(),
-				'ville_apres'  => $data->f_ville_apres->getDbValue(),
-				'email_list'   => $data->f_email_list->getDbValue(),
-				'tel_portable' => $data->f_tel_portable->getDbValue(),
-				'tel_fixe'     => $data->f_tel_fixe->getDbValue(),
-				'tel_fax'      => $data->f_tel_fax->getDbValue(),
-			));
-		}
-	}
-
-	function filterAdresse($o)
-	{
-		$o = (object) ((array) $o + unserialize($o->contact_data));
-
-		empty($o->city_id) || $o->ville = $o->city_id . ':' . $o->ville . ', ' . $o->pays;
-
-		$this->form->pushContext($o, 'adresse_' . $o->adresse_id);
-
-		$this->form->setDefaults($o);
-		$o = $this->composeFormAdresse($o, $this->form, $this->send);
-
-		!(int) $o->admin_confirmed && $o->new_adresse = 1;
-
-		$this->form->pullContext();
-
-		return $o;
 	}
 }

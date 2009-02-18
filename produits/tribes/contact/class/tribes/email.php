@@ -28,6 +28,7 @@ class extends tribes_common
 			W(__METHOD__ . '() input error: please provide email or email_id.');
 			return;
 		}
+		else if (isset($data['email'])) $data['email'] = strtolower($data['email']);
 
 		$sql = "UPDATE contact_email
 				SET is_obsolete=-1, admin_confirmed=0
@@ -64,6 +65,20 @@ class extends tribes_common
 		}
 
 		return parent::save($data, $message, $id);
+	}
+
+	function delete($row_id)
+	{
+		parent::delete($row_id);
+
+		if (!$this->confirmed)
+		{
+			$sql = "UPDATE contact_email
+					SET token=NULL
+					WHERE contact_id={$this->contact_id}
+						AND is_obsolete=1";
+			DB()->exec($sql);
+		}
 	}
 
 

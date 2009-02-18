@@ -15,8 +15,16 @@ class extends tribes_common
 		'email_list',
 		'tel_portable',
 		'tel_fixe',
-		'tel_fax'
+		'tel_fax',
 	);
+
+
+	function __construct($contact_id, $confirmed = 0)
+	{
+		parent::__construct($contact_id, $confirmed);
+
+		$this->metaFields['is_shared'] = 'int';
+	}
 
 	function save($data, $message = null, $id = 0)
 	{
@@ -27,45 +35,37 @@ class extends tribes_common
 			$this->updateContactModified($id);
 		}
 
-		if ($this->confirmed)
+		return $message;
+	}
+
+	protected function filterData($data)
+	{
+		$data = parent::filterData($data);
+
+		if (isset($data['ville']) && isset($data['pays']))
 		{
-			if (isset($data['ville']) && $city_id = (int) $data['ville'])
+			$data['city_id'] = geodb::getCityId($data['ville'] . ', ' . $data['pays']);
+	
+			if ($data['city_id'] && $this->confirmed)
 			{
-				$sql = "SELECT 1 FROM city WHERE city_id={$city_id}";
+				$sql = "SELECT 1 FROM city WHERE city_id={$data['city_id']}";
 
 				if (!DB()->queryOne($sql))
 				{
-					$sql = geodb::getCityInfo($city_id);
+					$sql = geodb::getCityInfo($data['city_id']);
 					unset($sql['city']);
 					DB()->autoExecute('city', $sql);
 				}
 			}
 		}
 
-		return $message;
+		return $data;
 	}
 
-	protected function filterData($data)
-	{
-		$adresse = parent::filterData($data);
-
-		if (isset($adresse['ville']))
-		{
-			$sql = explode(':', $adresse['ville']);
-			$adresse['city_id'] = $sql[0];
-
-			$sql = preg_replace('/,.*,/', ',', $sql[1]);
-			$sql = explode(',', $sql);
-			$adresse['ville'] = $sql[0];
-			$adresse['ville'] && $adresse['pays']  = $sql[1];
-		}
-
-		return $adresse;
-	}
 
 	function updateContactModified($id)
 	{
-		$sql = "UPDATE contact_adresse
+		$sql = "UPDATE contact_{$this->table}
 				SET contact_modified=NOW()
 				WHERE contact_id={$this->contact_id}
 					AND adresse_id={$id}";

@@ -2,7 +2,7 @@
 
 class extends agent_user_edit
 {
-	public $get = array('__1__:c:[A-Za-z0-9]{4}', 'email:i:1', 'adresse:i:1');
+	public $get = array('__1__:c:[A-Za-z0-9]{4}');
 
 	protected
 
@@ -24,28 +24,6 @@ class extends agent_user_edit
 		$this->contact_id = $data->contact_id;
 
 		parent::control();
-
-		$this->mandatoryAdresse = false;
-	}
-
-	protected function composeAdresse($o, $f, $send)
-	{
-		$o->adresses = new loop_user_adresse($this->contact_id);
-
-		return $this->composeFormAdresse($o, $f, $send);
-	}
-
-	protected function composeEmail($o, $f, $send)
-	{
-		$f->add('textarea', 'email', array(
-			'valid' => 'text', '.*' . FILTER::EMAIL_RX . '.*',
-		));
-
-		$send->attach('email', '', '');
-
-		$o->emails = new loop_user_email($this->contact_id);
-
-		return $o;
 	}
 
 	protected function save($data)
