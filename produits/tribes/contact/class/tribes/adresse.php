@@ -26,11 +26,11 @@ class extends tribes_common
 		$this->metaFields['is_shared'] = 'int';
 	}
 
-	function save($data, $message = null, $id = 0)
+	function save($data, $message = null, &$id = 0)
 	{
 		$message = parent::save($data, $message, $id);
 
-		if (!$this->confirmed && $message === self::ACTION_UPDATE)
+		if (!$this->confirmed && $message !== self::ACTION_CONFIRM)
 		{
 			$this->updateContactModified($id);
 		}

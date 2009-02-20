@@ -6,18 +6,21 @@ Ces informations sont en attente de publication par un modérateur.
 </p>
 <!-- END:IF -->
 
+<table>
+<tr>
+	<td><a href="{~}user/edit/contact">Informations personnelles</a></td>
+	<td><a href="{~}user/edit/adresse">Coordonnées</a></td>
+	<td><a href="{~}user/edit/activite">Activités</a></td>
+	<td><a href="{~}user/edit/email">Emails</a></td>
+</tr>
+</table>
+
 <!-- AGENT $form -->
 
-<h3>Etat civil officiel à la naissance</h3>
-
-<table>
-<!--
-
-INLINE _registration
-INLINE user/_edit
-
--->
-</table>
+<!-- INLINE user/edit/_contact -->
+<!-- INLINE user/edit/_email -->
+<!-- INLINE user/edit/_adresse -->
+<!-- INLINE user/edit/_activite -->
 
 <!-- AGENT $f_send value="Enregistrer" -->
 

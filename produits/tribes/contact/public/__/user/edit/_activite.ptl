@@ -1,0 +1,44 @@
+<!-- IF $f_activite_add -->
+
+<h3>Activités</h3>
+
+<!-- AGENT $f_activite_add value="ajouter une autre activité" class='additem' _preserveScroll_=1 -->
+
+<!-- IF $activites -->
+<table>
+<!--
+
+LOOP $activites
+	IF $deleted --><input type="hidden" name="deleted_activite[]" value="{$deleted}" /><!--
+	ELSE
+	-->
+	<tr>
+		<td colspan="2">
+		<!--
+			IF !$admin_confirmed -->non confirmé<!--
+			ELSEIF $is_obsolete == -1 -->toujours valide ?<!--
+			ELSE -->{"Activite validée par l'administrateur"}<!--
+			END:IF
+		-->
+		</td>
+	</tr>
+	<!--
+		AGENT $f_is_shared
+		AGENT $f_activite_del value="supprimer cette activité" class='additem' _format_=g$inputFormat _preserveScroll_=1
+		AGENT $f_organisation _caption_="Organisation(s)"
+		AGENT $f_service _caption_="Service / Unité"
+		AGENT $f_fonction _caption_="Fonction"
+		AGENT $f_secteur _caption_="Secteur d'activité"
+		AGENT $f_date_debut _caption_="Début"
+		AGENT $f_date_fin _caption_="Fin"
+		AGENT $f_adresse_id _caption_="Coordonnées"
+		AGENT $f_site_web _caption_="Site Web"
+		AGENT $f_keyword _caption_="Mots clés"
+	END:IF
+END:LOOP
+
+-->
+</table>
+<!-- END:IF -->
+
+<!-- END:IF -->

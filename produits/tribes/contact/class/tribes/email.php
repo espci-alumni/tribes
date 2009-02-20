@@ -19,7 +19,7 @@ class extends tribes_common
 		parent::__construct($contact_id, $confirmed);
 	}
 
-	function save($data, $message = null, $id = 0)
+	function save($data, $message = null, &$id = 0)
 	{
 		if (!$id && !empty($data['email_id'])) $id = $data['email_id'];
 

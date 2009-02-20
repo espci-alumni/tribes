@@ -62,7 +62,7 @@ class
 		return $sql;
 	}
 
-	function save($data, $message = null, $id = 0)
+	function save($data, $message = null, &$id = 0)
 	{
 		$db = DB();
 
@@ -155,10 +155,7 @@ class
 			$action = $db->exec($sql);
 			$action || $action = false;
 
-			if (!$this->contact_id && self::ACTION_INSERT === $action)
-			{
-				$this->contact_id = $db->lastInsertId();
-			}
+			self::ACTION_INSERT === $action && $id = $db->lastInsertId();
 		}
 
 		if ($action && (null === $message || $message))

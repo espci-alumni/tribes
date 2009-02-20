@@ -5,4 +5,4 @@ AGENT $f_nom_civil _caption_="Nom civil"
 AGENT $f_prenom_civil _caption_="Prénom civil"
 AGENT $f_date_naissance _caption_="Date de naissance"
 
--->
+-->{$_regitration_end}

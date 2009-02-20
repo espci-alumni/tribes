@@ -1,0 +1,45 @@
+<!-- IF $f_adresse_add -->
+
+<h3>Coordonnées</h3>
+
+<!-- AGENT $f_adresse_add value="ajouter une autre adresse" class='additem' _preserveScroll_=1 -->
+
+<!-- IF $adresses -->
+<table>
+<!--
+
+LOOP $adresses
+	IF $deleted --><input type="hidden" name="deleted_adresse[]" value="{$deleted}" /><!--
+	ELSE
+	-->
+	<tr>
+		<td colspan="2">
+		<!--
+			IF !$admin_confirmed -->non confirmé<!--
+			ELSEIF $is_obsolete == -1 -->toujours valide ?<!--
+			ELSE -->{"Adresse validée par l'administrateur"}<!--
+			END:IF
+		-->
+		</td>
+	</tr>
+	<!--
+		AGENT $f_is_shared
+		AGENT $f_adresse_del value="supprimer cette adresse" class='additem' _format_=g$inputFormat _preserveScroll_=1
+		AGENT $f_description _caption_="Description"
+		AGENT $f_adresse _caption_="Adresse"
+		AGENT $f_ville_avant _caption_="Code postal"
+		AGENT $f_ville _caption_="Ville"
+		AGENT $f_ville_apres _caption_="Zip code"
+		AGENT $f_pays _caption_="Pays"
+		AGENT $f_email_list _caption_="Email(s)"
+		AGENT $f_tel_portable _caption_="Téléphone portable"
+		AGENT $f_tel_fixe _caption_="Téléphone fixe"
+		AGENT $f_tel_fax _caption_="Fax"
+	END:IF
+END:LOOP
+
+-->
+</table>
+<!-- END:IF -->
+
+<!-- END:IF -->

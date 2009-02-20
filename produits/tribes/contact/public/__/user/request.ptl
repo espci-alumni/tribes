@@ -103,7 +103,7 @@ LOOP $adresses
 		<td>&nbsp;</td>
 	</tr><!--
 
-	
+
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_description:$description}<!-- END:SET
 	AGENT $f_description _caption_="Description" _format_=$c placeholder=d$p
 
@@ -114,7 +114,7 @@ LOOP $adresses
 	AGENT $f_ville_avant _caption_="Code postal" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville:$ville}<!-- END:SET
-	AGENT $f_ville _caption_="Code postal" _format_=$c placeholder=d$p
+	AGENT $f_ville _caption_="Ville" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville_apres:$ville_apres}<!-- END:SET
 	AGENT $f_ville_apres _caption_="Zip code" _format_=$c placeholder=d$p
@@ -133,6 +133,45 @@ LOOP $adresses
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_fax:$tel_fax}<!-- END:SET
 	AGENT $f_tel_fax _caption_="Fax" _format_=$c placeholder=d$p
+
+END:LOOP
+
+
+LOOP $activites
+
+	--><tr style="background-color: silver; font-weight: bold; font-size: 120%;">
+		<td>Activité</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr><!--
+
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_organisation:$organisation}<!-- END:SET
+	AGENT $f_organisation _caption_="Organisation" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_fonction:$fonction}<!-- END:SET
+	AGENT $f_fonction _caption_="Fonction" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$service:$service}<!-- END:SET
+	AGENT $f_service _caption_="Service" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_secteur:$secteur}<!-- END:SET
+	AGENT $f_secteur _caption_="Secteur" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_date_debut:$date_debut}<!-- END:SET
+	AGENT $f_date_debut _caption_="Date début" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_date_fin:$date_fin}<!-- END:SET
+	AGENT $f_date_fin _caption_="Date fin" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_adresse_id:$adresse_id}<!-- END:SET
+	AGENT $f_adresse_id _caption_="Adresse professionnelle" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_site_web:$site_web}<!-- END:SET
+	AGENT $f_site_web _caption_="Site web" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_keyword:$keyword}<!-- END:SET
+	AGENT $f_keyword _caption_="keyword" _format_=$c placeholder=d$p
 
 END:LOOP
 

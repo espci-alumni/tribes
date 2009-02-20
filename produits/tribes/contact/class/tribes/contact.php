@@ -44,7 +44,7 @@ class extends tribes_common
 		$contact_id || $this->contact_id = 0;
 	}
 
-	function save($data, $message = null, $id = 0)
+	function save($data, $message = null, &$id = 0)
 	{
 		if (isset($data['reference']))
 		{

@@ -20,9 +20,11 @@ class extends agent_registration
 	$contact = false,
 	$email = false,
 	$adresse = false,
+	$activite = false,
 
 	$emails,
 	$adresses,
+	$activites,
 	$deletedEmail = array();
 
 
@@ -37,25 +39,29 @@ class extends agent_registration
 		$this->data = (array) $this->data;
 		$this->data += $this->contact->fetchRow('contact_id, login, contact_confirmed, admin_confirmed, contact_modified, photo_token, contact_data');
 
-		$this->email = new tribes_email($this->contact_id, $this->confirmed);
-
-		$this->adresse = new tribes_adresse($this->contact_id, $this->confirmed);
+		$this->email    = new tribes_email($this->contact_id, $this->confirmed);
+		$this->adresse  = new tribes_adresse($this->contact_id, $this->confirmed);
+		$this->activite = new tribes_activite($this->contact_id, $this->confirmed);
 
 		$this->data = (object) $this->data;
 		$this->data->contact_id =& $this->contact_id;
 	}
 
-
-	protected function composeForm($o, $f, $send)
+	function compose($o)
 	{
 		$o->contact_id = $this->contact_id;
 
 		$o->is_admin_confirmed = $this->data->admin_confirmed > $this->data->contact_modified;
 
+		return parent::compose($o);
+	}
+
+	protected function composeForm($o, $f, $send)
+	{
 		$o = parent::composeForm($o, $f, $send);
 
-		$o = $this->composePhoto($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send);
+		$o = $this->composeActivite($o, $f, $send);
 
 		return $o;
 	}
@@ -83,10 +89,12 @@ class extends agent_registration
 
 		if ($this->loginField)
 		{
-			$f = $f->add('text', 'login', '[a-z]+-?[a-z]+\.[a-z]+-?[a-z]+');
+			$f->add('text', 'login', '[a-z]+-?[a-z]+\.[a-z]+-?[a-z]+');
 
 			$send->attach('login', 'Veuillez saisir un identifiant', 'Veuillez saisir un identifiant valide');
 		}
+
+		$o = $this->composePhoto($o, $f, $send);
 
 		return $o;
 	}
@@ -145,10 +153,27 @@ class extends agent_registration
 		return $o;
 	}
 
+	protected function composeActivite($o, $f, $send)
+	{
+		$this->activites = $o->activites = new loop_edit_user_activite($f, $this->contact_id);
+
+		return $o;
+	}
+
 
 	protected function save($data)
 	{
-		if (0 && !empty($data['del_photo']))
+		$this->saveContact($data);
+		$this->saveEmail($data);
+		$this->saveAdresse($data);
+		$this->saveActivite($data);
+
+		return 'user/edit';
+	}
+
+	protected function saveContact($data)
+	{
+		if (!empty($data['del_photo']))
 		{
 			$file = patchworkPath('data/photo/') . $this->data->photo_token;
 
@@ -156,17 +181,9 @@ class extends agent_registration
 			else $data['photo_token'] = p::strongid(8);
 		}
 
-		$this->saveContact($data);
-		$this->savePhoto();
-		$this->saveEmail($data);
-		$this->saveAdresse($data);
-
-		return 'user/edit';
-	}
-
-	protected function saveContact($data)
-	{
 		$this->contact->save($data);
+
+		$this->savePhoto();
 	}
 
 	protected function saveEmail($data)
@@ -258,6 +275,48 @@ class extends agent_registration
 			if (!empty($b->deleted) && $b->id)
 			{
 				$this->adresse->delete($b->id);
+			}
+		}
+	}
+
+	protected function saveActivite($data)
+	{
+		$counter = 0;
+
+		while ($b = $this->activites->loop())
+		{
+			if (empty($b->deleted))
+			{
+				$a = array(
+					'organisation'  => $b->f_organisation->getDbValue(),
+					'service'       => $b->f_service->getDbValue(),
+					'fonction'      => $b->f_fonction->getDbValue(),
+					'secteur'       => $b->f_secteur->getDbValue(),
+					'date_debut'    => $b->f_date_debut->getDbValue(),
+					'date_fin'      => $b->f_date_fin->getDbValue(),
+					'adresse_id'    => $b->f_adresse_id->getDbValue(),	
+					'site_web'      => $b->f_site_web->getDbValue(),
+					'keyword'       => $b->f_keyword->getDbValue(),
+					'is_shared'     => $b->f_is_shared->getDbValue(),
+				);
+
+				if ('' !== implode('', $a))
+				{
+					$a += array(
+						'contact_id' => $this->contact_id,
+						'sort_key'   => ++$counter,
+					);
+
+					isset($data['contact_confirmed']) && $a['contact_confirmed'] = $data['contact_confirmed'];
+
+					$this->activite->save($a, null, $b->id);
+				}
+				else $b->deleted = true;
+			}
+
+			if (!empty($b->deleted) && $b->id)
+			{
+				$this->activite->delete($b->id);
 			}
 		}
 	}

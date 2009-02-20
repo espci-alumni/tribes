@@ -1,0 +1,42 @@
+<!-- IF $f_email_add -->
+
+<h3>Emails</h3>
+
+<!-- AGENT $f_email_add value="ajouter un autre e-mail" class='additem' _preserveScroll_=1 -->
+
+<!-- IF $emails -->
+<table>
+<!--
+
+LOOP $emails
+	IF $deleted
+		-->
+		<tr>
+			<td><input type="hidden" name="deleted_email[]" value="{$deleted}" /></td>
+			<td><del>{$email}</del></td>
+		</tr>
+		<!--
+	ELSE
+		-->
+		<tr>
+			<td colspan="2">
+			<!--
+				IF !$admin_confirmed -->non confirmé<!--
+				ELSEIF $is_obsolete == -1 -->toujours valide ?<!--
+				ELSE -->{"mail validé par l'administrateur"}<!--
+				END:IF
+			-->
+			</td>
+		</tr>
+		<!--
+
+		AGENT $f_email _caption_="Email"
+		AGENT $f_email_del value="supprimer cet e-mail" class='additem' _format_=g$inputFormat _preserveScroll_=1
+	END:IF
+END:LOOP
+
+-->
+</table>
+<!-- END:IF -->
+
+<!-- END:IF -->

@@ -4,13 +4,6 @@ AGENT 'header' title="Demande d'inscription"
 
 AGENT $form
 
--->
-
-<table>
-<!--
-
-INLINE _registration
-
 SET $f
 	--><tr valign="top">
 		<td class="label">%0&nbsp;:<br /><!--
@@ -20,18 +13,19 @@ SET $f
 	</tr><!--
 END:SET
 
-IF $f_login
+SET $_regitration_end
 	AGENT $f_login _caption_="Identifiant"
-END:IF
+	AGENT $f_email _caption_="Email"
+	AGENT $f_doublon_contact_id _caption_="Fusionner avec" _format_=$f
+	AGENT $f_message _caption_="Message"
+END:SET
 
-AGENT $f_email _caption_="Email"
-AGENT $f_doublon_contact_id _caption_="Fusionner avec" _format_=$f
-AGENT $f_message _caption_="Message"
-
-INLINE user/_edit
+INLINE user/edit/_contact
+INLINE user/edit/_email
+INLINE user/edit/_adresse
+INLINE user/edit/_activite
 
 -->
-</table>
 
 <!-- AGENT $f_send value="Enregistrer" -->
 

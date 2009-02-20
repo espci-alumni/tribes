@@ -5,12 +5,14 @@ class extends agent_user_edit
 	public $get = array('__1__:i:1');
 
 	protected
-	
+
 	$requiredAuth = 'admin',
 	$confirmed = true,
 	$form,
 	$send,
-	$adresses;
+	$adresses,
+	$activites;
+
 
 	function control()
 	{
@@ -49,6 +51,7 @@ class extends agent_user_edit
 		$o = $this->composeContact($o, $f, $send);
 		$o = $this->composePhoto($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send);
+		$o = $this->composeActivite($o, $f, $send);
 
 		return $o;
 	}
@@ -82,6 +85,13 @@ class extends agent_user_edit
 		return $o;
 	}
 
+	protected function composeActivite($o, $f, $send)
+	{
+		$this->activites = $o->activites = new loop_edit_user_activiteDiff($f, $this->contact_id);
+
+		return $o;
+	}
+
 	protected function save($data)
 	{
 		$this->saveContact($data);
@@ -97,6 +107,7 @@ class extends agent_user_edit
 		}
 
 		$this->saveAdresse($data);
+		$this->saveActivite($data);
 
 		return 'user/requests';
 	}

@@ -38,4 +38,10 @@ class extends agent_user_edit
 		$data['contact_confirmed'] = true;
 		parent::saveAdresse($data);
 	}
+
+	protected function saveActivite($data)
+	{
+		$data['contact_confirmed'] = true;
+		parent::saveActivite($data);
+	}
 }

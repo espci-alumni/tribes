@@ -8,14 +8,11 @@ Nous vous invitons également à compléter ce formulaire&nbsp;:
 
 <!-- AGENT $form -->
 
-<table>
-<!--
 
-INLINE _registration
-INLINE user/_edit
-
--->
-</table>
+<!-- INLINE user/edit/_contact -->
+<!-- INLINE user/edit/_email -->
+<!-- INLINE user/edit/_adresse -->
+<!-- INLINE user/edit/_activite -->
 
 <!-- AGENT $f_send value="Enregistrer" -->
 

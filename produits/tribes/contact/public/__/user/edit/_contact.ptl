@@ -1,0 +1,36 @@
+<!-- IF $f_nom_civil -->
+
+<h3>Etat civil de naissance</h3>
+
+<table>
+<!-- INLINE _registration -->
+</table>
+
+<h3>Photo</h3>
+
+<img src="{~}user/photo/{$photo_token}?contact=1" />
+<!--
+
+IF $hasPhoto
+	AGENT $f_del_photo _format_='%1%2'
+END:IF
+
+-->
+
+<table>
+<!-- AGENT $f_photo _caption_="Photo" -->
+</table>
+
+<h3>Nom d'usage</h3>
+
+<table>
+<!--
+
+AGENT $f_nom_etudiant _caption_="Nom étudiant"
+AGENT $f_nom_usuel _caption_="Nom usuel"
+AGENT $f_prenom_usuel _caption_="Prénom usuel"
+
+-->
+</table>
+
+<!-- END:IF -->
