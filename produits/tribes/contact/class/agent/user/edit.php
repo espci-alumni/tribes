@@ -238,7 +238,7 @@ class extends agent_registration
 					'email_list'   => $b->f_email_list->getDbValue(),
 					'tel_portable' => $b->f_tel_portable->getDbValue(),
 					'tel_fixe'     => $b->f_tel_fixe->getDbValue(),
-					'fax'          => $b->f_tel_fax->getDbValue(),
+					'tel_fax'      => $b->f_tel_fax->getDbValue(),
 					'is_shared'    => $b->f_is_shared->getDbValue(),
 				);
 
@@ -323,7 +323,7 @@ class extends agent_registration
 
 	protected function savePhoto()
 	{
-		if ($file = $this->photoField->getValue())
+		if (isset($this->photoField) && $file = $this->photoField->getValue())
 		{
 			$th_w = self::PHOTO_WIDTH;
 			$th_h = self::PHOTO_HEIGHT;

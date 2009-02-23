@@ -23,7 +23,6 @@ END:SET
 INLINE user/edit/_contact
 INLINE user/edit/_email
 INLINE user/edit/_adresse
-INLINE user/edit/_activite
 
 -->
 

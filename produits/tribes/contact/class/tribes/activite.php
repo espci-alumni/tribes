@@ -51,6 +51,8 @@ class extends tribes_adresse
 
 			foreach ($org as $org)
 			{
+				if ('' === $org) continue;
+
 				$sql = "SELECT organisation_id, is_obsolete
 						FROM contact_organisation
 						WHERE organisation={$org}";

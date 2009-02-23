@@ -39,9 +39,12 @@ class extends agent_user_edit
 		parent::saveAdresse($data);
 	}
 
+	protected function composeActivite($o, $f, $send)
+	{
+		return $o;
+	}
+
 	protected function saveActivite($data)
 	{
-		$data['contact_confirmed'] = true;
-		parent::saveActivite($data);
 	}
 }

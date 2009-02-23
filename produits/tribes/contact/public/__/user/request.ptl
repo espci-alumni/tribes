@@ -152,7 +152,7 @@ LOOP $activites
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_fonction:$fonction}<!-- END:SET
 	AGENT $f_fonction _caption_="Fonction" _format_=$c placeholder=d$p
 
-	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$service:$service}<!-- END:SET
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_service:$service}<!-- END:SET
 	AGENT $f_service _caption_="Service" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_secteur:$secteur}<!-- END:SET

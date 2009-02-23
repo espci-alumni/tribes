@@ -94,18 +94,12 @@ class extends agent_user_edit
 
 	protected function save($data)
 	{
-		$this->saveContact($data);
-		
-		if ($this->photoField)
+		if (isset($this->photoField) && $data['delete'])
 		{
-			if ($data['delete'])
-			{
-				@unlink(patchworkPath('data/photo/') . $this->data->photo_token . '.contact.jpg');
-			}
-
-			$this->savePhoto();
+			@unlink(patchworkPath('data/photo/') . $this->data->photo_token . '.contact.jpg');
 		}
 
+		$this->saveContact($data);
 		$this->saveAdresse($data);
 		$this->saveActivite($data);
 

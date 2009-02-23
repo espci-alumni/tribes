@@ -111,6 +111,16 @@ class extends agent_user_edit
 		return agent_registration::composeEmail($o, $f, $send);
 	}
 
+
+	protected function composeActivite($o, $f, $send)
+	{
+		return $o;
+	}
+
+	protected function saveActivite($data)
+	{
+	}
+
 	protected function save($data)
 	{
 		if ($this->doublon_contact_id)

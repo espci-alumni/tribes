@@ -68,7 +68,7 @@ class extends tribes_common
 		$sql = "UPDATE contact_{$this->table}
 				SET contact_modified=NOW()
 				WHERE contact_id={$this->contact_id}
-					AND adresse_id={$id}";
+					AND {$this->table}_id={$id}";
 		DB()->exec($sql);
 
 		parent::updateContactModified($this->contact_id);
