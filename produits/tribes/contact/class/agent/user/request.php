@@ -80,14 +80,14 @@ class extends agent_user_edit
 
 	protected function composeAdresse($o, $f, $send)
 	{
-		$this->adresses = $o->adresses = new loop_edit_user_adresseDiff($f, $this->contact_id);
+		$this->adresses = $o->adresses = new loop_edit_user_adresseDiff($f, $this->contact_id, $send);
 
 		return $o;
 	}
 
 	protected function composeActivite($o, $f, $send)
 	{
-		$this->activites = $o->activites = new loop_edit_user_activiteDiff($f, $this->contact_id);
+		$this->activites = $o->activites = new loop_edit_user_activiteDiff($f, $this->contact_id, $send);
 
 		return $o;
 	}

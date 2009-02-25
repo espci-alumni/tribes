@@ -5,13 +5,17 @@ class extends loop_edit
 	protected
 
 	$type = 'adresse',
-	$exposeLoopData = true;
+	$exposeLoopData = true,
+	$send;
 
-	function __construct($f, $contact_id)
+
+	function __construct($f, $contact_id, $send)
 	{
 		$loop = new loop_user_adresse($contact_id);
 
 		parent::__construct($f, $loop);
+
+		$this->send = $send;
 	}
 
 	function populateForm($a, $data, $counter)
@@ -20,11 +24,12 @@ class extends loop_edit
 		$f->setDefaults($data);
 
 		$f->add('QSelect', 'description', array(
+			'isdata' => false,
 			'src' => 'QSelect/description/adresse',
 		));
 		$f->add('textarea', 'adresse');
 		$f->add('text', 'ville_avant');
-		$f->add('city', 'ville');
+		$f->add('city', 'ville', array('isdata' => false));
 		$f->add('text', 'ville_apres');
 		$f->add('text', 'pays');
 		$f->add('textarea', 'email_list');
@@ -36,5 +41,10 @@ class extends loop_edit
 			'multiple' => true,
 			'isdata' => true,
 		));
+
+		$this->send->attach(
+			'description', "Veuillez indiquer la description de votre adresse", '',
+			'ville', "Veuillez choisir ou ajouter une ville", ''
+		);
 	}
 }

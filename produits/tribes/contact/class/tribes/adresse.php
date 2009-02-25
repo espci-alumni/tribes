@@ -19,7 +19,7 @@ class extends tribes_common
 	);
 
 
-	function __construct($contact_id, $confirmed = 0)
+	function __construct($contact_id, $confirmed = false)
 	{
 		parent::__construct($contact_id, $confirmed);
 
@@ -30,7 +30,7 @@ class extends tribes_common
 	{
 		$message = parent::save($data, $message, $id);
 
-		if (!$this->confirmed && $message !== self::ACTION_CONFIRM)
+		if (!$this->confirmed && (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message))
 		{
 			$this->updateContactModified($id);
 		}

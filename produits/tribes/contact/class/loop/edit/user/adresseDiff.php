@@ -2,7 +2,13 @@
 
 class extends loop_edit_user_adresse
 {
-	function __construct($f, $contact_id)
+	protected
+
+	$allowAddDel = false,
+	$send;
+
+
+	function __construct($f, $contact_id, $send)
 	{
 		$sql = "SELECT adresse_id,
 					description  AS c_description,
@@ -19,11 +25,29 @@ class extends loop_edit_user_adresse
 					contact_data
 				FROM contact_adresse
 				WHERE contact_id={$contact_id}
-					AND admin_confirmed<contact_modified";
+					AND admin_confirmed<contact_modified
+				ORDER BY sort_key";
 
 		$loop = new loop_sql($sql, array($this, 'filterAdresse'));
 
 		loop_edit::__construct($f, $loop);
+
+		$this->send = $send;
+	}
+
+	function populateForm($a, $data, $counter)
+	{
+		parent::populateForm($a, $data, $counter);
+
+		$this->form->add('check', 'validation', array(
+			'isdata' => false,
+			'item' => array(
+				'1' => 'Valider',
+				'0' => 'Rejeter'
+			)
+		));
+
+		$this->send->attach('validation', "Veuiller valider ou rejeter tous les blocs", '');
 	}
 
 	function filterAdresse($o)

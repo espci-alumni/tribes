@@ -11,8 +11,9 @@ class extends agent_QSelect
 	function compose($o)
 	{
 		$sql = "SELECT organisation AS VALUE
-			FROM contact_organisation
-			ORDER BY organisation";
+				FROM contact_organisation
+				WHERE is_obsolete<=0
+				ORDER BY organisation";
 
 		$o->DATA = new loop_sql($sql);
 		$o->separator = ' / ';

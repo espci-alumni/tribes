@@ -16,9 +16,9 @@ class extends agent_QSelect
 		$sql = $this->get->__1__;
 
 		$sql = "SELECT {$sql} AS VALUE
-			FROM contact_activite
-			WHERE {$sql}!=''
-			GROUP BY {$sql}";
+				FROM contact_activite
+				WHERE {$sql}!='' AND is_obsolete<=0
+				GROUP BY {$sql}";
 
 		$o->DATA = new loop_sql($sql);
 

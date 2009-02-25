@@ -29,12 +29,10 @@ class
 	);
 
 
-	function __construct($contact_id, $confirmed = 0)
+	function __construct($contact_id, $confirmed = false)
 	{
 		$this->contact_id = (int) $contact_id;
 		$this->confirmed = (bool) $confirmed;
-		$this->metaFields['contact_id'] = 'int';
-		$this->metaFields[$this->table . '_id'] = 'int';
 		$this->contact_id || $this->contact_id = -1;
 	}
 
@@ -75,7 +73,11 @@ class
 
 		$notice = array('admin_confirmed' => $this->confirmed) + $data;
 
-		$meta = $this->filterMeta($data);
+		$meta = $this->confirmed ? array() : $this->filterMeta($data);
+
+		isset($data['contact_id'])         && $meta['contact_id']         = (int) $data['contact_id'];
+		isset($data[$this->table . '_id']) && $meta[$this->table . '_id'] = (int) $data[$this->table . '_id'];
+
 		$data = $this->filterData($data);
 
 		if ($data)

@@ -30,7 +30,12 @@ LOOP $emails
 		</tr>
 		<!--
 
-		AGENT $f_email _caption_="Email"
+		IF $email_id
+			-->{g$inputFormat|echo:"Email":$email}<!--
+		ELSE
+			AGENT $f_email _caption_="Email"
+		END:IF
+
 		AGENT $f_email_del value="supprimer cet e-mail" class='additem' _format_=g$inputFormat _preserveScroll_=1
 	END:IF
 END:LOOP

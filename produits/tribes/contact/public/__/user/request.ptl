@@ -103,6 +103,7 @@ LOOP $adresses
 		<td>&nbsp;</td>
 	</tr><!--
 
+	AGENT $f_validation _glue_=' '
 
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_description:$description}<!-- END:SET
 	AGENT $f_description _caption_="Description" _format_=$c placeholder=d$p
@@ -145,6 +146,7 @@ LOOP $activites
 		<td>&nbsp;</td>
 	</tr><!--
 
+	AGENT $f_validation _glue_=' '
 
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_organisation:$organisation}<!-- END:SET
 	AGENT $f_organisation _caption_="Organisation" _format_=$c placeholder=d$p

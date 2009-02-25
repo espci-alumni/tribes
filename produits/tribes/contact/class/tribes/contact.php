@@ -28,7 +28,7 @@ class extends tribes_common
 	);
 
 
-	function __construct($contact_id, $confirmed = 0)
+	function __construct($contact_id, $confirmed = false)
 	{
 		$this->metaFields += array(
 			'token'              => 'stringNull',
@@ -70,51 +70,53 @@ class extends tribes_common
 
 		$message = parent::save($data, $message, $this->contact_id);
 
-		if (!$this->confirmed && self::ACTION_UPDATE === $message)
+		if (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message)
 		{
-			$this->updateContactModified($this->contact_id);
-		}
-
-		if ($this->confirmed && (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message))
-		{
-			$db = DB();
-
-			if (isset($data['reference']))
+			if ($this->confirmed)
 			{
-				$sql = "INSERT INTO contact_alias (alias,contact_id)
-						VALUES ('{$data['reference']}',{$this->contact_id})
-						ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
-				$db->exec($sql);
-			}
+				$db = DB();
 
-			if (isset($data['login']))
-			{
-				$login = str_replace('-', '', $data['login']);
-
-				$sql = "INSERT IGNORE INTO contact_alias (alias,contact_id)
-						VALUES ('{$login}',{$this->contact_id})";
-				$db->exec($sql);
-			}
-
-			for ($i = 0; $i < count(self::$alias); ++$i)
-			{
-				$sql = self::$alias[$i];
-
-				if (!isset($data[$sql[0]])) continue;
-				if (!isset($data[$sql[1]])) continue;
-
-				$login = tribes::makeIdentifier($data[$sql[0]], '-a-z') . '.' . tribes::makeIdentifier($data[$sql[1]], '-a-z');
-				$sql = "INSERT IGNORE INTO contact_alias (contact_id, alias)
-						VALUES ({$this->contact_id},'" . str_replace('-', '', $login) . "')";
-
-				if ($db->exec($sql))
+				if (isset($data['reference']))
 				{
-					$sql = "UPDATE contact_contact
-							SET login='{$login}'
-							WHERE contact_id={$this->contact_id}
-								AND login=''";
+					$sql = "INSERT INTO contact_alias (alias,contact_id)
+							VALUES ('{$data['reference']}',{$this->contact_id})
+							ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
 					$db->exec($sql);
 				}
+
+				if (isset($data['login']))
+				{
+					$login = str_replace('-', '', $data['login']);
+
+					$sql = "INSERT IGNORE INTO contact_alias (alias,contact_id)
+							VALUES ('{$login}',{$this->contact_id})";
+					$db->exec($sql);
+				}
+
+				for ($i = 0; $i < count(self::$alias); ++$i)
+				{
+					$sql = self::$alias[$i];
+
+					if (!isset($data[$sql[0]])) continue;
+					if (!isset($data[$sql[1]])) continue;
+
+					$login = tribes::makeIdentifier($data[$sql[0]], '-a-z') . '.' . tribes::makeIdentifier($data[$sql[1]], '-a-z');
+					$sql = "INSERT IGNORE INTO contact_alias (contact_id, alias)
+							VALUES ({$this->contact_id},'" . str_replace('-', '', $login) . "')";
+
+					if ($db->exec($sql))
+					{
+						$sql = "UPDATE contact_contact
+								SET login='{$login}'
+								WHERE contact_id={$this->contact_id}
+									AND login=''";
+						$db->exec($sql);
+					}
+				}
+			}
+			else
+			{
+				$this->updateContactModified($this->contact_id);
 			}
 		}
 

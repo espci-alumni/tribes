@@ -9,7 +9,7 @@ class extends tribes_common
 		'email',
 	);
 
-	function __construct($contact_id, $confirmed = 0)
+	function __construct($contact_id, $confirmed = false)
 	{
 		$this->metaFields += array(
 			'token'         => 'stringNull',

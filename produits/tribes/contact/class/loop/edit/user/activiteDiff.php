@@ -2,9 +2,14 @@
 
 class extends loop_edit_user_activite
 {
-	protected $orgSeparator;
+	protected
 
-	function __construct($f, $contact_id)
+	$allowAddDel = false,
+	$send,
+	$orgSeparator;
+
+
+	function __construct($f, $contact_id, $send)
 	{
 		$this->orgSeparator = $sql = p::strongid(4);
 
@@ -34,12 +39,30 @@ class extends loop_edit_user_activite
 					contact_data
 				FROM contact_activite
 				WHERE contact_id={$contact_id}
-					AND admin_confirmed<contact_modified";
+					AND admin_confirmed<contact_modified
+				ORDER BY sort_key";
 		$loop = new loop_sql($sql, array($this, 'filterActivite'));
 
 		loop_edit::__construct($f, $loop);
 
 		$this->loadAdresses($contact_id);
+
+		$this->send = $send;
+	}
+
+	function populateForm($a, $data, $counter)
+	{
+		parent::populateForm($a, $data, $counter);
+
+		$this->form->add('check', 'validation', array(
+			'isdata' => false,
+			'item' => array(
+				'1' => 'Valider',
+				'0' => 'Rejeter'
+			)
+		));
+
+		$this->send->attach('validation', "Veuiller valider ou rejeter tous les blocs", '');
 	}
 
 	function filterActivite($o)
@@ -61,6 +84,9 @@ class extends loop_edit_user_activite
 
 		$o->c_organisation = implode(' / ', $c_org);
 		$o->organisation   = implode(' / ',   $org);
+
+		'0000-00-00' === $o->c_date_debut && $o->c_date_debut = '';
+		'0000-00-00' === $o->c_date_fin   && $o->c_date_fin   = '';
 
 		return $o;
 	}

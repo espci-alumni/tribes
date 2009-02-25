@@ -6,16 +6,19 @@ class extends loop_edit
 
 	$type = 'activite',
 	$exposeLoopData = true,
-	$adresses = array();
+	$adresses = array(),
+	$send;
 
 
-	function __construct($f, $contact_id)
+	function __construct($f, $contact_id, $send)
 	{
 		$loop = new loop_user_activite($contact_id);
 
 		parent::__construct($f, $loop);
 
 		$this->loadAdresses($contact_id);
+
+		$this->send = $send;
 	}
 
 	function populateForm($a, $data, $counter)
@@ -24,6 +27,7 @@ class extends loop_edit
 		$f->setDefaults($data);
 
 		$f->add('QSelect', 'organisation', array(
+			'isdata' => false,
 			'src' => 'QSelect/organisation',
 		));
 		$f->add('QSelect', 'secteur', array(
@@ -46,6 +50,8 @@ class extends loop_edit
 			'multiple' => true,
 			'isdata' => true,
 		));
+
+		$this->send->attach('organisation', "Veuillez renseigner le ou les organisations", '');
 	}
 
 	protected function loadAdresses($contact_id)

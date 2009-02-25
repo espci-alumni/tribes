@@ -17,7 +17,7 @@ class extends tribes_adresse
 	);
 
 
-	function __construct($contact_id, $confirmed = 0)
+	function __construct($contact_id, $confirmed = false)
 	{
 		parent::__construct($contact_id, $confirmed);
 
@@ -26,25 +26,24 @@ class extends tribes_adresse
 
 	function save($data, $message = null, &$id = 0)
 	{
-		$message = parent::save($data, $message, $id);
-
-		$this->confirmed = (int) $this->confirmed;
+		$org_inserted = false;
 
 		if (!empty($data['organisation']))
 		{
 			$db = DB();
 
+			$confirmed = (int) (bool) $this->confirmed;
+
 			$org = explode('/', $data['organisation']);
 			$org = array_map('trim', $org);
 			$org = array_unique($org);
-			$org = array_map(array($db, 'quote'), $org);
 
 			$o = array();
 			$a = array();
 
 			$sql = "DELETE FROM contact_affiliation
 					WHERE activite_id={$id}
-						AND is_admin_confirmed={$this->confirmed}";
+						AND is_admin_confirmed={$confirmed}";
 			$db->exec($sql);
 
 			$counter = 0;
@@ -53,9 +52,11 @@ class extends tribes_adresse
 			{
 				if ('' === $org) continue;
 
-				$sql = "SELECT organisation_id, is_obsolete
+				$q_org = $db->quote($org);
+
+				$sql = "SELECT organisation_id, organisation, is_obsolete
 						FROM contact_organisation
-						WHERE organisation={$org}";
+						WHERE organisation={$q_org}";
 
 				if ($org_id = $db->queryRow($sql))
 				{
@@ -64,24 +65,35 @@ class extends tribes_adresse
 						$o[] = $org_id->organisation_id;
 					}
 
+					if ($confirmed && $org !== $org_id->organisation)
+					{
+						$sql = "UPDATE contact_organisation
+								SET organisation={$q_org}
+								WHERE organisation_id={$org_id->organisation_id}";
+						$db->exec($sql);
+					}
+
 					$org_id = $org_id->organisation_id;
 				}
 				else
 				{
-					$sql = "INSERT INTO contact_organisation (organisation) VALUES ({$org})";
+					$sql = 1 - $confirmed;
+					$sql = "INSERT INTO contact_organisation (organisation, is_obsolete)
+							VALUES ({$q_org},{$sql})";
 					$db->exec($sql);
 					$org_id = $db->lastInsertId();
+					$org_inserted = true;
 				}
 
 				if (!isset($a[$org_id]))
 				{
 					++$counter;
 
-					$a[$org_id] = "{$id},{$org_id},{$this->confirmed},{$counter}";
+					$a[$org_id] = "{$id},{$org_id},{$confirmed},{$counter}";
 				}
 			}
 
-			if ($o)
+			if ($o && $this->confirmed)
 			{
 				$sql = implode(',', $o);
 				$sql = "UPDATE contact_organisation
@@ -94,6 +106,13 @@ class extends tribes_adresse
 			$sql = "INSERT INTO contact_affiliation VALUES ({$sql})";
 
 			$db->exec($sql);
+		}
+
+		$message = parent::save($data, $message, $id);
+
+		if (!$this->confirmed && self::ACTION_CONFIRM === $message && $org_inserted)
+		{
+			$this->updateContactModified($id);
 		}
 
 		return $message;
