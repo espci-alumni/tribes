@@ -32,7 +32,7 @@ class extends loop_sql
 
 		unset($o->contact_data);
 
-		(int) $o->admin_confirmed   || $o->admin_confirmed = 0;
+		(int) $o->admin_confirmed   || $o->admin_confirmed   = 0;
 		(int) $o->contact_confirmed || $o->contact_confirmed = 0;
 
 		return $o;

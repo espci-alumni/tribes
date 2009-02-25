@@ -226,7 +226,7 @@ class extends agent_registration
 
 		while ($b = $this->adresses->loop())
 		{
-			if (empty($b->deleted))
+			if (isset($b->f_decision) ? $b->f_decision->getValue() : empty($b->deleted))
 			{
 				$a = array(
 					'adresse'      => $b->f_adresse->getDbValue(),
@@ -285,7 +285,7 @@ class extends agent_registration
 
 		while ($b = $this->activites->loop())
 		{
-			if (empty($b->deleted))
+			if (isset($b->f_decision) ? $b->f_decision->getValue() : empty($b->deleted))
 			{
 				$a = array(
 					'organisation'  => $b->f_organisation->getDbValue(),

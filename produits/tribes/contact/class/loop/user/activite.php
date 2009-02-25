@@ -1,11 +1,12 @@
 <?php
 
-class extends loop_user_email
+class extends loop_user_adresse
 {
 	protected
 
 	$table = 'activite',
-	$extraSelect = "is_shared,
+	$extraSelect = "contact_modified,
+					is_shared,
 					(
 						SELECT GROUP_CONCAT(organisation ORDER BY af.sort_key SEPARATOR ' / ')
 						FROM contact_organisation o

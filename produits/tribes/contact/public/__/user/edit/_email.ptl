@@ -2,46 +2,50 @@
 
 <h3>Emails</h3>
 
-<!-- AGENT $f_email_add value="ajouter un autre e-mail" class='additem' _preserveScroll_=1 -->
-
 <!-- IF $emails -->
 <table>
 <!--
 
+SET $f --><!-- END:SET
+
 LOOP $emails
+
 	IF $deleted
-		-->
-		<tr>
-			<td><input type="hidden" name="deleted_email[]" value="{$deleted}" /></td>
-			<td><del>{$email}</del></td>
-		</tr>
-		<!--
+		--><input type="hidden" name="deleted_email[]" value="{$deleted}" /><!--
+
+		IF $email
+			-->
+			<tr>
+				<td><del>{$email}</del></td>
+				<td>&nbsp;</td>
+			</tr>
+			<!--
+		END:IF
 	ELSE
 		-->
 		<tr>
-			<td colspan="2">
+			<td>
 			<!--
-				IF !$admin_confirmed -->non confirmé<!--
-				ELSEIF $is_obsolete == -1 -->toujours valide ?<!--
-				ELSE -->{"mail validé par l'administrateur"}<!--
-				END:IF
+	
+			IF $email_id
+				-->{$email}<!--
+			ELSE
+				AGENT $f_email _caption_="Email" _format_='%1%2'
+			END:IF
+
 			-->
 			</td>
+			<td><!-- AGENT $f_email_del value="supprimer cet e-mail" class='additem' _preserveScroll_=1 --></td>
 		</tr>
 		<!--
-
-		IF $email_id
-			-->{g$inputFormat|echo:"Email":$email}<!--
-		ELSE
-			AGENT $f_email _caption_="Email"
-		END:IF
-
-		AGENT $f_email_del value="supprimer cet e-mail" class='additem' _format_=g$inputFormat _preserveScroll_=1
 	END:IF
+
 END:LOOP
 
 -->
 </table>
 <!-- END:IF -->
+
+<!-- AGENT $f_email_add value="ajouter un autre e-mail" class='additem' _preserveScroll_=1 -->
 
 <!-- END:IF -->

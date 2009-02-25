@@ -120,6 +120,12 @@ class extends tribes_adresse
 
 	protected function filterData($data)
 	{
-		return tribes_common::filterData($data);
+		$data = tribes_common::filterData($data);
+
+		isset($data['service'])  && $data['service']  = u::ucfirst($data['service']);
+		isset($data['fonction']) && $data['fonction'] = u::ucfirst($data['fonction']);
+		isset($data['secteur'])  && $data['secteur']  = u::ucfirst($data['secteur']);
+
+		return $data;
 	}
 }

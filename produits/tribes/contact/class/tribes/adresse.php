@@ -59,6 +59,8 @@ class extends tribes_common
 			}
 		}
 
+		isset($data['description']) && $data['description'] = u::ucfirst(mb_strtolower($data['description']));
+
 		return $data;
 	}
 

@@ -54,7 +54,7 @@ class extends loop_edit_user_activite
 	{
 		parent::populateForm($a, $data, $counter);
 
-		$this->form->add('check', 'validation', array(
+		$this->form->add('check', 'decision', array(
 			'isdata' => false,
 			'item' => array(
 				'1' => 'Valider',
@@ -62,7 +62,7 @@ class extends loop_edit_user_activite
 			)
 		));
 
-		$this->send->attach('validation', "Veuiller valider ou rejeter tous les blocs", '');
+		$this->send->attach('decision', "Veuiller valider ou rejeter tous les blocs", '');
 	}
 
 	function filterActivite($o)
