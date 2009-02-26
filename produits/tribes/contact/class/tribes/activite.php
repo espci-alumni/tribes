@@ -26,6 +26,8 @@ class extends tribes_adresse
 
 	function save($data, $message = null, &$id = 0)
 	{
+		$message = parent::save($data, $message, $id);
+
 		$org_inserted = false;
 
 		if (!empty($data['organisation']))
@@ -107,8 +109,6 @@ class extends tribes_adresse
 
 			$db->exec($sql);
 		}
-
-		$message = parent::save($data, $message, $id);
 
 		if (!$this->confirmed && self::ACTION_CONFIRM === $message && $org_inserted)
 		{

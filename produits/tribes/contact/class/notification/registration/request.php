@@ -6,6 +6,6 @@ class extends notification
 	{
 		parent::doSend();
 
-		$this->mail('iekhad@hotmail.fr');
+		$this->mail('nicolas.grekas@gmail.com');
 	}
 }
