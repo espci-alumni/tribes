@@ -1,0 +1,32 @@
+<!-- INLINE css/style.css -->
+
+body
+{
+	background-color: #eee;
+}
+
+a
+{
+	color: blue;
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+.header_cell
+{
+	background-color: white;
+}
+
+.header_cell form
+{
+	display: inline;
+}
+
+input.text, input.QSelect, textarea
+{
+	width: 300px;
+}

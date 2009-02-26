@@ -5,7 +5,6 @@
 <!-- INLINE header -->
 
 <!-- IF !a$basic -->
-<!-- IF a$public --><a href="{~}">Accueil</a><!-- END:IF -->
 <p>{$message}</p>
 <h1>{a$title}</h1>
 <!-- END:IF -->

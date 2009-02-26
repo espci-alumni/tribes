@@ -52,8 +52,10 @@ class extends agent_pForm
 		}
 
 		$data = array(
-			'contact_id' => $contact->contact_id,
-			'referer'    => s::flash('referer'),
+			'contact_id'   => $contact->contact_id,
+			'referer'      => s::flash('referer'),
+			'nom_usuel'    => $contact->nom_usuel,
+			'prenom_usuel' => $contact->prenom_usuel,
 		);
 
 		$sql = "SELECT 1

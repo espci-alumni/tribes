@@ -14,10 +14,6 @@ class extends agent
 
 	$onglets = array(
 		array(
-			'titre' => 'Mon compte',
-			'linkto' => 'user/edit',
-		),
-		array(
 			'titre' => 'Administration',
 			'linkto' => 'admin',
 			'admin' => true,
@@ -42,6 +38,9 @@ class extends agent
 		$o->onglets = new loop_array($this->onglets, 'filter_rawArray');
 
 		$o->is_admin = tribes::isAuth('admin', $this->connected_id);
+
+		$o->prenom_usuel = s::get('prenom_usuel');
+		$o->nom_usuel    = s::get('nom_usuel');
 
 		return $o;
 	}

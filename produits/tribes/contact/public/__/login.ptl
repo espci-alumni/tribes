@@ -12,8 +12,13 @@ Pour nous assurer que cet email vous appartient réellement, merci de vous conne
 <table>
 <!-- AGENT $f_login _caption_="Identifiant" -->
 <!-- AGENT $f_password _caption_="Mot de passe" -->
+<tr>
+	<td colspan="2" align="right">
+	<!-- AGENT $f_send value="Connexion" --><br />
+	<a href="{~}registration/password">Mot de passe perdu&nbsp;?</a>
+	</td>
+</tr>
 </table>
-<!-- AGENT $f_send value="Connexion" -->
 <!-- AGENT $form mode='close' -->
-<a href="{~}registration/password">Mot de passe perdu&nbsp;?</a>
+
 <!-- AGENT 'footer' -->

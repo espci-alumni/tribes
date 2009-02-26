@@ -1,14 +1,16 @@
 <!--
+
 SET $title
 	IF a$__1__ == 'password' -->Mot de passe perdu<!--
-	ELSE -->S'incrire<!--
+	ELSE -->Inscription<!--
 	END:IF
 END:SET
+
+AGENT 'header' title=$title public=1
+
+IF a$__1__ == 'password' --><p>Veuillez remplir ce formulaire afin de redéfinir un nouveau mot de passe</p><!-- END:IF
+
 -->
-
-<!-- AGENT 'header' title=$title public=1 -->
-
-<!-- IF a$__1__ == 'password' --><p>Veuillez remplir ce formulaire afin de redéfinir un nouveau mot de passe</p><!-- END:IF -->
 
 <!-- AGENT $form -->
 
@@ -19,10 +21,19 @@ INLINE _registration
 
 AGENT $f_email _caption_="Email"
 
- -->
+-->
+<tr>
+	<td colspan="2" align = "right">
+	<!--
+		IF a$__1__ == 'password'
+			AGENT $f_send value="Envoyer"
+		ELSE
+			AGENT $f_send value="Adhérer"
+		END:IF
+	-->
+	</td>
+</tr>
 </table>
-
-<!-- AGENT $f_send value="Envoyer" -->
 
 <!-- AGENT $form _mode_='close' -->
 

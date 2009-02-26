@@ -1,3 +1,5 @@
+<div align = "center">
+
 <!--
 
 AGENT 'header' title= "Erreur"
@@ -11,3 +13,5 @@ END:IF
 AGENT 'footer'
 
 -->
+
+</div>

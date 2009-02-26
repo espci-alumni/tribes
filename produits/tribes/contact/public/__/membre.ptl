@@ -5,7 +5,7 @@
 html, body {width:100%;height:100%;margin:0;padding:0;overflow: hidden}
 .page_table{height:100%;width:100%;table-layout:static;border-collapse:collapse;}
 .header_cell{margin:0;padding:0}
-.content_cell{height:100%;overflow:hidden;vertical-align:top;margin:0;padding:0}
+.content_cell{height:100%;overflow:hidden;vertical-align:top;margin:0;padding:0;}
 .content_iframe{height:100%;width:100%;border-width:0px;border-top:1px solid #bcc5d3;margin-bottom:-1px;}
 
 </style>
@@ -13,21 +13,27 @@ html, body {width:100%;height:100%;margin:0;padding:0;overflow: hidden}
 <table class="page_table">
 <tr>
 	<td class="header_cell">
-	<a href="{~}{$accueil_url}">AdvanciAlumni.org</a>
+	<table width="100%">
+	<tr>
+		<td>
+			<a href="{~}{$accueil_url}">AdvanciAlumni.org</a>&nbsp;|&nbsp;
 
-	<!-- LOOP $onglets -->
-
-		<!-- IF !$admin || d$is_admin -->
-			<a href="{~}{$linkto}" target="content_iframe">{$titre}</a>
-		<!-- END:IF -->
-
-	<!-- END:LOOP -->
-
-	<!-- AGENT 'user/_logout' -->
+			<!-- LOOP $onglets -->
+			<!-- IF !$admin || d$is_admin -->
+				<a href="{~}{$linkto}" target="content_iframe">{$titre}</a>&nbsp;|&nbsp;
+			<!-- END:IF -->
+			<!-- END:LOOP -->
+		</td>
+		<td align="right">
+			<a href="{~}user/edit/contact" target="content_iframe">{$prenom_usuel} {$nom_usuel}</a>
+			<!-- AGENT 'user/_logout' -->
+		</td>
+	</tr>
+	</table>
 	</td>
 </tr>
 <tr>
-	<td class="content_cell"><iframe class="content_iframe" name="content_iframe" src="{$iframe_src}" frameborder="0" scrolling="auto"></iframe></td>
+	<td colspan = "2" class="content_cell"><iframe class="content_iframe" name="content_iframe" src="{$iframe_src}" frameborder="0" scrolling="auto"></iframe></td>
 </tr>
 </table>
 
