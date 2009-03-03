@@ -36,15 +36,12 @@ class extends loop_edit
 		$f->add('text', 'tel_portable');
 		$f->add('text', 'tel_fixe');
 		$f->add('text', 'tel_fax');
-		$f->add('check', 'is_shared', array(
-			'item' => array (1 => 'Partager'),
-			'multiple' => true,
-			'isdata' => true,
-		));
+		$f->add('check', 'is_shared', array('item' => array (1 => 'Partagé', 0 => 'Confidentiel')));
 
 		$this->send->attach(
 			'description', "Veuillez indiquer la description de votre adresse", '',
-			'ville', "Veuillez choisir ou ajouter une ville", ''
+			'ville', "Veuillez choisir ou ajouter une ville", '',
+			'is_shared', "Veuillez choisir le niveau de confidentialité de cette adresse", ''
 		);
 	}
 }

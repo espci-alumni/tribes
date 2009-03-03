@@ -78,13 +78,17 @@ class extends agent_registration
 		$o = parent::composeContact($o, $f, $send);
 
 		$f->add('text', 'nom_etudiant', self::$altern_case_rx);
-		$f->add('text', 'nom_usuel',    self::$altern_case_rx);
+		$f->add('text', 'nom_usuel'   , self::$altern_case_rx);
 		$f->add('text', 'prenom_usuel', self::$altern_case_rx);
+		$f->add('QSelect', 'conjoint_contact_id', array(
+			'src' => 'QSelect/login',
+		));
 
 		$send->attach(
 			'nom_etudiant', "Veuillez renseigner le nom d'étudiant", self::$altern_case_msg,
-			'nom_usuel',    "Veuillez renseigner le nom usuel",      self::$altern_case_msg,
-			'prenom_usuel', "Veuillez renseigner le prénom usuel",   self::$altern_case_msg
+			'nom_usuel'   , "Veuillez renseigner le nom usuel"     , self::$altern_case_msg,
+			'prenom_usuel', "Veuillez renseigner le prénom usuel"  , self::$altern_case_msg,
+			'conjoint_contact_id', '', ''
 		);
 
 		if ($this->loginField)

@@ -7,6 +7,7 @@ class extends tribes_adresse
 	$table = 'activite',
 	$dataFields = array(
 		'service',
+		'titre',
 		'fonction',
 		'secteur',
 		'date_debut',

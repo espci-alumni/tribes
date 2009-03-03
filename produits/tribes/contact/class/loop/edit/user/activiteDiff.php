@@ -27,12 +27,13 @@ class extends loop_edit_user_activite
 						GROUP BY ''
 					) AS organisation,
 
-					fonction      AS c_fonction,
+					adresse_id    AS c_adresse_id,
 					service       AS c_service,
+					titre         AS c_titre,
+					fonction      AS c_fonction,
 					secteur       AS c_secteur,
 					date_debut    AS c_date_debut,
 					date_fin      AS c_date_fin,
-					adresse_id    AS c_adresse_id,
 					site_web      AS c_site_web,
 					keyword       AS c_keyword,
 					admin_confirmed,

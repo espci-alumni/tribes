@@ -151,6 +151,9 @@ LOOP $activites
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_organisation:$organisation}<!-- END:SET
 	AGENT $f_organisation _caption_="Organisation" _format_=$c placeholder=d$p
 
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_titre:$titre}<!-- END:SET
+	AGENT $f_titre _caption_="Titre" _format_=$c placeholder=d$p
+
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_fonction:$fonction}<!-- END:SET
 	AGENT $f_fonction _caption_="Fonction" _format_=$c placeholder=d$p
 

@@ -2,7 +2,7 @@
 
 class extends agent_QSelect
 {
-	public $get = '__1__:c:fonction|secteur';
+	public $get = '__1__:c:titre';
 
 
 	protected
