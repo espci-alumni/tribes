@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_edit_user_adresse
+class extends loop_edit_contact_adresse
 {
 	protected
 

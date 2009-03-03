@@ -1,18 +1,34 @@
 <?php
 
-class extends loop_user_email
+class extends loop_sql
 {
 	protected
 
 	$table = 'adresse',
-	$extraSelect = 'contact_modified, is_active, is_shared';
+	$select = '
+		description,
+		adresse,
+		ville_avant,
+		ville,
+		ville_apres,
+		pays,
+		tel_portable,
+		tel_fixe,
+		tel_fax';
 
-	function filterRow($o)
+
+	function __construct($contact_id)
 	{
-		$o = parent::filterRow($o);
+		$sql = "SELECT {$this->table}_id,
+					{$this->select}
+				FROM contact_{$this->table}
+				WHERE contact_id={$contact_id}
+					AND admin_confirmed
+					AND contact_confirmed
+					AND is_shared
+					AND is_obsolete<=0
+				ORDER BY sort_key";
 
-		(int) $o->contact_modified  || $o->contact_modified  = 0;
-
-		return $o;
+		parent::__construct($sql);
 	}
 }

@@ -1,0 +1,85 @@
+<!-- SET $title -->{"Profil de"} {$prenom_usuel} {$nom_usuel}<!--END:SET -->
+
+<!-- AGENT 'header' title=$title -->
+
+<!-- IF $statut_inscription == 'demande'-->
+<h3>Cette fiche est en cours de validation par un modérateur</h3>
+<!-- END:IF-->
+
+<img src="{~}user/photo/{$photo_token}" /><br />
+
+<h3>Etat civil</h3>
+
+<ul>
+<li>Nom civil&nbsp;: {$nom_civil}</li>
+<li>Prénom civil&nbsp;: {$prenom_civil}</li>
+<li>Nom étudiant&nbsp;: {$nom_etudiant}</li>
+<li>Nom usuel&nbsp;: {$nom_usuel}</li>
+<li>Prénom usuel&nbsp;: {$prenom_usuel}</li>
+<li>Date de naissance&nbsp;: {$date_naissance|formatDate}</li>
+</ul>
+
+
+<!-- IF $adresses -->
+<h3>Adresses</h3>
+
+<ul>
+<!-- LOOP $adresses -->
+	<li>
+
+	<h4>Adresse {$description|lower}</h4>
+
+	<address>
+	<!-- IF $adresse -->{$adresse|nl2br}<br /><!-- END:IF -->
+	<!-- IF $ville -->
+		<!-- IF $ville_avant -->{$ville_avant}<!-- END:IF -->
+		{$ville}
+		<!-- IF $ville_apres -->{$ville_apres}<!-- END:IF -->
+		<!-- IF $pays -->, {$pays}<!-- END:IF -->
+		<br />
+	<!-- ELSE -->
+		<!-- IF $pays -->{$pays}<!-- END:IF -->
+		<br />
+	<!-- END:IF -->
+	</address>
+
+	<!-- IF $tel_portable || $tel_fixe || $tel_fax -->
+	<table>
+		<!-- IF $tel_portable --><tr><td>Tél. portable&nbsp;:</td><td>{$tel_portable}</td></tr><!-- END:IF -->
+		<!-- IF $tel_fixe     --><tr><td>Tél. fixe&nbsp;:</td><td>{$tel_fixe}</td></tr><!-- END:IF -->
+		<!-- IF $tel_fax      --><tr><td>Fax&nbsp;:</td><td>{$tel_fax}</td></tr><!-- END:IF -->
+	</table>
+	<!-- END:IF -->
+	</li>
+<!-- END:LOOP -->
+</ul>
+<!-- END:IF -->
+
+
+<!-- IF $activites -->
+<h3>Activités</h3>
+
+<ul>
+<!-- LOOP $activites -->
+	<li>
+
+	<h4><!-- IF $titre  -->{$titre} -
+		<!-- ELSEIF $fonction -->{$fonction} -
+		<!-- END:IF -->
+		{$organisation}
+	</h4>
+
+	<table>
+		<!-- IF $date_debut --><tr><td colspan="2">Depuis le {$date_debut|formatDate} jusqu'<!-- IF $date_fin -->au {$date_fin|formatDate}<!-- ELSE -->à aujourd'hui<!-- END:IF --></td></tr><!-- END:IF -->
+		<!-- IF $service  --><tr><td>Service&nbsp;:</td><td>{$service}</td></tr><!-- END:IF -->
+		<!-- IF $titre    --><tr><td>Titre&nbsp;:</td><td>{$titre}</td></tr><!-- END:IF -->
+		<!-- IF $fonction --><tr><td>Fonction&nbsp;:</td><td>{$fonction}</td></tr><!-- END:IF -->
+		<!-- IF $secteur  --><tr><td>Secteur&nbsp;:</td><td>{$secteur}</td></tr><!-- END:IF -->
+		<!-- IF $site_web --><tr><td>Site web&nbsp;:</td><td>{$site_web|urlize}</td></tr><!-- END:IF -->
+	</table>
+	</li>
+<!-- END:LOOP -->
+</ul>
+<!-- END:IF -->
+
+<!-- AGENT 'footer' -->

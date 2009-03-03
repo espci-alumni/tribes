@@ -11,7 +11,7 @@ class extends loop_edit
 
 	function __construct($f, $contact_id, $send)
 	{
-		$loop = new loop_user_adresse($contact_id);
+		$loop = new loop_contact_adresse($contact_id);
 
 		parent::__construct($f, $loop);
 

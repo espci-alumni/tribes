@@ -1,24 +1,21 @@
 <?php
 
-class extends loop_edit_user_activite
+class extends loop_edit_contact_activite
 {
 	protected
 
 	$allowAddDel = false,
-	$send,
-	$orgSeparator;
+	$send;
 
 
 	function __construct($f, $contact_id, $send)
 	{
-		$this->orgSeparator = $sql = p::strongid(4);
-
 		$sql = "SELECT activite_id,
 					(
 						SELECT GROUP_CONCAT(
 							CONCAT(is_admin_confirmed, organisation)
 							ORDER BY af.sort_key
-							SEPARATOR '{$sql}'
+							SEPARATOR '/'
 						)
 						FROM contact_organisation o
 							JOIN contact_affiliation af
@@ -32,8 +29,8 @@ class extends loop_edit_user_activite
 					titre         AS c_titre,
 					fonction      AS c_fonction,
 					secteur       AS c_secteur,
-					date_debut    AS c_date_debut,
-					date_fin      AS c_date_fin,
+					IF(date_debut,date_debut,'') AS c_date_debut,
+					IF(date_fin,date_fin,'')     AS c_date_fin,
 					site_web      AS c_site_web,
 					keyword       AS c_keyword,
 					admin_confirmed,
@@ -72,7 +69,7 @@ class extends loop_edit_user_activite
 
 		!(int) $o->admin_confirmed && $o->new_activite = 1;
 
-		$a = explode($this->orgSeparator, $o->organisation);
+		$a = explode('/', $o->organisation);
 
 		$org   = array();
 		$c_org = array();
@@ -85,9 +82,6 @@ class extends loop_edit_user_activite
 
 		$o->c_organisation = implode(' / ', $c_org);
 		$o->organisation   = implode(' / ',   $org);
-
-		'0000-00-00' === $o->c_date_debut && $o->c_date_debut = '';
-		'0000-00-00' === $o->c_date_fin   && $o->c_date_fin   = '';
 
 		return $o;
 	}

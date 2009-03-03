@@ -105,7 +105,7 @@ class extends agent_registration
 
 	protected function composeEmail($o, $f, $send)
 	{
-		$this->emails = $o->emails = new loop_edit_user_email($f, $this->contact_id, $send);
+		$this->emails = $o->emails = new loop_edit_contact_email($f, $this->contact_id, $send);
 
 		return $o;
 	}
@@ -152,14 +152,14 @@ class extends agent_registration
 
 	protected function composeAdresse($o, $f, $send)
 	{
-		$this->adresses = $o->adresses = new loop_edit_user_adresse($f, $this->contact_id, $send);
+		$this->adresses = $o->adresses = new loop_edit_contact_adresse($f, $this->contact_id, $send);
 
 		return $o;
 	}
 
 	protected function composeActivite($o, $f, $send)
 	{
-		$this->activites = $o->activites = new loop_edit_user_activite($f, $this->contact_id, $send);
+		$this->activites = $o->activites = new loop_edit_contact_activite($f, $this->contact_id, $send);
 
 		return $o;
 	}

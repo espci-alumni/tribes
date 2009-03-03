@@ -12,7 +12,7 @@ class extends loop_edit
 
 	function __construct($f, $contact_id, $send)
 	{
-		$loop = new loop_user_activite($contact_id);
+		$loop = new loop_contact_activite($contact_id);
 
 		parent::__construct($f, $loop);
 
@@ -65,7 +65,7 @@ class extends loop_edit
 
 	protected function loadAdresses($contact_id)
 	{
-		$a = new loop_user_adresse($contact_id);
+		$a = new loop_contact_adresse($contact_id);
 
 		while ($b = $a->loop())
 		{

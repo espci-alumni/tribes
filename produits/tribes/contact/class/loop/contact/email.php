@@ -15,8 +15,8 @@ class extends loop_sql
 					{$this->table}_id,
 					{$this->table}_id AS id,
 					is_obsolete,
-					admin_confirmed,
-					contact_confirmed,
+					IF(admin_confirmed,admin_confirmed,'') AS admin_confirmed,
+					IF(contact_confirmed,contact_confirmed,'') AS contact_confirmed,
 					contact_data
 					{$sql}
 				FROM contact_{$this->table}
@@ -31,9 +31,6 @@ class extends loop_sql
 		$o = (object) ((array) $o + unserialize($o->contact_data));
 
 		unset($o->contact_data);
-
-		(int) $o->admin_confirmed   || $o->admin_confirmed   = 0;
-		(int) $o->contact_confirmed || $o->contact_confirmed = 0;
 
 		return $o;
 	}
