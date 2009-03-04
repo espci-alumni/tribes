@@ -147,7 +147,7 @@ class extends tribes_common
 			$data['conjoint_contact_id'] || $data['conjoint_contact_id'] = 'NULL';
 		}
 
-		return $meta;
+		return $data;
 	}
 
 

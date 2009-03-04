@@ -4,21 +4,13 @@ class extends agent
 {
 	const
 
+	contentType = '',
 	ACCUEIL_CONNECTED = '/wiki/Accueil',
 	ACCUEIL_PUBLIC = '/wiki/Public:Accueil';
 
+	protected $requiredAuth = false;
 
-	protected
-
-	$requiredAuth = false,
-
-	$onglets = array(
-		array(
-			'titre' => 'Administration',
-			'linkto' => 'admin',
-			'admin' => true,
-		),
-	);
+	protected static $onglets = array();
 
 
 	function control()
@@ -35,7 +27,7 @@ class extends agent
 		$o->iframe_src || $o->iframe_src = s::flash('referer');
 		$o->iframe_src || $o->iframe_src = p::base(self::ACCUEIL_CONNECTED, 1);
 
-		$o->onglets = new loop_array($this->onglets, 'filter_rawArray');
+		$o->onglets = new loop_array(self::$onglets, 'filter_rawArray');
 
 		$o->is_admin = tribes::isAuth('admin', $this->connected_id);
 

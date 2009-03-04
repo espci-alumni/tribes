@@ -7,6 +7,8 @@ class
 	PENDING_PERIOD = '4 HOUR',
 	MAX_DOUBLON_DISTANCE = 0.5;
 
+	protected static $admin_user_ids = array(10, 16663);
+
 
 	static function getConnectedId()
 	{
@@ -22,7 +24,7 @@ class
 		switch ($type)
 		{
 		case 'admin':
-			if (1 == $id) return true; //XXX
+			if (in_array($id, self::$admin_user_ids)) return true;
 		}
 
 		return false;

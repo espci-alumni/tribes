@@ -16,17 +16,17 @@ a:hover
 	text-decoration: underline;
 }
 
-.header_cell
+#header_cell
 {
 	background-color: white;
 }
 
-.header_cell form
+#header_cell form
 {
 	display: inline;
 }
 
-input.text, input.QSelect, textarea
+input.text, input.QSelect, textarea, input.password
 {
 	width: 300px;
 }

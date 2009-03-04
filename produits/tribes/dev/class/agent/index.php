@@ -1,5 +1,5 @@
 <?php
 
-class extends agent_membre
+class extends agent_menu
 {
 }

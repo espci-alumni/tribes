@@ -17,5 +17,4 @@ class extends self
 		setcookie($CONFIG['tribes.mediaWikiDb'] . '_session', '', 1, '/'     , $CONFIG['session.cookie_domain']);
 		setcookie($CONFIG['tribes.mediaWikiDb'] . 'LoggedOut', $_SERVER['REQUEST_TIME'], 0, '/', $CONFIG['session.cookie_domain']);
 	}
-}	
 }
