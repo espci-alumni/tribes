@@ -1,0 +1,7 @@
+<!-- LOOP a$details -->
+
+<img src="{~}user/photo/{$photo_token}?contact={$contact_confirmed}" /><br />
+
+Nouvelle photo ajoutée<!-- IF $admin_confirmed --> et publiée<!-- END:IF -->
+
+<!-- END:LOOP -->

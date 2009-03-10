@@ -1,0 +1,5 @@
+<!-- LOOP a$details -->
+
+Adresse email activée {$email}
+
+<!-- END:LOOP -->

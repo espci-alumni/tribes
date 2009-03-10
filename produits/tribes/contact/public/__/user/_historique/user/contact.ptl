@@ -1,0 +1,17 @@
+<!-- LOOP a$details -->
+
+<!--     IF $action == g$ACTION_UPDATE -->Profil modifié
+<!-- ELSEIF $action == g$ACTION_CONFIRMED -->Profil confirmé sans modification
+<!-- END:IF -->
+
+<ul>
+	<li>Nom civil&nbsp;: {$nom_civil}</li>
+	<li>Prénom civil&nbsp;: {$prenom_civil}</li>
+	<li>Nom étudiant&nbsp;: {$nom_etudiant}</li>
+	<li>Nom usuel&nbsp;: {$nom_usuel}</li>
+	<li>Prénom usuel&nbsp;: {$prenom_usuel}</li>
+	<li>Date de naissance&nbsp;: {$date_naissance|formatDate}</li>
+	<!-- IF $login --><li>Identifiant&nbsp;: {$login}</li><!-- END:IF -->
+</ul>
+
+<!-- END:LOOP -->
