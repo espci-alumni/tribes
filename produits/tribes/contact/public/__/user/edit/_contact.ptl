@@ -8,7 +8,7 @@
 
 <h3>Photo</h3>
 
-<img src="{~}user/photo/{$photo_token}?contact=1" />
+<img src="{~}user/photo/{$photo_token}/~{$login}.jpg" />
 <!--
 
 IF $hasPhoto
@@ -30,6 +30,24 @@ AGENT $f_nom_etudiant _caption_="Nom étudiant"
 AGENT $f_nom_usuel _caption_="Nom usuel"
 AGENT $f_prenom_usuel _caption_="Prénom usuel"
 AGENT $f_conjoint_contact_id _caption_="Conjoint"
+
+
+SET $f
+-->
+<tr>
+	<td>%0</td>
+	<td>
+		<!-- IF $hasCv -->
+		<a href="{~}user/cv/{$cv_token}/~{$login}.pdf">Télécharger le CV</a>
+		<!-- AGENT $f_del_cv _format_='%1%2' --><br />
+		<!-- END:IF -->
+		%1%2
+	</td>
+</tr>
+<!--
+END:SET
+
+AGENT $f_cv _caption_="Curriculum Vitae" _format_=$f
 
 -->
 </table>

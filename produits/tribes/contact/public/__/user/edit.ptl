@@ -12,17 +12,23 @@ Ces informations sont en attente de publication par un modérateur.
 	<td><a href="{~}user/edit/adresse">Coordonnées</a></td>
 	<td><a href="{~}user/edit/activite">Activités</a></td>
 	<td><a href="{~}user/edit/email">Emails</a></td>
+	<td><a href="{~}user/edit/password">Mot de passe</a></td>
 </tr>
 </table>
 
 <!-- AGENT $form -->
 
+<!-- INLINE user/edit/_password -->
 <!-- INLINE user/edit/_contact -->
 <!-- INLINE user/edit/_email -->
 <!-- INLINE user/edit/_adresse -->
 <!-- INLINE user/edit/_activite -->
 
-<br /><br /><br />
+<h3>Enregistrer</h3>
+
+<!-- IF $f_password -->
+<table><!-- AGENT $f_password _caption_="Votre mot de passe actuel" --></table>
+<!-- END:IF -->
 
 <!-- AGENT $f_send value="Enregistrer" -->
 

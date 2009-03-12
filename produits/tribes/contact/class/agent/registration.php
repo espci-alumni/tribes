@@ -7,11 +7,6 @@ class extends agent_pForm
 	$maxage = -1,
 	$requiredAuth = false;
 
-	protected static
-
-	$altern_case_rx = ".*[A-Z][^A-Z\s]+",
-	$altern_case_msg = "Merci de respecter minuscules, majuscules et accents pour vos nom et prénom";
-
 
 	protected function composeForm($o, $f, $send)
 	{
@@ -28,14 +23,14 @@ class extends agent_pForm
 			'M' => 'M.'
 		)));
 
-		$f->add('text', 'nom_civil',    self::$altern_case_rx);
-		$f->add('text', 'prenom_civil', self::$altern_case_rx);
+		$f->add('name', 'nom_civil');
+		$f->add('name', 'prenom_civil');
 		$f->add('date', 'date_naissance');
 
 		$send->attach(
-			'sexe',           "Veuillez renseigner le champs Mme Mlle M.",   '',
-			'nom_civil',      "Veuillez renseigner votre nom",               self::$altern_case_msg,
-			'prenom_civil',   "Veuillez renseigner votre prénom",            self::$altern_case_msg,
+			'sexe',           "Veuillez renseigner le champs Mme Mlle M.", '',
+			'nom_civil',      "Veuillez renseigner votre nom", '',
+			'prenom_civil',   "Veuillez renseigner votre prénom", '',
 			'date_naissance', 'Veuillez renseigner votre date de naissance', ''
 		);
 
@@ -55,7 +50,7 @@ class extends agent_pForm
 	{
 		$db = DB();
 
-		$sql = "SELECT contact_id, statut_inscription, photo_token
+		$sql = "SELECT contact_id, statut_inscription, photo_token, cv_token
 				FROM contact_contact c
 				WHERE " . $this->sqlWhereMatchingContact($data) . "
 				ORDER BY " . $this->sqlOrderMatchingContact($data) . "
@@ -91,7 +86,8 @@ class extends agent_pForm
 					WHERE contact_id={$contact->contact_id}";
 			$db->exec($sql);
 
-			@unlink(patchworkPath('data/photo/') . $contact->photo_token . '.contact.jpg');
+			@unlink(patchworkPath('data/photo/') . $contact->photo_token . '.jpg~');
+			@unlink(patchworkPath('data/cv/'   ) . $contact->cv_token    . '.pdf~');
 		}
 
 		$data += array(

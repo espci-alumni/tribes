@@ -14,7 +14,22 @@ SET g$ACTION_INSERT  -->1<!-- END:SET
 <fieldset>
 <legend>{$historique_id} - <a href="{~}user/{$contact_id}">{$prenom_usuel} {$nom_usuel}</a> à {$date_contact|formatDate}</legend>
 
-<!-- AGENT "user/_historique/{$historique}" details=$details --><br />
+<!--
+
+AGENT "user/_historique/{$historique}"
+
+	details = $details
+
+	contact_login  = $login
+	contact_prenom = $prenom_usuel
+	contact_nom    = $nom_usuel
+
+	origine_login  = $origine_login
+	origine_prenom = $origine_prenom
+	origine_nom    = $origine_nom
+
+--><br />
+
 Origine de l'action&nbsp;: <a href="{~}user/{$origine_contact_id}">{$origine_prenom_usuel} {$origine_nom_usuel}</a>
 </fieldset>
 

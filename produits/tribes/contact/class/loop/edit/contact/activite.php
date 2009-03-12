@@ -47,14 +47,16 @@ class extends loop_edit
 			'firstItem' => '- Choisir un secteur -',
 			'sql'       => sprintf($sql, 'secteur'),
 		));
-		$f->add('date', 'date_debut');
-		$f->add('date', 'date_fin');
+		$f->add('monthyear', 'date_debut');
+		$f->add('monthyear', 'date_fin');
 		$f->add('select', 'adresse_id', array(
 			'firstItem' => '',
 			'item' => &$this->adresses,
 		));
 		$f->add('text', 'site_web');
-		$f->add('text', 'keyword');
+		$f->add('QSelect', 'keyword', array(
+			'src' => 'QSelect/keyword',
+		));
 		$f->add('check', 'is_shared', array('item' => array (1 => 'Partagé', 0 => 'Confidentiel')));
 
 		$this->send->attach(

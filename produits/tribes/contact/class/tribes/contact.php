@@ -38,6 +38,8 @@ class extends tribes_common
 			'reference'           => 'string',
 			'password'            => 'string',
 			'photo_token'         => 'string',
+			'cv_token'            => 'string',
+			'cv_text'             => 'string',
 		);
 
 		parent::__construct($contact_id, $confirmed);
@@ -67,7 +69,11 @@ class extends tribes_common
 			}
 		}
 
-		$this->contact_id || $data['photo_token'] = p::strongid(8);
+		if (!$this->contact_id)
+		{
+			$data['photo_token'] = p::strongid(8);
+			$data['cv_token']    = p::strongid(8);
+		}
 
 		$message = parent::save($data, $message, $this->contact_id);
 

@@ -6,7 +6,12 @@ class extends agent
 
 	function compose($o)
 	{
-		$sql = "SELECT sexe, nom_civil, prenom_civil, date_naissance, contact_id
+		$sql = "SELECT
+					sexe,
+					nom_civil,
+					prenom_civil,
+					date_naissance,
+					contact_id
 				FROM contact_contact
 				WHERE statut_inscription='accepted'
 					AND admin_confirmed<contact_modified

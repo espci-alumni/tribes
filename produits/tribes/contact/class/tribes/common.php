@@ -73,7 +73,7 @@ class
 
 		$notice = array('admin_confirmed' => $this->confirmed) + $data;
 
-		$meta = $this->confirmed ? array() : $this->filterMeta($data);
+		$meta = $this->filterMeta($data);
 
 		isset($data['contact_id'])         && $meta['contact_id']         = (int) $data['contact_id'];
 		isset($data[$this->table . '_id']) && $meta[$this->table . '_id'] = (int) $data[$this->table . '_id'];
@@ -84,11 +84,6 @@ class
 		{
 			ksort($data);
 			$meta['contact_data'] = $db->quote(serialize($data));
-		}
-
-		if ($data && empty($data['origine']))
-		{
-			$data['origine'] = 'contact/' . tribes::getConnectedId();
 		}
 
 		if ($this->confirmed)
@@ -119,8 +114,6 @@ class
 
 		isset($data['contact_confirmed']) && $data['contact_confirmed'] = $data['contact_confirmed'] ? 'NOW()' : 0;
 
-		$meta = array_diff($meta, array('origine'));
-
 		if ($id)
 		{
 			if (!empty($data['contact_confirmed']))
@@ -148,6 +141,10 @@ class
 		}
 		else
 		{
+			$data['origine'] = empty($meta['origine']) ? 'contact/' . tribes::getConnectedId() : $meta['origine'];
+
+			unset($meta['origine']);
+
 			$sql = "INSERT INTO contact_{$this->table}
 						(" . implode(',', array_keys($data)) . ")
 					VALUES

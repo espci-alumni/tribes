@@ -36,6 +36,7 @@ class extends agent_pForm
 		$contact_id = $row->contact_id;
 
 		$row->email = $row->login . $CONFIG['tribes.emailDomain'];
+		$row->saltedPassword = $row->password;
 		$row->password = $data['password'];
 
 		$this->login($row);
@@ -52,10 +53,11 @@ class extends agent_pForm
 		}
 
 		$data = array(
-			'contact_id'   => $contact->contact_id,
-			'referer'      => s::flash('referer'),
-			'nom_usuel'    => $contact->nom_usuel,
-			'prenom_usuel' => $contact->prenom_usuel,
+			'contact_id'     => $contact->contact_id,
+			'referer'        => s::flash('referer'),
+			'nom_usuel'      => $contact->nom_usuel,
+			'prenom_usuel'   => $contact->prenom_usuel,
+			'saltedPassword' => $contact->saltedPassword,
 		);
 
 		$sql = "SELECT 1

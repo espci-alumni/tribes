@@ -4,8 +4,6 @@ class extends agent_pForm
 {
 	public $get = '__1__:c:[A-Za-z0-9]{8}';
 
-	protected static $password_rx = '.{6,}';
-
 	function control()
 	{
 		$this->get->__1__ || p::forbidden();
@@ -26,11 +24,11 @@ class extends agent_pForm
 	{
 		$o->login = $this->data->login;
 
-		$f->add('password', 'new_pwd', self::$password_rx);
-		$f->add('password', 'con_pwd', self::$password_rx);
+		$f->add('password', 'new_pwd');
+		$f->add('password', 'con_pwd');
 
 		$send->attach(
-			'new_pwd', 'Veuillez saisir un mot de passe', 'Le mot de passe saisi est trop court : il doit faire 6 caractères minimum',
+			'new_pwd', 'Veuillez saisir un nouveau mot de passe', '',
 			'con_pwd', 'Veuillez confirmer votre mot de passe', ''
 		);
 

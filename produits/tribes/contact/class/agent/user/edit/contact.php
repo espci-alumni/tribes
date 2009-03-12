@@ -11,6 +11,6 @@ class extends agent_user_edit
 	{
 		$this->saveContact($data);
 
-		return 'user/edit/contact';
+		return '';
 	}
 }

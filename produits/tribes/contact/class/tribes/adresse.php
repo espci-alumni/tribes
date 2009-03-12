@@ -28,6 +28,8 @@ class extends tribes_common
 
 	function save($data, $message = null, &$id = 0)
 	{
+		if ($this->confirmed) unset($data['is_active'], $data['sort_key']);
+
 		$message = parent::save($data, $message, $id);
 
 		if (!$this->confirmed && (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message))

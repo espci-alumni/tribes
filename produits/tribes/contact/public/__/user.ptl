@@ -1,23 +1,43 @@
-<!-- SET $title -->{"Profil de"} {$prenom_usuel} {$nom_usuel}<!--END:SET -->
+<!--
 
-<!-- AGENT 'header' title=$title -->
+SET $title -->{"Profil de"} {$prenom_usuel} {$nom_usuel}<!--END:SET
+
+SET $date_naissance -->{$date_naissance|formatDate}<!-- END:SET
+
+AGENT 'header' title=$title
+
+-->
 
 <!-- IF $statut_inscription == 'demande'-->
 <h3>Cette fiche est en cours de validation par un modérateur</h3>
 <!-- END:IF-->
 
-<img src="{~}user/photo/{$photo_token}" /><br />
+<!-- IF $hasPhoto -->
+<img src="{~}user/photo/{$photo_token}/{$login}.jpg" /><br />
+<!-- ELSE -->
+<img src="{~}img/photo.gif" /><br />
+<!-- END:IF -->
 
-<h3>Etat civil</h3>
+<!-- IF $hasCv -->
+<a href="{~}user/cv/{$cv_token}/{$login}.pdf">Télécharger le CV</a><br />
+<!-- END:IF -->
 
-<ul>
-<li>Nom civil&nbsp;: {$nom_civil}</li>
-<li>Prénom civil&nbsp;: {$prenom_civil}</li>
-<li>Nom étudiant&nbsp;: {$nom_etudiant}</li>
-<li>Nom usuel&nbsp;: {$nom_usuel}</li>
-<li>Prénom usuel&nbsp;: {$prenom_usuel}</li>
-<li>Date de naissance&nbsp;: {$date_naissance|formatDate}</li>
-</ul>
+<!-- IF $nom_etudiant != $nom_usuel || $date_naissance -->
+<table>
+<!-- IF $nom_etudiant != $nom_usuel -->
+<tr>
+	<td>Nom à l'école&nbsp;:</td>
+	<td>{$nom_civil}</td>
+</tr>
+<!-- END:IF -->
+<!-- IF $date_naissance -->
+<tr>
+	<td>Date de naissance&nbsp;:</td>
+	<td>{$date_naissance}</td>
+</tr>
+<!-- END:IF -->
+</table>
+<!-- END:IF -->
 
 
 <!-- IF $adresses -->
@@ -25,32 +45,7 @@
 
 <ul>
 <!-- LOOP $adresses -->
-	<li>
-
-	<h4>Adresse {$description|lower}</h4>
-
-	<address>
-	<!-- IF $adresse -->{$adresse|nl2br}<br /><!-- END:IF -->
-	<!-- IF $ville -->
-		<!-- IF $ville_avant -->{$ville_avant}<!-- END:IF -->
-		{$ville}
-		<!-- IF $ville_apres -->{$ville_apres}<!-- END:IF -->
-		<!-- IF $pays -->, {$pays}<!-- END:IF -->
-		<br />
-	<!-- ELSE -->
-		<!-- IF $pays -->{$pays}<!-- END:IF -->
-		<br />
-	<!-- END:IF -->
-	</address>
-
-	<!-- IF $tel_portable || $tel_fixe || $tel_fax -->
-	<table>
-		<!-- IF $tel_portable --><tr><td>Tél. portable&nbsp;:</td><td>{$tel_portable}</td></tr><!-- END:IF -->
-		<!-- IF $tel_fixe     --><tr><td>Tél. fixe&nbsp;:</td><td>{$tel_fixe}</td></tr><!-- END:IF -->
-		<!-- IF $tel_fax      --><tr><td>Fax&nbsp;:</td><td>{$tel_fax}</td></tr><!-- END:IF -->
-	</table>
-	<!-- END:IF -->
-	</li>
+	<li><!-- INLINE user/_adresse --></li>
 <!-- END:LOOP -->
 </ul>
 <!-- END:IF -->

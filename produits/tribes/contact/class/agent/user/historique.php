@@ -8,7 +8,7 @@ class extends agent
 
 	function compose($o)
 	{
-		$sql = 'SELECT h.*, prenom_usuel, nom_usuel
+		$sql = 'SELECT h.*, prenom_usuel, nom_usuel, login
 				FROM contact_historique h
 					JOIN contact_contact c ON c.contact_id=h.contact_id';
 		$this->get->__1__ && $sql .= " WHERE h.contact_id={$this->get->__1__}";
@@ -23,7 +23,10 @@ class extends agent
 	{
 		if ($o->origine_contact_id !== $o->contact_id)
 		{
-			$sql = "SELECT prenom_usuel AS origine_prenom_usuel, nom_usuel AS origine_nom_usuel
+			$sql = "SELECT
+						login        AS origine_login,
+						prenom_usuel AS origine_prenom,
+						nom_usuel    AS origine_nom
 					FROM contact_contact
 					WHERE contact_id={$o->origine_contact_id}";
 
@@ -31,8 +34,9 @@ class extends agent
 		}
 		else
 		{
-			$o->origine_nom_usuel    = $o->nom_usuel;
-			$o->origine_prenom_usuel = $o->prenom_usuel;
+			$o->origine_login  = $o->login;
+			$o->origine_prenom = $o->prenom_usuel;
+			$o->origine_nom    = $o->nom_usuel;
 		}
 
 		if ($o->details && $sql = unserialize($o->details))

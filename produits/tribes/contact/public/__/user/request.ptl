@@ -45,37 +45,53 @@ SET $c -->{$f|diffFormat:$c_date_naissance:$date_naissance}<!-- END:SET
 SET $c -->{$c|formatDate}<!-- END:SET
 AGENT $f_date_naissance _caption_="Date de naissance" _format_=$c placeholder=d$p
 
--->
+SET $c -->
+<tr>
+	<td>%0&nbsp;:</td>
+	<td>&nbsp;</td>
+	<td>%1%2</td>
+</tr><!--
+END:SET
 
+-->
 <tr>
 	<td>&nbsp;</td>
 	<td>
-		<img src="{~}user/photo/{$photo_token}" />
+		<!-- IF $hasPhoto --><img src="{~}user/photo/{$photo_token}/{$c_login}.jpg" />
+		<!--ELSE --><img src="{~}img/photo.gif" />
+		<!-- END:IF-->
 	</td>
-
 	<td>
 	<!--
 		IF $newPhoto
-			--><img src="{~}user/photo/{$photo_token}?contact=1" /><br /><!--
-			AGENT $f_delete _glue_=' ' _format_='%1%2'
+			--><img src="{~}user/photo/{$photo_token}/~{$c_login}.jpg" /><br /><!--
+			AGENT $f_decision_photo _glue_=' ' _format_='%1%2'
 		ELSE -->&nbsp;<!--
 		END:IF
 	-->
 	</td>
 </tr>
-
 <!--
 
 IF $newPhoto
-	SET $c -->
-	<tr>
-		<td>%0&nbsp;:</td>
-		<td>&nbsp;</td>
-		<td>%1%2</td>
-	</tr><!--
-	END:SET
-
 	AGENT $f_photo _caption_="Photo" _format_=$c
+END:IF
+
+IF $newCv -->
+<tr>
+	<td>&nbsp;</td>
+	<td>
+		<!-- IF $hasCv --><a href="{~}user/cv/{$cv_token}/{$c_login}.pdf">Actuel</a>
+		<!--ELSE -->&nbsp;
+		<!-- END:IF-->
+	</td>
+	<td>
+		<a href="{~}user/cv/{$cv_token}/~{c_$login}.pdf">Proposé</a><br />
+		<!-- AGENT $f_decision_cv _glue_=' ' _format_='%1%2' -->
+	</td>
+</tr><!--
+
+	AGENT $f_cv _caption_="CV" _format_=$c
 END:IF
 
 SET $c -->{$f|diffFormat:$c_nom_etudiant:$nom_etudiant}<!-- END:SET

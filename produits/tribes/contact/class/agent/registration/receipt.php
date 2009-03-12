@@ -4,10 +4,8 @@ class extends agent_user_edit
 {
 	public $get = array('__1__:c:[A-Za-z0-9]{4}');
 
-	protected
+	protected $requiredAuth = false;
 
-	$requiredAuth = false,
-	$loginField = false;
 
 	function control()
 	{

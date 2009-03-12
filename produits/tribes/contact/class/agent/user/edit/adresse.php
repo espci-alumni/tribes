@@ -11,6 +11,6 @@ class extends agent_user_edit
 	{
 		$this->saveAdresse($data);
 
-		return 'user/edit/adresse';
+		return '';
 	}
 }

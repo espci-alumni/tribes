@@ -8,6 +8,7 @@ class extends agent_user_edit
 
 	$requiredAuth = 'admin',
 	$confirmed = true,
+
 	$form,
 	$send,
 	$adresses,
@@ -49,7 +50,6 @@ class extends agent_user_edit
 		$this->send = $send;
 
 		$o = $this->composeContact($o, $f, $send);
-		$o = $this->composePhoto($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send);
 		$o = $this->composeActivite($o, $f, $send);
 
@@ -58,20 +58,44 @@ class extends agent_user_edit
 
 	protected function composePhoto($o, $f, $send)
 	{
-		$file = patchworkPath('data/photo/') . $this->data->photo_token . '.contact.jpg';
+		$file = patchworkPath('data/photo/') . $this->data->photo_token . '.jpg';
+		$o->hasPhoto = file_exists($file);
+		$file .= '~';
 
 		if ($o->newPhoto = file_exists($file))
 		{
-			$f->add('check', 'delete', array(
-				'firstItem' => '---',
-				'item' => array(0 => 'Publier', '1' => 'Rejeter')
+			$f->add('check', 'decision_photo', array(
+				'item' => array('1' => 'Accepter', '0' => 'Rejeter')
 			));
 
 			$this->photoField = $f->add('file', 'photo', array('valid' => 'image', null, array('jpg','gif','png')));
 		
 			$send->attach(
-				'delete', 'Veuillez choisir une action sur la photo', '',
+				'decision_photo', 'Veuillez accepter ou rejeter la photo', '',
 				'photo', '', "Format d'image non valide"
+			);
+		}
+
+		return $o;
+	}
+
+	protected function composeCv($o, $f, $send)
+	{
+		$file = patchworkPath('data/cv/') . $this->data->cv_token . '.pdf';
+		$o->hasCv = file_exists($file);
+		$file .= '~';
+
+		if ($o->newCv = file_exists($file))
+		{
+			$f->add('check', 'decision_cv', array(
+				'item' => array('1' => 'Accepter', '0' => 'Rejeter')
+			));
+
+			$this->cvField = $f->add('file', 'cv');
+
+			$send->attach(
+				'decision_cv', 'Veuillez accepter ou rejeter le CV', '',
+				'cv', '', "Type de fichier non valide"
 			);
 		}
 
@@ -94,9 +118,14 @@ class extends agent_user_edit
 
 	protected function save($data)
 	{
-		if (isset($this->photoField) && $data['delete'])
+		if (isset($this->photoField) && !$data['decision_photo'])
 		{
-			@unlink(patchworkPath('data/photo/') . $this->data->photo_token . '.contact.jpg');
+			@unlink(patchworkPath('data/photo/') . $this->data->photo_token . '.jpg~');
+		}
+
+		if (isset($this->cvField) && !$data['decision_cv'])
+		{
+			@unlink(patchworkPath('data/cv/') . $this->data->cv_token . '.pdf~');
 		}
 
 		$this->saveContact($data);

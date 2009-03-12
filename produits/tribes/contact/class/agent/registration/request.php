@@ -10,8 +10,7 @@ class extends agent_user_edit
 
 	$requiredAuth = 'admin',
 	$confirmed = true,
-	$doublon_contact_id = 0,
-	$loginField = false;
+	$doublon_contact_id = 0;
 
 
 	function control()
@@ -78,7 +77,7 @@ class extends agent_user_edit
 
 		if ($this->loginField)
 		{
-			$send->getStatus() || $o->f_login->setError("Attention, identifiant déjà utilisé");
+			$send->getStatus() || $this->loginField->setError("Attention, identifiant déjà utilisé");
 		}
 
 		return $o;
