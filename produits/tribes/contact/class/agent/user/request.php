@@ -49,6 +49,7 @@ class extends agent_user_edit
 		$this->form = $f;
 		$this->send = $send;
 
+		$o = $this->composeLogin($o, $f, $send);
 		$o = $this->composeContact($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send);
 		$o = $this->composeActivite($o, $f, $send);

@@ -26,7 +26,8 @@ class
 		'is_obsolete' => 'int',
 		'sort_key'    => 'int',
 		'contact_confirmed' => 'int',
-	);
+	),
+	$contactData;
 
 
 	function __construct($contact_id, $confirmed = false)
@@ -43,7 +44,11 @@ class
 		$data = DB()->queryRow($sql, null, MDB2_FETCHMODE_ASSOC);
 		$data || p::forbidden();
 
-		empty($data['contact_data']) || $data = array_merge($data, unserialize($data['contact_data']));
+		if (!empty($data['contact_data']))
+		{
+			$this->contactData = unserialize($data['contact_data']);
+			$data = array_merge($data, $this->contactData);
+		}
 
 		return $data;
 	}
@@ -78,11 +83,11 @@ class
 		isset($data['contact_id'])         && $meta['contact_id']         = (int) $data['contact_id'];
 		isset($data[$this->table . '_id']) && $meta[$this->table . '_id'] = (int) $data[$this->table . '_id'];
 
+		empty($this->contactData) || $data += $this->contactData;
 		$data = $this->filterData($data);
 
 		if ($data)
 		{
-			ksort($data);
 			$meta['contact_data'] = $db->quote(serialize($data));
 		}
 
@@ -141,7 +146,7 @@ class
 		}
 		else
 		{
-			$data['origine'] = empty($meta['origine']) ? 'contact/' . tribes::getConnectedId() : $meta['origine'];
+			$data['origine'] = empty($meta['origine']) ? "'contact/" . tribes::getConnectedId() . "'" : $meta['origine'];
 
 			unset($meta['origine']);
 

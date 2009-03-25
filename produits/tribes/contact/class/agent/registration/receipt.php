@@ -24,25 +24,23 @@ class extends agent_user_edit
 		parent::control();
 	}
 
-	protected function save($data)
+	protected function composeForm($o, $f, $send)
 	{
-		$data = parent::save($data);
-		false !== $data && $data = 'registration/receipt/saved';
-		return $data;
-	}
+		$o = $this->composeContact($o, $f, $send);
+		$o = $this->composeEmail($o, $f, $send);
+		$o = $this->composeAdresse($o, $f, $send);
 
-	protected function saveAdresse($data)
-	{
-		$data['contact_confirmed'] = true;
-		parent::saveAdresse($data);
-	}
-
-	protected function composeActivite($o, $f, $send)
-	{
 		return $o;
 	}
 
-	protected function saveActivite($data)
+	protected function save($data)
 	{
+		$data['contact_confirmed'] = true;
+
+		$this->saveContact($data);
+		$this->saveEmail($data);
+		$this->saveAdresse($data);
+
+		return 'registration/receipt/saved';
 	}
 }

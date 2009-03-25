@@ -4,12 +4,17 @@ class extends agent_user_edit
 {
 	protected function composeForm($o, $f, $send)
 	{
+		$o = $this->composeLogin($o, $f, $send);
 		$o = $this->composeEmail($o, $f, $send);
-		return $this->composePassword($o, $f, $send);
+		$o = $this->composePassword($o, $f, $send);
+
+		return $o;
 	}
 
 	protected function save($data)
 	{
+		$this->contact->save($data); // Save the login
+
 		$this->saveEmail($data);
 
 		return '';

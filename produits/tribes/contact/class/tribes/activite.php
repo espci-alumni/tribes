@@ -27,6 +27,34 @@ class extends tribes_adresse
 
 	function save($data, $message = null, &$id = 0)
 	{
+		if (!empty($data['keyword']))
+		{
+			$data['keyword'] = preg_replace("'\s*(?:[,;/]+\s*)+'", ', ', $data['keyword']);
+			$data['keyword'] = trim($data['keyword'], ", \t");
+
+			if ($this->confirmed)
+			{
+				$db = DB();
+
+				$a = preg_split("'[\s,;/]+'", $data['keyword']);
+				$o = array();
+
+				foreach ($a as $a)
+				{
+					preg_match("'^....'u", $a) && $o[] = $db->quote($a);
+				}
+
+				if ($o)
+				{
+					$sql = implode("),('keyword',", $o);
+					$sql = "INSERT INTO item_suggestions VALUES ('keyword',{$sql})
+							ON DUPLICATE KEY UPDATE suggestion=VALUES(suggestion)";
+
+					$db->exec($sql);
+				}
+			}
+		}
+
 		$message = parent::save($data, $message, $id);
 
 		$org_inserted = false;

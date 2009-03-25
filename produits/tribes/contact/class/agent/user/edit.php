@@ -10,9 +10,9 @@ class extends agent_registration
 	protected
 
 	$maxage = 0,
-	$requiredAuth  = true,
-	$loginField    = false,
+	$requiredAuth = true,
 
+	$loginField,
 	$photoField,
 	$cvField,
 
@@ -60,8 +60,9 @@ class extends agent_registration
 
 	protected function composeForm($o, $f, $send)
 	{
-		$o = parent::composeForm($o, $f, $send);
-
+		$o = $this->composeLogin($o, $f, $send);
+		$o = $this->composeContact($o, $f, $send);
+		$o = $this->composeEmail($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send);
 		$o = $this->composeActivite($o, $f, $send);
 		$o = $this->composeNewPassword($o, $f, $send);
@@ -133,14 +134,16 @@ class extends agent_registration
 			'conjoint_contact_id', '', ''
 		);
 
-		if ($this->loginField)
-		{
-			$this->loginField = $f->add('text', 'login', '[a-z]+-?[a-z]+\.[a-z]+-?[a-z]+');
-			$send->attach('login', 'Veuillez saisir un identifiant', 'Identifiant non valide');
-		}
-
 		$o = $this->composePhoto($o, $f, $send);
 		$o = $this->composeCv($o, $f, $send);
+
+		return $o;
+	}
+
+	protected function composeLogin($o, $f, $send)
+	{
+		$this->loginField = $f->add('text', 'login', '[a-z]+-?[a-z]+\.[a-z]+-?[a-z]+');
+		$send->attach('login', 'Veuillez saisir un identifiant', 'Identifiant non valide');
 
 		return $o;
 	}
@@ -396,6 +399,11 @@ class extends agent_registration
 			else $data['photo_token'] = p::strongid(8);
 		}
 
+		if (!$this->data->photo_token)
+		{
+			$this->data->photo_token = $data['photo_token'] = p::strongid(8);
+		}
+
 		if (isset($this->photoField) && $this->photoField->getStatus())
 		{
 			$file = $this->photoField->getValue();
@@ -436,7 +444,10 @@ class extends agent_registration
 
 			if (@rename($file . $this->data->photo_token . '.jpg~', $file . $photo_token . '.jpg'))
 			{
-				notification::send('user/photo', array('photo_token' => $photo_token));
+				notification::send('user/photo', array(
+					'contact_id'  => $this->contact_id,
+					'photo_token' => $photo_token,
+				));
 
 				$data['photo_token'] = $photo_token;
 			}
@@ -451,6 +462,11 @@ class extends agent_registration
 
 			if (file_exists($file . '~')) unlink($file . '~');
 			else $data['cv_token'] = p::strongid(8);
+		}
+
+		if (!$this->data->cv_token)
+		{
+			$this->data->cv_token = $data['cv_token'] = p::strongid(8);
 		}
 
 		$cv_text = '';
@@ -484,7 +500,10 @@ class extends agent_registration
 					$cv_text = $cv_text->convertFile($file . $cv_token . '.pdf');
 				}
 
-				notification::send('user/cv', array('cv_token' => $photo_token));
+				notification::send('user/cv', array(
+					'contact_id' => $this->contact_id,
+					'cv_token'   => $cv_token,
+				));
 
 				$data['cv_token'] = $cv_token;
 				$data['cv_text']  = $cv_text;

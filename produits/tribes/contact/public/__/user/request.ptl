@@ -26,6 +26,9 @@ AGENT $form
 
 <!--
 
+SET $c -->{$f|diffFormat:$c_login:$login}<!-- END:SET
+AGENT $f_login _caption_="Identifiant" _format_=$c placeholder=d$p
+
 SET $c -->
 <tr>
 	<td class="label">&nbsp;</td>

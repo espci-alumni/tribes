@@ -10,7 +10,7 @@ Pour nous assurer que cet email vous appartient réellement, merci de vous conne
 
 <!-- AGENT $form -->
 <table>
-<!-- AGENT $f_login _caption_="Identifiant" -->
+<!-- AGENT $f_login _caption_="Identifiant" autofocus=1 -->
 <!-- AGENT $f_password _caption_="Mot de passe" -->
 <tr>
 	<td colspan="2" align="right">

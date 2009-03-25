@@ -33,8 +33,6 @@ class extends agent_user_edit
 		{
 			$this->data->login = tribes::makeIdentifier($this->data->prenom_civil, '-a-z')
 				. '.' . tribes::makeIdentifier($this->data->nom_usuel, '-a-z');
-
-			$this->loginField = true;
 		}
 
 		$this->data->token = $this->get->__1__;
@@ -62,7 +60,14 @@ class extends agent_user_edit
 
 	protected function composeForm($o, $f, $send)
 	{
-		$o = parent::composeForm($o, $f, $send);
+		if (isset($this->data->login))
+		{
+			$o = $this->composeLogin($o, $f, $send);
+		}
+
+		$o = $this->composeContact($o, $f, $send);
+		$o = $this->composeEmail($o, $f, $send);
+		$o = $this->composeAdresse($o, $f, $send);
 
 		$f->add('textarea', 'message');
 
@@ -71,14 +76,11 @@ class extends agent_user_edit
 		return $o;
 	}
 
-	protected function composeContact($o, $f, $send)
+	protected function composeLogin($o, $f, $send)
 	{
-		$o = parent::composeContact($o, $f, $send);
+		$o = parent::composeLogin($o, $f, $send);
 
-		if ($this->loginField)
-		{
-			$send->getStatus() || $this->loginField->setError("Attention, identifiant déjà utilisé");
-		}
+		$send->getStatus() || $this->loginField->setError("Attention, identifiant déjà utilisé");
 
 		return $o;
 	}
@@ -110,21 +112,13 @@ class extends agent_user_edit
 		return agent_registration::composeEmail($o, $f, $send);
 	}
 
-
-	protected function composeActivite($o, $f, $send)
-	{
-		return $o;
-	}
-
-	protected function saveActivite($data)
-	{
-	}
-
 	protected function save($data)
 	{
 		if ($this->doublon_contact_id)
 		{
-			parent::save($data);
+			$this->saveContact($data);
+			$this->saveEmail($data);
+			$this->saveAdresse($data);
 
 			if ($this->doublon_contact_id != $this->data->contact_id)
 			{
