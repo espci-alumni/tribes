@@ -152,6 +152,12 @@ class extends agent_registration
 	{
 		$this->emails = $o->emails = new loop_edit_contact_email($f, $this->contact_id, $send);
 
+		$sql = "SELECT alias
+				FROM contact_alias
+				WHERE contact_id={$this->contact_id}
+				ORDER BY alias";
+		$o->alias = new loop_sql($sql);
+
 		return $o;
 	}
 

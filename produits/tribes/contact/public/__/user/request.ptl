@@ -116,7 +116,7 @@ END:SET
 
 LOOP $adresses
 
-	--><tr style="background-color: silver; font-weight: bold; font-size: 120%;">
+	--><tr class="requestHeading">
 		<td>Adresse</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
@@ -159,7 +159,7 @@ END:LOOP
 
 LOOP $activites
 
-	--><tr style="background-color: silver; font-weight: bold; font-size: 120%;">
+	--><tr class="requestHeading">
 		<td>Activité</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>

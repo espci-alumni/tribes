@@ -60,7 +60,7 @@ class extends agent_user_edit
 
 	protected function composeForm($o, $f, $send)
 	{
-		if (isset($this->data->login))
+		if (!empty($this->data->login))
 		{
 			$o = $this->composeLogin($o, $f, $send);
 		}

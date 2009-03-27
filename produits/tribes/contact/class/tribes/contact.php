@@ -75,6 +75,31 @@ class extends tribes_common
 			$data['cv_token']    = p::strongid(8);
 		}
 
+		if ( !$this->confirmed
+			&& !empty($data['login'])
+			&& !empty($this->contactData['login'])
+			&& $data['login'] !== $this->contactData['login'] )
+		{
+			$login = str_replace('-', '', $data['login']);
+
+			$db = DB();
+			$sql = "SELECT 1
+					FROM contact_alias
+					WHERE contact_id={$this->contact_id}
+						AND alias='{$login}'";
+
+			if ($db->queryOne($sql))
+			{
+				$this->contactData['login'] = $data['login'];
+				$login = $db->quote(serialize($this->contactData));
+
+				$sql = "UPDATE contact_contact
+						SET login={$data['login']}, contact_data={$login}
+						WHERE contact_id={$this->contact_id}";
+				$db->exec($sql);
+			}
+		}
+
 		$message = parent::save($data, $message, $this->contact_id);
 
 		if (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message)

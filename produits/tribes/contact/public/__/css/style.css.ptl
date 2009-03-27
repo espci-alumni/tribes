@@ -30,3 +30,27 @@ input.text, input.QSelect, textarea, input.password
 {
 	width: 300px;
 }
+
+.notice
+{
+	float: right;
+	width: 400px;
+	margin-right: 100px;
+	text-align: justify;
+	background: #CCC;
+	border: 2px solid black;
+	padding: 20px;
+}
+
+.requestHeading
+{
+	background-color: silver;
+	font-weight: bold;
+	font-size: 120%;
+}
+
+#footer
+{
+	text-align: center;
+	font-size: 90%;
+}

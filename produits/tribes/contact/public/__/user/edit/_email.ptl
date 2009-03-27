@@ -1,6 +1,20 @@
 <!-- IF $f_email_add -->
 
+
+<h3>Liste de vos alias</h3>
+
+<ul>
+<!-- LOOP $alias -->
+	<li>{$alias}</li>
+<!-- END:LOOP-->
+</ul>
+
+
 <h3>Emails</h3>
+
+<div class="notice">
+Pour confirmer vos emails, il suffit de valider le présent formulaire puis de cliquer sur les liens de confirmation qui vous seront alors envoyés à tous ces emails non confirmés.
+</div>
 
 <!-- IF $emails -->
 <table>
@@ -28,7 +42,11 @@ LOOP $emails
 			<!--
 	
 			IF $email_id
-				-->{$email}<!--
+				IF $admin_confirmed
+					-->{$email}<!--
+				ELSE
+					--><span class="unconfirmed">{$email} (non confirmé)</span><!--
+				END:IF
 			ELSE
 				AGENT $f_email _caption_="Email" _format_='%1%2'
 			END:IF
