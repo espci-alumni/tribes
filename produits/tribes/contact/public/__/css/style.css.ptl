@@ -42,6 +42,12 @@ input.text, input.QSelect, textarea, input.password
 	padding: 20px;
 }
 
+.unconfirmed
+{
+	font-style: italic;
+	color: gray;
+}
+
 .requestHeading
 {
 	background-color: silver;

@@ -12,7 +12,9 @@
 
 <h3>Emails</h3>
 
-<div class="notice">
+<style type="text/css">#unconfirmedNotice {display: none}</style>
+
+<div id="unconfirmedNotice" class="notice">
 Pour confirmer vos emails, il suffit de valider le présent formulaire puis de cliquer sur les liens de confirmation qui vous seront alors envoyés à tous ces emails non confirmés.
 </div>
 
@@ -21,6 +23,7 @@ Pour confirmer vos emails, il suffit de valider le présent formulaire puis de c
 <!--
 
 SET $f --><!-- END:SET
+SET a$unconfirmedCounter -->0<!-- END:SET
 
 LOOP $emails
 
@@ -45,7 +48,8 @@ LOOP $emails
 				IF $admin_confirmed
 					-->{$email}<!--
 				ELSE
-					--><span class="unconfirmed">{$email} (non confirmé)</span><!--
+					--><span class="unconfirmed">{$email} (<abbr title="Validez ce formulaire, des liens de confirmation vous seront envoyés par email">non confirmé</abbr>)</span><!--
+					IF !a+1$unconfirmedCounter --><style type="text/css">#unconfirmedNotice {display: block}</style><!-- END:IF
 				END:IF
 			ELSE
 				AGENT $f_email _caption_="Email" _format_='%1%2'

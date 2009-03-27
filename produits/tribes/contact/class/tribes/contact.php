@@ -94,7 +94,7 @@ class extends tribes_common
 				$login = $db->quote(serialize($this->contactData));
 
 				$sql = "UPDATE contact_contact
-						SET login={$data['login']}, contact_data={$login}
+						SET login='{$data['login']}', contact_data={$login}
 						WHERE contact_id={$this->contact_id}";
 				$db->exec($sql);
 			}
