@@ -155,6 +155,7 @@ class extends agent_registration
 		$sql = "SELECT alias
 				FROM contact_alias
 				WHERE contact_id={$this->contact_id}
+					AND hidden=0
 				ORDER BY alias";
 		$o->alias = new loop_sql($sql);
 

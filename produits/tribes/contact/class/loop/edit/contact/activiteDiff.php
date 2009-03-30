@@ -38,6 +38,8 @@ class extends loop_edit_contact_activite
 				FROM contact_activite
 				WHERE contact_id={$contact_id}
 					AND admin_confirmed<contact_modified
+					AND is_obsolete<=0
+					AND contact_data!=''
 				ORDER BY sort_key";
 		$loop = new loop_sql($sql, array($this, 'filterActivite'));
 
