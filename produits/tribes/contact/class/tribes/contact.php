@@ -110,7 +110,7 @@ class extends tribes_common
 
 				if (isset($data['reference']))
 				{
-					$sql = "INSERT INTO contact_alias (alias,contact_id)
+					$sql = "INSERT INTO contact_alias (alias,contact_id,hidden)
 							VALUES ('{$data['reference']}',{$this->contact_id},1)
 							ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
 					$db->exec($sql);
