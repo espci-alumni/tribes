@@ -146,7 +146,7 @@ class extends agent_user_edit
 			$this->contact->save($data, 'registration/refused', $this->contact_id);
 		}
 
-		return array('registration/requests', true);
+		return array('admin/registration/requests', true);
 	}
 
 	protected function saveContact($data)

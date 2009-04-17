@@ -133,6 +133,6 @@ class extends agent_user_edit
 		$this->saveAdresse($data);
 		$this->saveActivite($data);
 
-		return 'user/requests';
+		return 'admin/user/requests';
 	}
 }

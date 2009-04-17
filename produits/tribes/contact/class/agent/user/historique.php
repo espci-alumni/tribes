@@ -2,17 +2,17 @@
 
 class extends agent
 {
-	public $get = '__1__:i:1';
-
-	protected $requiredAuth = 'admin';
+	protected $contact_id;
 
 	function compose($o)
 	{
-		$sql = 'SELECT h.*, prenom_usuel, nom_usuel, login
+		isset($this->contact_id) || $this->contact_id = $this->connected_id;
+
+		$sql = "SELECT h.*, prenom_usuel, nom_usuel, login
 				FROM contact_historique h
-					JOIN contact_contact c ON c.contact_id=h.contact_id';
-		$this->get->__1__ && $sql .= " WHERE h.contact_id={$this->get->__1__}";
-		$sql .= ' ORDER BY historique_id DESC';
+					JOIN contact_contact c ON c.contact_id=h.contact_id
+				WHERE h.contact_id={$this->contact_id}
+				ORDER BY historique_id DESC";
 
 		$o->historiques = new loop_sql($sql, array($this, 'filterRow'));
 
