@@ -1,0 +1,46 @@
+<!--
+
+AGENT 'header' title="Bloc-Notes"-->
+<!-- AGENT $form -->
+<table>
+
+	<!-- AGENT $f_note _caption_="Bloc Notes"-->
+
+	<tr>
+		<td colspan="2" align="right">
+			<!-- AGENT $f_send value="Enregistrer" -->
+		</td>
+	</tr>
+
+</table>
+
+<!-- LOOP $notes -->
+
+<fieldset>
+	<legend>Origine de l'action&nbsp;: 
+		<a href="{~}user/{$origine_contact_id}">{$origine_prenom} {$origine_nom}</a>
+	</legend>
+	<table width="100%">
+		<tr>
+			<td width="80%">	
+				<ul>
+					<li><strong>Note&nbsp;: </strong>{$note}</li>
+					<li>{$date_contact}</li>
+				</ul>
+			</td>
+			<td width="20%">
+				<table align="right" width="100%">
+					<!-- AGENT $f_del _caption="Supprmer" -->
+				</table>
+			</td>
+		</tr>
+	
+	</table>
+</fieldset>
+	<!-- END:LOOP -->
+
+
+
+
+<!-- AGENT $form _mode_='close' -->
+<!-- AGENT 'footer' -->
