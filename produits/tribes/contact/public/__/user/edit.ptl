@@ -6,15 +6,23 @@ Ces informations sont en attente de publication par un modérateur.
 </p>
 <!-- END:IF -->
 
-<table>
-<tr>
-	<td><a href="{~}user/edit/contact">Informations personnelles</a></td>
-	<td><a href="{~}user/edit/adresse">Coordonnées</a></td>
-	<td><a href="{~}user/edit/activite">Activités</a></td>
-	<td><a href="{~}user/edit/email">Emails</a></td>
-	<td><a href="{~}user/edit/password">Mot de passe</a></td>
-</tr>
-</table>
+<div id="onglets">
+<ul>
+	<li class="infos"><a href="{~}user/edit/contact">Informations personnelles</a></li>
+	<li class="infos"><a href="{~}user/edit/adresse">Coordonnées</a></li>
+	<li class="infos"><a href="{~}user/edit/activite">Activités</a></li>
+	<li class="infos"><a href="{~}user/edit/email">Emails</a></li>
+	<li class="infos"><a href="{~}user/edit/password">Mot de passe</a></li>
+	<li class="consult"><a href="{~}user/historique">Historique</a></li>
+	<!-- IF $is_admin -->
+	<li class="consult"><a href="{~}admin/user/blocnote/{$contact_id}">Bloc-note</a></li>
+	<!-- ELSE -->
+	<li class="consult"><a href="{~}user/blocnote">Bloc-note</a></li>
+	<!-- END:IF -->
+</ul>
+</div>
+<div class="moteur"><a href="{~}recherche">Rechercher</a></div>
+<br />
 
 <!-- AGENT $form -->
 

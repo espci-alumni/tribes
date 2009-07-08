@@ -33,6 +33,7 @@ class extends loop_edit_contact_activite
 					IF(date_fin,date_fin,'')     AS c_date_fin,
 					site_web      AS c_site_web,
 					keyword       AS c_keyword,
+					is_shared,
 					admin_confirmed,
 					contact_data
 				FROM contact_activite
@@ -61,6 +62,8 @@ class extends loop_edit_contact_activite
 				'0' => 'Rejeter'
 			)
 		));
+
+		$this->form->getElement('is_shared')->setValue($data->is_shared);
 
 		$this->send->attach('decision', "Veuiller valider ou rejeter tous les blocs", '');
 	}

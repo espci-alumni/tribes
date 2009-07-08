@@ -9,8 +9,6 @@ class extends agent_user_edit
 
 	protected function save($data)
 	{
-		$this->saveActivite($data);
-
-		return '';
+		return $this->saveActivite($data);
 	}
 }

@@ -11,7 +11,7 @@ Demandes d'inscription en attente&nbsp;:
 	<li>Date de naissance&nbsp;: {$date_naissance|formatDate}</li>
 </ul>
 
-<a href="{~}registration/request/{$token}">Cliquez ici pour traiter cette demande</a>.
+<a href="{~}admin/registration/request/{$token}">Cliquez ici pour traiter cette demande</a>.
 
 <hr>
 

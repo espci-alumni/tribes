@@ -57,7 +57,20 @@ LOOP $emails
 
 			-->
 			</td>
-			<td><!-- AGENT $f_email_del value="supprimer cet e-mail" class='additem' _preserveScroll_=1 --></td>
+			<td><!--
+				IF $f_email_del
+					AGENT $f_email_del value="supprimer cet e-mail" class='additem' _preserveScroll_=1
+				END:IF
+				--></td>
+			<td>
+				<!--
+				IF $f_is_active
+					AGENT $f_is_active _format_='%1%2'
+				ELSE
+					-->&nbsp;<!--
+				END:IF
+				-->
+			</td>
 		</tr>
 		<!--
 	END:IF

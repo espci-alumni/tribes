@@ -21,6 +21,7 @@ class extends loop_edit_contact_adresse
 					tel_portable AS c_tel_portable,
 					tel_fixe     AS c_tel_fixe,
 					tel_fax      AS c_tel_fax,
+					is_shared,
 					admin_confirmed,
 					contact_data
 				FROM contact_adresse
@@ -48,6 +49,8 @@ class extends loop_edit_contact_adresse
 				'0' => 'Rejeter'
 			)
 		));
+
+		$this->form->getElement('is_shared')->setValue($data->is_shared);
 
 		$this->send->attach('decision', "Veuiller valider ou rejeter tous les blocs", '');
 	}

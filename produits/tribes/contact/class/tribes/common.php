@@ -73,6 +73,7 @@ class
 
 		if ($id) $data[$this->table . '_id'] = $id;
 		else if (!empty($data[$this->table . '_id'])) $id = $data[$this->table . '_id'];
+		else $data[$this->table . '_id'] =& $id;
 
 		empty($data['token']) || $data += array('token_expires' => 'NOW() + INTERVAL ' . tribes::PENDING_PERIOD);
 
@@ -146,9 +147,7 @@ class
 		}
 		else
 		{
-			$data['origine'] = empty($meta['origine']) ? "'contact/" . tribes::getConnectedId() . "'" : $meta['origine'];
-
-			unset($meta['origine']);
+			empty($data['origine']) && $data['origine'] = "'contact/" . tribes::getConnectedId() . "'";
 
 			$sql = "INSERT INTO contact_{$this->table}
 						(" . implode(',', array_keys($data)) . ")
@@ -216,6 +215,7 @@ class
 			{
 			case 'sql'       : $meta[$k] = $data[$k]; break;
 			case 'int'       : $meta[$k] = (int) $data[$k]; break;
+			case 'intNull'   : $meta[$k] = $data[$k] ? (int) $data[$k] : 'NULL'; break;
 			case 'string'    : $meta[$k] = $db->quote($data[$k]); break;
 			case 'stringNull': $meta[$k] = $data[$k] ? $db->quote($data[$k]) : 'NULL'; break;
 			}

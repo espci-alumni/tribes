@@ -92,8 +92,17 @@ class extends tribes_common
 
 	static function confirm($token, $resetToken = true)
 	{
-		$sql = "SELECT email_id, contact_id, contact_data, email, contact_confirmed
+		$sql = "SELECT 1
 				FROM contact_email
+				WHERE is_active
+					AND contact_id=e.contact_id
+					AND is_obsolete<=0
+					AND contact_data!=''
+				LIMIT 1";
+
+		$sql = "SELECT email_id, contact_id, contact_data, email, contact_confirmed,
+					($sql) AS has_active_email
+				FROM contact_email e
 				WHERE token='{$token}'
 					AND token_expires>=NOW()";
 		$row = DB()->queryRow($sql);
@@ -104,6 +113,7 @@ class extends tribes_common
 		$data = $row->contact_data ? unserialize($row->contact_data) : array();
 
 		$data['is_obsolete'] = 0;
+		$row->has_active_email || $data['is_active'] = 1;
 
 		$resetToken && $data['token'] = '';
 

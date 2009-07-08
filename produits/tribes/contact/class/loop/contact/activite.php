@@ -6,6 +6,7 @@ class extends loop_contact_adresse
 
 	$table = 'activite',
 	$extraSelect = "contact_modified,
+					adresse_id,
 					is_shared,
 					(
 						SELECT GROUP_CONCAT(organisation ORDER BY af.sort_key SEPARATOR ' / ')
