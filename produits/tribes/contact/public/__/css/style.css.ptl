@@ -2,7 +2,7 @@
 
 body
 {
-	background-color: #eee;
+	margin: 10px;
 }
 
 a
@@ -14,11 +14,6 @@ a
 a:hover
 {
 	text-decoration: underline;
-}
-
-#header_cell
-{
-	background-color: white;
 }
 
 #header_cell form

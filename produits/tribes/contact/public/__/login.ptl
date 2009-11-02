@@ -19,6 +19,6 @@ Pour nous assurer que cet email vous appartient réellement, merci de vous conne
 	</td>
 </tr>
 </table>
-<!-- AGENT $form mode='close' -->
+<!-- AGENT $form _mode_='close' -->
 
 <!-- AGENT 'footer' -->

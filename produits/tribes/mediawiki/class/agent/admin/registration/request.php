@@ -9,13 +9,13 @@ class extends self
 		return parent::createAccount($contact);
 	}
 
-	protected static function mediaWikiCreateAccount($contact)
+	static function mediaWikiCreateAccount($contact)
 	{
 		$db = DB();
 
 		$data = array(
 			'user_id' => $contact->contact_id,
-			'user_name' => $contact->login,
+			'user_name' => ucfirst($contact->login),
 			'user_real_name' => $contact->prenom_usuel . ' ' . $contact->nom_usuel,
 			'user_email' => $contact->email,
 			'user_password' => md5($contact->contact_id . '-' . md5(p::strongid())),
@@ -25,5 +25,7 @@ class extends self
 
 		$db->autoExecute($CONFIG['tribes.mediaWikiDb'] . '.user', $data);
 		$db->autoExecute($CONFIG['tribes.mediaWikiDb'] . '.user_groups', array('ug_user' => $contact->contact_id, 'ug_group' => 'bureaucrat'));
+
+		return $data;
 	}
 }

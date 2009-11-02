@@ -11,5 +11,5 @@
 </table>
 
 <!-- AGENT $f_send value="Valider" -->
-<!-- AGENT $form mode='close' -->
+<!-- AGENT $form _mode_='close' -->
 <!-- AGENT 'footer' -->

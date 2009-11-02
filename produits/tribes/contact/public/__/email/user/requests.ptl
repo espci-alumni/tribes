@@ -10,7 +10,7 @@ Fiches à valider en attente&nbsp;:
 	<li>Prénom&nbsp;: {$prenom_civil}</li>
 </ul>
 
-<a href="{~}user/request/{$contact_id}">Cliquez ici pour traiter cette modification</a>.
+<a href="{~}admin/user/request/{$contact_id}">Cliquez ici pour traiter cette modification</a>.
 
 <hr>
 <!-- END:LOOP -->
