@@ -6,7 +6,7 @@ class extends agent
 
 	contentType = '',
 	ACCUEIL_CONNECTED = '/wiki/Accueil',
-	ACCUEIL_PUBLIC = '/wiki/Public:Accueil';
+	ACCUEIL_PUBLIC = '/fr/';
 
 	protected $requiredAuth = false;
 
