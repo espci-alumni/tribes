@@ -57,7 +57,7 @@
 		</td>
 		<td align="right">
 			<a href="{~}user/edit/contact" target="content_iframe">{$prenom_usuel} {$nom_usuel}</a>
-			<!-- IF $is_admin --> | <a href="{~}admin" target="content_iframe">Administration</a><!-- END:IF -->
+			<!-- IF $connected_is_admin --> | <a href="{~}admin" target="content_iframe">Administration</a><!-- END:IF -->
 			<!-- AGENT 'user/_logout' -->
 		</td>
 	</tr>

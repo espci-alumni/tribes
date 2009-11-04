@@ -6,8 +6,10 @@ class extends loop_edit
 
 	$type = 'activite',
 	$exposeLoopData = true,
-	$adresses = array(),
-	$send;
+	$adresses  = array(),
+	$activites = array(),
+	$send,
+	$editAdresse = true;
 
 
 	function __construct($f, $contact_id, $send)
@@ -31,7 +33,7 @@ class extends loop_edit
 				WHERE type='%s'
 				ORDER BY sort_key, `group`, `value`";
 
-		$f->add('QSelect', 'organisation', array(
+		$organisation = $f->add('QSelect', 'organisation', array(
 			'isdata' => false,
 			'src' => 'QSelect/organisation',
 		));
@@ -49,15 +51,31 @@ class extends loop_edit
 		));
 		$f->add('monthyear', 'date_debut');
 		$f->add('monthyear', 'date_fin');
-		$f->add('select', 'adresse_id', array(
-			'firstItem' => '',
-			'item' => &$this->adresses,
-		));
+
+		if ($this->editAdresse)
+		{
+			$a = $this->activites
+				? array("Coordonnées ci-dessus" => $this->activites)
+				: array();
+
+			$a["Coordonnées existantes"] =& $this->adresses;
+			$a["Nouvelles coordonnées" ] = array('new' => 'Nouvelles coordonnées');
+
+			$organisation = $organisation->getValue();
+
+			$this->activites[-$counter] = "Idem \"{$organisation}\" ci-dessus";
+
+			$f->add('select', 'adresse_id', array(
+				'firstItem' => '- Préciser vos coordonnées -',
+				'item' => $a
+			));
+		}
+
 		$f->add('text', 'site_web');
 		$f->add('QSelect', 'keyword', array(
 			'src' => 'QSelect/keyword',
 		));
-		$f->add('check', 'is_shared', array('item' => array (1 => 'Partagé', 0 => 'Confidentiel')));
+		$f->add('check', 'is_shared', array('item' => array(1 => 'Partagé', 0 => 'Confidentiel')));
 
 		$this->send->attach(
 			'organisation', "Veuillez renseigner le ou les organisations", '',

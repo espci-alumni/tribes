@@ -7,7 +7,7 @@ class
 	PENDING_PERIOD = '4 HOUR',
 	MAX_DOUBLON_DISTANCE = 0.5;
 
-	protected static $admin_user_ids = array(10, 16663);
+	protected static $admin_user_ids = array();
 
 
 	static function getConnectedId()

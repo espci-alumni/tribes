@@ -5,7 +5,8 @@ class extends self
 	protected
 
 	$requiredAuth = true,
-	$connected_id = 0;
+	$connected_id = 0,
+	$connected_is_admin = false;
 
 	function control()
 	{
@@ -20,6 +21,8 @@ class extends self
 			}
 
 			tribes::isAuth($this->requiredAuth, $this->connected_id) || p::forbidden();
+
+			$this->connected_is_admin = tribes::isAuth('admin', $this->connected_id);
 		}
 	}
 }

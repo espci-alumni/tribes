@@ -1,4 +1,4 @@
-<!-- IF $f_activite_add -->
+<!-- IF $f_activite_add || $activites -->
 
 <h3>Activités</h3>
 
@@ -27,7 +27,9 @@ LOOP $activites
 	</tr>
 	<!--
 		AGENT $f_is_shared
+	IF $f_activite_del
 		AGENT $f_activite_del value="supprimer cette activité" class='additem' _format_=g$inputFormat _preserveScroll_=1
+	END:IF
 		AGENT $f_organisation _caption_="Organisation(s)"
 		AGENT $f_service _caption_="Service / Unité"
 		AGENT $f_titre _caption_="Titre"
@@ -45,6 +47,8 @@ END:LOOP
 </table>
 <!-- END:IF -->
 
+<!-- IF $f_activite_add -->
 <!-- AGENT $f_activite_add value="ajouter une autre activité" class='additem' _preserveScroll_=1 -->
+<!-- END:IF -->
 
 <!-- END:IF -->

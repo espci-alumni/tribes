@@ -5,8 +5,8 @@ class extends agent
 	const
 
 	contentType = '',
-	ACCUEIL_CONNECTED = '/wiki/Accueil',
-	ACCUEIL_PUBLIC = '/fr/';
+	ACCUEIL_CONNECTED = 'user/edit/contact',
+	ACCUEIL_PUBLIC = 'login';
 
 	protected $requiredAuth = false;
 
@@ -17,6 +17,7 @@ class extends agent
 	{
 		$this->connected_id = tribes::getConnectedId();
 		$this->connected_id || p::redirect(self::ACCUEIL_PUBLIC);
+		$this->connected_is_admin = tribes::isAuth('admin', $this->connected_id);
 	}
 
 	function compose($o)
@@ -29,7 +30,7 @@ class extends agent
 
 		$o->onglets = new loop_array(self::$onglets, 'filter_rawArray');
 
-		$o->is_admin = tribes::isAuth('admin', $this->connected_id);
+		$o->connected_is_admin = $this->connected_is_admin;
 
 		$o->prenom_usuel = s::get('prenom_usuel');
 		$o->nom_usuel    = s::get('nom_usuel');

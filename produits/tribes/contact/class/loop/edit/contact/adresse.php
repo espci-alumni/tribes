@@ -9,9 +9,11 @@ class extends loop_edit
 	$send;
 
 
-	function __construct($f, $contact_id, $send)
+	function __construct($f, $contact_id, $send, $new = false)
 	{
-		$loop = new loop_contact_adresse($contact_id);
+		$loop = new loop_contact_adresse($contact_id, $new);
+
+		$new && $this->allowAddDel = false;
 
 		parent::__construct($f, $loop);
 
@@ -26,6 +28,7 @@ class extends loop_edit
 		$f->add('QSelect', 'description', array(
 			'isdata' => false,
 			'src' => 'QSelect/description/adresse',
+			'disabled' => !empty($data->activite_id),
 		));
 		$f->add('textarea', 'adresse');
 		$f->add('text', 'ville_avant');

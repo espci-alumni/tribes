@@ -17,7 +17,6 @@ class extends loop_edit_contact_adresse
 					ville        AS c_ville,
 					ville_apres  AS c_ville_apres,
 					pays         AS c_pays,
-					email_list   AS c_email_list,
 					tel_portable AS c_tel_portable,
 					tel_fixe     AS c_tel_fixe,
 					tel_fax      AS c_tel_fax,
@@ -45,14 +44,14 @@ class extends loop_edit_contact_adresse
 		$this->form->add('check', 'decision', array(
 			'isdata' => false,
 			'item' => array(
-				'1' => 'Valider',
-				'0' => 'Rejeter'
+				'1' => 'Publier',
+				'0' => 'Refuser'
 			)
 		));
 
 		$this->form->getElement('is_shared')->setValue($data->is_shared);
 
-		$this->send->attach('decision', "Veuiller valider ou rejeter tous les blocs", '');
+		$this->send->attach('decision', "Merci de publier ou refuser chacune des sections", '');
 	}
 
 	function filterAdresse($o)

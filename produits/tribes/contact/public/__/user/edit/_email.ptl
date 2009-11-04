@@ -1,4 +1,4 @@
-<!-- IF $f_email_add -->
+<!-- IF $f_email_add || $alias -->
 
 
 <h3>Liste de vos alias</h3>

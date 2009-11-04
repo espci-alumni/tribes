@@ -5,6 +5,7 @@ class extends loop_edit_contact_activite
 	protected
 
 	$allowAddDel = false,
+	$editAdresse = false,
 	$send;
 
 
@@ -24,11 +25,8 @@ class extends loop_edit_contact_activite
 						GROUP BY ''
 					) AS organisation,
 
-					adresse_id    AS c_adresse_id,
 					service       AS c_service,
 					titre         AS c_titre,
-					fonction      AS c_fonction,
-					secteur       AS c_secteur,
 					IF(date_debut,date_debut,'') AS c_date_debut,
 					IF(date_fin,date_fin,'')     AS c_date_fin,
 					site_web      AS c_site_web,
@@ -46,8 +44,6 @@ class extends loop_edit_contact_activite
 
 		loop_edit::__construct($f, $loop);
 
-		$this->loadAdresses($contact_id);
-
 		$this->send = $send;
 	}
 
@@ -58,14 +54,14 @@ class extends loop_edit_contact_activite
 		$this->form->add('check', 'decision', array(
 			'isdata' => false,
 			'item' => array(
-				'1' => 'Valider',
-				'0' => 'Rejeter'
+				'1' => 'Publier',
+				'0' => 'Refuser'
 			)
 		));
 
 		$this->form->getElement('is_shared')->setValue($data->is_shared);
 
-		$this->send->attach('decision', "Veuiller valider ou rejeter tous les blocs", '');
+		$this->send->attach('decision', "Merci de publier ou refuser chacune des sections", '');
 	}
 
 	function filterActivite($o)

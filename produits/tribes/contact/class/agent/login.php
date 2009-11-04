@@ -71,6 +71,8 @@ class extends agent_pForm
 			$data['iframe_src'] = 'user/email/confirm';
 		}
 
+		// TODO: Vérifier ici qu'on a au moins un email actif pour ce contact
+
 		s::regenerateId(true, true);
 		s::set($data);
 	}

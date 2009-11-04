@@ -1,4 +1,4 @@
-<!-- IF $f_adresse_add -->
+<!-- IF $f_adresse_add || $adresses -->
 
 <h3>Coordonnées</h3>
 
@@ -27,8 +27,25 @@ LOOP $adresses
 	</tr>
 	<!--
 		AGENT $f_is_shared
+
+	IF $f_adresse_del
 		AGENT $f_adresse_del value="supprimer cette adresse" class='additem' _format_=g$inputFormat _preserveScroll_=1
+	END:IF
+
+	IF $activite_id
+	-->
+	<tr>
+		<td class="label"><strong>Activité associée</strong>&nbsp;:</td>
+		<td>
+			<strong>{$organisation}</strong><br />
+			{$titre}
+		</td>
+	</tr>
+	<!--
+	ELSE
 		AGENT $f_description _caption_="Description"
+	END:IF
+
 		AGENT $f_adresse _caption_="Adresse"
 		AGENT $f_ville_avant _caption_="Code postal"
 		AGENT $f_ville _caption_="Ville"
@@ -45,6 +62,8 @@ END:LOOP
 </table>
 <!-- END:IF -->
 
+<!-- IF $f_adresse_add -->
 <!-- AGENT $f_adresse_add value="ajouter une autre adresse" class='additem' _preserveScroll_=1 -->
+<!-- END:IF -->
 
 <!-- END:IF -->

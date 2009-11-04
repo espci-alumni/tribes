@@ -54,6 +54,7 @@ class extends agent_registration
 		$o->login = $this->data->login;
 
 		$o->is_admin_confirmed = $this->data->admin_confirmed > $this->data->contact_modified;
+		$o->connected_is_admin = $this->connected_is_admin;
 
 		return parent::compose($o);
 	}
@@ -214,9 +215,9 @@ class extends agent_registration
 		return $o;
 	}
 
-	protected function composeAdresse($o, $f, $send)
+	protected function composeAdresse($o, $f, $send, $new = false)
 	{
-		$this->adresses = $o->adresses = new loop_edit_contact_adresse($f, $this->contact_id, $send);
+		$this->adresses = $o->adresses = new loop_edit_contact_adresse($f, $this->contact_id, $send, $new);
 
 		return $o;
 	}
@@ -234,10 +235,10 @@ class extends agent_registration
 		$this->saveContact($data);
 		$this->saveEmail($data);
 		$this->saveAdresse($data);
-		$this->saveActivite($data);
+		$new_adresse_url = $this->saveActivite($data);
 		$this->saveNewPassword($data);
 
-		return '';
+		return $new_adresse_url;
 	}
 
 	protected function saveContact($data)
@@ -267,7 +268,10 @@ class extends agent_registration
 						'sort_key'   => ++$counter,
 					);
 
-					!$counter && $a->is_active = true;
+					if (isset($b->f_is_active))
+					{
+						$a['is_active'] = $b->email_id == $b->f_is_active->getDbValue();
+					}
 
 					$this->email->save($a, null, $b->id);
 				}
@@ -344,23 +348,57 @@ class extends agent_registration
 	protected function saveActivite($data)
 	{
 		$counter = 0;
+		$i = 0;
+		$adresse_id = array();
+
+		$db = DB();
+
+		$sql = "DELETE FROM contact_adresse
+				WHERE contact_id={$this->contact_id} AND contact_data=''";
+		$db->exec($sql);
+
+		$has_new_adresse = false;
 
 		while ($b = $this->activites->loop())
 		{
+			++$i;
+
 			if (isset($b->f_decision) ? $b->f_decision->getValue() : empty($b->deleted))
 			{
 				$a = array(
 					'organisation'  => $b->f_organisation->getDbValue(),
 					'service'       => $b->f_service->getDbValue(),
+					'titre'         => $b->f_titre->getDbValue(),
 					'fonction'      => $b->f_fonction->getDbValue(),
 					'secteur'       => $b->f_secteur->getDbValue(),
 					'date_debut'    => $b->f_date_debut->getDbValue(),
 					'date_fin'      => $b->f_date_fin->getDbValue(),
-					'adresse_id'    => $b->f_adresse_id->getDbValue(),	
 					'site_web'      => $b->f_site_web->getDbValue(),
 					'keyword'       => $b->f_keyword->getDbValue(),
 					'is_shared'     => $b->f_is_shared->getDbValue(),
 				);
+
+				if (isset($b->f_adresse_id))
+				{
+					$adresse_id[$i] = $b->f_adresse_id->getDbValue();
+
+					if ('new' === $adresse_id[$i])
+					{
+						$has_new_adresse = true;
+
+						$sql = "INSERT INTO contact_adresse (contact_id, origine)
+								VALUES ({$this->contact_id}, 'contact/{$this->connected_id}')";
+						$db->exec($sql);
+
+						$adresse_id[$i] = $db->lastInsertId();
+					}
+					else if ($adresse_id[$i] < 0)
+					{
+						$adresse_id[$i] = $adresse_id[-$adresse_id[$i]];
+					}
+
+					$a['adresse_id'] = $adresse_id[$i];
+				}
 
 				if ('' !== implode('', $a))
 				{
@@ -381,6 +419,8 @@ class extends agent_registration
 				$this->activite->delete($b->id);
 			}
 		}
+
+		return $has_new_adresse ? 'user/edit/adresse/activite' : '';
 	}
 
 	protected function saveNewPassword($data)

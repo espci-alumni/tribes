@@ -14,13 +14,14 @@ class extends tribes_adresse
 		'date_fin',
 		'site_web',
 		'keyword',
-		'adresse_id',
 	);
 
 
 	function __construct($contact_id, $confirmed = false)
 	{
 		parent::__construct($contact_id, $confirmed);
+
+		$this->metaFields['adresse_id'] = 'intNull';
 
 		unset($this->metaFields['is_active']);
 	}

@@ -11,7 +11,7 @@ SET $f -->
 </tr><!--
 END:SET
 
-SET $p -->(supprimé)<!-- END:SET
+SET $p -->(vide)<!-- END:SET
 
 AGENT $form
 
@@ -142,9 +142,6 @@ LOOP $adresses
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_pays:$pays}<!-- END:SET
 	AGENT $f_pays _caption_="Code postal" _format_=$c placeholder=d$p
 
-	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_email_list:$email_list}<!-- END:SET
-	AGENT $f_email_list _caption_="Email(s)" _format_=$c placeholder=d$p
-
 	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_portable:$tel_portable}<!-- END:SET
 	AGENT $f_tel_portable _caption_="Téléphone portable" _format_=$c placeholder=d$p
 
@@ -173,23 +170,14 @@ LOOP $activites
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_titre:$titre}<!-- END:SET
 	AGENT $f_titre _caption_="Titre" _format_=$c placeholder=d$p
 
-	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_fonction:$fonction}<!-- END:SET
-	AGENT $f_fonction _caption_="Fonction" _format_=$c placeholder=d$p
-
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_service:$service}<!-- END:SET
 	AGENT $f_service _caption_="Service" _format_=$c placeholder=d$p
-
-	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_secteur:$secteur}<!-- END:SET
-	AGENT $f_secteur _caption_="Secteur" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_date_debut:$date_debut}<!-- END:SET
 	AGENT $f_date_debut _caption_="Date début" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_date_fin:$date_fin}<!-- END:SET
 	AGENT $f_date_fin _caption_="Date fin" _format_=$c placeholder=d$p
-
-	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_adresse_id:$adresse_id}<!-- END:SET
-	AGENT $f_adresse_id _caption_="Adresse professionnelle" _format_=$c placeholder=d$p
 
 	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_site_web:$site_web}<!-- END:SET
 	AGENT $f_site_web _caption_="Site web" _format_=$c placeholder=d$p
