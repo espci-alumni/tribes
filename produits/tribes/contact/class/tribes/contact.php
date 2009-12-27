@@ -36,7 +36,7 @@ class extends tribes_common
 			'token_expires'       => 'sql',
 			'statut_inscription'  => 'string',
 			'reference'           => 'string',
-			'password'            => 'string',
+			'password'            => 'saltedHash',
 			'photo_token'         => 'string',
 			'cv_token'            => 'string',
 			'cv_text'             => 'string',
@@ -139,7 +139,7 @@ class extends tribes_common
 					if ($db->exec($sql))
 					{
 						$sql = "UPDATE contact_contact
-								SET login='{$login}'
+								SET login='{$login}', user=REPLACE(login,'-','')
 								WHERE contact_id={$this->contact_id}
 									AND login=''";
 						$db->exec($sql);

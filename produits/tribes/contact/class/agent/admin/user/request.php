@@ -103,7 +103,7 @@ class extends agent_user_edit
 		return $o;
 	}
 
-	protected function composeAdresse($o, $f, $send)
+	protected function composeAdresse($o, $f, $send, $new = false)
 	{
 		$this->adresses = $o->adresses = new loop_edit_contact_adresseDiff($f, $this->contact_id, $send);
 

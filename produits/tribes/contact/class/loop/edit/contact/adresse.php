@@ -11,7 +11,7 @@ class extends loop_edit
 
 	function __construct($f, $contact_id, $send, $new = false)
 	{
-		$loop = new loop_contact_adresse($contact_id, $new);
+		$loop = new loop_contact_adresse($contact_id, $new > 0);
 
 		$new && $this->allowAddDel = false;
 

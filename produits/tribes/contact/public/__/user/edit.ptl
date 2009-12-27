@@ -6,6 +6,7 @@ Ces informations sont en attente de publication par un modérateur.
 </p>
 <!-- END:IF -->
 
+<!-- IF g$__AGENT__ != 'admin/user/edit/' -->
 <div id="onglets">
 <ul>
 	<li class="infos"><a href="{~}user/edit/contact">Informations personnelles</a></li>
@@ -22,6 +23,7 @@ Ces informations sont en attente de publication par un modérateur.
 </ul>
 </div>
 <br />
+<!-- END:IF -->
 
 <!-- AGENT $form -->
 

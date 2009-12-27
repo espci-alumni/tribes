@@ -59,6 +59,7 @@ class
 		$sql = "SELECT contact_id, " . self::$sqlSelectDoublonReference . "
 				FROM contact_contact
 				WHERE contact_id!={$contact_id}";
+
 		$result = DB()->query($sql);
 		while ($row = $result->fetchRow())
 		{
@@ -73,7 +74,7 @@ class
 
 		array_multisort($distances, $doublons);
 
-		return $doublons;
+		return array_slice($doublons, 0, 10);
 	}
 
 	static function getDoublonDistance($a, $b)

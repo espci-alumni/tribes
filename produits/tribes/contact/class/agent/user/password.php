@@ -51,7 +51,7 @@ class extends agent_pForm
 		$contact = new tribes_contact($this->data->contact_id);
 		$contact->save(
 			array(
-				'password' => p::saltedHash($data['new_pwd']),
+				'password' => $data['new_pwd'],
 				'token' => '',
 			),
 			'user/password/confirmation'

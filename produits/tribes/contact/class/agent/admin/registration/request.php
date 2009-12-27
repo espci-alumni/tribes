@@ -67,7 +67,7 @@ class extends agent_user_edit
 
 		$o = $this->composeContact($o, $f, $send);
 		$o = $this->composeEmail($o, $f, $send);
-		$o = $this->composeAdresse($o, $f, $send);
+		$o = $this->composeAdresse($o, $f, $send, -1);
 
 		$f->add('textarea', 'message');
 
@@ -125,7 +125,7 @@ class extends agent_user_edit
 				self::mergeContacts($this->contact_id, $this->doublon_contact_id);
 			}
 
-			$sql = "SELECT contact_id, login, nom_usuel, prenom_usuel
+			$sql = "SELECT contact_id, login, user, nom_usuel, prenom_usuel
 				FROM contact_contact
 				WHERE contact_id={$this->doublon_contact_id}";
 			if ($sql = DB()->queryRow($sql))

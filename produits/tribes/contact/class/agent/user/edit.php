@@ -428,7 +428,7 @@ class extends agent_registration
 		if ('' !== $data['new_pwd'])
 		{
 			$data = array(
-				'password' => p::saltedHash($data['new_pwd']),
+				'password' => $data['new_pwd'],
 				'token'    => '',
 			);
 

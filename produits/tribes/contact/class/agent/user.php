@@ -32,6 +32,7 @@ class extends agent
 	function compose($o)
 	{
 		$o = $this->contact;
+		$o->connected_is_admin = $this->connected_is_admin;
 
 		$o->hasPhoto = file_exists(patchworkPath('data/photo/') . $o->photo_token . '.jpg');
 		$o->hasCv    = file_exists(patchworkPath('data/cv/')    . $o->cv_token    . '.pdf');
