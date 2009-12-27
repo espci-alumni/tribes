@@ -1,0 +1,60 @@
+<?php
+
+class extends self
+{
+	function save($data, $message = null, &$id = 0)
+	{
+		$message = parent::save($data, $message, $id);
+
+		$sql = "SELECT email, user, e.is_active, e.is_obsolete,
+					IF(e.admin_confirmed AND e.contact_confirmed,1,0) AS confirmed
+				FROM contact_email e JOIN contact_contact USING (contact_id)
+				WHERE email_id={$id}";
+		if ($row = DB()->queryRow($sql))
+		{
+			$sql = substr($CONFIG['tribes.emailDomain'], 1);
+
+			if ($row->is_obsolete > 0 || !$row->confirmed)
+			{
+				$sql = "DELETE FROM a USING postfix_alt a
+							JOIN postfix_user USING (user_id)
+						WHERE alt='{$row->email}'
+							AND domain='{$sql}'
+							AND user='{$row->user}'";
+			}
+			else
+			{
+				$sql = "SELECT user_id FROM postfix_user WHERE domain='{$sql}' AND user='{$row->user}'";
+				$sql = "INSERT INTO postfix_alt (alt,user_id,forward,created,modified)
+						VALUES ('{$row->email}',({$sql}),{$row->is_active},NOW(),NOW())
+						ON DUPLICATE KEY UPDATE forward={$row->is_active}";
+			}
+
+			DB($CONFIG['tribes.emailDSN'])->exec($sql);
+		}
+
+		return $message;
+	}
+
+	function delete($row_id)
+	{
+		if (!$this->confirmed)
+		{
+			$sql = "SELECT email, user
+						FROM contact_email JOIN contact_contact USING (contact_id)
+					WHERE email_id={$row_id}";
+			if ($row = DB()->queryRow($sql))
+			{
+				$sql = substr($CONFIG['tribes.emailDomain'], 1);
+				$sql = "DELETE FROM a USING postfix_alt a
+							JOIN postfix_user USING (user_id)
+						WHERE alt='{$row->email}'
+							AND domain='{$sql}'
+							AND user='{$row->user}'";
+				DB($CONFIG['tribes.emailDSN'])->exec($sql);
+			}
+		}
+
+		parent::delete($row_id);
+	}
+}
