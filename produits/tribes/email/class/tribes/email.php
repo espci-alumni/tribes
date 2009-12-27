@@ -25,8 +25,8 @@ class extends self
 			else
 			{
 				$sql = "SELECT user_id FROM postfix_user WHERE domain='{$sql}' AND user='{$row->user}'";
-				$sql = "INSERT INTO postfix_alt (alt,user_id,forward,created,modified)
-						VALUES ('{$row->email}',({$sql}),{$row->is_active},NOW(),NOW())
+				$sql = "INSERT INTO postfix_alt (alt,user_id,forward,created)
+						VALUES ('{$row->email}',({$sql}),{$row->is_active},NOW())
 						ON DUPLICATE KEY UPDATE forward={$row->is_active}";
 			}
 
@@ -41,7 +41,7 @@ class extends self
 		if (!$this->confirmed)
 		{
 			$sql = "SELECT email, user
-						FROM contact_email JOIN contact_contact USING (contact_id)
+					FROM contact_email JOIN contact_contact USING (contact_id)
 					WHERE email_id={$row_id}";
 			if ($row = DB()->queryRow($sql))
 			{

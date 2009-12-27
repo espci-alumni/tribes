@@ -16,18 +16,82 @@ class extends self
 		$domain = substr($CONFIG['tribes.emailDomain'], 1);
 
 		$sql = $db->quote($contact->prenom_usuel . ' ' . $contact->nom_usuel . ' - ' . $domain);
-		$sql = "UPDATE postfix_user
-			SET modified=modified,
-				password='" . crypt($contact->password) . "',
-				display={$sql},
-				canonic=IF(user!='{$contact->login}','{$contact->login}',null)
-			WHERE user='{$contact->user}'
-				AND domain='{$domain}'";
-		if (!$db->exec($sql))
+		$sql = "INSERT INTO postfix_user
+					(user,domain,canonic,display,password,created)
+				VALUES (
+					'{$contact->user}',
+					'{$domain}',
+					IF(user!='{$contact->login}','{$contact->login}',null),
+					{$sql},
+					'" . crypt($contact->password) . "',
+					NOW()
+				)
+				ON DUPLICATE KEY UPDATE
+					password=VALUES(password),
+					display=VALUES(display),
+					canonic=VALUES(canonic)";
+		if (1 === $db->exec($sql))
 		{
-			agent_admin_registration_request::emailCreateAccount($contact);
-		}
+			// Si l'insertion a réussi
 
-		// TODO : synchro. des alias et email alt. éventuellement déjà existants ?
+			// Synchronisation des emails alternatifs
+
+			$user_id = $db->lastInsertId();
+
+			$sql = "SELECT email, is_active
+					FROM contact_email
+					WHERE contact_id={$contact->contact_id}
+						AND is_obsolete<=0
+						AND admin_confirmed
+						AND contact_confirmed";
+			$result = DB()->query($sql);
+
+			$sql = array();
+
+			while ($row = $result->fetchRow())
+			{
+					$sql[] = "('{$row->email}',{$user_id},{$row->is_active},NOW())";
+			}
+
+			if ($sql)
+			{
+				$sql = "INSERT IGNORE INTO postfix_alt
+							(alt,user_id,forward,created)
+						VALUES " . implode(',', $sql);
+				$db->exec($sql);
+			}
+
+
+			// Synchronisation des alias 
+
+			$sql = "SELECT alias AS hyphen,
+						REPLACE(alias,'-','') AS alias
+					FROM contact_alias
+					WHERE contact_id={$contact->contact_id}";
+			$result = DB()->query($sql);
+
+			$sql = array();
+
+			while ($row = $result->fetchRow())
+			{
+				$sql[] = "(
+					'{$row->alias}',
+					'{$domain}',
+					'alias',
+					1,
+					'{$contact->user}@{$domain}',
+					'" . ($row->alias !== $row->hyphen ? $row->hyphen : '') . "',
+					NOW()
+				)";
+			}
+
+			if ($sql)
+			{
+				$sql = "INSERT IGNORE INTO postfix_alias
+							(alias,domain,type,local,recipient,hyphen,created)
+						VALUES " . implode(',', $sql);
+				$db->exec($sql);
+			}
+		}
 	}
 }

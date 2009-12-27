@@ -64,8 +64,8 @@ class extends self
 					$alias = str_replace('-', '', $aliases);
 
 					$sql = "INSERT IGNORE INTO postfix_alias (alias,domain,type,local,recipient,hyphen)
-						VALUES ('{$alias}','{$domain}','alias',{$is_local},'{$user}@{$domain}','" . ($alias !== $aliases ? $aliases : '') . "')
-						ON DUPLICATE KEY UPDATE hyphen=VALUES(hyphen)";
+							VALUES ('{$alias}','{$domain}','alias',{$is_local},'{$user}@{$domain}','" . ($alias !== $aliases ? $aliases : '') . "')
+							ON DUPLICATE KEY UPDATE hyphen=VALUES(hyphen)";
 					$db->exec($sql);
 				}
 			}
@@ -74,12 +74,23 @@ class extends self
 			{
 				isset($user) || $user = DB()->query($sql);
 
-				$db->autoExecute(
-					'postfix_user',
-					$update,
-					MDB2_AUTOQUERY_UPDATE,
-					"user='{$user}' AND domain='{$domain}'"
-				);
+				if (self::ACTION_INSERT === $message)
+				{
+					$update['user']   = $user;
+					$update['domain'] = $domain;
+					$update['login']  = $update['canonic'];
+
+					$db->autoExecute('postfix_user', $update);
+				}
+				else
+				{
+					$db->autoExecute(
+						'postfix_user',
+						$update,
+						MDB2_AUTOQUERY_UPDATE,
+						"user='{$user}' AND domain='{$domain}'"
+					);
+				}
 			}
 		}
 
