@@ -14,6 +14,8 @@ class extends loop_edit
 	{
 		$loop = new loop_contact_email($contact_id);
 
+		$this->defaultLength = s::get('contact_id') == $contact_id ? 1 : 0;
+
 		parent::__construct($f, $loop);
 
 		$this->send = $send;

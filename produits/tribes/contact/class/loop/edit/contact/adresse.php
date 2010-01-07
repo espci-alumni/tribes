@@ -14,6 +14,7 @@ class extends loop_edit
 		$loop = new loop_contact_adresse($contact_id, $new > 0);
 
 		$new && $this->allowAddDel = false;
+		$this->defaultLength = s::get('contact_id') == $contact_id ? 1 : 0;
 
 		parent::__construct($f, $loop);
 

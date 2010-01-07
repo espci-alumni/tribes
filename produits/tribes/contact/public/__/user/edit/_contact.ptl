@@ -29,7 +29,9 @@ END:IF
 AGENT $f_nom_etudiant _caption_="Nom étudiant"
 AGENT $f_nom_usuel _caption_="Nom usuel"
 AGENT $f_prenom_usuel _caption_="Prénom usuel"
-AGENT $f_conjoint_contact_id _caption_="Conjoint"
+IF $f_conjoint_contact_id
+	AGENT $f_conjoint_contact_id _caption_="Conjoint"
+END:IF
 
 
 SET $f

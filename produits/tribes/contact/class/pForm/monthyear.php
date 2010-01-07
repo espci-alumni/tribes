@@ -22,6 +22,7 @@ class extends pForm_date
 		$a->value = preg_replace("'^\d{2}-(\d{2})-(\d{4})$'u", '$1-$2', $a->value);
 		$a->onchange = 'var v=valid_date("01"+this.value.replace(/[^0-9]+/,""));if(v)this.value=v.substr(3);';
 		$a->_placeholder = T('mm-aaaa');
+		$a->_class = "text monthyear";
 
 		return $a;
 	}

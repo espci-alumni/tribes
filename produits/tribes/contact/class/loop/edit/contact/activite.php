@@ -16,6 +16,8 @@ class extends loop_edit
 	{
 		$loop = new loop_contact_activite($contact_id);
 
+		$this->defaultLength = s::get('contact_id') == $contact_id ? 1 : 0;
+
 		parent::__construct($f, $loop);
 
 		$this->loadAdresses($contact_id);
@@ -58,7 +60,7 @@ class extends loop_edit
 				? array("Coordonnées ci-dessus" => $this->activites)
 				: array();
 
-			$a["Coordonnées existantes"] =& $this->adresses;
+			$this->adresses && $a["Coordonnées existantes"] =& $this->adresses;
 			$a["Nouvelles coordonnées" ] = array('new' => 'Nouvelles coordonnées');
 
 			$organisation = $organisation->getValue();
@@ -67,7 +69,8 @@ class extends loop_edit
 
 			$f->add('select', 'adresse_id', array(
 				'firstItem' => '- Préciser vos coordonnées -',
-				'item' => $a
+				'item' => $a,
+				'default' => $this->adresses ? null : 'new',
 			));
 		}
 
