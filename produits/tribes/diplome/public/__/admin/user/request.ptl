@@ -1,0 +1,214 @@
+<!--
+
+AGENT 'header' title="Confirmation de données"
+
+
+SET $f -->
+<tr>
+	<td class="label">%0&nbsp;:</td>
+	<td>{old}</td>
+	<td class="input">{new}</td>
+</tr><!--
+END:SET
+
+SET $p -->(vide)<!-- END:SET
+
+AGENT $form
+
+-->
+
+<table>
+<tr>
+	<th>&nbsp;</th>
+	<th>Données publiées</th>
+	<th>Données à valider</th>
+</tr>
+
+<!--
+
+SET $c -->{$f|diffFormat:$c_login:$login}<!-- END:SET
+AGENT $f_login _caption_="Identifiant" _format_=$c placeholder=d$p
+
+SET $c -->
+<tr>
+	<td class="label">&nbsp;</td>
+	<td>{$c_sexe}</td>
+	<td class="input"><!-- IF $c_sexe != $sexe -->%1%2<!-- ELSE -->&nbsp;<!-- END:IF --></td>
+</tr><!--
+END:SET
+AGENT $f_sexe _glue_=' ' _format_=$c
+
+SET $c -->{$f|diffFormat:$c_nom_civil:$nom_civil}<!-- END:SET
+AGENT $f_nom_civil _caption_="Nom civil" _format_=$c placeholder=d$p
+
+SET $c -->{$f|diffFormat:$c_prenom_civil:$prenom_civil}<!-- END:SET
+AGENT $f_prenom_civil _caption_="Prénom civil" _format_=$c placeholder=d$p
+
+SET $c -->{$f|diffFormat:$c_date_naissance:$date_naissance}<!-- END:SET
+SET $c -->{$c|formatDate}<!-- END:SET
+AGENT $f_date_naissance _caption_="Date de naissance" _format_=$c placeholder=d$p
+
+SET $c -->
+<tr>
+	<td>%0&nbsp;:</td>
+	<td>&nbsp;</td>
+	<td>%1%2</td>
+</tr><!--
+END:SET
+
+-->
+<tr>
+	<td>&nbsp;</td>
+	<td>
+		<!-- IF $hasPhoto --><img src="{~}user/photo/{$photo_token}/{$c_login}.jpg" />
+		<!--ELSE --><img src="{~}img/photo.gif" />
+		<!-- END:IF-->
+	</td>
+	<td>
+	<!--
+		IF $newPhoto
+			--><img src="{~}user/photo/{$photo_token}/~{$c_login}.jpg" /><br /><!--
+			AGENT $f_decision_photo _glue_=' ' _format_='%1%2'
+		ELSE -->&nbsp;<!--
+		END:IF
+	-->
+	</td>
+</tr>
+<!--
+
+IF $newPhoto
+	AGENT $f_photo _caption_="Photo" _format_=$c
+END:IF
+
+IF $newCv -->
+<tr>
+	<td>&nbsp;</td>
+	<td>
+		<!-- IF $hasCv --><a href="{~}user/cv/{$cv_token}/{$c_login}.pdf">Actuel</a>
+		<!--ELSE -->&nbsp;
+		<!-- END:IF-->
+	</td>
+	<td>
+		<a href="{~}user/cv/{$cv_token}/~{c_$login}.pdf">Proposé</a><br />
+		<!-- AGENT $f_decision_cv _glue_=' ' _format_='%1%2' -->
+	</td>
+</tr><!--
+
+	AGENT $f_cv _caption_="CV" _format_=$c
+END:IF
+
+SET $c -->{$f|diffFormat:$c_nom_etudiant:$nom_etudiant}<!-- END:SET
+AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$c placeholder=d$p
+
+SET $c -->{$f|diffFormat:$c_nom_usuel:$nom_usuel}<!-- END:SET
+AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$c placeholder=d$p
+
+SET $c -->{$f|diffFormat:$c_prenom_usuel:$prenom_usuel}<!-- END:SET
+AGENT $f_prenom_usuel _caption_="Prénom usuel" _format_=$c placeholder=d$p
+
+SET $c -->{$f|diffFormat:$c_ecole:$ecole}<!-- END:SET
+AGENT $f_ecole _caption_="École" _format_=$c placeholder=d$p
+
+SET $c -->{$f|diffFormat:$c_promotion:$promotion}<!-- END:SET
+AGENT $f_promotion _caption_="Promotion" _format_=$c placeholder=d$p
+
+SET $c -->{$f|diffFormat:$c_programme:$programme}<!-- END:SET
+AGENT $f_programme _caption_="Programme" _format_=$c placeholder=d$p
+
+SET $c -->{$f|diffFormat:$c_specialite:$specialite}<!-- END:SET
+AGENT $f_specialite _caption_="Spécialité" _format_=$c placeholder=d$p
+
+SET $fnew -->
+<tr>
+	<td class="label">%0&nbsp;:</td>
+	<td>&nbsp;</td>
+	<td class="input">%1%2</td>
+</tr><!--
+END:SET
+
+LOOP $adresses
+
+	--><tr class="requestHeading">
+		<td>Adresse</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr><!--
+
+	AGENT $f_decision _glue_=' '
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_description:$description}<!-- END:SET
+	AGENT $f_description _caption_="Description" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_adresse:$adresse}<!-- END:SET
+	AGENT $f_adresse _caption_="Adresse" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville_avant:$ville_avant}<!-- END:SET
+	AGENT $f_ville_avant _caption_="Code postal" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville:$ville}<!-- END:SET
+	AGENT $f_ville _caption_="Ville" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville_apres:$ville_apres}<!-- END:SET
+	AGENT $f_ville_apres _caption_="Zip code" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_pays:$pays}<!-- END:SET
+	AGENT $f_pays _caption_="Code postal" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_portable:$tel_portable}<!-- END:SET
+	AGENT $f_tel_portable _caption_="Téléphone portable" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_fixe:$tel_fixe}<!-- END:SET
+	AGENT $f_tel_fixe _caption_="Téléphone fixe" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_fax:$tel_fax}<!-- END:SET
+	AGENT $f_tel_fax _caption_="Fax" _format_=$c placeholder=d$p
+
+END:LOOP
+
+
+LOOP $activites
+
+	--><tr class="requestHeading">
+		<td>Activité</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr><!--
+
+	AGENT $f_decision _glue_=' '
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_organisation:$organisation}<!-- END:SET
+	AGENT $f_organisation _caption_="Organisation" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_titre:$titre}<!-- END:SET
+	AGENT $f_titre _caption_="Titre" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_service:$service}<!-- END:SET
+	AGENT $f_service _caption_="Service" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_date_debut:$date_debut}<!-- END:SET
+	AGENT $f_date_debut _caption_="Date début" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_date_fin:$date_fin}<!-- END:SET
+	AGENT $f_date_fin _caption_="Date fin" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_site_web:$site_web}<!-- END:SET
+	AGENT $f_site_web _caption_="Site web" _format_=$c placeholder=d$p
+
+	SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_keyword:$keyword}<!-- END:SET
+	AGENT $f_keyword _caption_="keyword" _format_=$c placeholder=d$p
+
+END:LOOP
+
+-->
+
+</table>
+
+<!-- 
+
+AGENT $f_send value="Enregistrer"
+
+AGENT $form _mode_='close'
+
+AGENT 'footer'
+
+-->
