@@ -1,0 +1,8 @@
+<!-- LOOP a$details -->
+
+<ul>
+	<li>Date de cotisation&nbsp;: {$cotisation_date}</li>
+	<li>Type de cotisation&nbsp;: {$cotisation_type}</li>
+</ul>
+
+<!-- END:LOOP -->
