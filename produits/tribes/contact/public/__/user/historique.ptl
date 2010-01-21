@@ -8,6 +8,7 @@ SET g$ACTION_UPDATE  -->2<!-- END:SET
 SET g$ACTION_INSERT  -->1<!-- END:SET
 
 -->
+<!-- INLINE user/_onglets -->
 
 <!-- LOOP $historiques -->
 

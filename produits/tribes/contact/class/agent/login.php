@@ -54,6 +54,8 @@ class extends agent_pForm
 
 		$data = array(
 			'contact_id'     => $contact->contact_id,
+			'user'           => $contact->user,
+			'email'          => $contact->email,
 			'referer'        => s::flash('referer'),
 			'nom_usuel'      => $contact->nom_usuel,
 			'prenom_usuel'   => $contact->prenom_usuel,

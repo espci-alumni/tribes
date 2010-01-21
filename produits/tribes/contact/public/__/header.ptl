@@ -5,50 +5,16 @@
 <!-- SET a$head -->
 {a$head}
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/smoothness/jquery-ui.css" />
-<script type="text/javascript" src="{base:'js/jquery'}"></script>
+<script type="text/javascript" src="{base:'js/jquery'}"></script >
+<script type="text/javascript" src="http://jquery-ui.googlecode.com/svn/trunk/ui/i18n/jquery.ui.datepicker-{g$__LANG__|substr:0:2|default:'fr'}.js"></script >
 <script type="text/javascript">
 onDOMLoaded.push(function()
 {
+$.datepicker.setDefaults({changeMonth: true, changeYear: true});
 
-$.datepicker.regional['fr'] = {
-	clearText: 'Effacer',
-	clearStatus: 'Effacer la date sélectionnée',
-	closeText: 'Fermer',
-	closeStatus: 'Fermer sans modifier',
-	prevText: '&#x3c;Préc',
-	prevStatus: 'Voir le mois précédent',
-	prevBigText: '&#x3c;&#x3c;',
-	prevBigStatus: '',
-	nextText: 'Suiv&#x3e;',
-	nextStatus: 'Voir le mois suivant',
-	nextBigText: '&#x3e;&#x3e;',
-	nextBigStatus: '',
-	currentText: 'Courant',
-	currentStatus: 'Voir le mois courant',
-	monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-	monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'],
-	monthStatus: 'Voir un autre mois',
-	yearStatus: 'Voir une autre année',
-	weekHeader: 'Sm',
-	weekStatus: '',
-	dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-	dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
-	dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
-	dayStatus: 'Utiliser DD comme premier jour de la semaine',
-	dateStatus: '\'Choisir\' le DD d MM',
-	dateFormat: 'dd/mm/yy',
-	firstDay: 1,
-	initStatus: 'Choisir la date',
-	isRTL: false,
-	showOtherMonths: true,
-	showOn: 'both',
-	changeMonth: true,
-	changeYear: true
-};
-$.datepicker.setDefaults($.datepicker.regional['{g$__LANG__|substr:0:2|default:'fr'}']);
-
-$('input.date'     ).datepicker({dateFormat: 'dd-mm-yy', yearRange: '{$_year-100}:{$_year-18}'});
-$('input.monthyear').datepicker({dateFormat:    'mm-yy', yearRange: '{$_year-50}:{$_year+20}'});
+$('input[name=f_date_naissance]').datepicker({dateFormat: 'dd-mm-yy', yearRange: '{$_year-100}:{$_year-18}'});
+$('input.date'                  ).datepicker({dateFormat: 'dd-mm-yy'});
+$('input.monthyear'             ).datepicker({dateFormat:    'mm-yy', yearRange: '{$_year-50}:{$_year+20}'});
 
 });
 </script >

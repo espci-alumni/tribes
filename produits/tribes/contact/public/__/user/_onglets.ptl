@@ -1,0 +1,18 @@
+<!-- IF g$__AGENT__ != 'admin/user/edit/' -->
+<div id="onglets">
+<ul>
+	<li class="infos"><a href="{~}user/edit/contact">Informations personnelles</a></li>
+	<li class="infos"><a href="{~}user/edit/adresse">Coordonnées</a></li>
+	<li class="infos"><a href="{~}user/edit/activite">Activités</a></li>
+	<li class="infos"><a href="{~}user/edit/email">Emails</a></li>
+	<li class="infos"><a href="{~}user/edit/password">Mot de passe</a></li>
+	<li class="consult"><a href="{~}user/historique">Historique</a></li>
+	<!-- IF $connected_is_admin -->
+	<li class="consult"><a href="{~}admin/user/secretariat/{$contact_id}">Secrétariat</a></li>
+	<!-- ELSE -->
+	<li class="consult"><a href="{~}user/secretariat">Secrétariat</a></li>
+	<!-- END:IF -->
+</ul>
+</div>
+<br />
+<!-- END:IF -->

@@ -14,6 +14,11 @@ IF a$__1__ == 'password' --><p>Veuillez remplir ce formulaire afin de redéfinir
 
 <!-- AGENT $form -->
 
+<p>
+Merci de remplir vos nom et prénom en faisant attention aux majuscules, minuscules ainsi qu'aux accents, cédilles, <em>etc</em>.<br />
+Par exemple, saisissez <em>François</em> (F majuscule, le reste en minuscule, cédille) plutôt que <em><strike>francois</strike></em> ou <em><strike>FRANCOIS</strike></em>.
+</p>
+
 <table>
 <!--
 
@@ -34,6 +39,10 @@ AGENT $f_email _caption_="Email"
 	</td>
 </tr>
 </table>
+
+<p>
+Dès validation de votre inscription, un lien vous sera envoyé par email, qui vous permettra de confirmer définitivement votre demande d'inscription. Celle-ci sera alors traitée par le secrétariat de l'association et vous recevrez votre mot de passe dans les plus brefs délais.
+</p>
 
 <!-- AGENT $form _mode_='close' -->
 

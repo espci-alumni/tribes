@@ -6,7 +6,7 @@ class extends agent
 	const contentType = 'image/jpeg';
 
 	public $get = array(
-		'__1__:c:[A-Za-z0-9]{8}'    => '#',
+		'__1__:c:[-_A-Za-z0-9]{8}'  => '#',
 		'__2__:c:.+\.[a-z0-9]{3,4}' => '#',
 	);
 

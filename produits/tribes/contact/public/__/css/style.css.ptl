@@ -53,7 +53,7 @@ input.text, input.QSelect, textarea, input.password
 #onglets
 {
 	height: 30px;
-	width: 100%;	
+	width: 100%;
 }
 
 #onglets_rech

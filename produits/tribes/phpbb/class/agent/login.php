@@ -68,8 +68,8 @@ class extends self
 
 		$db->autoExecute($phpbbDb . '.sessions', $data, MDB2_AUTOQUERY_INSERT);
 
-		setcookie($phpbbDb . '_u'  , $user_id, 0, '/forum/', $CONFIG['session.cookie_domain']);
-		setcookie($phpbbDb . '_sid', $sid    , 0, '/forum/', $CONFIG['session.cookie_domain']);
+		setcookie($phpbbDb . '_u'  , $user_id, 0, $CONFIG['tribes.phpbbPath'], $CONFIG['session.cookie_domain']);
+		setcookie($phpbbDb . '_sid', $sid    , 0, $CONFIG['tribes.phpbbPath'], $CONFIG['session.cookie_domain']);
 	}
 
 

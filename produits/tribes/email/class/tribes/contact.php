@@ -36,7 +36,7 @@ class extends self
 				{
 					$aliases[] = $data['login'];
 
-					isset($user) || $user = DB()->query($sql);
+					isset($user) || $user = DB()->queryOne($sql);
 
 					$update['canonic'] = $user !== $data['login'] ? $data['login'] : null;
 				}
@@ -54,7 +54,7 @@ class extends self
 
 			if ($aliases)
 			{
-				isset($user) || $user = DB()->query($sql);
+				isset($user) || $user = DB()->queryOne($sql);
 
 				$sql = "SELECT local FROM postfix_alias WHERE alias='{$user}' AND domain='{$domain}'";
 				$is_local = (int) $db->queryOne($sql);
@@ -72,7 +72,7 @@ class extends self
 
 			if ($update)
 			{
-				isset($user) || $user = DB()->query($sql);
+				isset($user) || $user = DB()->queryOne($sql);
 
 				if (self::ACTION_INSERT === $message)
 				{

@@ -36,8 +36,8 @@ class extends self
 			$db->autoExecute($mediaWikiDb . '.user', $data, MDB2_AUTOQUERY_UPDATE, "user_id={$contact->contact_id}");
 		}
 
-		setcookie($mediaWikiDb . 'UserID'  , $contact->contact_id, 0, '/wiki/', $CONFIG['session.cookie_domain']);
-		setcookie($mediaWikiDb . 'UserName', $data['user_name']  , 0, '/wiki/', $CONFIG['session.cookie_domain']);
-		setcookie($mediaWikiDb . 'Token'   , $user_token         , 0, '/wiki/', $CONFIG['session.cookie_domain']);
+		setcookie($mediaWikiDb . 'UserID'  , $contact->contact_id, 0, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
+		setcookie($mediaWikiDb . 'UserName', $data['user_name']  , 0, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
+		setcookie($mediaWikiDb . 'Token'   , $user_token         , 0, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
 	}
 }
