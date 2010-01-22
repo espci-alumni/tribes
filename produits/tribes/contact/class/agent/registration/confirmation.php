@@ -4,7 +4,7 @@ class extends agent_registration_receipt
 {
 	const NOTIFICATION_DELAY = 300;
 
-	public $get = array('__1__:c:[A-Za-z0-9]{8}', 'email:i:1', 'adresse:i:1');
+	public $get = array('__1__:c:[-_A-Za-z0-9]{8}', 'email:i:1', 'adresse:i:1');
 
 	function control()
 	{

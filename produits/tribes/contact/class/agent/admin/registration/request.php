@@ -2,7 +2,7 @@
 
 class extends agent_user_edit
 {
-	public $get = array('__1__:c:[A-Za-z0-9]{8}');
+	public $get = array('__1__:c:[-_A-Za-z0-9]{8}');
 
 	const PENDING_PERIOD = '3 DAY';
 

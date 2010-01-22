@@ -43,12 +43,10 @@ class extends self
 
 				for ($i = 0; $i < count(self::$alias); ++$i)
 				{
-					$sql = self::$alias[$i];
+					if (!isset($data[self::$alias[$i][0]])) continue;
+					if (!isset($data[self::$alias[$i][1]])) continue;
 
-					if (!isset($data[$sql[0]])) continue;
-					if (!isset($data[$sql[1]])) continue;
-
-					$aliases[] = tribes::makeIdentifier($data[$sql[0]], '-a-z') . '.' . tribes::makeIdentifier($data[$sql[1]], '-a-z');
+					$aliases[] = tribes::makeIdentifier($data[self::$alias[$i][0]], '-a-z') . '.' . tribes::makeIdentifier($data[self::$alias[$i][1]], '-a-z');
 				}
 			}
 

@@ -2,7 +2,7 @@
 
 class extends agent
 {
-	public $get = '__1__:c:[A-Za-z0-9]{8}';
+	public $get = '__1__:c:[-_A-Za-z0-9]{8}';
 
 	function control()
 	{
