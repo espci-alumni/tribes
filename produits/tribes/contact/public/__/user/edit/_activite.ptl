@@ -33,8 +33,12 @@ LOOP $activites
 		AGENT $f_organisation _caption_="Organisation(s)"
 		AGENT $f_service _caption_="Service / Unité"
 		AGENT $f_titre _caption_="Titre"
-		AGENT $f_fonction _caption_="Fonction"
-		AGENT $f_secteur _caption_="Secteur d'activité"
+		IF $f_fonction
+			AGENT $f_fonction _caption_="Fonction"
+		END:IF
+		IF $f_secteur
+			AGENT $f_secteur _caption_="Secteur d'activité"
+		END:IF
 		AGENT $f_date_debut _caption_="Début"
 		AGENT $f_date_fin _caption_="Fin"
 		AGENT $f_adresse_id _caption_="Coordonnées"
