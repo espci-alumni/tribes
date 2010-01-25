@@ -11,9 +11,10 @@ class extends agent_user_edit
 	{
 		$this->get->__1__ || p::forbidden();
 
+		$sql = str_replace('_', '\\_', $this->get->__1__);
 		$sql = "SELECT contact_id, statut_inscription
 				FROM contact_contact
-				WHERE token LIKE '{$this->get->__1__}%'
+				WHERE token LIKE '{$sql}%'
 					AND token_expires > NOW()
 					AND statut_inscription != 'accepted'";
 		$data = DB()->queryRow($sql);

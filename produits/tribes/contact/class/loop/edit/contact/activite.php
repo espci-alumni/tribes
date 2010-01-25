@@ -30,11 +30,6 @@ class extends loop_edit
 		$f = $this->form;
 		$f->setDefaults($data);
 
-		$sql = "SELECT `value` AS K, `group` AS G, `value` AS V
-				FROM item_lists
-				WHERE type='%s'
-				ORDER BY sort_key, `group`, `value`";
-
 		$organisation = $f->add('QSelect', 'organisation', array(
 			'isdata' => false,
 			'src' => 'QSelect/organisation',
@@ -43,14 +38,33 @@ class extends loop_edit
 		$f->add('QSelect', 'titre', array(
 			'src' => 'QSelect/activite/titre',
 		));
-		$f->add('select', 'fonction', array(
-			'firstItem' => '- Choisir une fonction -',
-			'sql'       => sprintf($sql, 'fonction'),
-		));
-		$f->add('select', 'secteur', array(
-			'firstItem' => '- Choisir un secteur -',
-			'sql'       => sprintf($sql, 'secteur'),
-		));
+
+		$sql = "SELECT
+					EXISTS(SELECT * FROM item_lists WHERE type='fonction') AS has_fonction,
+					EXISTS(SELECT * FROM item_lists WHERE type='secteur' ) AS has_secteur";
+		$a = DB()->queryRow($sql);
+
+		$sql = "SELECT `value` AS K, `group` AS G, `value` AS V
+				FROM item_lists
+				WHERE type='%s'
+				ORDER BY sort_key, `group`, `value`";
+
+		if ($a->has_fonction)
+		{
+			$f->add('select', 'fonction', array(
+				'firstItem' => '- Choisir une fonction -',
+				'sql'       => sprintf($sql, 'fonction'),
+			));
+		}
+
+		if ($a->has_secteur)
+		{
+			$f->add('select', 'secteur', array(
+				'firstItem' => '- Choisir un secteur -',
+				'sql'       => sprintf($sql, 'secteur'),
+			));
+		}
+
 		$f->add('monthyear', 'date_debut');
 		$f->add('monthyear', 'date_fin');
 

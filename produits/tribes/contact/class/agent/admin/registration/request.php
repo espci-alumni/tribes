@@ -53,7 +53,7 @@ class extends agent_user_edit
 		$f->add('check', 'doublon_contact_id', array('item' => $doublon_contact_items));
 		$f->add('submit', 'updateDoublons');
 
-		$o->f_send->attach('doublon_contact_id', 'Merci de choisir doublon_contact_id', '');
+		$o->f_send->attach('doublon_contact_id', 'Fusionner avec : merci de choisir un des items proposés', '');
 
 		return $o;
 	}
@@ -116,6 +116,8 @@ class extends agent_user_edit
 	{
 		if ($this->doublon_contact_id)
 		{
+			$this->data->token = p::strongid(8);
+
 			$this->saveContact($data);
 			$this->saveEmail($data);
 			$this->saveAdresse($data);
@@ -141,6 +143,7 @@ class extends agent_user_edit
 				'email' => $this->data->email,
 				'token' => '',
 				'statut_inscription' => '',
+				'message' => $data['message'],
 			);
 
 			$this->contact->save($data, 'registration/refused', $this->contact_id);
@@ -154,6 +157,7 @@ class extends agent_user_edit
 		parent::saveContact($data + array(
 			'is_active' => 1,
 			'statut_inscription' => 'accepted',
+			'token' => $this->data->token,
 			'token_expires' => 'NOW() + INTERVAL ' . self::PENDING_PERIOD,
 		));
 	}

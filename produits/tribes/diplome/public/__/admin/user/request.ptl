@@ -89,7 +89,7 @@ IF $newCv -->
 		<!-- END:IF-->
 	</td>
 	<td>
-		<a href="{~}user/cv/{$cv_token}/~{c_$login}.pdf">Proposé</a><br />
+		<a href="{~}user/cv/{$cv_token}/~{$c_login}.pdf">Proposé</a><br />
 		<!-- AGENT $f_decision_cv _glue_=' ' _format_='%1%2' -->
 	</td>
 </tr><!--

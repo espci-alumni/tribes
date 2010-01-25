@@ -34,25 +34,18 @@ class extends tribes_common
 				SET is_obsolete=-1, admin_confirmed=0
 				WHERE is_obsolete=1
 					AND contact_id={$this->contact_id}
-					AND " . (
-						!$id
-						? "email=" . DB()->quote($data['email'])
-						: "email_id={$id}"
-					);
+					AND email" . (!$id ? "=" . DB()->quote($data['email']) : "_id={$id}");
 		DB()->exec($sql);
 
 		if (!$this->confirmed && (!isset($data['token']) || !isset($data['email'])))
 		{
-			$sql = "SELECT email, admin_confirmed, IF (token_expires<NOW()-INTERVAL 10 MINUTE,token,NULL) AS token
+			$sql = "SELECT email_id, email, admin_confirmed, IF (token_expires<NOW()-INTERVAL 10 MINUTE,token,NULL) AS token
 					FROM contact_email
 					WHERE contact_id={$this->contact_id}
-						AND " . (
-							!$id
-							? "email=" . DB()->quote($data['email'])
-							: "email_id={$id}"
-						);
+						AND email" . (!$id ? "=" . DB()->quote($data['email']) : "_id={$id}");
 			if ($sql = DB()->queryRow($sql))
 			{
+				$id = $sql->email_id;
 				$data['email'] = $sql->email;
 
 				if (!isset($data['token']) && !(int) $sql->admin_confirmed)

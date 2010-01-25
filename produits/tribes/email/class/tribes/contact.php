@@ -54,8 +54,8 @@ class extends self
 			{
 				isset($user) || $user = DB()->queryOne($sql);
 
-				$sql = "SELECT local FROM postfix_alias WHERE alias='{$user}' AND domain='{$domain}'";
-				$is_local = (int) $db->queryOne($sql);
+				$sql = "SELECT IF(local,1,-1) FROM postfix_alias WHERE alias='{$user}' AND domain='{$domain}'";
+				$is_local = $db->queryOne($sql) >= 0 ? 1 : 0;
 
 				foreach ($aliases as $aliases)
 				{
@@ -72,23 +72,15 @@ class extends self
 			{
 				isset($user) || $user = DB()->queryOne($sql);
 
-				if (self::ACTION_INSERT === $message)
-				{
-					$update['user']   = $user;
-					$update['domain'] = $domain;
-					$update['login']  = $update['canonic'];
+				$update['user']   = $user;
+				$update['domain'] = $domain;
 
-					$db->autoExecute('postfix_user', $update);
-				}
-				else
-				{
-					$db->autoExecute(
-						'postfix_user',
-						$update,
-						MDB2_AUTOQUERY_UPDATE,
-						"user='{$user}' AND domain='{$domain}'"
-					);
-				}
+				foreach ($update as &$user) $user = array('value' => $user);
+
+				$update['user']['key']    = true;
+				$update['user']['domain'] = true;
+
+				$db->replace('postfix_user', $update);
 			}
 		}
 

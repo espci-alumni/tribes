@@ -369,14 +369,15 @@ class extends agent_registration
 					'organisation'  => $b->f_organisation->getDbValue(),
 					'service'       => $b->f_service->getDbValue(),
 					'titre'         => $b->f_titre->getDbValue(),
-					'fonction'      => $b->f_fonction->getDbValue(),
-					'secteur'       => $b->f_secteur->getDbValue(),
 					'date_debut'    => $b->f_date_debut->getDbValue(),
 					'date_fin'      => $b->f_date_fin->getDbValue(),
 					'site_web'      => $b->f_site_web->getDbValue(),
 					'keyword'       => $b->f_keyword->getDbValue(),
 					'is_shared'     => $b->f_is_shared->getDbValue(),
 				);
+
+				empty($b->f_fonction) || $a['fonction'] = $b->f_fonction->getDbValue();
+				empty($b->f_secteur ) || $a['secteur' ] = $b->f_secteur->getDbValue();
 
 				if (isset($b->f_adresse_id))
 				{

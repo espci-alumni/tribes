@@ -108,14 +108,6 @@ class extends tribes_common
 			{
 				$db = DB();
 
-				if (isset($data['reference']))
-				{
-					$sql = "INSERT INTO contact_alias (alias,contact_id,hidden)
-							VALUES ('{$data['reference']}',{$this->contact_id},1)
-							ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
-					$db->exec($sql);
-				}
-
 				if (isset($data['login']))
 				{
 					$login = str_replace('-', '', $data['login']);
