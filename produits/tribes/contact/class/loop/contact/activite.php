@@ -13,8 +13,8 @@ class extends loop_contact_email
 						FROM contact_organisation o
 							JOIN contact_affiliation af
 								ON af.organisation_id=o.organisation_id
-									AND NOT is_admin_confirmed
 						WHERE af.activite_id=contact_activite.activite_id
-						GROUP BY ''
+						GROUP BY af.is_admin_confirmed
+						LIMIT 1
 					) AS organisation";
 }

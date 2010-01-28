@@ -124,7 +124,9 @@ class extends tribes_common
 					if (!isset($data[$sql[0]])) continue;
 					if (!isset($data[$sql[1]])) continue;
 
-					$login = tribes::makeIdentifier($data[$sql[0]], '-a-z') . '.' . tribes::makeIdentifier($data[$sql[1]], '-a-z');
+					$login = tribes::makeIdentifier($data[$sql[0]], "- 'a-z")
+					 . '.' . tribes::makeIdentifier($data[$sql[1]], "- 'a-z");
+					$login = preg_replace("/[- ']+/", '-', $login);
 					$sql = "INSERT IGNORE INTO contact_alias (contact_id, alias)
 							VALUES ({$this->contact_id},'" . str_replace('-', '', $login) . "')";
 
@@ -178,13 +180,11 @@ class extends tribes_common
 	{
 		$reference = false;
 
-		if (   isset($data['prenom_civil'])
-			&& isset($data['nom_civil'])
-			&& isset($data['date_naissance']))
+		if (isset($data['prenom_civil']) && isset($data['nom_civil']))
 		{
 			$reference = tribes::makeIdentifier($data['prenom_civil'])
 				. '.' . tribes::makeIdentifier($data['nom_civil'])
-				. '.' . $data['date_naissance'];
+				. '.' . (empty($data['date_naissance']) ? '0000-00-00' : $data['date_naissance']);
 		}
 
 		return $reference;

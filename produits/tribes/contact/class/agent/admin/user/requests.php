@@ -14,7 +14,7 @@ class extends agent
 					contact_id
 				FROM contact_contact
 				WHERE statut_inscription='accepted'
-					AND admin_confirmed<contact_modified
+					AND admin_confirmed<=contact_modified
 				ORDER BY contact_modified";
 
 		$o->contacts = new loop_sql($sql);

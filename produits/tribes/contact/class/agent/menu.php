@@ -23,6 +23,7 @@ class extends agent
 	function compose($o)
 	{
 		$o->accueil_url = self::ACCUEIL_CONNECTED;
+		$o->public_url  = self::ACCUEIL_PUBLIC;
 
 		$o->iframe_src = s::flash('iframe_src');
 		$o->iframe_src || $o->iframe_src = s::flash('referer');

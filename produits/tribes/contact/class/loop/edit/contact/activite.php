@@ -27,6 +27,8 @@ class extends loop_edit
 
 	function populateForm($a, $data, $counter)
 	{
+		if (isset($data->contact_confirmed) && !$data->contact_confirmed) unset($data->is_shared);
+
 		$f = $this->form;
 		$f->setDefaults($data);
 

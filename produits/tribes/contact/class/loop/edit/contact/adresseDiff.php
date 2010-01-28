@@ -21,11 +21,11 @@ class extends loop_edit_contact_adresse
 					tel_fixe     AS c_tel_fixe,
 					tel_fax      AS c_tel_fax,
 					is_shared,
-					admin_confirmed,
+					IF (admin_confirmed,admin_confirmed,'') AS admin_confirmed,
 					contact_data
 				FROM contact_adresse
 				WHERE contact_id={$contact_id}
-					AND admin_confirmed<contact_modified
+					AND admin_confirmed<=contact_modified
 					AND is_obsolete<=0
 					AND contact_data!=''
 				ORDER BY sort_key";

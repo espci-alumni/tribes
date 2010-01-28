@@ -270,7 +270,7 @@ class extends agent_registration
 
 					if (isset($b->f_is_active))
 					{
-						$a['is_active'] = $b->email_id == $b->f_is_active->getDbValue();
+						$a['is_active'] = in_array($b->email_id, $b->f_is_active->getDbValue());
 					}
 
 					$this->email->save($a, null, $b->id);

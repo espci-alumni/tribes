@@ -113,7 +113,7 @@ class
 			$meta = array_keys($meta);
 		}
 
-		if (isset($data['contact_data']) && !isset($data['contact_confirmed']))
+		if (isset($data['contact_data']) && !isset($data['contact_confirmed']) && $this->contact_id)
 		{
 			$data['contact_confirmed'] = $this->contact_id == tribes::getConnectedId();
 		}

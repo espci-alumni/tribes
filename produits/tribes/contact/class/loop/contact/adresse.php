@@ -12,9 +12,9 @@ class extends loop_sql
 				FROM contact_organisation o
 				JOIN contact_affiliation af
 					ON af.organisation_id=o.organisation_id
-						AND NOT af.is_admin_confirmed
 				WHERE af.activite_id=ac.activite_id
-				GROUP BY ''";
+				GROUP BY af.is_admin_confirmed
+				LIMIT 1";
 
 		$sql = "SELECT
 					ac.*,

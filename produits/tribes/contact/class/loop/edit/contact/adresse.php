@@ -23,13 +23,15 @@ class extends loop_edit
 
 	function populateForm($a, $data, $counter)
 	{
+		if (isset($data->contact_confirmed) && !$data->contact_confirmed) unset($data->is_shared);
+
 		$f = $this->form;
 		$f->setDefaults($data);
 
 		$f->add('QSelect', 'description', array(
 			'isdata' => false,
 			'src' => 'QSelect/description/adresse',
-			'disabled' => !empty($data->activite_id),
+			'disabled' => !isset($data->activite_id) || $data->activite_id,
 		));
 		$f->add('textarea', 'adresse');
 		$f->add('text', 'ville_avant');

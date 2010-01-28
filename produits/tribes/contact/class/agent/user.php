@@ -18,7 +18,6 @@ class extends agent
 					prenom_usuel,
 					nom_usuel,
 					nom_etudiant,
-					IF(date_naissance,date_naissance,'') AS date_naissance,
 					statut_inscription,
 					photo_token,
 					cv_token

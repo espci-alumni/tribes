@@ -32,11 +32,11 @@ class extends loop_edit_contact_activite
 					site_web      AS c_site_web,
 					keyword       AS c_keyword,
 					is_shared,
-					admin_confirmed,
+					IF(admin_confirmed,admin_confirmed,'') AS admin_confirmed,
 					contact_data
 				FROM contact_activite
 				WHERE contact_id={$contact_id}
-					AND admin_confirmed<contact_modified
+					AND admin_confirmed<=contact_modified
 					AND is_obsolete<=0
 					AND contact_data!=''
 				ORDER BY sort_key";

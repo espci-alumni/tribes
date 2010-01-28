@@ -31,8 +31,9 @@ class extends agent_user_edit
 
 		if ($this->isAliasCollision())
 		{
-			$this->data->login = tribes::makeIdentifier($this->data->prenom_civil, '-a-z')
-				. '.' . tribes::makeIdentifier($this->data->nom_usuel, '-a-z');
+			$this->data->login = tribes::makeIdentifier($this->data->prenom_civil, "- 'a-z")
+			             . '.' . tribes::makeIdentifier($this->data->nom_usuel   , "- 'a-z");
+			$this->data->login = preg_replace("/[- ']+/", '-', $this->data->login);
 		}
 
 		$this->data->token = $this->get->__1__;
