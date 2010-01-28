@@ -4,21 +4,34 @@ class extends self
 {
 	function save($data, $message = null, &$id = 0)
 	{
+		$contact = false;
+
 		$message = parent::save($data, $message, $id);
 
-		if (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message)
+		switch ($message)
+		{
+		case self::ACTION_INSERT:
+			if (!$this->confirmed || empty($data['contact_confirmed'])) break;
+
+		case self::ACTION_CONFIRM:
+		case self::ACTION_UPDATE:
+			$sql = "SELECT user, login
+				FROM contact_contact
+				WHERE contact_id={$this->contact_id}
+					AND admin_confirmed
+					AND contact_confirmed
+					AND user!=''";
+			$contact = DB()->queryRow($sql);
+		}
+
+		if ($contact)
 		{
 			$domain = substr($CONFIG['tribes.emailDomain'], 1);
 
 			$db = DB($CONFIG['tribes.emailDSN']);
 
-			unset($user);
 			$update = array();
 			$aliases = array();
-
-			$sql = "SELECT user
-				FROM contact_contact
-				WHERE contact_id={$this->contact_id}";
 
 			if (isset($data['password']))
 			{
@@ -36,9 +49,7 @@ class extends self
 				{
 					$aliases[] = $data['login'];
 
-					isset($user) || $user = DB()->queryOne($sql);
-
-					$update['canonic'] = $user !== $data['login'] ? $data['login'] : null;
+					$update['canonic'] = $contact->user !== $data['login'] ? $data['login'] : null;
 				}
 
 				for ($i = 0; $i < count(self::$alias); ++$i)
@@ -46,23 +57,23 @@ class extends self
 					if (!isset($data[self::$alias[$i][0]])) continue;
 					if (!isset($data[self::$alias[$i][1]])) continue;
 
-					$aliases[] = tribes::makeIdentifier($data[self::$alias[$i][0]], '-a-z') . '.' . tribes::makeIdentifier($data[self::$alias[$i][1]], '-a-z');
+					$alias = tribes::makeIdentifier($data[self::$alias[$i][0]], "- 'a-z")
+					 . '.' . tribes::makeIdentifier($data[self::$alias[$i][1]], "- 'a-z");
+					$aliases[] = preg_replace("/[- ']+/", '-', $alias);
 				}
 			}
 
 			if ($aliases)
 			{
-				isset($user) || $user = DB()->queryOne($sql);
-
-				$sql = "SELECT IF(local,1,-1) FROM postfix_alias WHERE alias='{$user}' AND domain='{$domain}'";
+				$sql = "SELECT IF(local,1,-1) FROM postfix_alias WHERE alias='{$contact->user}' AND domain='{$domain}'";
 				$is_local = $db->queryOne($sql) >= 0 ? 1 : 0;
 
 				foreach ($aliases as $aliases)
 				{
 					$alias = str_replace('-', '', $aliases);
 
-					$sql = "INSERT IGNORE INTO postfix_alias (alias,domain,type,local,recipient,hyphen)
-							VALUES ('{$alias}','{$domain}','alias',{$is_local},'{$user}@{$domain}','" . ($alias !== $aliases ? $aliases : '') . "')
+					$sql = "INSERT INTO postfix_alias (alias,domain,type,local,recipient,hyphen,created)
+							VALUES ('{$alias}','{$domain}','alias',{$is_local},'{$contact->user}@{$domain}','" . ($alias !== $aliases ? $aliases : '') . "',NOW())
 							ON DUPLICATE KEY UPDATE hyphen=VALUES(hyphen)";
 					$db->exec($sql);
 				}
@@ -70,17 +81,24 @@ class extends self
 
 			if ($update)
 			{
-				isset($user) || $user = DB()->queryOne($sql);
-
-				$update['user']   = $user;
+				$update['user']   = $contact->user;
 				$update['domain'] = $domain;
 
-				foreach ($update as &$user) $user = array('value' => $user);
+				$contact->login !== $contact->user  && $update['canonic'] = $contact->login;
 
-				$update['user']['key']    = true;
-				$update['user']['domain'] = true;
+				$sql = array('created', 'NOW()', 'created=created');
 
-				$db->replace('postfix_user', $update);
+				foreach ($update as $alias => $update)
+				{
+					$sql[0] .= ',' . $alias;
+					$sql[1] .= ',' . $db->quote($update);
+					$sql[2] .= ',' . "{$alias}=VALUES({$alias})";
+				}
+
+				$sql = "INSERT INTO postfix_user ({$sql[0]})
+						VALUES ({$sql[1]})
+						ON DUPLICATE KEY UPDATE {$sql[2]}";
+				$db->exec($sql);
 			}
 		}
 

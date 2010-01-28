@@ -8,11 +8,10 @@ class extends self
 
 		if (empty($this->contact_id) || empty($data['email'])) return $message;
 
-		$sql = DB()->quote($data['email']);
 		$sql = "SELECT email, user, e.is_active, e.is_obsolete,
 					IF(e.admin_confirmed AND e.contact_confirmed,1,0) AS confirmed
 				FROM contact_email e JOIN contact_contact USING (contact_id)
-				WHERE contact_id={$this->contact_id} AND email={$sql} AND user!=''";
+				WHERE contact_id={$this->contact_id} AND email='{$data['email']}' AND user!=''";
 		if ($row = DB()->queryRow($sql))
 		{
 			$sql = substr($CONFIG['tribes.emailDomain'], 1);
