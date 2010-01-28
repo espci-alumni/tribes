@@ -20,13 +20,7 @@ Par exemple, saisissez <em>François</em> (F majuscule, le reste en minuscule, c
 </p>
 
 <table>
-<!--
-
-INLINE _registration
-
-AGENT $f_email _caption_="Email"
-
--->
+<!-- INLINE _registration -->
 <tr>
 	<td colspan="2" align = "right">
 	<!--

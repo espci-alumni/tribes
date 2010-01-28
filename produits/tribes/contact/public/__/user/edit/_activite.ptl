@@ -1,5 +1,13 @@
 <!-- IF $f_activite_add || $activites -->
 
+<p class="explication">
+Pensez que les activités professionnelles ou autres que vous renseignez ici
+sont à la base de toute mise en relation et networking au sein de notre communauté.
+N'hésitez pas à remplir vos activités passées et présentes au complet,
+votre profil sera ainsi plus visible dans l'annuaire et
+les contacts générés entre nous tous n'en seront que plus utiles et pertinents.
+</p>
+
 <h3>Activités</h3>
 
 <!-- IF $activites -->
@@ -13,7 +21,7 @@ LOOP $activites
 	<tr>
 		<td colspan="2">
 		<!--
-			IF $admin_confirmed < $contact_modified
+			IF $contact_confirmed && $admin_confirmed <= $contact_modified
 				IF d$is_admin_confirmed
 					-->Bloc refusé par l'administrateur<!--
 				ELSE
@@ -26,9 +34,10 @@ LOOP $activites
 		</td>
 	</tr>
 	<!--
-		AGENT $f_is_shared
+		SET $_f -->{g$inputFormat|replace:'%0&nbsp;:':'%0&nbsp;'}<!-- END:SET
+		AGENT $f_is_shared _glue_=' ' _format_=$_f
 	IF $f_activite_del
-		AGENT $f_activite_del value="supprimer cette activité" class='additem' _format_=g$inputFormat _preserveScroll_=1
+		AGENT $f_activite_del value="supprimer cette activité" class='additem' _format_=$_f _preserveScroll_=1
 	END:IF
 		AGENT $f_organisation _caption_="Organisation(s)"
 		AGENT $f_service _caption_="Service / Unité"

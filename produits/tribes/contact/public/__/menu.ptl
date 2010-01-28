@@ -12,6 +12,8 @@
 	<style type="text/css">body{behavior:url("{base:'fix/hover.htc'}")} select{behavior:url("{base:'fix/select.htc'}")} img,input{behavior:url("{base:'fix/png.htc'}");}</style>
 	<![endif]-->
 
+	<link rel="shortcut icon" href="{base:'favicon.ico'}" type="image/vnd.miscrosoft.icon" />
+
 	<link rel="stylesheet" type="text/css" href="{base:'css/style'}" />
 	<style type="text/css">
 
@@ -47,14 +49,19 @@
 	<td id="header_cell">
 	<table width="100%">
 	<tr>
-		<td>
-			<img src="/fr/img/logo.jpg" />
+		<td rowspan="2">
+			<a href="{$accueil_url|base:1}" target="content_iframe"><img src="/fr/img/logo.jpg" /></a>
 			<a href="{$accueil_url|base:1}" target="content_iframe">Accueil</a>
 
 			<!-- LOOP $onglets -->
 				| <a href="{$linkto|base:1}" target="content_iframe">{$titre}</a>
 			<!-- END:LOOP -->
 		</td>
+		<td valign="top" align="right">
+			<small><a href="{$public_url|base:1}" target="_blank">Aller au site public</a></small>
+		</td>
+	</tr>
+	<tr>
 		<td align="right">
 			<a href="{~}user/edit/contact" target="content_iframe">{$prenom_usuel} {$nom_usuel}</a>
 			<!-- IF $connected_is_admin --> | <a href="{~}admin" target="content_iframe">Administration</a><!-- END:IF -->

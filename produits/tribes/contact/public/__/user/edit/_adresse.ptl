@@ -1,5 +1,14 @@
 <!-- IF $f_adresse_add || $adresses -->
 
+<p class="explication">
+Que vous choisissiez de les partager ou non avec les autres membres de l'annuaire,
+les coordonnées que vous renseignerez ici serviront à entrer en contact direct avec vous,
+lors de communications officielles ou statutaires par exemple.
+N'hésitez pas à renseigner les adresses de vos parents ou grand-parents si possible,
+car même si vous choisissez de ne pas partager ces données dans l'annuaire, elles seront
+très utiles à l'association le jour où vous déménagerez sans forcément penser à nous en avertir.
+</p>
+
 <h3>Coordonnées</h3>
 
 <!-- IF $adresses -->
@@ -13,7 +22,7 @@ LOOP $adresses
 	<tr>
 		<td colspan="2">
 		<!--
-			IF $admin_confirmed < $contact_modified
+			IF $contact_confirmed && $admin_confirmed <= $contact_modified
 				IF d$is_admin_confirmed
 					-->Bloc refusé par l'administrateur<!--
 				ELSE
@@ -26,10 +35,11 @@ LOOP $adresses
 		</td>
 	</tr>
 	<!--
-		AGENT $f_is_shared
+		SET $_f -->{g$inputFormat|replace:'%0&nbsp;:':'%0&nbsp;'}<!-- END:SET
+		AGENT $f_is_shared _glue_=' ' _format_=$_f
 
 	IF $f_adresse_del
-		AGENT $f_adresse_del value="supprimer cette adresse" class='additem' _format_=g$inputFormat _preserveScroll_=1
+		AGENT $f_adresse_del value="supprimer cette adresse" class='additem' _format_=$_f _preserveScroll_=1
 	END:IF
 
 	IF $activite_id
@@ -46,10 +56,11 @@ LOOP $adresses
 		AGENT $f_description _caption_="Description"
 	END:IF
 
-		AGENT $f_adresse _caption_="Adresse"
-		AGENT $f_ville_avant _caption_="Code postal"
-		AGENT $f_ville _caption_="Ville"
-		AGENT $f_ville_apres _caption_="Zip code"
+		SET $_f -->{g$inputFormat|replace:'(%0&nbsp;:)':"$1<br /><small>Tel qu'imprimé sur une lettre :<br />raison sociale, rue, BP, etc.<br />hors champs qui suivent.</small>"}<!-- END:SET
+		AGENT $f_adresse _caption_="Adresse" _format_=$_f
+		AGENT $f_ville_avant _caption_="Code postal" placeholder="Ex. : 75020"
+		AGENT $f_ville _caption_="Ville" 
+		AGENT $f_ville_apres _caption_="Complément" placeholder="Ex. : CEDEX 09"
 		AGENT $f_pays _caption_="Pays"
 		AGENT $f_email_list _caption_="Email(s)"
 		AGENT $f_tel_portable _caption_="Téléphone portable"

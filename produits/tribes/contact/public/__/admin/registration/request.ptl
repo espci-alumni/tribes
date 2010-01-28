@@ -13,15 +13,14 @@ SET $f
 	</tr><!--
 END:SET
 
-SET $_regitration_end
-
-	IF $f_login
-		AGENT $f_login _caption_="Identifiant"
-	END:IF
-	AGENT $f_email _caption_="Email"
-	AGENT $f_doublon_contact_id _caption_="Fusionner avec" _format_=$f
-	AGENT $f_message _caption_="Message"
-END:SET
+--><table><!--
+IF $f_login
+	AGENT $f_login _caption_="Identifiant"
+END:IF
+AGENT $f_email _caption_="Email"
+AGENT $f_doublon_contact_id _caption_="Fusionner avec" _format_=$f
+AGENT $f_message _caption_="Message"
+--></table><!--
 
 INLINE user/edit/_contact
 INLINE user/edit/_email
