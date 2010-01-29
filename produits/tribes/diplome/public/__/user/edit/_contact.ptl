@@ -17,7 +17,7 @@ IF $f_programme
 	AGENT $f_programme  _caption_="Programme"
 END:IF
 IF $f_specialite
-	AGENT $f_specialite _caption_="Spécialité"
+	AGENT $f_specialite _caption_="Option"
 END:IF
 
 -->

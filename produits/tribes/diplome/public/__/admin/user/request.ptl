@@ -116,7 +116,7 @@ SET $c -->{$f|diffFormat:$c_programme:$programme}<!-- END:SET
 AGENT $f_programme _caption_="Programme" _format_=$c placeholder=d$p
 
 SET $c -->{$f|diffFormat:$c_specialite:$specialite}<!-- END:SET
-AGENT $f_specialite _caption_="Spécialité" _format_=$c placeholder=d$p
+AGENT $f_specialite _caption_="Option" _format_=$c placeholder=d$p
 
 SET $fnew -->
 <tr>
