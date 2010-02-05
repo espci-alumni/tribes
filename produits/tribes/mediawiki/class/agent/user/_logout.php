@@ -14,7 +14,7 @@ class extends self
 		setcookie($CONFIG['tribes.mediaWikiDb'] . 'UserID'  , '', 1, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
 		setcookie($CONFIG['tribes.mediaWikiDb'] . 'UserName', '', 1, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
 		setcookie($CONFIG['tribes.mediaWikiDb'] . 'Token'   , '', 1, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
-		setcookie($CONFIG['tribes.mediaWikiDb'] . '_session', '', 1, '/'                            , '');
-		setcookie($CONFIG['tribes.mediaWikiDb'] . 'LoggedOut', $_SERVER['REQUEST_TIME'], 0, '/'     , '');
+		setcookie($CONFIG['tribes.mediaWikiDb'] . '_session', '', 1, '/');
+		setcookie($CONFIG['tribes.mediaWikiDb'] . 'LoggedOut', $_SERVER['REQUEST_TIME'], 0, '/');
 	}
 }
