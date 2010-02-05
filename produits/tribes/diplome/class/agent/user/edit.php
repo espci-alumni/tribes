@@ -2,10 +2,8 @@
 
 class extends self
 {
-	protected function composeContact($o, $f, $send)
+	protected function composeDiplome($o, $f, $send)
 	{
-		$o = parent::composeContact($o, $f, $send);
-
 		$f->add('text', 'ecole');
 		$f->add('text', 'promotion');
 		$f->add('text', 'programme');
