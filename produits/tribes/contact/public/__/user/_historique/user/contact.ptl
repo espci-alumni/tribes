@@ -1,8 +1,10 @@
 <!-- LOOP a$details -->
 
+<h3>
 <!--     IF $action == g$ACTION_UPDATE -->Profil modifié
 <!-- ELSEIF $action == g$ACTION_CONFIRMED -->Profil confirmé sans modification
 <!-- END:IF -->
+</h3>
 
 <ul>
 	<li>Nom civil&nbsp;: {$nom_civil}</li>

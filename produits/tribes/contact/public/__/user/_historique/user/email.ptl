@@ -1,9 +1,15 @@
 <!-- LOOP a$details -->
 
-<!--     IF $action == g$ACTION_INSERT -->Nouvelle adresse email ajoutée<!-- IF $admin_confirmed --> et publiée<!-- END:IF -->
-<!-- ELSEIF $action == g$ACTION_DELETE -->Adresse email supprimée ({$email})
+<h3>
+<!--     IF $action == g$ACTION_INSERT  -->Nouvel email ajouté<!-- IF $admin_confirmed --> et publié<!-- END:IF -->
+<!-- ELSEIF $action == g$ACTION_UPDATE  -->Email modifié<!-- IF $admin_confirmed --> et validé<!-- END:IF -->
+<!-- ELSEIF $action == g$ACTION_DELETE  -->Email supprimé
+<!-- ELSEIF $action == g$ACTION_CONFIRM -->Email confirmé
 <!-- END:IF -->
+</h3>
 
-Email&nbsp;: {$email}
+<p>
+{$email}
+</p>
 
 <!-- END:LOOP -->
