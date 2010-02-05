@@ -5,18 +5,35 @@ class extends self
 	function composeCotisation($o, $f, $send)
 	{
 		$f->add('date', 'cotisation_date');
-		$f->add('text', 'cotisation_type');
-
-		$send->attach(
-			'cotisation_date', 'Merci de saisir une date de cotisation', '',
-			'cotisation_type', 'Merci de préciser le type de cotisation', ''
+		$f->add(
+			'QSelect',
+			'cotisation_type',
+			array(
+				'src' => 'QSelect/suggestions/cotisation/type'
+			)
 		);
 
-		return $o;
+		$send->attach(
+			'cotisation_date', '', '',
+			'cotisation_type', '', ''
+		);
+
+		return parent::composeCotisation($o, $f, $send);
 	}
 
 	function save($data)
 	{
+		$db = DB();
+
+		if (!empty($data['cotisation_type']))
+		{
+			$sql = $db->quote($data['cotisation_type']);
+			$sql = "INSERT INTO item_suggestions VALUES ('cotisation/type',{$sql})
+					ON DUPLICATE KEY UPDATE suggestion=VALUES(suggestion)";
+
+			$db->exec($sql);
+		}
+
 		if (!empty($data['cotisation_date']))
 		{
 			$d = array(
@@ -26,7 +43,7 @@ class extends self
 
 			unset($data['cotisation_date'], $data['cotisation_type']);
 
-			DB()->autoExecute(
+			$db->autoExecute(
 				'contact_contact',
 				$d,
 				MDB2_AUTOQUERY_UPDATE,

@@ -4,9 +4,10 @@ class extends self
 {
 	function composeForm($o, $f, $send)
 	{
+		$o = parent::composeForm($o, $f, $send);
 		$o = $this->composeCotisation($o, $f, $send);
 
-		return parent::composeForm($o, $f, $send);
+		return $o;
 	}
 
 	function composeCotisation($o, $f, $send)
