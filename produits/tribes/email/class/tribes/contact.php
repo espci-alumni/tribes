@@ -65,8 +65,9 @@ class extends self
 
 			if ($aliases)
 			{
-				$sql = "SELECT IF(local,1,-1) FROM postfix_alias WHERE alias='{$contact->user}' AND domain='{$domain}'";
-				$is_local = $db->queryOne($sql) >= 0 ? 1 : 0;
+				$sql = "SELECT IF(local,2,1) FROM postfix_alias WHERE alias='{$contact->user}' AND domain='{$domain}'";
+				$is_local = $db->queryOne($sql);
+				$is_local = $is_local ? $is_local - 1 : $CONFIG['tribes.emailLocalRestricted'];
 
 				foreach ($aliases as $aliases)
 				{
