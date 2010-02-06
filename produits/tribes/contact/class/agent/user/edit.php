@@ -143,7 +143,7 @@ class extends agent_registration
 
 	protected function composeLogin($o, $f, $send)
 	{
-		$this->loginField = $f->add('text', 'login', '[a-z]+-?[a-z]+\.[a-z]+-?[a-z]+');
+		$this->loginField = $f->add('text', 'login', '[a-z]+(?:-?[a-z]+)+\.[a-z]+(?:-?[a-z]+)+');
 		$send->attach('login', 'Veuillez saisir un identifiant', 'Identifiant non valide');
 
 		return $o;

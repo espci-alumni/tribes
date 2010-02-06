@@ -39,7 +39,7 @@ class extends tribes_common
 
 		if (!$this->confirmed && (!isset($data['token']) || !isset($data['email'])))
 		{
-			$sql = "SELECT email_id, email, admin_confirmed, IF (token_expires<NOW()-INTERVAL 10 MINUTE,token,NULL) AS token
+			$sql = "SELECT email_id, email, admin_confirmed, IF (token_expires>=NOW()+INTERVAL 10 MINUTE,token,NULL) AS token
 					FROM contact_email
 					WHERE contact_id={$this->contact_id}
 						AND email" . (!$id ? "=" . DB()->quote($data['email']) : "_id={$id}");
@@ -110,7 +110,7 @@ class extends tribes_common
 
 		$resetToken && $data['token'] = '';
 
-		if ($row->contact_id == tribes::getConnectedId())
+		if ($row->contact_id && $row->contact_id == tribes::getConnectedId())
 		{
 			$data['contact_confirmed'] = true;
 			$row->contact_confirmed = true;

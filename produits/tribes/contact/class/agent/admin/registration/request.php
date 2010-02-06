@@ -156,6 +156,7 @@ class extends agent_user_edit
 	protected function saveContact($data)
 	{
 		parent::saveContact($data + array(
+			'contact_confirmed' => true,
 			'is_active' => 1,
 			'statut_inscription' => 'accepted',
 			'token' => $this->data->token,
@@ -224,7 +225,6 @@ class extends agent_user_edit
 		$table = array(
 			'historique' => array('origine_contact_id' => $to_contact_id),
 			'alias' => array(),
-			'categorie' => array(),
 		);
 
 		foreach ($table as $table => $info)
