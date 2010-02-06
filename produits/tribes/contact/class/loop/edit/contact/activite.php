@@ -32,7 +32,7 @@ class extends loop_edit
 		$f = $this->form;
 		$f->setDefaults($data);
 
-		$organisation = $f->add('QSelect', 'organisation', array(
+		$s = $organisation = $f->add('QSelect', 'organisation', array(
 			'isdata' => false,
 			'src' => 'QSelect/organisation',
 		));
@@ -42,19 +42,28 @@ class extends loop_edit
 		));
 
 		$sql = "SELECT
-					EXISTS(SELECT * FROM item_lists WHERE type='fonction') AS has_fonction,
-					EXISTS(SELECT * FROM item_lists WHERE type='secteur' ) AS has_secteur";
+					EXISTS(SELECT * FROM item_lists WHERE type='activite/statut'  ) AS has_statut,
+					EXISTS(SELECT * FROM item_lists WHERE type='activite/fonction') AS has_fonction,
+					EXISTS(SELECT * FROM item_lists WHERE type='activite/secteur' ) AS has_secteur";
 		$a = DB()->queryRow($sql);
 
 		$sql = "SELECT `value` AS K, `group` AS G, `value` AS V
 				FROM item_lists
-				WHERE type='%s'
+				WHERE type='activite/%s'
 				ORDER BY sort_key, `group`, `value`";
+
+		if ($a->has_statut)
+		{
+			$f->add('select', 'statut', array(
+				'firstItem' => '- Choisir dans la liste -',
+				'sql'       => sprintf($sql, 'statut'),
+			));
+		}
 
 		if ($a->has_fonction)
 		{
 			$f->add('select', 'fonction', array(
-				'firstItem' => '- Choisir une fonction -',
+				'firstItem' => '- Choisir dans la liste -',
 				'sql'       => sprintf($sql, 'fonction'),
 			));
 		}
@@ -62,7 +71,7 @@ class extends loop_edit
 		if ($a->has_secteur)
 		{
 			$f->add('select', 'secteur', array(
-				'firstItem' => '- Choisir un secteur -',
+				'firstItem' => '- Choisir dans la liste -',
 				'sql'       => sprintf($sql, 'secteur'),
 			));
 		}
@@ -92,13 +101,26 @@ class extends loop_edit
 
 		$f->add('text', 'site_web');
 		$f->add('QSelect', 'keyword', array(
-			'src' => 'QSelect/keyword',
+			'src' => 'QSelect/suggestions/keyword',
 		));
 		$f->add('check', 'is_shared', array('item' => array(1 => 'Partagé', 0 => 'Confidentiel')));
 
 		$this->send->attach(
 			'organisation', "Veuillez renseigner le ou les organisations", '',
-			'is_shared', "Veuillez choisir le niveau de partage de cette activité", ''
+			'is_shared',    "Veuillez choisir le niveau de partage de cette activité", ''
+		);
+
+		$s->attach(
+			'statut',     '', '',
+			'fonction',   '', '',
+			'secteur',    '', '',
+			'service',    '', '',
+			'titre',      '', '',
+			'date_debut', '', '',
+			'date_fin',   '', '',
+			'site_web',   '', '',
+			'keyword',    '', '',
+			'is_shared',  '', ''
 		);
 	}
 

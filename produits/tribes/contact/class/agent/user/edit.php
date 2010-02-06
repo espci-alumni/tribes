@@ -124,6 +124,13 @@ class extends agent_registration
 		$f->add('name', 'nom_etudiant');
 		$f->add('name', 'nom_usuel');
 		$f->add('name', 'prenom_usuel');
+
+		$sql = "SELECT `value` AS K, `group` AS G, `value` AS V
+				FROM item_lists
+				WHERE type='contact/statut'
+				ORDER BY sort_key, `group`, `value`";
+		$f->add('select', 'statut_activite', array('firstItem' => '- Choisir dans la liste -', 'sql' => $sql));
+
 		$f->add('QSelect', 'conjoint_contact_id', array(
 			'src' => 'QSelect/login',
 		));
@@ -132,6 +139,7 @@ class extends agent_registration
 			'nom_etudiant', "Veuillez renseigner le nom d'étudiant", '',
 			'nom_usuel'   , "Veuillez renseigner le nom usuel"     , '',
 			'prenom_usuel', "Veuillez renseigner le prénom usuel"  , '',
+			'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', '',
 			'conjoint_contact_id', '', ''
 		);
 
@@ -294,18 +302,9 @@ class extends agent_registration
 		{
 			if (isset($b->f_decision) ? $b->f_decision->getValue() : empty($b->deleted))
 			{
-				$a = array(
-					'adresse'      => $b->f_adresse->getDbValue(),
+				$a = $b->f_description->getData() + array(
 					'description'  => $b->f_description->getDbValue(),
-					'ville_avant'  => $b->f_ville_avant->getDbValue(),
 					'ville'        => $b->f_ville->getDbValue(),
-					'ville_apres'  => $b->f_ville_apres->getDbValue(),
-					'pays'         => $b->f_pays->getDbValue(),
-					'email_list'   => $b->f_email_list->getDbValue(),
-					'tel_portable' => $b->f_tel_portable->getDbValue(),
-					'tel_fixe'     => $b->f_tel_fixe->getDbValue(),
-					'tel_fax'      => $b->f_tel_fax->getDbValue(),
-					'is_shared'    => $b->f_is_shared->getDbValue(),
 				);
 
 				if ('' !== $a['email_list'])
@@ -365,19 +364,9 @@ class extends agent_registration
 
 			if (isset($b->f_decision) ? $b->f_decision->getValue() : empty($b->deleted))
 			{
-				$a = array(
+				$a = $b->f_organisation->getData() + array(
 					'organisation'  => $b->f_organisation->getDbValue(),
-					'service'       => $b->f_service->getDbValue(),
-					'titre'         => $b->f_titre->getDbValue(),
-					'date_debut'    => $b->f_date_debut->getDbValue(),
-					'date_fin'      => $b->f_date_fin->getDbValue(),
-					'site_web'      => $b->f_site_web->getDbValue(),
-					'keyword'       => $b->f_keyword->getDbValue(),
-					'is_shared'     => $b->f_is_shared->getDbValue(),
 				);
-
-				empty($b->f_fonction) || $a['fonction'] = $b->f_fonction->getDbValue();
-				empty($b->f_secteur ) || $a['secteur' ] = $b->f_secteur->getDbValue();
 
 				if (isset($b->f_adresse_id))
 				{

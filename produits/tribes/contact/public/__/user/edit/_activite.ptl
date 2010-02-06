@@ -51,6 +51,9 @@ LOOP $activites
 		IF $f_secteur
 			AGENT $f_secteur _caption_="Secteur d'activité"
 		END:IF
+		IF $f_statut
+			AGENT $f_statut _caption_="Statut"
+		END:IF
 		AGENT $f_date_debut _caption_="Début"
 		AGENT $f_date_fin _caption_="Fin"
 		AGENT $f_adresse_id _caption_="Coordonnées"

@@ -16,6 +16,7 @@ class extends tribes_common
 		'date_naissance',
 		'date_deces',
 		'conjoint_contact_id',
+		'statut_activite',
 		'login',
 	);
 

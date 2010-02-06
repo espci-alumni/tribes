@@ -28,10 +28,10 @@ class extends loop_edit
 		$f = $this->form;
 		$f->setDefaults($data);
 
-		$f->add('QSelect', 'description', array(
+		$s = $f->add('QSelect', 'description', array(
 			'isdata' => false,
 			'src' => 'QSelect/description/adresse',
-			'disabled' => !isset($data->activite_id) || $data->activite_id,
+			'disabled' => isset($data->c_description) ? !$data->c_description : !empty($data->activite_id),
 		));
 		$f->add('textarea', 'adresse');
 		$f->add('text', 'ville_avant');
@@ -46,8 +46,20 @@ class extends loop_edit
 
 		$this->send->attach(
 			'description', "Veuillez indiquer la description de votre adresse", '',
-			'ville', "Veuillez choisir ou ajouter une ville", '',
-			'is_shared', "Veuillez choisir le niveau de confidentialité de cette adresse", ''
+			'ville',       "Veuillez choisir ou ajouter une ville", '',
+			'is_shared',   "Veuillez choisir le niveau de confidentialité de cette adresse", ''
+		);
+
+		$s->attach(
+			'adresse',      '', '',
+			'ville_avant',  '', '',
+			'ville_apres',  '', '',
+			'pays',         '', '',
+			'email_list',   '', '',
+			'tel_portable', '', '',
+			'tel_fixe',     '', '',
+			'tel_fax',      '', '',
+			'is_shared',    '', ''
 		);
 	}
 }

@@ -10,6 +10,7 @@ class extends tribes_adresse
 		'titre',
 		'fonction',
 		'secteur',
+		'statut',
 		'date_debut',
 		'date_fin',
 		'site_web',
