@@ -5,13 +5,15 @@ Fiches à valider en attente&nbsp;:
 </p>
 
 <!-- LOOP $contacts -->
+<p>
+Depuis le {$contact_modified|formatDate} :
 <ul>
 	<li>Nom&nbsp;: {$nom_civil}</li>
 	<li>Prénom&nbsp;: {$prenom_civil}</li>
 </ul>
 
 <a href="{~}admin/user/request/{$contact_id}">Cliquez ici pour traiter cette modification</a>.
-
+</p>
 <hr>
 <!-- END:LOOP -->
 

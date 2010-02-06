@@ -11,7 +11,8 @@ class extends agent
 					nom_civil,
 					prenom_civil,
 					date_naissance,
-					contact_id
+					contact_id,
+					contact_modified
 				FROM contact_contact
 				WHERE statut_inscription='accepted'
 					AND admin_confirmed<=contact_modified

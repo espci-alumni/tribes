@@ -1,7 +1,9 @@
 <!--
 
 AGENT $f_sexe _glue_=' ' _format_='<tr><td>&nbsp;</td><td class="input">%1%2</td></tr>'
-AGENT $f_nom_civil _caption_="Nom civil"
+
+SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Tel qu'inscrit sur votre état civil de naissance</small>"}<!-- END:SET
+AGENT $f_nom_civil _caption_="Nom civil" _format_=$_f
 AGENT $f_prenom_civil _caption_="Prénom civil"
 AGENT $f_date_naissance _caption_="Date de naissance"
 AGENT $f_email _caption_="Email"

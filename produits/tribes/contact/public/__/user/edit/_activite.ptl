@@ -1,7 +1,7 @@
 <!-- IF $f_activite_add || $activites -->
 
 <p class="explication">
-Pensez que les activités professionnelles ou autres que vous renseignez ici
+Les activités professionnelles ou autres que vous renseignez ici
 sont à la base de toute mise en relation et networking au sein de notre communauté.
 N'hésitez pas à remplir vos activités passées et présentes au complet,
 votre profil sera ainsi plus visible dans l'annuaire et
@@ -36,14 +36,17 @@ LOOP $activites
 	<!--
 		SET $_f -->{g$inputFormat|replace:'%0&nbsp;:':'%0&nbsp;'}<!-- END:SET
 		AGENT $f_is_shared _glue_=' ' _format_=$_f
-	IF $f_activite_del
-		AGENT $f_activite_del value="supprimer cette activité" class='additem' _format_=$_f _preserveScroll_=1
-	END:IF
-		AGENT $f_organisation _caption_="Organisation(s)"
-		AGENT $f_service _caption_="Service / Unité"
+
+		IF $f_activite_del
+			AGENT $f_activite_del value="supprimer cette activité" class='additem' _format_=$_f _preserveScroll_=1
+		END:IF
+
+		SET $_f -->{g$inputFormat|replace:'%1%2':'%1%2<br /><small><em>Groupe, entreprise, université, école… séparés par des /</em></small>'}<!-- END:SET
+		AGENT $f_organisation _caption_="Organisation(s)"  _format_=$_f
+		AGENT $f_service _caption_="Service"
 		AGENT $f_titre _caption_="Titre"
 		IF $f_fonction
-			AGENT $f_fonction _caption_="Fonction"
+			AGENT $f_fonction _caption_="Département"
 		END:IF
 		IF $f_secteur
 			AGENT $f_secteur _caption_="Secteur d'activité"

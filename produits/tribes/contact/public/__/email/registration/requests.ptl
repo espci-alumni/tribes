@@ -4,6 +4,8 @@ Demandes d'inscription en attente&nbsp;:
 </p>
 
 <!-- LOOP $contacts -->
+<p>
+Depuis le {$contact_modified|formatDate} :
 <ul>
 	<li>Sexe&nbsp;: {$sexe}</li>
 	<li>Nom&nbsp;: {$nom_civil}</li>
@@ -12,7 +14,7 @@ Demandes d'inscription en attente&nbsp;:
 </ul>
 
 <a href="{~}admin/registration/request/{$token}">Cliquez ici pour traiter cette demande</a>.
-
+</p>
 <hr>
 
 <!-- END:LOOP -->

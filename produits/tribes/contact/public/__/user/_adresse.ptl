@@ -1,4 +1,4 @@
-<h4>Adresse {$description|lower}</h4>
+<!-- IF $description --><h4>{$description}</h4><!-- END:IF -->
 
 <address>
 <!-- IF $adresse -->{$adresse|nl2br}<br /><!-- END:IF -->

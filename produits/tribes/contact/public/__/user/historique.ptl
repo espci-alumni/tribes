@@ -29,9 +29,11 @@ AGENT "user/_historique/{$historique}"
 	origine_prenom = $origine_prenom
 	origine_nom    = $origine_nom
 
---><br />
+-->
 
-Origine de l'action&nbsp;: <a href="{~}user/{$origine_contact_id}">{$origine_prenom_usuel} {$origine_nom_usuel}</a>
+<p>
+Origine de l'action&nbsp;: <a href="{~}user/{$origine_contact_id}">{$origine_prenom} {$origine_nom}</a>
+</p>
 </fieldset>
 
 <!-- END:LOOP -->
