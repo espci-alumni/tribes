@@ -1,8 +1,8 @@
 <!-- AGENT 'header' title="Administration" -->
 
 <ul>
-	<li><a href="{~}admin/user/requests">Fiches à valider</a></li>
 	<li><a href="{~}admin/registration/requests">Demandes d'inscription à valider</a></li>
+	<li><a href="{~}admin/user/requests">Fiches modifiées à publier</a></li>
 </ul>
 
 <!-- AGENT 'footer' -->

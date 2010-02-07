@@ -31,6 +31,7 @@ class extends agent
 	function compose($o)
 	{
 		$o = $this->contact;
+		$o->email = $o->login ? $o->login . $CONFIG['tribes.emailDomain'] : '';
 		$o->connected_is_admin = $this->connected_is_admin;
 
 		$o->hasPhoto = file_exists(patchworkPath('data/photo/') . $o->photo_token . '.jpg');

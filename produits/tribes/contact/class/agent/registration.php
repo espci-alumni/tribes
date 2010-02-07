@@ -31,7 +31,7 @@ class extends agent_pForm
 			'sexe',           "Veuillez renseigner le champs Mme Mlle M.", '',
 			'nom_civil',      "Veuillez renseigner votre nom", '',
 			'prenom_civil',   "Veuillez renseigner votre prénom", '',
-			'date_naissance', 'Veuillez renseigner votre date de naissance', ''
+			'date_naissance', $this->connected_is_admin ? '' : 'Veuillez renseigner votre date de naissance', ''
 		);
 
 		return $o;

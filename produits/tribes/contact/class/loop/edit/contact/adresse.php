@@ -2,6 +2,8 @@
 
 class extends loop_edit
 {
+	public $adminMode = false;
+
 	protected
 
 	$type = 'adresse',
@@ -45,9 +47,9 @@ class extends loop_edit
 		$f->add('check', 'is_shared', array('item' => array (1 => 'Partagé', 0 => 'Confidentiel')));
 
 		$this->send->attach(
-			'description', "Veuillez indiquer la description de votre adresse", '',
-			'ville',       "Veuillez choisir ou ajouter une ville", '',
-			'is_shared',   "Veuillez choisir le niveau de confidentialité de cette adresse", ''
+			'description', $this->adminMode ? '' : "Veuillez indiquer la description de votre adresse", '',
+			'ville',       $this->adminMode ? '' : "Veuillez choisir ou ajouter une ville", '',
+			'is_shared',   $this->adminMode ? '' : "Veuillez choisir le niveau de confidentialité de cette adresse", ''
 		);
 
 		$s->attach(

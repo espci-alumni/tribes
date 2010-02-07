@@ -2,16 +2,21 @@
 
 class extends loop_edit
 {
+	public $adminMode = false;
+
 	protected
 
 	$type = 'email',
 	$exposeLoopData = true,
 	$send,
+	$contact_id,
 	$activableNb;
 
 
 	function __construct($f, $contact_id, $send)
 	{
+		$this->contact_id = $contact_id;
+
 		$loop = new loop_contact_email($contact_id);
 
 		$this->defaultLength = s::get('contact_id') == $contact_id ? 1 : 0;
@@ -19,15 +24,6 @@ class extends loop_edit
 		parent::__construct($f, $loop);
 
 		$this->send = $send;
-
-		$sql = "SELECT COUNT(*)
-				FROM contact_email
-				WHERE contact_id={$contact_id}
-					AND is_obsolete<=0
-					AND contact_data!=''
-					AND admin_confirmed";
-		$this->activableNb = DB()->queryOne($sql);
-
 
 		// Stub to detect easily when no box has been checked
 
@@ -39,9 +35,25 @@ class extends loop_edit
 		$send->attach('is_active', "Merci d'activer au moins une redirection", '');
 	}
 
+	protected function prepare()
+	{
+		if (!$this->adminMode)
+		{
+			$sql = "SELECT COUNT(*)
+					FROM contact_email
+					WHERE contact_id={$this->contact_id}
+						AND is_obsolete<=0
+						AND contact_data!=''
+						AND admin_confirmed";
+			$this->activableNb = DB()->queryOne($sql);
+		}
+
+		return parent::prepare();
+	}
+
 	protected function next()
 	{
-		if ($this->activableNb <= 1)
+		if (!$this->adminMode && $this->activableNb <= 1)
 		{
 			$this->allowAddDel = false;
 		}

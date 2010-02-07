@@ -2,6 +2,8 @@
 
 class extends loop_edit
 {
+	public $adminMode = false;
+
 	protected
 
 	$type = 'activite',
@@ -106,8 +108,8 @@ class extends loop_edit
 		$f->add('check', 'is_shared', array('item' => array(1 => 'Partagé', 0 => 'Confidentiel')));
 
 		$this->send->attach(
-			'organisation', "Veuillez renseigner le ou les organisations", '',
-			'is_shared',    "Veuillez choisir le niveau de partage de cette activité", ''
+			'organisation', $this->adminMode ? '' : "Veuillez renseigner le ou les organisations", '',
+			'is_shared',    $this->adminMode ? '' : "Veuillez choisir le niveau de partage de cette activité", ''
 		);
 
 		$s->attach(
