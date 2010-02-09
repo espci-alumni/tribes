@@ -353,7 +353,11 @@ class extends agent_registration
 		$db = DB();
 
 		$sql = "DELETE FROM contact_adresse
-				WHERE contact_id={$this->contact_id} AND contact_data=''";
+				WHERE contact_id={$this->contact_id}
+					AND origine='contact/{$this->connected_id}'
+					AND NOT contact_data
+					AND NOT admin_confirmed
+					AND NOT contact_confirmed";
 		$db->exec($sql);
 
 		$has_new_adresse = false;
