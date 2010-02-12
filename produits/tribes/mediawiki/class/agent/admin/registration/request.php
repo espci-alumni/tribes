@@ -9,23 +9,32 @@ class extends self
 		return parent::createAccount($contact);
 	}
 
-	static function mediaWikiCreateAccount($contact)
+	static function mediaWikiCreateAccount($contact, $user_token = '')
 	{
 		$db = DB();
+		$mediaWikiDb = $CONFIG['tribes.mediaWikiDb'];
 
 		$data = array(
-			'user_id' => $contact->contact_id,
-			'user_name' => ucfirst($contact->login),
-			'user_real_name' => $contact->prenom_usuel . ' ' . $contact->nom_usuel,
+			'user_name' => ucfirst($contact->user),
+			'user_real_name' => $contact->login,
 			'user_email' => $contact->email,
-			'user_password' => md5($contact->contact_id . '-' . md5(p::strongid())),
-			'user_token' => p::strongid(),
+			'user_token' => $user_token,
 			'user_email_authenticated' => date('YmdHis'),
 		);
 
-		$db->autoExecute($CONFIG['tribes.mediaWikiDb'] . '.user', $data);
-		$db->autoExecute($CONFIG['tribes.mediaWikiDb'] . '.user_groups', array('ug_user' => $contact->contact_id, 'ug_group' => 'bureaucrat'));
+		$db->autoExecute($mediaWikiDb . '.user', $data);
+		$user_id = $db->lastInsertId();
 
-		return $data;
+		$sql = "INSERT IGNORE INTO {$mediaWikiDb}.user_groups (ug_user,ug_group)
+				VALUES ({$user_id},'user')";
+
+		if (tribes::isAuth('admin', $contact->contact_id))
+		{
+			$sql .= ",({$user_id},'bureaucrat')";
+		}
+
+		$db->exec($sql);
+
+		return $user_id;
 	}
 }
