@@ -13,7 +13,6 @@ class extends self
 	{
 		$db = DB();
 		$phpbbDb = $CONFIG['tribes.phpbbDb'];
-		$is_admin = tribes::isAuth('admin', $contact->contact_id);
 
 		$data = array(
 			'username'             => $contact->login,
@@ -21,8 +20,7 @@ class extends self
 			'user_email'           => $contact->email,
 			'user_email_hash'      => crc32(strtolower($contact->email)) . strlen($contact->email),
 			'user_regdate'         => $_SERVER['REQUEST_TIME'],
-			'user_type'            => $is_admin ? 3 : 0, //0 : normal, 1 : deactivated/inactive, 2 : anomyous/bots, 3 : founder
-			'group_id'             => $is_admin ? 5 : 2, // REGISTRED
+			'group_id'             => 2,
 		);
 
 		$db->autoExecute($phpbbDb . '.users', $data);
@@ -31,7 +29,7 @@ class extends self
 		$sql = "INSERT IGNORE INTO {$phpbbDb}.user_group (user_id,group_id,user_pending)
 				VALUES ({$user_id},2,0)";
 
-		if ($is_admin)
+		if (tribes::isAuth('admin', $contact->contact_id))
 		{
 			$sql .= ",({$user_id},4,0),({$user_id},5,0)";
 		}
