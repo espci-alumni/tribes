@@ -1,0 +1,6 @@
+<!-- INLINE css/style.css -->
+
+#navigation_resultats
+{
+    padding: 20px;
+}
