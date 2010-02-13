@@ -1,6 +1,6 @@
 <!--
 
-IF 1 == g$headerNesting
+IF 1 == g-1$headerNestingTribes
 
 	-->
 	<div id="footer">&copy; <a href="http://www.intellagence.eu/">IntellAgence Technologies</a></div>

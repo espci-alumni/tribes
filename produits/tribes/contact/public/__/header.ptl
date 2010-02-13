@@ -1,4 +1,4 @@
-<!-- IF !g$headerNesting -->
+<!-- IF !g+1$headerNestingTribes -->
 
 <!-- SET g$inputFormat --><tr><td class="label">%0&nbsp;:</td><td class="input">%1%2</td></tr><!-- END:SET -->
 <!-- SET $_year -->{date:'Y'}<!-- END:SET -->
