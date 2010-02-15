@@ -4,7 +4,7 @@
 
 	<!-- This page is rendered in quirks mode for Internet Explorer 6 -->
 
-	<title>Tribes - by IntellAgence</title>
+	<title>{a$title|default:'Tribes - by IntellAgence'}</title>
 
 	<script type="text/javascript" src="{base:'js/w'}"></script>
 
@@ -58,14 +58,19 @@
 			<!-- END:LOOP -->
 		</td>
 		<td valign="top" align="right">
-			<small><a href="{$public_url|base:1}" target="_blank">Aller au site public</a></small>
+			<a href="{$public_url|base:1}" target="_blank">Aller au site public</a>
 		</td>
 	</tr>
 	<tr>
 		<td align="right">
 			<a href="{~}user/edit/contact" target="content_iframe">{$prenom_usuel} {$nom_usuel}</a>
 			<!-- IF $connected_is_admin --> | <a href="{~}admin" target="content_iframe">Administration</a><!-- END:IF -->
-			<!-- AGENT 'user/_logout' -->
+			<!-- AGENT 'user/_logout' --><br />
+			<!-- IF !$is_cotisant -->
+			<a href="{/}fr/adherer" target="_blank">Cotiser</a> pour soutenir les efforts de l'Association</a>
+			<!-- ELSE -->
+			Tu es à jour de ta cotisation
+			<!-- END:IF -->
 		</td>
 	</tr>
 	</table>

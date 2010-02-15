@@ -117,6 +117,11 @@ class extends agent_user_edit
 	{
 		if ($this->doublon_contact_id)
 		{
+			// XXX TODO:
+			// Ce changement de token désactive de fait le formulaire registration/confirmation,
+			// mais semble nécessaire pour éviter la fuite des token dans certaines conditions.
+			// N'existe-t-il pas un moyen de concilier les deux : sécurité du token et parallélisme des saisies ?
+
 			$this->data->token = p::strongid(8);
 
 			$this->saveContact($data);
@@ -223,7 +228,7 @@ class extends agent_user_edit
 		}
 
 		$table = array(
-			'historique' => array('origine_contact_id' => $to_contact_id),
+			'historique' => array('origine_contact_id' => "IF(origine_contact_id={$from_contact_id},{$to_contact_id},origine_contact_id)"),
 			'alias' => array(),
 		);
 

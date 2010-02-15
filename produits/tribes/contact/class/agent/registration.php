@@ -78,12 +78,20 @@ class extends agent_pForm
 		}
 		else if ('accepted' !== $contact->statut_inscription)
 		{
+			// XXX TODO: Comprendre à quoi servent ces deux UPDATE...
+			// Qq pistes :
+			// - un mécanisme pour s'assurer qu'il n'y a pas de partage d'info publiée entre deux inscriptions successives au même nom
+			// - le fait de mettre contact_data à vide a pour conséquence de ne plus jamais afficher ces lignes dans les loop_contact_*
+
+
 			$sql = "UPDATE contact_email   SET contact_data=''
-					WHERE contact_id={$contact->contact_id}";
+					WHERE contact_id={$contact->contact_id}
+						AND NOT admin_confirmed";
 			$db->exec($sql);
 
 			$sql = "UPDATE contact_adresse SET contact_data=''
-					WHERE contact_id={$contact->contact_id}";
+					WHERE contact_id={$contact->contact_id}
+						AND NOT admin_confirmed";
 			$db->exec($sql);
 
 			@unlink(patchworkPath('data/photo/') . $contact->photo_token . '.jpg~');

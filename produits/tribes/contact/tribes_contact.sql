@@ -13,18 +13,6 @@
 -- --------------------------------------------------------
 
 -- 
--- Structure de la table 'categorie'
--- 
-
-CREATE TABLE categorie (
-  categorie_id int(10) unsigned NOT NULL,
-  categorie varchar(255) NOT NULL,
-  PRIMARY KEY  (categorie_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
--- 
 -- Structure de la table 'contact_adresse'
 -- 
 
@@ -62,18 +50,6 @@ CREATE TABLE contact_alias (
   login varbinary(255) NOT NULL,
   contact_id int(10) unsigned NOT NULL,
   PRIMARY KEY  (login)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table 'contact_categorie'
--- 
-
-CREATE TABLE contact_categorie (
-  contact_id int(10) unsigned NOT NULL,
-  categorie_id int(10) unsigned NOT NULL,
-  PRIMARY KEY  (contact_id,categorie_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
