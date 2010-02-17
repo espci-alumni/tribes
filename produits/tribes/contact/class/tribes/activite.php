@@ -146,6 +146,12 @@ class extends tribes_adresse
 			$this->updateContactModified($id);
 		}
 
+		if ($this->confirmed && !empty($data['adresse_id']))
+		{
+			$sql = "UPDATE contact_adresse SET description='' WHERE adresse_id={$data['adresse_id']}";
+			$db->exec($sql);
+		}
+
 		return $message;
 	}
 
