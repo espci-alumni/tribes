@@ -2,10 +2,10 @@
 
 <p class="explication">
 Les activités professionnelles ou autres que vous renseignez ici
-sont à la base de toute mise en relation et networking au sein de notre communauté.
+sont à la base de toute mise en relation et networking au sein de la communauté.
 N'hésitez pas à remplir vos activités passées et présentes au complet,
 votre profil sera ainsi plus visible dans l'annuaire et
-les contacts générés entre nous tous n'en seront que plus utiles et pertinents.
+les contacts générés n'en seront que plus utiles et pertinents.
 </p>
 
 <h3>Activités</h3>
@@ -34,31 +34,7 @@ LOOP $activites
 		</td>
 	</tr>
 	<!--
-		SET $_f -->{g$inputFormat|replace:'%0&nbsp;:':'%0&nbsp;'}<!-- END:SET
-		AGENT $f_is_shared _glue_=' ' _format_=$_f
-
-		IF $f_activite_del
-			AGENT $f_activite_del value="supprimer cette activité" class='additem' _format_=$_f _preserveScroll_=1
-		END:IF
-
-		SET $_f -->{g$inputFormat|replace:'%1%2':'%1%2<br /><small><em>Groupe, entreprise, université, école… séparés par des /</em></small>'}<!-- END:SET
-		AGENT $f_organisation _caption_="Organisation(s)"  _format_=$_f
-		AGENT $f_service _caption_="Service"
-		AGENT $f_titre _caption_="Titre"
-		IF $f_fonction
-			AGENT $f_fonction _caption_="Département"
-		END:IF
-		IF $f_secteur
-			AGENT $f_secteur _caption_="Secteur d'activité"
-		END:IF
-		IF $f_statut
-			AGENT $f_statut _caption_="Statut"
-		END:IF
-		AGENT $f_date_debut _caption_="Début"
-		AGENT $f_date_fin _caption_="Fin"
-		AGENT $f_adresse_id _caption_="Coordonnées"
-		AGENT $f_site_web _caption_="Site Web"
-		AGENT $f_keyword _caption_="Mots clés"
+		INLINE user/edit/_activite_item
 	END:IF
 END:LOOP
 
