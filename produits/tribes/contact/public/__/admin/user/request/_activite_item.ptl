@@ -1,0 +1,24 @@
+<!--
+
+SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_organisation:$organisation}<!-- END:SET
+AGENT $f_organisation _caption_="Organisation" _format_=$c placeholder=d$p
+
+SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_titre:$titre}<!-- END:SET
+AGENT $f_titre _caption_="Titre" _format_=$c placeholder=d$p
+
+SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_service:$service}<!-- END:SET
+AGENT $f_service _caption_="Service" _format_=$c placeholder=d$p
+
+SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_date_debut:$date_debut}<!-- END:SET
+AGENT $f_date_debut _caption_="Date début" _format_=$c placeholder=d$p
+
+SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_date_fin:$date_fin}<!-- END:SET
+AGENT $f_date_fin _caption_="Date fin" _format_=$c placeholder=d$p
+
+SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_site_web:$site_web}<!-- END:SET
+AGENT $f_site_web _caption_="Site web" _format_=$c placeholder=d$p
+
+SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_keyword:$keyword}<!-- END:SET
+AGENT $f_keyword _caption_="keyword" _format_=$c placeholder=d$p
+
+-->
