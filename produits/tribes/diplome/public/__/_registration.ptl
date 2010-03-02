@@ -1,10 +1,6 @@
 <!--
 
 INLINE _registration
-
-IF $f_ecole
-	AGENT $f_ecole _caption_="École"
-END:IF
-AGENT $f_promotion _caption_="Promotion"
+INLINE registration/_diplome
 
 -->
