@@ -1,0 +1,12 @@
+<!-- AGENT 'email/header' title="Récapitulatif de votre cotisation" -->
+
+<p>
+Votre bulletin de cotisation a bien été enregistré.
+</p>
+
+<p>
+Pour retrouver le récapitulatif de votre cotisation ainsi que le lien pour payer en ligne,
+veuillez <a href="{~}cotiser/paiement/{a$token}">cliquer ici</a>
+</p>
+
+<!-- AGENT 'email/footer' -->

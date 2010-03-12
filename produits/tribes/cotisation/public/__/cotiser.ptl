@@ -1,0 +1,28 @@
+<!-- AGENT 'header' title="Cotiser" public=1 -->
+
+<h2>Vous possédez déjà un compte&nbsp;?</h2>
+
+<p>
+<!-- AGENT 'login' -->
+</p>
+
+<h2>Vous n'avez pas encore de compte&nbsp;?</h2>
+
+<!-- AGENT $form -->
+<p>
+Veuillez remplir vos nom et prénom en faisant attention aux majuscules, minuscules ainsi qu'aux accents, cédilles, <em>etc</em>.<br />
+Par exemple, saisissez <em>François</em> (F majuscule, le reste en minuscule, cédille) plutôt que <em><strike>francois</strike></em> ou <em><strike>FRANCOIS</strike></em>.
+</p>
+
+<table>
+<!-- INLINE _registration -->
+<tr>
+	<td colspan="2" align="right">
+		<!-- AGENT $f_send value="Continuer…" -->
+	</td>
+</tr>
+</table>
+
+<!-- AGENT $form _mode_='close' -->
+
+<!-- AGENT 'footer' -->

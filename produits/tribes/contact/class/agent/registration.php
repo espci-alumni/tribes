@@ -96,15 +96,15 @@ class extends agent_pForm
 
 			@unlink(patchworkPath('data/photo/') . $contact->photo_token . '.jpg~');
 			@unlink(patchworkPath('data/cv/'   ) . $contact->cv_token    . '.pdf~');
-
-			$data['photo_token'] = p::strongid(8);
-			$data['cv_token']    = p::strongid(8);
 		}
 
-		$data += array(
-			'statut_inscription' => '',
-			'token'              => p::strongid(8),
-		);
+		$data['photo_token']        = p::strongid(8);
+		$data['cv_token']           = p::strongid(8);
+		$data['token']              = p::strongid(8);
+		$data['contact_id']         = $contact->contact_id;
+		$data['statut_inscription'] = $contact->statut_inscription;
+
+		$this->data = (object) $data;
 
 		$sql = new tribes_email($contact->contact_id, false);
 		$sql->save($data, false);

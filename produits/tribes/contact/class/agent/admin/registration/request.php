@@ -6,6 +6,12 @@ class extends agent_user_edit
 
 	const PENDING_PERIOD = '3 DAY';
 
+	protected static
+
+	$mergeTableInsert = array(),
+	$mergeTableUpdate = array();
+
+
 	protected
 
 	$requiredAuth = 'admin',
@@ -187,24 +193,32 @@ class extends agent_user_edit
 	}
 
 
-	static function mergeContacts($from_contact_id, $to_contact_id)
+	static function __constructStatic()
 	{
-		$db = DB();
-
-		$table = array(
+		$a = array(
 			'is_active'   => "IF(VALUES(is_active)=1 OR is_active=1,1,0)",
 			'is_obsolete' => "IF(VALUES(is_obsolete)=1 OR is_obsolete=1,1,IF(VALUES(is_obsolete)=-1 OR is_obsolete=-1,-1,0))",
 		);
 
-		$table = array(
-			'email'   => array('email_id',   $table),
-			'adresse' => array('adresse_id', $table),
-			'contact' => array('contact_id', $table + array(
+		self::$mergeTableInsert = array(
+			'email'   => array('email_id',   $a),
+			'adresse' => array('adresse_id', $a),
+			'contact' => array('contact_id', $a + array(
 				'statut_inscription' => "IF(VALUES(statut_inscription)='accepted' OR statut_inscription='accepted','accepted',IF(VALUES(statut_inscription)='' AND statut_inscription='','','demande'))"
-			)),
+			))
 		);
 
-		foreach ($table as $table => $info)
+		self::$mergeTableUpdate = array(
+			'historique' => array('origine_contact_id' => "IF(origine_contact_id=%d,%d,origine_contact_id)"),
+			'alias' => array(),
+		);
+	}
+
+	static function mergeContacts($from_contact_id, $to_contact_id)
+	{
+		$db = DB();
+
+		foreach (self::$mergeTableInsert as $table => $info)
 		{
 			$sql = "SELECT * FROM contact_{$table} WHERE contact_id={$from_contact_id}";
 			$result = $db->query($sql);
@@ -221,22 +235,17 @@ class extends agent_user_edit
 
 				$from = $info[1] + $from;
 				$sql .= "ON DUPLICATE KEY UPDATE contact_id={$to_contact_id}";
-				foreach ($from as $k => $v) if ("''" !== $v) $sql .= ",{$k}={$v}";
+				foreach ($from as $k => $v) if ("''" !== $v) $sql .= ",{$k}=" . sprintf($v, $from_contact_id, $to_contact_id);
 
 				$db->exec($sql);
 			}
 		}
 
-		$table = array(
-			'historique' => array('origine_contact_id' => "IF(origine_contact_id={$from_contact_id},{$to_contact_id},origine_contact_id)"),
-			'alias' => array(),
-		);
-
-		foreach ($table as $table => $info)
+		foreach (self::$mergeTableUpdate as $table => $info)
 		{
 			$sql = "UPDATE IGNORE contact_{$table}
 					SET contact_id={$to_contact_id}";
-			foreach ($info as $k => $v) $sql .= ",{$k}={$v}";
+			foreach ($info as $k => $v) $sql .= ",{$k}=" . sprintf($v, $from_contact_id, $to_contact_id);
 			$sql .= " WHERE contact_id={$from_contact_id}";
 			$db->exec($sql);
 

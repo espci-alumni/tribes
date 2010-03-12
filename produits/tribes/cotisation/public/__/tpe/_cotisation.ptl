@@ -1,0 +1,7 @@
+<!--
+
+AGENT $form
+AGENT $send value="Payer en ligne" type='image' src='img/tpe.gif' alt="Payer en ligne"
+AGENT $form _mode_='close'
+
+-->

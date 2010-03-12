@@ -1,0 +1,4 @@
+<!-- IF $cdr -->
+version=2
+cdr={$cdr}
+<!-- END:IF -->
