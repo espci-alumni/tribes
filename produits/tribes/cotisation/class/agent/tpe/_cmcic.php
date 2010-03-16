@@ -17,13 +17,13 @@ class extends agent
 
 	// Methods related to request handling
 
-	protected function composeTpe($o, $ref, $euro, $email)
+	protected static function composeTpe($o, $ref, $euro, $email)
 	{
 		$data = array(
 			'TPE'         => self::$codeTpe,
 			'date'        => date('d/m/Y:H:i:s', $_SERVER['REQUEST_TIME']),
 			'montant'     => $euro . self::$devise,
-			'reference'   => '_' . $ref . '_', // Le TPE semble coincer avec 8 caractères...
+			'reference'   => $ref,
 			'texte-libre' => '',
 			'version'     => self::$version,
 			'lgue'        => self::$langue,
@@ -87,43 +87,7 @@ class extends agent
 
 	// Methods related to response handling
 
-	protected function saveResponse($o, $data)
-	{
-		$token = substr($data['reference'], 1, -1);
-		$euro  = (float) $data['montant'];
-		$ref   = implode('|', $data);
-
-		switch ($data['code-retour'])
-		{
-			case 'payetest':
-			case 'paiement':
-				break;
-
-/*
-			// paiement echelonné
-			case 'paiement_pf2':
-			case 'paiement_pf3':
-			case 'paiement_pf4':
-				break;
-
-			case 'Annulation_pf2':
-			case 'Annulation_pf3':
-			case 'Annulation_pf4':
-				break;
-*/
-
-			default:
-			case 'Annulation':
-				$euro = -1;
-				break;
-		}
-
-		$this->saveCotisation($token, $euro, $ref);
-
-		return $o;
-	}
-
-	protected static function extractResponse($data)
+	protected static function composeResponse($o, $data)
 	{
 		$data += array(
 			'date'        => '',
@@ -147,7 +111,43 @@ class extends agent
 			'pares'       => '',
 		);
 
-		return isset($data['MAC']) && self::macResponse($data) === strtolower($data['MAC']) ? $data : array();
+		if (isset($data['MAC']) && self::macResponse($data) === strtolower($data['MAC']))
+		{
+			$token = $data['reference'];
+			$euro  = (float) $data['montant'];
+			$mode  = 'CB';
+			$ref   = implode('|', $data);
+
+			switch ($data['code-retour'])
+			{
+				case 'payetest':
+					$mode = 'TST';
+				case 'paiement':
+					break;
+
+	/*
+				// paiement echelonné
+				case 'paiement_pf2':
+				case 'paiement_pf3':
+				case 'paiement_pf4':
+					break;
+
+				case 'Annulation_pf2':
+				case 'Annulation_pf3':
+				case 'Annulation_pf4':
+					break;
+	*/
+
+				default:
+				case 'Annulation':
+					$euro = 0;
+					$mode = 'ERR';
+					break;
+			}
+
+			return array($token, $euro, $mode, $ref);
+		}
+		else return array();
 	}
 
 	protected static function macResponse($data)

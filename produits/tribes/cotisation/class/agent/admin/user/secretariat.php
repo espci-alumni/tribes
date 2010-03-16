@@ -6,10 +6,10 @@ class extends self
 	{
 		$f->add('date', 'cotisation_date');
 		$f->add(
-			'QSelect',
+			'select',
 			'cotisation_type',
 			array(
-				'src' => 'QSelect/suggestions/cotisation/type'
+				'item' => tribes::getCotisationType(),
 			)
 		);
 
@@ -24,15 +24,6 @@ class extends self
 	function save($data)
 	{
 		$db = DB();
-
-		if (!empty($data['cotisation_type']))
-		{
-			$sql = $db->quote($data['cotisation_type']);
-			$sql = "INSERT INTO item_suggestions VALUES ('cotisation/type',{$sql})
-					ON DUPLICATE KEY UPDATE suggestion=VALUES(suggestion)";
-
-			$db->exec($sql);
-		}
 
 		if (!empty($data['cotisation_date']))
 		{

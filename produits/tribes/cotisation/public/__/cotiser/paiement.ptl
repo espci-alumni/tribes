@@ -1,4 +1,6 @@
-<!-- AGENT 'header' title="Récapitulatif de la cotisation" -->
+<!-- AGENT 'header' title="Récapitulatif de votre cotisation" -->
+
+<h2>Récapitulatif de votre cotisation</h2>
 
 <!-- SET $_euro -->{$cotisation+$soutien-$paiement_euro}<!-- END:SET -->
 
@@ -21,8 +23,6 @@ Si vous préférez payer par chèque, veuiller <a href="javascript:print();">imp
 </p>
 <!-- END:IF -->
 
-{* TODO ! Gérer l'affichage en fonction de $paiement_statut *}
-
 <div id="print">
 <table>
 <tr>
@@ -30,16 +30,12 @@ Si vous préférez payer par chèque, veuiller <a href="javascript:print();">imp
 	<td>{$token}</td>
 </tr>
 <tr>
-	<td>Promotion&nbsp;:</td>
-	<td>{$promotion}</td>
-</tr>
-<tr>
 	<td>Nom&nbsp;:</td>
-	<td>{$nom_civil}</td>
+	<td>{$nom}</td>
 </tr>
 <tr>
 	<td>Prénom&nbsp;:</td>
-	<td>{$prenom_civil}</td>
+	<td>{$prenom}</td>
 </tr>
 <tr>
 	<td>Email&nbsp;:</td>
@@ -47,7 +43,7 @@ Si vous préférez payer par chèque, veuiller <a href="javascript:print();">imp
 </tr>
 <tr>
 	<td>Catégorie&nbsp;:</td>
-	<td>{$type_cotisation}</td>
+	<td>{$type}</td>
 </tr>
 <tr>
 	<td>Montant de la cotisation&nbsp;:</td>
@@ -69,15 +65,5 @@ Si vous préférez payer par chèque, veuiller <a href="javascript:print();">imp
 </tr>
 </table>
 </div>
-
-<!-- IF $paiement_euro < $_euro -->
-<p>
-Annulation du bulletin de cotisation
-</p>
-
-<!-- AGENT $form -->
-<!-- AGENT $f_send value="Annuler ce bulletin" -->
-<!-- AGENT $form _mode_='close' -->
-<!-- END:IF -->
 
 <!-- AGENT 'footer' -->

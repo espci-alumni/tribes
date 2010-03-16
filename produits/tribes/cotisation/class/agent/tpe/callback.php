@@ -8,30 +8,47 @@ class extends agent_tpe___x5Fcmcic
 	{
 		if (IS_POSTING)
 		{
-			$data = self::extractResponse($_POST);
-			$data && $this->saveResponse($o, $data);
+			if ($o = self::composeResponse($o, $_POST))
+			{
+				list($o, $token, $euro, $mode, $ref) = $o;
+				$token = explode('/', $token, 2);
+
+				$this->saveResponse($token[0], $token[1], $euro, $mode, $ref) || $o = array();
+			}
 		}
 
 		return $o;
 	}
 
-	protected function saveCotisation($token, $euro, $ref)
+	protected function saveResponse($type, $token, $euro, $mode, $ref)
+	{
+		if ('C' === $type) return $this->saveCotisation($token, $euro, $mode, $ref);
+	}
+
+	protected function saveCotisation($token, $euro, $mode, $ref)
 	{
 		$db = DB();
+
 		$token = $db->quote($token);
 		$euro  = sprintf('%0.2f', $euro);
+		$mode  = $db->quote($mode);
 		$ref   = $db->quote($ref);
-		$type  = $euro > 0 ? 'CB' : 'ERR';
 
 		$sql = "UPDATE contact_contact c, cotisation p SET
-					c.cotisation_type=p.type_cotisation,
+					c.cotisation_type=p.type,
 					c.cotisation_date=NOW(),
 					p.paiement_euro={$euro},
 					p.paiement_date=NOW(),
-					p.paiement_type='{$type}',
+					p.paiement_mode={$mode},
 					p.paiement_ref ={$ref}
 				WHERE c.contact_id=p.contact_id
 					AND p.token={$token}";
-		$db->exec($sql);
+		if ($db->exec($sql))
+		{
+			$sql = "SELECT * FROM cotisation WHERE token={$token}";
+			notification::send('cotisation/confirmation', (array) $db->queryRow($sql));
+			return true;
+		}
+		else return false;
 	}
 }

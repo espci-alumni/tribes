@@ -14,6 +14,6 @@ class extends agent_tpe___x5Fcmcic
 				WHERE token='{$this->get->__1__}'";
 		$o = DB()->queryRow($sql);
 
-		return $o ? $this->composeTpe($o, $o->token, $o->euro, $o->email) : array();
+		return $o ? self::composeTpe($o, 'C/' . $o->token, $o->euro, $o->email) : array();
 	}
 }

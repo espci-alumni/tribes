@@ -29,7 +29,7 @@ class extends self
 		$sql = unserialize($o->details);
 
 		$o->cotisation_date = $sql['cotisation_date'];
-		$o->cotisation_type = $sql['cotisation_type'];
+		$o->cotisation_type = tribes::getCotisationType($sql['cotisation_type']);
 
 		unset($o->details);
 

@@ -8,18 +8,7 @@ class extends agent_registration
 
 		tribes::getConnectedId() && p::redirect('cotiser/bulletin');
 
-		if ($sql = (int) s::get('cotiser_contact_id'))
-		{
-			$sql = "SELECT sexe,
-						nom_civil,
-						prenom_civil,
-						date_naissance,
-						promotion
-					FROM contact_contact
-					WHERE contact_id={$sql}";
-			$this->data = DB()->queryRow($sql);
-			$this->data->email = s::get('cotiser_email');
-		}
+		$this->data = s::get('cotisation_registration');
 
 		s::flash('referer', 'cotiser/');
 	}
@@ -28,8 +17,11 @@ class extends agent_registration
 	{
 		parent::save($data);
 
-		s::set('cotiser_contact_id', $this->data->contact_id);
-		s::set('cotiser_email',      $this->data->email);
+		s::set(array(
+			'cotisation_contact_id'   => $this->data->contact_id,
+			'cotisation_email'        => $this->data->email,
+			'cotisation_registration' => $data,
+		));
 
 		return 'cotiser/bulletin';
 	}
