@@ -1,10 +1,12 @@
 <?php
 
-// TODO ! Remplacer contact_contact.cotisation_date par cotisation_expires
+// TODO : Remplacer contact_contact.cotisation_date par cotisation_expires
 // Calculer cotisation_expires en fonction de la date de cotisation, via un tableau :
 // type -> interval de prolongation par rapport au MAX(NOW(), cotisation_expires)
 //
-// TODO : reprendre l'info "promotion" sans créer de dépendence forte
+// TODO : reprendre l'info "promotion" sans créer de dépendence forte, sinon la documenter
+//
+// TODO : mettre à jour is_cotisant dans la session dès que c'est le cas
 
 class extends self
 {

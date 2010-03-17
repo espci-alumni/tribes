@@ -1,6 +1,6 @@
 <?php
 
-// TODO/XXX (non critique)
+// TODO : cas mot de passe perdu
 // Dans le cas où cette page s'affiche suite à un passage par registration
 // alors que le contact est déjà accepté, il faudrait ajouter une question
 // dans le formulaire "Envoyer un nouveau mot de passe ? O/N".
@@ -45,7 +45,7 @@ class extends agent_pForm
 				FROM cotisation
 				WHERE contact_id={$this->contact_id}
 					AND paiement_date
-				ORDER BY cotisation_id";
+				ORDER BY cotisation_id DESC";
 		$o->cotisations = new loop_sql($sql);
 
 		return parent::compose($o);

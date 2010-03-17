@@ -2,20 +2,28 @@
 
 class extends self
 {
+	protected static $paiement_mode = array(
+		'ESP' => 'Espèces',
+		'CHQ' => 'Chèque',
+		'VIR' => 'Virement',
+	);
+
 	function composeCotisation($o, $f, $send)
 	{
-		$f->add('date', 'cotisation_date');
-		$f->add(
-			'select',
-			'cotisation_type',
-			array(
-				'item' => tribes::getCotisationType(),
-			)
-		);
+		$f->add('date',   'cotisation_date');
+		$f->add('select', 'type', array('item' => tribes::getCotisationType()));
+		$f->add('text',   'paiement_euro', '\d+([.,]\d*)?');
+		$f->add('date',   'paiement_date');
+		$f->add('select', 'paiement_mode', array('item' => self::$paiement_mode));
+		$f->add('text',   'paiement_ref');
 
 		$send->attach(
 			'cotisation_date', '', '',
-			'cotisation_type', '', ''
+			'type',            '', '',
+			'paiement_euro',   '', 'Merci de saisir un nombre entier ou décimal',
+			'paiement_date',   '', '',
+			'paiement_mode',   '', '',
+			'paiement_ref',    '', ''
 		);
 
 		return parent::composeCotisation($o, $f, $send);
@@ -23,28 +31,47 @@ class extends self
 
 	function save($data)
 	{
+		$url = parent::save($data);
+
 		$db = DB();
 
-		if (!empty($data['cotisation_date']))
+		if (isset($data['paiement_euro']) && '' !== $data['paiement_euro'])
 		{
-			$d = explode('-', $data['cotisation_type'], 2);
-			$d = array(
+			$data = array(
 				'cotisation_date' => $data['cotisation_date'],
-				'cotisation_type' => $d[1],
+				'type'            => $data['type'],
+				'paiement_euro'   => $data['paiement_euro'],
+				'paiement_date'   => $data['paiement_date'],
+				'paiement_mode'   => $data['paiement_mode'],
+				'paiement_ref'    => $data['paiement_ref'],
 			);
 
-			unset($data['cotisation_date'], $data['cotisation_type']);
+			$data['paiement_euro'] = strtr($data['paiement_euro'], ',', '.');
+			$data['cotisation_date'] || $data['cotisation_date'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
+			$data['paiement_date']   || $data['paiement_date']   = $data['cotisation_date'];
+
+			list($data['cotisation'], $data['type']) = explode('-', $data['type'], 2);
 
 			$db->autoExecute(
 				'contact_contact',
-				$d,
+				array(
+					'cotisation_date' => $data['cotisation_date'],
+					'cotisation_type' => $data['type'],
+				),
 				MDB2_AUTOQUERY_UPDATE,
 				"contact_id={$this->contact_id}"
 			);
 
-			notification::send('user/cotisation', $d + array('contact_id' => $this->contact_id));
+			$data += array(
+				'soutien' => $data['paiement_euro'] - $data['cotisation'],
+				'contact_id'      => $this->contact_id,
+			);
+
+			$db->autoExecute('cotisation', $data);
+
+			notification::send('user/cotisation', $data);
 		}
 
-		return parent::save($data);
+		return $url;
 	}
 }

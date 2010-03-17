@@ -1,12 +1,6 @@
 <?php
 
-// TODO/XXX (non critique)
-// Il serait intéressant que lorsque cette page s'affiche suite à un clic sur le lien
-// présent dans l'email de confirmation, la même logique de confirmation de l'email
-// que dans agent/registration/confirmation soit mise en oeuvre, pendant une période identique.
-// Ceci nécessite bien sur de pouvoir distinguer ce cas du cas où l'user vient de cotiser/bulletin.
-
-// TODO/XXX (non critique)
+// TODO : lien vers user/edit
 // Trouver un moyen (dans cette page ou une autre) pour que l'user soit invité à mettre à jour
 // sa fiche dans l'annuaire, sans rompre le processus mental en cours !
 // Peut-être simplement un lien dans cotiser/merci ?
