@@ -31,12 +31,11 @@ class extends agent_pForm
 
 	function compose($o)
 	{
-		// TODO ! Vérifier si l'user est à jour de sa cotisation, et dans ce cas lui afficher un message adéqua
-
 		$sql = "SELECT
 					sexe,
 					nom_usuel AS nom,
-					prenom_usuel AS prenom
+					prenom_usuel AS prenom,
+					IF (cotisation_date>=NOW() - INTERVAL 1 YEAR, cotisation_date + INTERVAL 1 YEAR - INTERVAL 1 DAY, 0) AS cotisation_expires
 				FROM contact_contact
 				WHERE contact_id={$this->contact_id}";
 		$o = DB()->queryRow($sql);

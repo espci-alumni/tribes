@@ -5,8 +5,6 @@
 // type -> interval de prolongation par rapport au MAX(NOW(), cotisation_expires)
 //
 // TODO : reprendre l'info "promotion" sans créer de dépendence forte, sinon la documenter
-//
-// TODO : mettre à jour is_cotisant dans la session dès que c'est le cas
 
 class extends self
 {

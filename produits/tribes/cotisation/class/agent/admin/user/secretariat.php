@@ -69,6 +69,7 @@ class extends self
 
 			$db->autoExecute('cotisation', $data);
 
+			// TODO ? Envoyer cette notification par email
 			notification::send('user/cotisation', $data);
 		}
 

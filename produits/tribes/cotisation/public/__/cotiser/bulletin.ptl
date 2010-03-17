@@ -2,6 +2,12 @@
 
 <h2>{$prenom} {$nom}</h2>
 
+<!-- IF $cotisation_expires -->
+<p>
+<strong>Attention&nbsp;: vous êtes actuellement à jour de votre cotisation jusqu'au {$cotisation_expires|replace:'(....)-(..)-(..).*':'$3/$2/$1'}&nbsp;!</strong>
+</p>
+<!-- END:IF -->
+
 <hr />
 
 <!-- AGENT $form -->
