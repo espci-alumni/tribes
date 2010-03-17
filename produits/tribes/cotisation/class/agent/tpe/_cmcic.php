@@ -113,6 +113,7 @@ class extends agent
 
 		if (isset($data['MAC']) && self::macResponse($data) === strtolower($data['MAC']))
 		{
+			$o->cdr = 0;
 			$token = $data['reference'];
 			$euro  = (float) $data['montant'];
 			$mode  = 'CB';
@@ -145,7 +146,7 @@ class extends agent
 					break;
 			}
 
-			return array($token, $euro, $mode, $ref);
+			return array($o, $token, $euro, $mode, $ref);
 		}
 		else return array();
 	}

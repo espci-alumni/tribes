@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_tpe___x5Fcmcic
+class extends agent_tpe___x5Fadapter
 {
 	public $get = array('__1__:c:[-_A-Za-z0-9]{8}');
 

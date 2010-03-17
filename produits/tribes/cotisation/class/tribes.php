@@ -10,7 +10,7 @@ class extends self
 {
 	protected static $cotisation_type;
 
-	static function getCotisationType($key = null)
+	static function getCotisationType()
 	{
 		if (!isset(self::$cotisation_type))
 		{
@@ -19,12 +19,12 @@ class extends self
 
 			while ($row = $result->fetchRow())
 			{
-				$c = explode(':', $row->value, 2);
+				$c = explode('-', $row->value, 2);
 
-				self::$cotisation_type[$c[0]] = $c[1];
+				self::$cotisation_type[$row->value] = $c[1] . ' - ' . $c[0] . ' €';
 			}
 		}
 
-		return null === $key ? self::$cotisation_type : (isset(self::$cotisation_type[$key]) ? self::$cotisation_type[$key] : $key);
+		return self::$cotisation_type;
 	}
 }

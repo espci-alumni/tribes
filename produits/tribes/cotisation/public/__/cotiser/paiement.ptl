@@ -1,6 +1,6 @@
 <!-- AGENT 'header' title="Récapitulatif de votre cotisation" -->
 
-<h2>Récapitulatif de votre cotisation</h2>
+<h2>{$prenom} {$nom}</h2>
 
 <!-- SET $_euro -->{$cotisation+$soutien-$paiement_euro}<!-- END:SET -->
 
@@ -18,16 +18,15 @@ SET $_tpe -->tpe/_cotisation/{g$__1__}<!-- END:SET
 AGENT $_tpe
 -->
 
-<p>
-Si vous préférez payer par chèque, veuiller <a href="javascript:print();">imprimer cette page</a>.
-</p>
+{* TODO : proposer un bulletin à imprimer pour payer par chèque *}
+
 <!-- END:IF -->
 
 <div id="print">
 <table>
 <tr>
 	<td>Référence&nbsp;:</td>
-	<td>{$token}</td>
+	<td>C/{$token}</td>
 </tr>
 <tr>
 	<td>Nom&nbsp;:</td>

@@ -27,9 +27,10 @@ class extends self
 
 		if (!empty($data['cotisation_date']))
 		{
+			$d = explode('-', $data['cotisation_type'], 2);
 			$d = array(
 				'cotisation_date' => $data['cotisation_date'],
-				'cotisation_type' => $data['cotisation_type'],
+				'cotisation_type' => $d[1],
 			);
 
 			unset($data['cotisation_date'], $data['cotisation_type']);

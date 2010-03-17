@@ -46,7 +46,7 @@ class extends agent_pForm
 				WHERE contact_id={$this->contact_id}
 					AND paiement_date
 				ORDER BY cotisation_id";
-		$o->cotisations = new loop_sql($sql, array($this, 'filterCotisation'));
+		$o->cotisations = new loop_sql($sql);
 
 		return parent::compose($o);
 	}
@@ -89,6 +89,9 @@ class extends agent_pForm
 			'email'           => s::get('email') ? s::get('email') : s::get('cotisation_email'),
 		);
 
+		$data['type'] = explode('-', $data['type'], 2);
+		$data['type'] = $data['type'][1];
+
 		if ($data['soutien_suggestion']) $data['soutien'] = $data['soutien_suggestion'];
 		unset($data['soutien_suggestion']);
 
@@ -111,12 +114,5 @@ class extends agent_pForm
 		return $data['cotisation'] || $data['soutien']
 			? 'cotiser/paiement/' . $data['token']
 			: 'cotiser/merci';
-	}
-
-	function filterCotisation($o)
-	{
-		$o->type = tribes::getCotisationType($o->type);
-
-		return $o;
 	}
 }

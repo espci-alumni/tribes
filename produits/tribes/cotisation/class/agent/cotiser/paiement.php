@@ -43,10 +43,6 @@ class extends agent
 
 	function compose($o)
 	{
-		$o = $this->data;
-
-		$o->type = tribes::getCotisationType($o->type);
-
-		return $o;
+		return $this->data;
 	}
 }

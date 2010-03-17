@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_tpe___x5Fcmcic
+class extends agent_tpe___x5Fadapter
 {
 	const contentType = 'text/plain';
 
@@ -30,25 +30,41 @@ class extends agent_tpe___x5Fcmcic
 		$db = DB();
 
 		$token = $db->quote($token);
-		$euro  = sprintf('%0.2f', $euro);
-		$mode  = $db->quote($mode);
 		$ref   = $db->quote($ref);
 
-		$sql = "UPDATE contact_contact c, cotisation p SET
-					c.cotisation_type=p.type,
-					c.cotisation_date=NOW(),
-					p.paiement_euro={$euro},
-					p.paiement_date=NOW(),
-					p.paiement_mode={$mode},
-					p.paiement_ref ={$ref}
-				WHERE c.contact_id=p.contact_id
-					AND p.token={$token}";
-		if ($db->exec($sql))
+		if ('ERR' !== $mode)
 		{
-			$sql = "SELECT * FROM cotisation WHERE token={$token}";
-			notification::send('cotisation/confirmation', (array) $db->queryRow($sql));
-			return true;
+			$euro = sprintf('%0.2f', $euro);
+			$mode = $db->quote($mode);
+
+			$sql = "UPDATE contact_contact c, cotisation p SET
+						c.cotisation_type=p.type,
+						c.cotisation_date=NOW(),
+						p.paiement_euro={$euro},
+						p.paiement_date=NOW(),
+						p.paiement_mode={$mode},
+						p.paiement_ref ={$ref}
+					WHERE c.contact_id=p.contact_id
+						AND p.token={$token}";
+			if ($db->exec($sql))
+			{
+				$sql = "SELECT * FROM cotisation WHERE token={$token}";
+				notification::send('cotisation/confirmation', (array) $db->queryRow($sql));
+				return true;
+			}
 		}
-		else return false;
+		else
+		{
+			$sql = "UPDATE cotisation p SET
+						p.paiement_mode='ERR',
+						p.paiement_ref ={$ref}
+					WHERE p.token={$token}";
+			if ($db->exec($sql))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
