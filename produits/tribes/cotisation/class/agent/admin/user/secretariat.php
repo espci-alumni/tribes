@@ -10,12 +10,13 @@ class extends self
 
 	function composeCotisation($o, $f, $send)
 	{
-		$f->add('date',   'cotisation_date');
-		$f->add('select', 'type', array('item' => tribes::getCotisationType()));
-		$f->add('text',   'paiement_euro', '\d+([.,]\d*)?');
-		$f->add('date',   'paiement_date');
-		$f->add('select', 'paiement_mode', array('item' => self::$paiement_mode));
-		$f->add('text',   'paiement_ref');
+		// TODO : ajouter un champ pour saisir l'email
+		$f->add('date',  'cotisation_date');
+		$f->add('check', 'type', array(	'item' => tribes::getCotisationType()));
+		$f->add('text',  'paiement_euro', '\d+([.,]\d*)?');
+		$f->add('date',  'paiement_date');
+		$f->add('check', 'paiement_mode', array('item' => self::$paiement_mode));
+		$f->add('text',  'paiement_ref');
 
 		$send->attach(
 			'cotisation_date', '', '',
@@ -63,13 +64,13 @@ class extends self
 			);
 
 			$data += array(
-				'soutien' => $data['paiement_euro'] - $data['cotisation'],
-				'contact_id'      => $this->contact_id,
+				'token'      => p::strongId(8),
+				'soutien'    => $data['paiement_euro'] - $data['cotisation'],
+				'contact_id' => $this->contact_id,
 			);
 
 			$db->autoExecute('cotisation', $data);
 
-			// TODO ? Envoyer cette notification par email
 			notification::send('user/cotisation', $data);
 		}
 

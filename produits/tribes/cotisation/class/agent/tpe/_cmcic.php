@@ -2,6 +2,8 @@
 
 class extends agent
 {
+	const contentType = 'text/plain';
+
 	protected static
 
 	$url     = 'https://paiement.creditmutuel.fr/test/',
@@ -116,15 +118,13 @@ class extends agent
 			$o->cdr = 0;
 			$token = $data['reference'];
 			$euro  = (float) $data['montant'];
-			$mode  = 'CB';
+			$is_ok = 0;
 			$ref   = implode('|', $data);
 
 			switch ($data['code-retour'])
 			{
-				case 'payetest':
-					$mode = 'TST';
-				case 'paiement':
-					break;
+				case 'payetest': $is_ok = -1; break;
+				case 'paiement': $is_ok =  1; break;
 
 	/*
 				// paiement echelonné
@@ -140,13 +140,10 @@ class extends agent
 	*/
 
 				default:
-				case 'Annulation':
-					$euro = 0;
-					$mode = 'ERR';
-					break;
+				case 'Annulation': $euro = 0; break;
 			}
 
-			return array($o, $token, $euro, $mode, $ref);
+			return array($o, $token, $euro, $is_ok, $ref);
 		}
 		else return array();
 	}

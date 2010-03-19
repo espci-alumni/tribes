@@ -83,13 +83,11 @@ class extends agent_pForm
 		$data += array(
 			'token'           => p::strongId(8),
 			'contact_id'      => $this->contact_id,
-			'cotisation'      => intval($data['type']),
 			'cotisation_date' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']),
 			'email'           => s::get('email') ? s::get('email') : s::get('cotisation_email'),
 		);
 
-		$data['type'] = explode('-', $data['type'], 2);
-		$data['type'] = $data['type'][1];
+		list($data['cotisation'], $data['type']) = explode('-', $data['type'], 2);
 
 		if ($data['soutien_suggestion']) $data['soutien'] = $data['soutien_suggestion'];
 		unset($data['soutien_suggestion']);
@@ -105,7 +103,7 @@ class extends agent_pForm
 					WHERE contact_id={$this->contact_id}";
 			DB()->exec($sql);
 
-			notification::send('cotisation/confirmation', $data);
+			notification::send('user/cotisation', $data);
 		}
 
 		DB()->autoExecute('cotisation', $data);
