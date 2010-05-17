@@ -96,10 +96,8 @@ class extends agent_pForm
 		{
 			$data['paiement_date'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
 
-			$sql = DB()->quote($data['type']);
 			$sql = "UPDATE contact_contact SET
-						cotisation_date=NOW(),
-						cotisation_type={$sql}
+						cotisation_date=NOW()
 					WHERE contact_id={$this->contact_id}";
 			DB()->exec($sql);
 

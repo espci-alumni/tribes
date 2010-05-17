@@ -1,10 +1,10 @@
 <!--
 
-SET $title -->{"Profil de"} {$prenom_usuel} {$nom_usuel}<!--END:SET
+IF !$_title
+	SET $_title -->{"Profil de"} {$prenom_usuel} {$nom_usuel}<!--END:SET
+END:IF
 
-SET $date_naissance -->{$date_naissance|formatDate}<!-- END:SET
-
-AGENT 'header' title=$title
+AGENT 'header' title=$_title
 
 -->
 
@@ -37,7 +37,7 @@ AGENT 'header' title=$title
 <!-- IF $date_naissance -->
 <tr>
 	<td>Né<!-- IF 'F' == $sexe -->e<!-- END:IF --> le&nbsp;:</td>
-	<td>{$date_naissance}</td>
+	<td>{$date_naissance|formatDate}</td>
 </tr>
 <!-- END:IF -->
 </table>

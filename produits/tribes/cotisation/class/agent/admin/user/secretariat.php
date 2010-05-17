@@ -57,7 +57,6 @@ class extends self
 				'contact_contact',
 				array(
 					'cotisation_date' => $data['cotisation_date'],
-					'cotisation_type' => $data['type'],
 				),
 				MDB2_AUTOQUERY_UPDATE,
 				"contact_id={$this->contact_id}"

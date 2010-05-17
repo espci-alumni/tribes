@@ -201,16 +201,16 @@ class extends agent_user_edit
 		);
 
 		self::$mergeTableInsert = array(
-			'email'   => array('email_id',   $a),
-			'adresse' => array('adresse_id', $a),
-			'contact' => array('contact_id', $a + array(
+			'contact_email'   => array('email_id',   $a),
+			'contact_adresse' => array('adresse_id', $a),
+			'contact_contact' => array('contact_id', $a + array(
 				'statut_inscription' => "IF(VALUES(statut_inscription)='accepted' OR statut_inscription='accepted','accepted',IF(VALUES(statut_inscription)='' AND statut_inscription='','','demande'))"
 			))
 		);
 
 		self::$mergeTableUpdate = array(
-			'historique' => array('origine_contact_id' => "IF(origine_contact_id=%d,%d,origine_contact_id)"),
-			'alias' => array(),
+			'contact_historique' => array('origine_contact_id' => "IF(origine_contact_id=%d,%d,origine_contact_id)"),
+			'contact_alias' => array(),
 		);
 	}
 
@@ -220,17 +220,17 @@ class extends agent_user_edit
 
 		foreach (self::$mergeTableInsert as $table => $info)
 		{
-			$sql = "SELECT * FROM contact_{$table} WHERE contact_id={$from_contact_id}";
+			$sql = "SELECT * FROM {$table} WHERE contact_id={$from_contact_id}";
 			$result = $db->query($sql);
 			while ($from = (array) $result->fetchRow())
 			{
-				$sql = "DELETE FROM contact_{$table} WHERE {$info[0]}={$from[$info[0]]}";
+				$sql = "DELETE FROM {$table} WHERE {$info[0]}={$from[$info[0]]}";
 				$db->exec($sql);
 
 				$from['contact_id'] = $to_contact_id;
 				$from = array_map(array($db, 'quote'), $from);
 
-				$sql = "INSERT IGNORE INTO contact_{$table} (" . implode(',', array_keys($from)) . ")
+				$sql = "INSERT IGNORE INTO {$table} (" . implode(',', array_keys($from)) . ")
 						VALUES (" . implode(',', $from) . ")";
 
 				$from = $info[1] + $from;
@@ -243,13 +243,13 @@ class extends agent_user_edit
 
 		foreach (self::$mergeTableUpdate as $table => $info)
 		{
-			$sql = "UPDATE IGNORE contact_{$table}
+			$sql = "UPDATE IGNORE {$table}
 					SET contact_id={$to_contact_id}";
 			foreach ($info as $k => $v) $sql .= ",{$k}=" . sprintf($v, $from_contact_id, $to_contact_id);
 			$sql .= " WHERE contact_id={$from_contact_id}";
 			$db->exec($sql);
 
-			$sql = "DELETE FROM contact_{$table}
+			$sql = "DELETE FROM {$table}
 					WHERE contact_id={$from_contact_id}";
 			$db->exec($sql);
 		}
