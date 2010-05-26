@@ -12,7 +12,7 @@ class extends agent_pForm
 				FROM contact_contact
 				WHERE statut_inscription='accepted'
 					AND token='{$this->get->__1__}'
-					AND token_expires >= NOW()";
+					AND token_expires > NOW()";
 		$this->data = DB()->queryRow($sql);
 		$this->data || p::redirect('error/token');
 

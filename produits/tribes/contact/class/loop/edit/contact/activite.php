@@ -60,6 +60,7 @@ class extends loop_edit
 				'firstItem' => '- Choisir dans la liste -',
 				'sql'       => sprintf($sql, 'statut'),
 			));
+			$s->attach('statut','', '');
 		}
 
 		if ($a->has_fonction)
@@ -68,6 +69,7 @@ class extends loop_edit
 				'firstItem' => '- Choisir dans la liste -',
 				'sql'       => sprintf($sql, 'fonction'),
 			));
+			$s->attach('fonction','', '');
 		}
 
 		if ($a->has_secteur)
@@ -76,6 +78,7 @@ class extends loop_edit
 				'firstItem' => '- Choisir dans la liste -',
 				'sql'       => sprintf($sql, 'secteur'),
 			));
+			$s->attach('secteur','', '');
 		}
 
 		$f->add('monthyear', 'date_debut');
@@ -113,9 +116,6 @@ class extends loop_edit
 		);
 
 		$s->attach(
-			'statut',     '', '',
-			'fonction',   '', '',
-			'secteur',    '', '',
 			'service',    '', '',
 			'titre',      '', '',
 			'date_debut', '', '',
