@@ -1,7 +1,12 @@
 <!-- AGENT 'email/header' title="Validation de l'email" -->
 
 <p>
-Un email a été ajouté à votre compte. Veuillez <a href="{~}user/email/{a$token}">l'activer</a>.
+Un email a été ajouté à votre compte.
+</p>
+
+<p>
+Vous devez maintenant cliquer sur le lien ci-dessous pour l'activer&nbsp;:<br/>
+<a href="{~}confirm/email/{a$token}">{~}confirm/email/{a$token}</a>
 </p>
 
 <!-- AGENT 'email/footer' -->

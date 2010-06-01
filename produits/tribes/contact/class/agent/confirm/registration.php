@@ -41,7 +41,7 @@ class extends agent_registration_receipt
 	protected function save($data)
 	{
 		$data = parent::save($data);
-		false !== $data && $data = 'registration/confirmation/saved';
+		false !== $data && $data = 'confirm/registration/saved';
 		return $data;
 	}
 }
