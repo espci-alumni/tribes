@@ -27,12 +27,6 @@ class extends self
 
 		$sql = "INSERT IGNORE INTO {$mediaWikiDb}.user_groups (ug_user,ug_group)
 				VALUES ({$user_id},'user')";
-
-		if (tribes::isAuth('admin', $contact->contact_id))
-		{
-			$sql .= ",({$user_id},'bureaucrat')";
-		}
-
 		$db->exec($sql);
 
 		return $user_id;

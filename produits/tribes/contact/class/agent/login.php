@@ -38,7 +38,10 @@ class extends agent_pForm
 		$row->email = $row->login . $CONFIG['tribes.emailDomain'];
 		$row->saltedPassword = $row->password;
 		$row->password = $data['password'];
+		$row->referer  = s::flash('referer');
 
+		s::regenerateId(true, true);
+		s::set($row);
 		$this->login($row);
 
 		return 'index';
@@ -52,16 +55,6 @@ class extends agent_pForm
 			$email->save(array('contact_confirmed' => true), null, $sql);
 		}
 
-		$data = array(
-			'contact_id'     => $contact->contact_id,
-			'user'           => $contact->user,
-			'email'          => $contact->email,
-			'referer'        => s::flash('referer'),
-			'nom_usuel'      => $contact->nom_usuel,
-			'prenom_usuel'   => $contact->prenom_usuel,
-			'saltedPassword' => $contact->saltedPassword,
-		);
-
 		$sql = "SELECT 1
 				FROM contact_email
 				WHERE contact_id={$contact->contact_id}
@@ -70,12 +63,9 @@ class extends agent_pForm
 					AND is_obsolete<=0";
 		if (DB()->queryOne($sql))
 		{
-			$data['iframe_src'] = 'user/email/confirm';
+			s::set('iframe_src', 'user/email/confirm');
 		}
 
 		// TODO: Vérifier ici qu'on a au moins un email actif pour ce contact
-
-		s::regenerateId(true, true);
-		s::set($data);
 	}
 }

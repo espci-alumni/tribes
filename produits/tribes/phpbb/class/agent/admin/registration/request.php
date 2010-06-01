@@ -28,12 +28,6 @@ class extends self
 
 		$sql = "INSERT IGNORE INTO {$phpbbDb}.user_group (user_id,group_id,user_pending)
 				VALUES ({$user_id},2,0)";
-
-		if (tribes::isAuth('admin', $contact->contact_id))
-		{
-			$sql .= ",({$user_id},4,0),({$user_id},5,0)";
-		}
-
 		$db->exec($sql);
 
 		return $user_id;

@@ -13,7 +13,7 @@ class extends self
 	{
 		$db = DB();
 		$mediaWikiDb = $CONFIG['tribes.mediaWikiDb'];
-		$is_admin = tribes::isAuth('admin', $contact->contact_id);
+		$is_admin = tribes::connectedIsAuth('admin');
 
 		$data = array(
 			'user_name'      => ucfirst($contact->user),

@@ -8,27 +8,28 @@ class extends agent_pForm
 	{
 		$this->get->__1__ || p::forbidden();
 
-		$sql = "SELECT contact_id, login
+		$sql = "SELECT contact_id, login, nom_usuel, prenom_usuel
 				FROM contact_contact
-				WHERE statut_inscription='accepted'
-					AND token='{$this->get->__1__}'
+				WHERE token='{$this->get->__1__}'
 					AND token_expires > NOW()";
+
 		$this->data = DB()->queryRow($sql);
 		$this->data || p::redirect('error/token');
 
 		tribes_email::confirm($this->get->__1__);
 	}
 
-
 	protected function composeForm($o, $f, $send)
 	{
-		$o->login = $this->data->login;
+		$o->login  = $this->data->login;
+		$o->prenom = $this->data->prenom_usuel;
+		$o->nom    = $this->data->nom_usuel;
 
-		$f->add('password', 'new_pwd');
-		$f->add('password', 'con_pwd');
+		$f->add('password', 'password');
+		$f->add('password', 'con_pwd', array('isdata' => false));
 
 		$send->attach(
-			'new_pwd', 'Veuillez saisir un nouveau mot de passe', '',
+			'password', 'Veuillez saisir un nouveau mot de passe', '',
 			'con_pwd', 'Veuillez confirmer votre mot de passe', ''
 		);
 
@@ -37,7 +38,7 @@ class extends agent_pForm
 
 	protected function formIsOk($f)
 	{
-		if ($f->getElement('new_pwd')->getValue() !== $f->getElement('con_pwd')->getValue())
+		if ($f->getElement('password')->getValue() !== $f->getElement('con_pwd')->getValue())
 		{
 			$f->getElement('con_pwd')->setError('Confirmation échouée');
 			return false;
@@ -48,14 +49,10 @@ class extends agent_pForm
 
 	protected function save($data)
 	{
+		$data['token'] = '';
+
 		$contact = new tribes_contact($this->data->contact_id);
-		$contact->save(
-			array(
-				'password' => $data['new_pwd'],
-				'token' => '',
-			),
-			'user/password/confirmation'
-		);
+		$contact->save($data, 'user/password/confirmation');
 
 		s::flash('referer', 'user/edit');
 

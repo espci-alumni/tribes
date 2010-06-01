@@ -15,8 +15,10 @@ class
 		return (int) s::get('contact_id');
 	}
 
-	static function isAuth($type, $id)
+	static function connectedIsAuth($type)
 	{
+		$id = self::getConnectedId();
+
 		if (!$id)           return false;
 		if (-1 === $id)     return true;
 		if (true === $type) return true;

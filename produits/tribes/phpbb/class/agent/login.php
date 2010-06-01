@@ -13,7 +13,7 @@ class extends self
 	{
 		$db = DB();
 		$phpbbDb = $CONFIG['tribes.phpbbDb'];
-		$is_admin = tribes::isAuth('admin', $contact->contact_id);
+		$is_admin = tribes::connectedIsAuth('admin');
 
 		$sql = "SELECT u.user_id, user_email, username,
 					g1.group_id IS NOT NULL AND g2.group_id IS NOT NULL AS is_admin,

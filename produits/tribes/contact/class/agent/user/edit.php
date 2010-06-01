@@ -76,7 +76,7 @@ class extends agent_registration
 	{
 		$this->loginField && $this->isLoginCollision($f);
 
-		if ($e = $f->getElement('password'))
+		if ($e = $f->getElement('cur_pwd'))
 		{
 			if (!p::matchSaltedHash($e->getValue(), s::get('saltedPassword')))
 			{
@@ -87,7 +87,7 @@ class extends agent_registration
 
 		if ($e = $f->getElement('con_pwd'))
 		{
-			if ($f->getElement('new_pwd')->getValue() !== $e->getValue())
+			if ($f->getElement('password')->getValue() !== $e->getValue())
 			{
 				$e->setError('Confirmation échouée');
 				return false;
@@ -99,18 +99,18 @@ class extends agent_registration
 
 	protected function composePassword($o, $f, $send)
 	{
-		$f->add('password', 'password', array('isdata' => false));
-		$send->attach('password', 'Veuillez saisir votre mot de passe actuel', '');
+		$f->add('password', 'cur_pwd', array('isdata' => false));
+		$send->attach('cur_pwd', 'Veuillez saisir votre mot de passe actuel', '');
 		return $o;
 	}
 
 	protected function composeNewPassword($o, $f, $send)
 	{
-		$f->add('password', 'new_pwd');
+		$f->add('password', 'password');
 		$f->add('password', 'con_pwd', array('isdata' => false));
 
 		$send->attach(
-			'new_pwd', '', '',
+			'password', '', '',
 			'con_pwd', '', ''
 		);
 
@@ -243,10 +243,7 @@ class extends agent_registration
 		$this->saveContact($data);
 		$this->saveEmail($data);
 		$this->saveAdresse($data);
-		$new_adresse_url = $this->saveActivite($data);
-		$this->saveNewPassword($data);
-
-		return $new_adresse_url;
+		return $this->saveActivite($data);
 	}
 
 	protected function saveContact($data)
@@ -415,19 +412,6 @@ class extends agent_registration
 		}
 
 		return $has_new_adresse ? 'user/edit/adresse/activite' : '';
-	}
-
-	protected function saveNewPassword($data)
-	{
-		if ('' !== $data['new_pwd'])
-		{
-			$data = array(
-				'password' => $data['new_pwd'],
-				'token'    => '',
-			);
-
-			$this->contact->save($data);
-		}
 	}
 
 	protected function savePhoto(&$data)

@@ -6,13 +6,12 @@ class extends pTask_periodic
 	{
 		$sql = "UPDATE contact_contact
 				SET token=NULL
-				WHERE token_expires<NOW()
-					AND statut_inscription!='demande'";
+				WHERE token_expires<=NOW()";
 		DB()->exec($sql);
 
 		$sql = "UPDATE contact_email
 				SET token=NULL
-				WHERE token_expires<NOW()";
+				WHERE token_expires<=NOW()";
 		DB()->exec($sql);
 	}
 }

@@ -216,7 +216,7 @@ class
 			case 'sql'       : $meta[$k] = $data[$k]; break;
 			case 'int'       : $meta[$k] = (int) $data[$k]; break;
 			case 'intNull'   : $meta[$k] = $data[$k] ? (int) $data[$k] : 'NULL'; break;
-			case 'saltedHash': $meta[$k] = empty($data[$k]) ? "''" : $db->quote(p::saltedHash($data[$k])); break;
+			case 'saltedHash': empty($data[$k]) || $meta[$k] = $db->quote(p::saltedHash($data[$k])); break;
 			case 'string'    : $meta[$k] = $db->quote($data[$k]); break;
 			case 'stringNull': $meta[$k] = $data[$k] ? $db->quote($data[$k]) : 'NULL'; break;
 			}

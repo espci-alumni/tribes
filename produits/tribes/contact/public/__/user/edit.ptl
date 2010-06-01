@@ -20,7 +20,7 @@ Ces informations sont en attente de publication par un modérateur.
 <h3>Enregistrer</h3>
 
 <!-- IF $f_password -->
-<table><!-- AGENT $f_password _caption_="Votre mot de passe actuel" --></table>
+<table><!-- AGENT $f_cur_pwd _caption_="Votre mot de passe actuel" --></table>
 <!-- END:IF -->
 
 <!-- AGENT $f_send value="Enregistrer" -->

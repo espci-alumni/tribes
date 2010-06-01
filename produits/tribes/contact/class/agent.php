@@ -20,9 +20,9 @@ class extends self
 				p::redirect('login');
 			}
 
-			tribes::isAuth($this->requiredAuth, $this->connected_id) || p::forbidden();
+			tribes::connectedIsAuth($this->requiredAuth) || p::forbidden();
 
-			$this->connected_is_admin = tribes::isAuth('admin', $this->connected_id);
+			$this->connected_is_admin = tribes::connectedIsAuth('admin');
 		}
 	}
 }

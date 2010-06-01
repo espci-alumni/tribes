@@ -17,7 +17,7 @@ class extends agent
 	{
 		$this->connected_id = tribes::getConnectedId();
 		$this->connected_id || p::redirect(self::ACCUEIL_PUBLIC);
-		$this->connected_is_admin = tribes::isAuth('admin', $this->connected_id);
+		$this->connected_is_admin = tribes::connectedIsAuth('admin');
 	}
 
 	function compose($o)
