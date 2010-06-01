@@ -36,7 +36,6 @@ class extends tribes_common
 			'token'               => 'stringNull',
 			'token_expires'       => 'sql',
 			'statut_inscription'  => 'string',
-			'reference'           => 'string',
 			'password'            => 'saltedHash',
 			'photo_token'         => 'string',
 			'cv_token'            => 'string',
@@ -50,26 +49,6 @@ class extends tribes_common
 
 	function save($data, $message = null, &$id = 0)
 	{
-		if (isset($data['reference']))
-		{
-			W(__METHOD__ . '() input error: $data[\'reference\'] must not be set');
-			unset($data['reference']);
-		}
-
-		if ($this->confirmed || !$this->contact_id)
-		{
-			if ($data['reference'] = self::buildReference($data))
-			{
-				$data['reference'] = $this->buildUniqueReference($data['reference']);
-			}
-			else
-			{
-				$this->contact_id || W(__METHOD__ . '() error: unable to build a valid reference');
-
-				unset($data['reference']);
-			}
-		}
-
 		if (!$this->contact_id)
 		{
 			$data['photo_token'] = p::strongid(8);
@@ -174,53 +153,5 @@ class extends tribes_common
 		}
 
 		return $data;
-	}
-
-
-	static function buildReference($data)
-	{
-		$reference = false;
-
-		if (isset($data['prenom_civil']) && isset($data['nom_civil']))
-		{
-			$reference = tribes::makeIdentifier($data['prenom_civil'])
-				. '.' . tribes::makeIdentifier($data['nom_civil'])
-				. '.' . (empty($data['date_naissance']) ? '0000-00-00' : $data['date_naissance']);
-		}
-
-		return $reference;
-	}
-
-
-	protected function buildUniqueReference($reference)
-	{
-		$db = DB();
-
-		if ($this->contact_id)
-		{
-			$sql = "SELECT reference
-					FROM contact_contact
-					WHERE reference LIKE " . $db->quote($reference . '%') . "
-						AND contact_id={$this->contact_id}";
-			if ($sql = $db->queryOne($sql))
-			{
-				return $sql;
-			}
-		}
-
-		$sql = strlen($reference) + 2;
-		$sql = "SELECT reference
-				FROM contact_contact
-				WHERE reference LIKE " . $db->quote($reference . '%') . "
-					AND contact_id!={$this->contact_id}
-				ORDER BY SUBSTRING(reference,{$sql})+0 DESC
-				LIMIT 1";
-
-		if ($sql = $db->queryOne($sql))
-		{
-			$reference .= '.' . (substr($sql, strlen($reference) + 1) + 1);
-		}
-
-		return $reference;
 	}
 }

@@ -10,14 +10,6 @@ class extends agent_pForm
 
 	protected function composeForm($o, $f, $send)
 	{
-		$o = $this->composeContact($o, $f, $send);
-		$o = $this->composeEmail($o, $f, $send);
-
-		return $o;
-	}
-
-	protected function composeContact($o, $f, $send)
-	{
 		$f->add('check', 'sexe', array('item' => array(
 			'F' => 'Mme, Mlle',
 			'M' => 'M.'
@@ -25,128 +17,92 @@ class extends agent_pForm
 
 		$f->add('name', 'nom_civil');
 		$f->add('name', 'prenom_civil');
-		$f->add('date', 'date_naissance');
+		$f->add('email', 'email');
 
 		$send->attach(
-			'sexe',           "Veuillez renseigner le champs Mme Mlle M.", '',
-			'nom_civil',      "Veuillez renseigner votre nom", '',
-			'prenom_civil',   "Veuillez renseigner votre prénom", '',
-			'date_naissance', $this->connected_is_admin ? '' : 'Veuillez renseigner votre date de naissance', ''
+			'sexe',         "Veuillez renseigner le champs Mme Mlle M.", '',
+			'nom_civil',    "Veuillez renseigner votre nom", '',
+			'prenom_civil', "Veuillez renseigner votre prénom", '',
+			'email',        "Veuillez renseigner votre email", ''
 		);
 
 		return $o;
 	}
 
-	protected function composeEmail($o, $f, $send)
-	{
-		$f->add('email', 'email');
-
-		$send->attach('email', "Veuillez renseigner votre email", '');
-
-		return $o;
-	}
 
 	protected function save($data)
 	{
 		$db = DB();
 
-		$sql = "SELECT contact_id, statut_inscription, photo_token, cv_token
-				FROM contact_contact c
-				WHERE " . $this->sqlWhereMatchingContact($data) . "
-				ORDER BY " . $this->sqlOrderMatchingContact($data) . "
-				LIMIT 1";
-		$contact = $db->queryRow($sql);
+		$sql = self::sqlSelectMatchingContact($data);
 
-		$data += array(
-			'nom_etudiant' => $data['nom_civil'],
-			'nom_usuel'    => $data['nom_civil'],
-			'prenom_usuel' => $data['prenom_civil'],
-		);
-
-		if (!$contact)
-		{
-			$sql = new tribes_contact(0);
-			$sql->save(
-				$data + array('origine' => 'registration'),
-				false
-			);
-
-			$contact = (object) array(
-				'contact_id' => $sql->contact_id,
-				'statut_inscription' => '',
-			);
-		}
-		else if ('accepted' !== $contact->statut_inscription)
-		{
-			// XXX TODO: Comprendre à quoi servent ces deux UPDATE...
-			// Qq pistes :
-			// - un mécanisme pour s'assurer qu'il n'y a pas de partage d'info publiée entre deux inscriptions successives au même nom
-			// - le fait de mettre contact_data à vide a pour conséquence de ne plus jamais afficher ces lignes dans les loop_contact_*
-
-
-			$sql = "UPDATE contact_email   SET contact_data=''
-					WHERE contact_id={$contact->contact_id}
-						AND NOT admin_confirmed";
-			$db->exec($sql);
-
-			$sql = "UPDATE contact_adresse SET contact_data=''
-					WHERE contact_id={$contact->contact_id}
-						AND NOT admin_confirmed";
-			$db->exec($sql);
-
-			@unlink(patchworkPath('data/photo/') . $contact->photo_token . '.jpg~');
-			@unlink(patchworkPath('data/cv/'   ) . $contact->cv_token    . '.pdf~');
-		}
-
-		$data['photo_token']        = p::strongid(8);
-		$data['cv_token']           = p::strongid(8);
-		$data['token']              = p::strongid(8);
-		$data['contact_id']         = $contact->contact_id;
-		$data['statut_inscription'] = $contact->statut_inscription;
-
-		$this->data = (object) $data;
-
-		$sql = new tribes_email($contact->contact_id, false);
-		$sql->save($data, false);
-
-		if ('accepted' === $contact->statut_inscription)
+		if ($contact = $db->queryRow($sql))
 		{
 			$token = p::strongid(8);
 
 			$sql = "UPDATE contact_email
 					SET token='{$token}',
-						token_expires=NOW()+INTERVAL 5 MINUTE
+						token_expires=NOW()+INTERVAL 60 MINUTE,
+						is_obsolete=IF(is_obsolete,-1,0)
 					WHERE contact_id={$contact->contact_id}
-						AND admin_confirmed
-						AND contact_confirmed
-						AND is_obsolete<=0
-					LIMIT 1";
-			if ($db->exec($sql))
-			{
-				return "registration/collision/{$token}";
-			}
+						AND email=" . DB()->quote($data['email']) . "
+						AND contact_confirmed";
+			$db->exec($sql);
+
+			return "registration/collision/{$token}";
 		}
+
+		$data += array(
+			'nom_etudiant'   => $data['nom_civil'],
+			'nom_usuel'      => $data['nom_civil'],
+			'prenom_usuel'   => $data['prenom_civil'],
+			'photo_token'    => p::strongid(8),
+			'cv_token'       => p::strongid(8),
+			'token'          => p::strongid(8),
+			'origine'        => 'registration',
+		);
+
+		$this->data = (object) $data;
 
 		// token est mis à jour avec la même valeur que celui de l'email.
 		// De cette façon, on peut savoir, sur la base de ce token, quel email
 		// parmi ceux disponibles est à l'origine de la dernière inscription.
 
-		$sql = new tribes_contact($contact->contact_id, false);
-		$sql->save($data, 'registration/receipt');
+		$contact = new tribes_contact(0, false);
+		$contact->save($data, 'registration/receipt');
+
+		$contact = new tribes_email($contact->contact_id, false);
+		$contact->save($data, false);
 
 		return 'registration/receipt/' . substr($data['token'], 0, 4);
 	}
 
-	protected static function sqlWhereMatchingContact($data)
+	protected static function sqlSelectMatchingContact($data)
 	{
-		$reference = tribes_contact::buildReference($data);
+		$pattern = 'REPLACE(%s,"%s","")';
+		$sql = sprintf($pattern, '%s', "'");
+		$sql = sprintf($pattern, $sql, " ");
+		$sql = sprintf($pattern, $sql, "-");
 
-		return "reference LIKE " . DB()->quote($reference . '%') . "
-			 OR reference LIKE " . DB()->quote(substr($reference, 0, -10) . '0000-00-00%');
-	}
+		$pattern = '%s LIKE CONCAT(%s,"%%%%")';
+		$pattern = sprintf($pattern, '%1$s', '%2$s') . ' OR ' . sprintf($pattern, '%2$s', '%1$s');
+		$sql = sprintf(
+				$pattern,
+				sprintf($sql, 'prenom_civil'),
+				sprintf($sql, DB()->quote($data['prenom_civil']))
+			) . ' OR ' . sprintf(
+				$pattern,
+				sprintf($sql, 'prenom_usuel'),
+				sprintf($sql, DB()->quote($data['prenom_civil']))
+			);
 
-	protected static function sqlOrderMatchingContact($data)
-	{
-		return 'reference DESC';
+		$sql = "SELECT c.contact_id
+				FROM contact_contact c
+					JOIN contact_email e USING (contact_id)
+				WHERE e.email=" . DB()->quote($data['email']) . "
+					AND ({$sql})
+					AND e.contact_confirmed";
+
+		return $sql;
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_registration
+class extends agent_pForm
 {
 	const
 
@@ -8,9 +8,6 @@ class extends agent_registration
 	PHOTO_HEIGHT = 128;
 
 	protected
-
-	$maxage = 0,
-	$requiredAuth = true,
 
 	$loginField,
 	$photoField,
@@ -119,11 +116,17 @@ class extends agent_registration
 
 	protected function composeContact($o, $f, $send)
 	{
-		$o = parent::composeContact($o, $f, $send);
+		$f->add('check', 'sexe', array('item' => array(
+			'F' => 'Mme, Mlle',
+			'M' => 'M.'
+		)));
 
+		$f->add('name', 'nom_civil');
+		$f->add('name', 'prenom_civil');
 		$f->add('name', 'nom_etudiant');
 		$f->add('name', 'nom_usuel');
 		$f->add('name', 'prenom_usuel');
+		$f->add('date', 'date_naissance');
 
 		$sql = "SELECT `value` AS K, `group` AS G, `value` AS V
 				FROM item_lists
@@ -136,10 +139,14 @@ class extends agent_registration
 		));
 
 		$send->attach(
+			'sexe',         "Veuillez renseigner le champs Mme Mlle M.", '',
+			'nom_civil',    "Veuillez renseigner votre nom civil", '',
+			'prenom_civil', "Veuillez renseigner votre prenom civil", '',
 			'nom_etudiant', "Veuillez renseigner le nom d'étudiant", '',
 			'nom_usuel'   , "Veuillez renseigner le nom usuel"     , '',
 			'prenom_usuel', "Veuillez renseigner le prénom usuel"  , '',
 			'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', '',
+			'date_naissance', "Veuillez renseigner votre date de naissance", '',
 			'conjoint_contact_id', '', ''
 		);
 
