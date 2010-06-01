@@ -20,18 +20,28 @@ class extends agent_pForm
 	protected function save($data)
 	{
 		$sql = str_replace('-', '', $data['login']);
-		$sql = "SELECT c.contact_id, password, login, user, nom_usuel, prenom_usuel
-				FROM contact_contact c
-					JOIN contact_alias a ON c.contact_id=a.contact_id
-				WHERE c.is_active=1
-					AND c.statut_inscription='accepted'
-					AND a.alias=" . DB()->quote($sql);
-		$row = DB()->queryRow($sql);
 
-		if (!$row || !p::matchSaltedHash($data['password'], $row->password))
-		{
-			return 'login/failed';
-		}
+		$sql = array(
+			"SELECT contact_id
+			 FROM contact_alias
+			 WHERE alias=" . DB()->quote($sql),
+			"SELECT contact_id
+			 FROM contact_email
+			 WHERE contact_confirmed
+				AND email=" . DB()->quote($data['login'])
+		);
+
+		$sql = "SELECT contact_id, password, login, user, nom_usuel, prenom_usuel
+				FROM contact_contact
+					JOIN (({$sql[0]}) UNION ({$sql[1]}) ) u USING (contact_id)
+				WHERE password!		=''";
+		$result = DB()->query($sql);
+
+		while ($row = $result->fetchRow())
+			if (p::matchSaltedHash($data['password'], $row->password))
+				break;
+
+		if (!$row) return 'login/failed';
 
 		$contact_id = $row->contact_id;
 
