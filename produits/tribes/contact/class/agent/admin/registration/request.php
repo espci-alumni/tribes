@@ -24,7 +24,7 @@ class extends agent_user_edit
 		$sql = "SELECT contact_id
 				FROM contact_contact
 				WHERE token='{$this->get->__1__}'
-					AND statut_inscription='demande'";
+					AND acces=''";
 		$this->contact_id = DB()->queryOne($sql);
 		$this->contact_id || p::redirect('error/token');
 
@@ -139,7 +139,7 @@ class extends agent_user_edit
 				self::mergeContacts($this->contact_id, $this->doublon_contact_id);
 			}
 
-			$sql = "SELECT contact_id, login, user, nom_usuel, prenom_usuel
+			$sql = "SELECT contact_id, login, user, nom_usuel, prenom_usuel, acces
 				FROM contact_contact
 				WHERE contact_id={$this->doublon_contact_id}";
 			if ($sql = DB()->queryRow($sql))
@@ -154,7 +154,7 @@ class extends agent_user_edit
 			$data = array(
 				'email' => $this->data->email,
 				'token' => '',
-				'statut_inscription' => '',
+				'acces' => '',
 				'message' => $data['message'],
 			);
 
@@ -168,10 +168,10 @@ class extends agent_user_edit
 	{
 		parent::saveContact($data + array(
 			'contact_confirmed' => true,
-			'is_active' => 1,
-			'statut_inscription' => 'accepted',
-			'token' => $this->data->token,
-			'token_expires' => 'NOW() + INTERVAL ' . self::PENDING_PERIOD,
+			'is_active'         => 1,
+			'acces'             => 'membre',
+			'token'             => $this->data->token,
+			'token_expires'     => 'NOW() + INTERVAL ' . self::PENDING_PERIOD,
 		));
 	}
 
@@ -204,7 +204,7 @@ class extends agent_user_edit
 			'contact_email'   => array('email_id',   $a),
 			'contact_adresse' => array('adresse_id', $a),
 			'contact_contact' => array('contact_id', $a + array(
-				'statut_inscription' => "IF(VALUES(statut_inscription)='accepted' OR statut_inscription='accepted','accepted',IF(VALUES(statut_inscription)='' AND statut_inscription='','','demande'))"
+				'acces' => "IF(VALUES(acces)='admin' OR acces='admin','admin',IF(VALUES(acces)='membre' OR acces='membre','membre',''))" 
 			))
 		);
 

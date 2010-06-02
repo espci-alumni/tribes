@@ -14,7 +14,7 @@ class extends agent
 					contact_id,
 					contact_modified
 				FROM contact_contact
-				WHERE statut_inscription='accepted'
+				WHERE acces!=''
 					AND admin_confirmed<=contact_modified
 				ORDER BY contact_modified";
 

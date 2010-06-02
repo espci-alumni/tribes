@@ -6,7 +6,8 @@ class extends pTask_periodic
 	{
 		$sql = "SELECT 1
 				FROM contact_contact
-				WHERE statut_inscription='demande'
+				WHERE password!=''
+					AND acces=''
 				LIMIT 1";
 
 		if (DB()->queryOne($sql))

@@ -31,10 +31,10 @@ class extends agent_pForm
 				AND email=" . DB()->quote($data['login'])
 		);
 
-		$sql = "SELECT contact_id, password, login, user, nom_usuel, prenom_usuel
+		$sql = "SELECT contact_id, password, login, user, nom_usuel, prenom_usuel, acces
 				FROM contact_contact
 					JOIN (({$sql[0]}) UNION ({$sql[1]}) ) u USING (contact_id)
-				WHERE password!		=''";
+				WHERE password!=''";
 		$result = DB()->query($sql);
 
 		while ($row = $result->fetchRow())

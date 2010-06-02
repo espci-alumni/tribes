@@ -35,7 +35,7 @@ class extends tribes_common
 			'conjoint_contact_id' => 'stringNull',
 			'token'               => 'stringNull',
 			'token_expires'       => 'sql',
-			'statut_inscription'  => 'string',
+			'acces'               => 'string',
 			'password'            => 'saltedHash',
 			'photo_token'         => 'string',
 			'cv_token'            => 'string',

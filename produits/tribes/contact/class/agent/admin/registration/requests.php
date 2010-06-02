@@ -8,7 +8,7 @@ class extends agent
 	{
 		$sql = "SELECT contact_data, token, contact_modified
 				FROM contact_contact
-				WHERE statut_inscription='demande'
+				WHERE acces=''
 				ORDER BY contact_modified";
 
 		$o->contacts = new loop_sql($sql, array($this, 'filterContact'));

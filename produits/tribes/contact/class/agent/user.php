@@ -18,7 +18,7 @@ class extends agent
 					prenom_usuel,
 					nom_usuel,
 					nom_etudiant,
-					statut_inscription,
+					acces,
 					photo_token,
 					cv_token
 				FROM contact_contact

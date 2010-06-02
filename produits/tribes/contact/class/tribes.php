@@ -7,8 +7,6 @@ class
 	PENDING_PERIOD = '4 HOUR',
 	MAX_DOUBLON_DISTANCE = 0.5;
 
-	protected static $admin_user_ids = array();
-
 
 	static function getConnectedId()
 	{
@@ -18,16 +16,11 @@ class
 	static function connectedIsAuth($type)
 	{
 		$id = self::getConnectedId();
-
 		if (!$id)           return false;
 		if (-1 === $id)     return true;
 		if (true === $type) return true;
 
-		switch ($type)
-		{
-		case 'admin':
-			if (in_array($id, self::$admin_user_ids)) return true;
-		}
+		if ($type===s::get('acces')) return true;
 
 		return false;
 	}

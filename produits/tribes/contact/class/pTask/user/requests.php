@@ -6,7 +6,8 @@ class extends pTask_periodic
 	{
 		$sql = "SELECT 1
 				FROM contact_contact
-				WHERE statut_inscription='accepted'
+				WHERE password!=''
+					AND acces!=''
 					AND admin_confirmed<=contact_modified
 				ORDER BY contact_modified";
 
