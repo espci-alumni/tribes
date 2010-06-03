@@ -2,9 +2,9 @@
 
 class extends agent_user_edit
 {
-	public $get = array('__1__:c:[-_A-Za-z0-9]{8}');
+	public $get = array('__1__:i:1' => 0);
 
-	const PENDING_PERIOD = '3 DAY';
+	const PENDING_PERIOD = '7 DAY';
 
 	protected static
 
@@ -21,17 +21,7 @@ class extends agent_user_edit
 
 	function control()
 	{
-		$sql = "SELECT contact_id
-				FROM contact_contact
-				WHERE token='{$this->get->__1__}'
-					AND acces=''";
-		$this->contact_id = DB()->queryOne($sql);
-		$this->contact_id || p::redirect('error/token');
-
-		$sql = "SELECT email
-				FROM contact_email
-				WHERE token='{$this->get->__1__}'";
-		$this->data['email'] = DB()->queryOne($sql);
+		$this->contact_id = $this->get->__1__;
 
 		parent::control();
 
@@ -41,8 +31,6 @@ class extends agent_user_edit
 			             . '.' . tribes::makeIdentifier($this->data->nom_usuel   , "- 'a-z");
 			$this->data->login = preg_replace("/[- ']+/", '-', $this->data->login);
 		}
-
-		$this->data->token = $this->get->__1__;
 	}
 
 	function compose($o)
@@ -114,22 +102,10 @@ class extends agent_user_edit
 		return true;
 	}
 
-	protected function composeEmail($o, $f, $send)
-	{
-		return agent_registration::composeEmail($o, $f, $send);
-	}
-
 	protected function save($data)
 	{
 		if ($this->doublon_contact_id)
 		{
-			// XXX TODO:
-			// Ce changement de token désactive de fait le formulaire registration/confirmation,
-			// mais semble nécessaire pour éviter la fuite des token dans certaines conditions.
-			// N'existe-t-il pas un moyen de concilier les deux : sécurité du token et parallélisme des saisies ?
-
-			$this->data->token = p::strongid(8);
-
 			$this->saveContact($data);
 			$this->saveEmail($data);
 			$this->saveAdresse($data);
@@ -140,8 +116,8 @@ class extends agent_user_edit
 			}
 
 			$sql = "SELECT contact_id, login, user, nom_usuel, prenom_usuel, acces
-				FROM contact_contact
-				WHERE contact_id={$this->doublon_contact_id}";
+					FROM contact_contact
+					WHERE contact_id={$this->doublon_contact_id}";
 			if ($sql = DB()->queryRow($sql))
 			{
 				$sql->email = $sql->login . $CONFIG['tribes.emailDomain'];
@@ -152,9 +128,6 @@ class extends agent_user_edit
 		else
 		{
 			$data = array(
-				'email' => $this->data->email,
-				'token' => '',
-				'acces' => '',
 				'message' => $data['message'],
 			);
 
@@ -164,32 +137,14 @@ class extends agent_user_edit
 		return array('admin/registration/requests', true);
 	}
 
-	protected function saveContact($data)
+	protected function saveContact($data, $message = null)
 	{
-		parent::saveContact($data + array(
-			'contact_confirmed' => true,
-			'is_active'         => 1,
-			'acces'             => 'membre',
-			'token'             => $this->data->token,
-			'token_expires'     => 'NOW() + INTERVAL ' . self::PENDING_PERIOD,
-		));
-	}
-
-	protected function saveEmail($data)
-	{
-		$sql = "UPDATE contact_email
-				SET token=NULL
-				WHERE token='{$this->data->token}'";
-		DB()->exec($sql);
-
 		$data += array(
-			'contact_confirmed' => true,
 			'is_active' => 1,
-			'token' => $this->data->token,
-			'token_expires' => 'NOW() + INTERVAL ' . self::PENDING_PERIOD,
+			'acces'     => 'membre',
 		);
 
-		$this->email->save($data, 'registration/accepted');
+		parent::saveContact($data, 'registration/accepted');
 	}
 
 
@@ -204,7 +159,7 @@ class extends agent_user_edit
 			'contact_email'   => array('email_id',   $a),
 			'contact_adresse' => array('adresse_id', $a),
 			'contact_contact' => array('contact_id', $a + array(
-				'acces' => "IF(VALUES(acces)='admin' OR acces='admin','admin',IF(VALUES(acces)='membre' OR acces='membre','membre',''))" 
+				'acces' => "IF(VALUES(acces)='admin' OR acces='admin','admin',IF(VALUES(acces)='membre' OR acces='membre','membre',''))"
 			))
 		);
 
@@ -288,5 +243,6 @@ class extends agent_user_edit
 
 	protected function createAccount($contact)
 	{
+		// Hook used by superpositions
 	}
 }

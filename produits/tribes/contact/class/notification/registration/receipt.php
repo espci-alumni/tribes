@@ -6,10 +6,6 @@ class extends notification
 	{
 		parent::doSend();
 
-		$sql = "SELECT email
-				FROM contact_email
-				WHERE token='{$this->context['token']}'";
-
-		$this->mail(DB()->queryOne($sql));
+		$this->mail($this->context['email']);
 	}
 }

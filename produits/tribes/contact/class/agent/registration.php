@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_pForm
+class extends agent_login
 {
 	protected
 
@@ -18,12 +18,14 @@ class extends agent_pForm
 		$f->add('name', 'nom_civil');
 		$f->add('name', 'prenom_civil');
 		$f->add('email', 'email');
+		$f->add('password', 'password');
 
 		$send->attach(
 			'sexe',         "Veuillez renseigner le champs Mme Mlle M.", '',
 			'nom_civil',    "Veuillez renseigner votre nom", '',
 			'prenom_civil', "Veuillez renseigner votre prénom", '',
-			'email',        "Veuillez renseigner votre email", ''
+			'email',        "Veuillez renseigner votre email", '',
+			'password',     "Veuillez renseigner votre nouveau mot de passe", ''
 		);
 
 		return $o;
@@ -60,21 +62,21 @@ class extends agent_pForm
 			'cv_token'       => p::strongid(8),
 			'token'          => p::strongid(8),
 			'origine'        => 'registration',
+			'contact_confirmed' => true,
 		);
 
 		$this->data = (object) $data;
 
-		// token est mis à jour avec la même valeur que celui de l'email.
-		// De cette façon, on peut savoir, sur la base de ce token, quel email
-		// parmi ceux disponibles est à l'origine de la dernière inscription.
-
 		$contact = new tribes_contact(0, false);
 		$contact->save($data, 'registration/receipt');
+
+		$data['login'] = $data['email'];
+		parent::save($data);
 
 		$contact = new tribes_email($contact->contact_id, false);
 		$contact->save($data, false);
 
-		return 'registration/receipt/' . substr($data['token'], 0, 4);
+		return 'user/edit';
 	}
 
 	protected static function sqlSelectMatchingContact($data)

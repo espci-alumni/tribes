@@ -1,5 +1,5 @@
 <?php
 
-class extends agent_registration_requests
+class extends agent_admin_registration_requests
 {
 }

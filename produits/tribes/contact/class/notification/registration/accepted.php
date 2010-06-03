@@ -1,6 +1,6 @@
 <?php
 
-class extends notification_registration_receipt
+class extends notification
 {
 	protected function doSend()
 	{
@@ -12,6 +12,13 @@ class extends notification_registration_receipt
 			$this->context['login'] = DB()->queryOne($sql);
 		}
 
-		return parent::doSend();
+		parent::doSend();
+
+		$sql = "SELECT email
+				FROM contact_email
+				WHERE contact_id={$this->contact_id}
+					AND is_active
+					AND contact_confirmed";
+		$this->mail(DB()->queryCol($sql));
 	}
 }

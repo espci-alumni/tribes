@@ -146,7 +146,7 @@ class extends agent_pForm
 			'nom_usuel'   , "Veuillez renseigner le nom usuel"     , '',
 			'prenom_usuel', "Veuillez renseigner le prénom usuel"  , '',
 			'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', '',
-			'date_naissance', "Veuillez renseigner votre date de naissance", '',
+			'date_naissance', '', '',
 			'conjoint_contact_id', '', ''
 		);
 
@@ -253,12 +253,12 @@ class extends agent_pForm
 		return $this->saveActivite($data);
 	}
 
-	protected function saveContact($data)
+	protected function saveContact($data, $message = null)
 	{
 		$this->savePhoto($data);
 		$this->saveCv($data);
 
-		$this->contact->save($data);
+		$this->contact->save($data, $message);
 	}
 
 	protected function saveEmail($data)

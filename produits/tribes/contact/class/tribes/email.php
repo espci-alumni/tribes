@@ -83,7 +83,7 @@ class extends tribes_common
 	}
 
 
-	static function confirm($token, $resetToken = true)
+	static function confirm($token)
 	{
 		$sql = "SELECT 1
 				FROM contact_email
@@ -105,10 +105,9 @@ class extends tribes_common
 
 		$data = $row->contact_data ? unserialize($row->contact_data) : array();
 
+		$data['token'] = '';
 		$data['is_obsolete'] = 0;
 		$row->has_active_email || $data['is_active'] = 1;
-
-		$resetToken && $data['token'] = '';
 
 		if ($row->contact_id && $row->contact_id == tribes::getConnectedId())
 		{
@@ -118,7 +117,7 @@ class extends tribes_common
 
 		$email->save($data, 'user/email/confirmation', $row->email_id);
 
-		if ($resetToken && !(int) $row->contact_confirmed)
+		if (!(int) $row->contact_confirmed)
 		{
 			s::flash('confirmed_email_id', $row->email_id);
 			p::redirect('login/confirmEmail');

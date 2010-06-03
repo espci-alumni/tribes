@@ -10,10 +10,9 @@ Depuis le {$contact_modified|formatDate} :
 	<li>Sexe&nbsp;: {$sexe}</li>
 	<li>Nom&nbsp;: {$nom_civil}</li>
 	<li>Prénom&nbsp;: {$prenom_civil}</li>
-	<li>Date de naissance&nbsp;: {$date_naissance|formatDate}</li>
 </ul>
 
-<a href="{~}admin/registration/request/{$token}">Cliquez ici pour traiter cette demande</a>.
+<a href="{~}admin/registration/request/{$contact_id}">Cliquez ici pour traiter cette demande</a>.
 </p>
 <hr>
 

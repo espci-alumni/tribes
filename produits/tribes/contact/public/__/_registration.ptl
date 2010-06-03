@@ -7,5 +7,6 @@ AGENT $f_nom_civil _caption_="Nom civil" _format_=$_f
 AGENT $f_prenom_civil _caption_="Prénom civil"
 
 AGENT $f_email _caption_="Email"
+AGENT $f_password _caption_="Nouveau mot de passe"
 
 -->

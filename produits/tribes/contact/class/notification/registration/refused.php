@@ -1,11 +1,5 @@
 <?php
 
-class extends notification
+class extends notification_registration_accepted
 {
-	protected function doSend()
-	{
-		parent::doSend();
-
-		$this->mail($this->context['email']);
-	}
 }
