@@ -4,7 +4,10 @@ class extends self
 {
 	protected function login($contact)
 	{
-		$CONFIG['tribes.webmailUrl'] && self::webmailLogin($contact);
+		if ($contact->acces && $CONFIG['tribes.webmailUrl']
+		{
+			self::webmailLogin($contact);
+		}
 
 		return parent::login($contact);
 	}

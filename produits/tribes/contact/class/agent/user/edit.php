@@ -9,6 +9,7 @@ class extends agent_pForm
 
 	protected
 
+	$requiredAuth = true,
 	$loginField,
 	$photoField,
 	$cvField,

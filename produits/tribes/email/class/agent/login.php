@@ -4,7 +4,10 @@ class extends self
 {
 	protected function login($contact)
 	{
-		$CONFIG['tribes.emailDSN'] && self::emailLogin($contact);
+		if ($contact->acces && $CONFIG['tribes.emailDSN'])
+		{
+			self::emailLogin($contact);
+		}
 
 		return parent::login($contact);
 	}
@@ -62,7 +65,7 @@ class extends self
 			}
 
 
-			// Synchronisation des alias 
+			// Synchronisation des alias
 
 			$sql = "SELECT alias AS hyphen,
 						REPLACE(alias,'-','') AS alias

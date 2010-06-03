@@ -4,7 +4,10 @@ class extends self
 {
 	protected function login($contact)
 	{
-		$CONFIG['sympa.secret'] && self::sympaLogin($contact);
+		if ($contact->acces && $CONFIG['sympa.secret'])
+		{
+			self::sympaLogin($contact);
+		}
 
 		return parent::login($contact);
 	}

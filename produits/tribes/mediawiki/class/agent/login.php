@@ -4,7 +4,10 @@ class extends self
 {
 	protected function login($contact)
 	{
-		$CONFIG['tribes.mediaWikiDb'] && self::mediaWikiLogin($contact);
+		if ($contact->acces && $CONFIG['tribes.mediaWikiDb'])
+		{
+			self::mediaWikiLogin($contact);
+		}
 
 		return parent::login($contact);
 	}

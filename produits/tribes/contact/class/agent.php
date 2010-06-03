@@ -4,7 +4,7 @@ class extends self
 {
 	protected
 
-	$requiredAuth = true,
+	$requiredAuth = 'membre',
 	$connected_id = 0,
 	$connected_is_admin = false;
 

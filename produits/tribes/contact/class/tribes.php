@@ -16,11 +16,13 @@ class
 	static function connectedIsAuth($type)
 	{
 		$id = self::getConnectedId();
+
 		if (!$id)           return false;
 		if (-1 === $id)     return true;
 		if (true === $type) return true;
 
-		if ($type===s::get('acces')) return true;
+		if ($type   === s::get('acces')) return true;
+		if ('admin' === s::get('acces')) return true;
 
 		return false;
 	}

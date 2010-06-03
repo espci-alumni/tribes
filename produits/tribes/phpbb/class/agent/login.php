@@ -6,7 +6,10 @@ class extends self
 	{
 		parent::login($contact);
 
-		$CONFIG['tribes.phpbbDb'] && self::phpbbLogin($contact);
+		if ($contact->acces && $CONFIG['tribes.phpbbDb'])
+		{
+			self::phpbbLogin($contact);
+		}
 	}
 
 	protected static function phpbbLogin($contact)
