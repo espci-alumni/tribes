@@ -4,7 +4,7 @@ class
 {
 	const
 
-	PENDING_PERIOD = '4 HOUR',
+	PENDING_PERIOD = '3 DAY',
 	MAX_DOUBLON_DISTANCE = 0.5;
 
 

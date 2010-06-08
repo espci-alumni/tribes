@@ -88,7 +88,7 @@ class extends tribes_common
 			{
 				$db = DB();
 
-				if (isset($data['login']))
+				if (!empty($data['login']))
 				{
 					$login = str_replace('-', '', $data['login']);
 

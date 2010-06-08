@@ -4,8 +4,6 @@ class extends agent_user_edit
 {
 	public $get = array('__1__:i:1' => 0);
 
-	const PENDING_PERIOD = '7 DAY';
-
 	protected static
 
 	$mergeTableInsert = array(),
@@ -112,18 +110,23 @@ class extends agent_user_edit
 
 			if ($this->doublon_contact_id != $this->data->contact_id)
 			{
+				$sql = "SELECT 1 FROM contact_contact
+						WHERE contact_id={$this->doublon_contact_id} AND acces";
+				$accountCreated = DB()->queryOne($sql);
+
 				self::mergeContacts($this->contact_id, $this->doublon_contact_id);
 			}
+			else $accountCreated = false;
 
-			$sql = "SELECT contact_id, login, user, nom_usuel, prenom_usuel, acces
+			$sql = "SELECT contact_id, login, user, nom_usuel, prenom_usuel, acces,
+						CONCAT(login,'{$CONFIG['tribes.emailDomain']}') AS email
 					FROM contact_contact
 					WHERE contact_id={$this->doublon_contact_id}";
-			if ($sql = DB()->queryRow($sql))
-			{
-				$sql->email = $sql->login . $CONFIG['tribes.emailDomain'];
+			$data = DB()->queryRow($sql);
 
-				$this->createAccount($sql);
-			}
+			$accountCreated || $this->createAccount($data);
+
+			notification::send('registration/accepted', $data);
 		}
 		else
 		{
@@ -137,14 +140,14 @@ class extends agent_user_edit
 		return array('admin/registration/requests', true);
 	}
 
-	protected function saveContact($data, $message = null)
+	protected function saveContact($data)
 	{
 		$data += array(
 			'is_active' => 1,
 			'acces'     => 'membre',
 		);
 
-		parent::saveContact($data, 'registration/accepted');
+		parent::saveContact($data);
 	}
 
 

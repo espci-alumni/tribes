@@ -254,12 +254,12 @@ class extends agent_pForm
 		return $this->saveActivite($data);
 	}
 
-	protected function saveContact($data, $message = null)
+	protected function saveContact($data)
 	{
 		$this->savePhoto($data);
 		$this->saveCv($data);
 
-		$this->contact->save($data, $message);
+		$this->contact->save($data);
 	}
 
 	protected function saveEmail($data)
