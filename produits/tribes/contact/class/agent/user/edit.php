@@ -72,7 +72,10 @@ class extends agent_pForm
 
 	protected function formIsOk($f)
 	{
-		$this->loginField && $this->isLoginCollision($f);
+		if ($this->isLoginCollision($this->contact_id))
+		{
+			return false;
+		}
 
 		if ($e = $f->getElement('cur_pwd'))
 		{
@@ -92,7 +95,7 @@ class extends agent_pForm
 			}
 		}
 
-		return parent::formIsOk($f);
+		return true;
 	}
 
 	protected function composePassword($o, $f, $send)
@@ -544,19 +547,21 @@ class extends agent_pForm
 		}
 	}
 
-	protected function isLoginCollision($f)
+	protected function isLoginCollision($contact_id)
 	{
+		if (empty($this->loginField)) return false;
+
 		$sql = str_replace('-', '', $this->loginField->getValue());
 		$sql = "SELECT 1
 				FROM contact_alias
 				WHERE alias='{$sql}'
-					AND contact_id!={$this->contact_id}";
+					AND contact_id!={$contact_id}";
 		if (DB()->queryOne($sql))
 		{
 			$this->loginField->setError('Identifiant déjà utilisé');
-			return false;
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 }

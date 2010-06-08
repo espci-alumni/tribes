@@ -80,9 +80,6 @@ class extends agent_user_edit
 
 	protected function formIsOk($f)
 	{
-		if (!parent::formIsOk($f)) return false;
-
-
 		if (!isset($_POST['f_doublon_contact_id'])) return false;
 
 		$d = (int) $_POST['f_doublon_contact_id'];
@@ -97,7 +94,11 @@ class extends agent_user_edit
 
 		$this->doublon_contact_id = $d;
 
-		return true;
+		if ($this->isLoginCollision($d)) return false;
+
+		$this->loginField = false;
+
+		return parent::formIsOk($f);
 	}
 
 	protected function save($data)
@@ -108,7 +109,7 @@ class extends agent_user_edit
 			$this->saveEmail($data);
 			$this->saveAdresse($data);
 
-			if ($this->doublon_contact_id != $this->data->contact_id)
+			if ($this->doublon_contact_id != $this->contact_id)
 			{
 				$sql = "SELECT 1 FROM contact_contact
 						WHERE contact_id={$this->doublon_contact_id} AND acces";
