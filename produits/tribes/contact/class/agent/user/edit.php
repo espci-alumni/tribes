@@ -138,9 +138,7 @@ class extends agent_pForm
 				ORDER BY sort_key, `group`, `value`";
 		$f->add('select', 'statut_activite', array('firstItem' => '- Choisir dans la liste -', 'sql' => $sql));
 
-		$f->add('QSelect', 'conjoint_contact_id', array(
-			'src' => 'QSelect/login',
-		));
+		$f->add('email', 'conjoint_email');
 
 		$send->attach(
 			'sexe',         "Veuillez renseigner le champs Mme Mlle M.", '',
@@ -151,7 +149,7 @@ class extends agent_pForm
 			'prenom_usuel', "Veuillez renseigner le prénom usuel"  , '',
 			'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', '',
 			'date_naissance', '', '',
-			'conjoint_contact_id', '', ''
+			'conjoint_email', '', 'Veuillez renseigner une adresse email valide'
 		);
 
 		$o = $this->composePhoto($o, $f, $send);

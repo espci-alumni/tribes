@@ -49,7 +49,7 @@ class extends agent
 			'conjoint' => array(
 				'table' => 'c',
 				'name' => 'Conjoint (O/N)',
-				'select' => "IF(conjoint_contact_id,'O','N')",
+				'select' => "IF(conjoint_email,'O','N')",
 				'where' => '',
 				'show' => 0,
 			),

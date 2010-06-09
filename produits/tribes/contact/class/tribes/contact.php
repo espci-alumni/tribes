@@ -15,7 +15,7 @@ class extends tribes_common
 		'nom_etudiant',
 		'date_naissance',
 		'date_deces',
-		'conjoint_contact_id',
+		'conjoint_email',
 		'statut_activite',
 		'login',
 	);
@@ -32,7 +32,7 @@ class extends tribes_common
 	function __construct($contact_id, $confirmed = false)
 	{
 		$this->metaFields += array(
-			'conjoint_contact_id' => 'stringNull',
+			'conjoint_email'      => 'stringNull',
 			'token'               => 'stringNull',
 			'token_expires'       => 'sql',
 			'acces'               => 'string',
@@ -135,23 +135,5 @@ class extends tribes_common
 		DB()->exec($sql);
 
 		parent::delete($contact_id);
-	}
-
-	protected function filterMeta($data)
-	{
-		$data = parent::filterMeta($data);
-
-		if (isset($data['conjoint_contact_id']) && 'NULL' !== $data['conjoint_contact_id'])
-		{
-			$sql = str_replace('-', '', $data['conjoint_contact_id']);
-			$sql = "SELECT contact_id
-					FROM contact_alias
-					WHERE alias={$sql}";
-
-			$data['conjoint_contact_id'] = DB()->queryOne($sql);
-			$data['conjoint_contact_id'] || $data['conjoint_contact_id'] = 'NULL';
-		}
-
-		return $data;
 	}
 }

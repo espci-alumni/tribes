@@ -81,9 +81,9 @@ et en complétant vos informations personnelles.
 		AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$_f
 		AGENT $f_prenom_usuel _caption_="Prénom usuel"
 
-		IF $f_conjoint_contact_id
-			SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Si c'est un ancien également, au format <em>prenom.nom</em>.</small>"}<!-- END:SET
-			AGENT $f_conjoint_contact_id _caption_="Conjoint" _format_=$_f
+		IF $f_conjoint_email
+			SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>L'adresse email de votre conjoint.</small>"}<!-- END:SET
+			AGENT $f_conjoint_email _caption_="Conjoint" _format_=$_f
 		END:IF
 
 		-->
