@@ -39,7 +39,8 @@ class extends tribes_common
 
 		if (!$this->confirmed && (!isset($data['token']) || !isset($data['email'])))
 		{
-			$sql = "SELECT email_id, email, admin_confirmed, token_expires<=NOW() AS token_has_expired
+			$sql = "SELECT email_id, email, admin_confirmed,
+						token IS NULL OR token_expires<=NOW() AS token_has_expired
 					FROM contact_email
 					WHERE contact_id={$this->contact_id}
 						AND email" . (!$id ? "=" . DB()->quote($data['email']) : "_id={$id}");

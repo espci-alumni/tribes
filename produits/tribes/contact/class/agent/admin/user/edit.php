@@ -24,8 +24,6 @@ class extends agent_user_edit
 		$o = $this->composeAdresse($o, $f, $send);
 		$o = $this->composeActivite($o, $f, $send);
 
-		$send->attach('is_active', '', '');
-
 		$o->emails   ->adminMode = true;
 		$o->adresses ->adminMode = true;
 		$o->activites->adminMode = true;

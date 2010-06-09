@@ -16,11 +16,11 @@ class extends self
 		case self::ACTION_CONFIRM:
 		case self::ACTION_UPDATE:
 			$sql = "SELECT user, login
-				FROM contact_contact
-				WHERE contact_id={$this->contact_id}
-					AND admin_confirmed
-					AND contact_confirmed
-					AND user!=''";
+					FROM contact_contact
+					WHERE contact_id={$this->contact_id}
+						AND admin_confirmed
+						AND contact_confirmed
+						AND user!=''";
 			$contact = DB()->queryRow($sql);
 		}
 

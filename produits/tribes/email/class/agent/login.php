@@ -45,7 +45,6 @@ class extends self
 					FROM contact_email
 					WHERE contact_id={$contact->contact_id}
 						AND is_obsolete<=0
-						AND admin_confirmed
 						AND contact_confirmed";
 			$result = DB()->query($sql);
 

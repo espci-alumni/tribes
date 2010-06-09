@@ -55,13 +55,13 @@ class extends agent_login
 		}
 
 		$data += array(
-			'nom_etudiant'   => $data['nom_civil'],
-			'nom_usuel'      => $data['nom_civil'],
-			'prenom_usuel'   => $data['prenom_civil'],
-			'photo_token'    => p::strongid(8),
-			'cv_token'       => p::strongid(8),
-			'token'          => p::strongid(8),
-			'origine'        => 'registration',
+			'nom_etudiant'      => $data['nom_civil'],
+			'nom_usuel'         => $data['nom_civil'],
+			'prenom_usuel'      => $data['prenom_civil'],
+			'photo_token'       => p::strongid(8),
+			'cv_token'          => p::strongid(8),
+			'token'             => p::strongid(8),
+			'origine'           => 'registration',
 			'contact_confirmed' => true,
 		);
 
@@ -73,6 +73,7 @@ class extends agent_login
 		$data['login'] = $data['email'];
 		parent::save($data);
 
+		$data['is_active'] = 1;
 		$contact = new tribes_email($contact->contact_id, false);
 		$contact->save($data, false);
 

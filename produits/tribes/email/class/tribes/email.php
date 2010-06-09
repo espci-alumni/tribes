@@ -8,15 +8,14 @@ class extends self
 
 		if (empty($this->contact_id) || empty($data['email'])) return $message;
 
-		$sql = "SELECT email, user, e.is_active, e.is_obsolete,
-					IF(e.admin_confirmed AND e.contact_confirmed,1,0) AS confirmed
+		$sql = "SELECT email, user, e.is_active, e.is_obsolete, e.contact_confirmed
 				FROM contact_email e JOIN contact_contact USING (contact_id)
 				WHERE contact_id={$this->contact_id} AND email='{$data['email']}' AND user!=''";
 		if ($row = DB()->queryRow($sql))
 		{
 			$sql = substr($CONFIG['tribes.emailDomain'], 1);
 
-			if ($row->is_obsolete > 0 || !$row->confirmed)
+			if ($row->is_obsolete > 0 || !(int) $row->contact_confirmed)
 			{
 				$sql = "DELETE FROM a USING postfix_alt a
 							JOIN postfix_user USING (user_id)

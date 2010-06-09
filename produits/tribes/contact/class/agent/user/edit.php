@@ -278,14 +278,10 @@ class extends agent_pForm
 				if ('' !== implode('', $a))
 				{
 					$a += array(
+						'is_active'  => $b->f_is_active->getDbValue(),
 						'contact_id' => $this->contact_id,
 						'sort_key'   => ++$counter,
 					);
-
-					if (isset($b->f_is_active))
-					{
-						$a['is_active'] = in_array($b->email_id, $b->f_is_active->getDbValue());
-					}
 
 					$this->email->save($a, null, $b->id);
 				}
