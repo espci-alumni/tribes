@@ -62,9 +62,18 @@ class extends agent_user_edit
 		$o = $this->composeEmail($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send, -1);
 
-		$f->add('textarea', 'message');
+		$items = array('membre' => 'Membre', 'admin' => 'Admin');
 
-		$send->attach('message', '', '');
+		$f->add('textarea', 'message');
+		$f->add('select', 'acces', array(
+			'firstItem'  => ' - Type d\'accès - ',
+			'item'       => $items,
+		));
+
+		$send->attach(
+			'message', '', '',
+			'acces', 'Veuillez spécifier le type d\'accès fourni à l\'utilisateur', ''
+		);
 
 		return $o;
 	}
@@ -145,7 +154,7 @@ class extends agent_user_edit
 	{
 		$data += array(
 			'is_active' => 1,
-			'acces'     => 'membre',
+			'acces'     => $data['acces'],
 		);
 
 		parent::saveContact($data);
