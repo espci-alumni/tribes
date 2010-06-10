@@ -31,7 +31,7 @@ class extends agent_pForm
 				AND email=" . DB()->quote($data['login'])
 		);
 
-		$sql = "SELECT contact_id, password, login, user, nom_usuel, prenom_usuel, acces
+		$sql = "SELECT contact_id, password, login, user, nom_usuel, prenom_usuel, etape_suivante, acces
 				FROM contact_contact
 					JOIN (({$sql[0]}) UNION ({$sql[1]}) ) u USING (contact_id)
 				WHERE password!=''";
@@ -54,7 +54,9 @@ class extends agent_pForm
 		s::set($row);
 		$this->login($row);
 
-		return 'index';
+		return '' !== $row->etape_suivante
+			? "user/step/{$row->etape_suivante}"
+			: 'user/edit';
 	}
 
 	protected function login($contact)

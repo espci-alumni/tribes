@@ -38,6 +38,7 @@ class extends tribes_common
 			'photo_token'         => 'string',
 			'cv_token'            => 'string',
 			'cv_text'             => 'string',
+			'etape_suivante'	  => 'string',
 		);
 
 		parent::__construct($contact_id, $confirmed);

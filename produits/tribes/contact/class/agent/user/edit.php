@@ -54,6 +54,8 @@ class extends agent_pForm
 		$o->is_admin_confirmed = $this->data->admin_confirmed > $this->data->contact_modified;
 		$o->connected_is_admin = $this->connected_is_admin;
 
+		$o = $this->createBanner($o);
+
 		return parent::compose($o);
 	}
 
@@ -557,5 +559,28 @@ class extends agent_pForm
 		}
 
 		return false;
+	}
+
+	/*
+	* Cette fonction permettra d'afficher à l'utilisateur courant
+	* présent sur son profil une bannière d'informations relatives à l'avancement de son inscription
+	* Cela sous-entends d'afficher létat de la validation du mail, l'état de la validation admin de l'inscription, ?
+	*/
+	protected function createBanner($o)
+	{
+		$sql = "SELECT e.email, c.admin_confirmed
+				FROM contact_email e JOIN contact_contact c
+				USING (contact_id)
+				WHERE contact_id='{$this->contact_id}'
+					AND c.acces=''
+					AND e.is_active=1";
+		if ($row = DB()->queryRow($sql))
+		{
+			$o->hasActiveMail = true;
+			$o->mail_address  = $row->email;
+			if ($row->admin_confirmed==1) $o->hasValidatedProfile = true;
+		}
+
+		return $o;
 	}
 }

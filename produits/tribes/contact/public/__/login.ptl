@@ -6,6 +6,11 @@
 <p>
 Pour nous assurer que cet email vous appartient réellement, merci de vous connecter ci-dessous.
 </p>
+<!-- ELSEIF $etape_ -->
+<p>
+Votre demande d'inscription a bien été prise en compte.
+Vous pouvez dès maintenant vous logguer avec les identifiants que vous vez choisi afin de découvrir les fonctionnalités que notre plate-forme vous propose.
+</p>
 <!-- END:IF -->
 
 <!-- AGENT $form -->

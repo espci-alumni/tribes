@@ -1,0 +1,92 @@
+<!-- AGENT 'header' title="Mes coordonnées" -->
+<!-- AGENT $form -->
+<h3>Emails</h3>
+
+<p class="explication">
+Afin d'être sûr de ne jamais perdre le contact avec vous par inadvertance,
+le système vérifie toujours qu'au moins un email est confirmé.
+Par conséquent, pour remplacer votre email par un nouveau,
+vous devez d'abord en confirmer au moins un avant de supprimer l'actuel.
+</p>
+
+<style type="text/css">#unconfirmedNotice {display: none}</style>
+
+<div id="unconfirmedNotice" class="notice">
+Pour confirmer vos emails, il suffit de valider le présent formulaire puis de cliquer sur les liens de confirmation qui vous seront alors envoyés à tous ces emails non confirmés.
+</div>
+
+<!-- IF $emails -->
+<table>
+<!--
+
+SET $f --><!-- END:SET
+SET a$unconfirmedCounter -->0<!-- END:SET
+
+LOOP $emails
+		-->
+		<tr>
+			<td>
+			<!--
+	
+			IF $email_id
+				IF $admin_confirmed
+					-->{$email}<!--
+				ELSE
+					--><span class="unconfirmed">{$email} (<abbr title="Validez ce formulaire, des liens de confirmation vous seront envoyés par email">non confirmé</abbr>)</span><!--
+					IF !a+1$unconfirmedCounter --><style type="text/css">#unconfirmedNotice {display: block}</style><!-- END:IF
+				END:IF
+			ELSE
+				AGENT $f_email _caption_="Email" _format_='%1%2'
+			END:IF
+
+			-->
+			</td>
+			<td><!--
+				IF $f_email_del
+					AGENT $f_email_del value="supprimer cet e-mail" class='additem' _preserveScroll_=1
+				END:IF
+				--></td>
+			<td>
+				<!--
+				IF $f_is_active
+					AGENT $f_is_active _format_='%1%2'
+				ELSE
+					-->&nbsp;<!--
+				END:IF
+				-->
+			</td>
+		</tr>
+		<!--
+END:LOOP
+-->
+</table>
+<!-- END:IF -->
+
+<!-- AGENT $f_email_add value="ajouter un autre e-mail" class='additem' _preserveScroll_=1 -->
+
+<h3>Coordonnées</h3>
+<p class="explication">
+Que vous choisissiez de les partager ou non avec les autres membres de l'annuaire,
+les coordonnées que vous renseignerez ici serviront à entrer en contact direct avec vous,
+lors de communications officielles ou statutaires par exemple.
+N'hésitez pas à renseigner les adresses de vos parents ou grands-parents si possible,
+car même si vous choisissez de ne pas partager ces données dans l'annuaire, elles seront
+très utiles à l'association le jour où vous déménagerez sans forcément penser à nous en avertir.
+</p>
+
+<!-- IF $adresses -->
+<table>
+<!--
+
+LOOP $adresses
+		INLINE user/edit/_adresse_item
+END:LOOP
+
+-->
+</table>
+<!-- END:IF -->
+
+<!-- IF $f_adresse_add -->
+<!-- AGENT $f_adresse_add value="ajouter une autre adresse" class='additem' _preserveScroll_=1 -->
+<!-- END:IF -->
+<!-- AGENT $form _mode_='close' -->

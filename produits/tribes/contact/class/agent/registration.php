@@ -54,6 +54,9 @@ class extends agent_login
 			return "registration/collision/{$token}";
 		}
 
+		$next_step = new tribes_step_registration();
+		$next_step = $next_step->getNextStep();
+
 		$data += array(
 			'nom_etudiant'      => $data['nom_civil'],
 			'nom_usuel'         => $data['nom_civil'],
@@ -62,6 +65,7 @@ class extends agent_login
 			'cv_token'          => p::strongid(8),
 			'token'             => 'confirm/registration/' . p::strongid(8),
 			'origine'           => 'registration',
+			'etape_suivante' => $next_step,
 			'contact_confirmed' => true,
 		);
 
@@ -77,7 +81,7 @@ class extends agent_login
 		$contact = new tribes_email($contact->contact_id, false);
 		$contact->save($data, false);
 
-		return 'user/edit';
+		return "user/step/{$next_step}";
 	}
 
 	static function sqlSelectMatchingContact($data)

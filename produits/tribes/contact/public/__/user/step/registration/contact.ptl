@@ -1,0 +1,71 @@
+<!-- SET $_step_content -->
+<p class="explication">
+Cette rubrique vous permet de personnaliser votre profil
+en joignant une photographie et en complétant vos informations personnelles.
+</p>
+
+<table>
+<tr>
+	<td>
+		<h3>Photo</h3>
+	</td>
+</tr>
+<tr>
+	<td align="center">
+		<p><img src="{~}user/photo/{$photo_token}/~{$login}.jpg" /></p>
+		<!--
+		IF $hasPhoto
+			AGENT $f_del_photo _format_='<p>%1%2</p>'
+		END:IF
+		-->
+	</td>
+	<td align="center">
+		<table>
+		<!-- AGENT $f_photo _caption_="Photo" -->
+		<tr><td></td><td class="explication">(JPG, GIF ou PNG uniquement)</td></tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td>
+		<h3>Etat civil de naissance</h3>
+	</td>
+	<td>
+		<h3>Nom d'usage</h3>
+	</td>
+</tr>
+<tr>
+	<td>
+		<table>
+		<!--
+		AGENT $f_nom_civil _caption_="Nom civil"
+		AGENT $f_prenom_civil _caption_="Prénom civil"
+
+		SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Votre date de naissance est gardée confidentielle.</small>"}<!-- END:SET
+		AGENT $f_date_naissance _caption_="Date de naissance"  _format_=$_f
+
+		-->
+		</table>
+	</td>
+	<td>
+		<table>
+		<!--
+
+		SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Le nom sous lequel vos camarades vous connaissaient à l'École.</small>"}<!-- END:SET
+		AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$_f
+
+		SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Le nom que vous utilisez habituellement aujourd'hui.</small>"}<!-- END:SET
+		AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$_f
+		AGENT $f_prenom_usuel _caption_="Prénom usuel"
+
+		IF $f_conjoint_email
+			SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Une adresse mail de votre conjoint.</small>"}<!-- END:SET
+			AGENT $f_conjoint_email _caption_="Conjoint" _format_=$_f
+		END:IF
+
+		-->
+		</table>
+	</td>
+</tr>
+</table>
+<!-- END:SET -->

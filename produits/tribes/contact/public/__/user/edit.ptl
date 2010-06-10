@@ -1,10 +1,13 @@
 <!-- AGENT 'header' title="Mon profil" -->
 
-<!-- IF !$is_admin_confirmed -->
-<p>
-Ces informations sont en attente de publication par un modérateur.
-</p>
+<div id="registration_banner">
+<!-- IF !$hasActiveMail -->
+	L'adresse mail {$mail_address} est en attente de votre validation.<br/>
+	Allez la consulter, un email vous a été envoyé !
+<!-- ELSEIF !$hasValidatedProfile-->
+	Ces informations sont en attente de publication par un modérateur.
 <!-- END:IF -->
+</div>
 
 <!-- INLINE user/_onglets -->
 
