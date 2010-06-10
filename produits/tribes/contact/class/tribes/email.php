@@ -50,12 +50,14 @@ class extends tribes_common
 
 				if (!isset($data['token']) && !(int) $sql->admin_confirmed && $sql->token_has_expired)
 				{
-					$data['token'] = p::strongid(8);
+					$data['token'] = 'confirm/email/' . p::strongid(8);
 				}
 			}
 			else if ($id) return;
-			else isset($data['token']) || $data['token'] = p::strongid(8);
+			else isset($data['token']) || $data['token'] = 'confirm/email/' . p::strongid(8);
 		}
+
+		empty($data['token']) || $data += array('token_expires' => 'NOW() + INTERVAL ' . tribes::PENDING_PERIOD);
 
 		return parent::save($data, $message, $id);
 	}
@@ -75,7 +77,7 @@ class extends tribes_common
 	}
 
 
-	static function confirm($token)
+	static function confirm($token, $resetToken = true)
 	{
 		$sql = "SELECT 1
 				FROM contact_email
@@ -97,7 +99,7 @@ class extends tribes_common
 
 		$data = $row->contact_data ? unserialize($row->contact_data) : array();
 
-		$data['token'] = '';
+		$resetToken && $data['token'] = '';
 		$data['is_obsolete'] = 0;
 		$row->has_active_email || $data['is_active'] = 1;
 

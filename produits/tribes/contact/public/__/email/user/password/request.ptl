@@ -2,7 +2,11 @@
 
 <p>
 Vous avez demandé un rappel de votre mot de passe.
-Par mesure de sécurité, vous devez maintenant <a href="{~}user/password/{a$token}">en choisir un nouveau</a>.
+</p>
+
+<p>
+Par mesure de sécurité, vous devez maintenant cliquer sur le lien suivant pour en choisir un nouveau&nbsp;:<br />
+<a href="{~}{a$token}">{~}{a$token}</a>
 </p>
 
 <p>

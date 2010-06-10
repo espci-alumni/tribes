@@ -75,8 +75,6 @@ class
 		else if (!empty($data[$this->table . '_id'])) $id = $data[$this->table . '_id'];
 		else $data[$this->table . '_id'] =& $id;
 
-		empty($data['token']) || $data += array('token_expires' => 'NOW() + INTERVAL ' . tribes::PENDING_PERIOD);
-
 		$notice = array('admin_confirmed' => $this->confirmed) + $data;
 
 		$meta = $this->filterMeta($data);

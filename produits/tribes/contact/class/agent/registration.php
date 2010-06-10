@@ -43,7 +43,7 @@ class extends agent_login
 			$token = p::strongid(8);
 
 			$sql = "UPDATE contact_email
-					SET token='{$token}',
+					SET token='registration/collision/{$token}',
 						token_expires=NOW()+INTERVAL 60 MINUTE,
 						is_obsolete=IF(is_obsolete,-1,0)
 					WHERE contact_id={$contact->contact_id}
@@ -55,13 +55,13 @@ class extends agent_login
 		}
 
 		$data += array(
-			'nom_etudiant'   => $data['nom_civil'],
-			'nom_usuel'      => $data['nom_civil'],
-			'prenom_usuel'   => $data['prenom_civil'],
-			'photo_token'    => p::strongid(8),
-			'cv_token'       => p::strongid(8),
-			'token'          => p::strongid(8),
-			'origine'        => 'registration',
+			'nom_etudiant'      => $data['nom_civil'],
+			'nom_usuel'         => $data['nom_civil'],
+			'prenom_usuel'      => $data['prenom_civil'],
+			'photo_token'       => p::strongid(8),
+			'cv_token'          => p::strongid(8),
+			'token'             => 'confirm/registration/' . p::strongid(8),
+			'origine'           => 'registration',
 			'contact_confirmed' => true,
 		);
 
