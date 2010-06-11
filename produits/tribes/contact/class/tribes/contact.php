@@ -33,8 +33,6 @@ class extends tribes_common
 	{
 		$this->metaFields += array(
 			'conjoint_email'      => 'stringNull',
-			'token'               => 'stringNull',
-			'token_expires'       => 'sql',
 			'acces'               => 'string',
 			'password'            => 'saltedHash',
 			'photo_token'         => 'string',

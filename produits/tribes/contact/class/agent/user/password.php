@@ -8,15 +8,16 @@ class extends agent_pForm
 	{
 		$this->get->__1__ || p::forbidden();
 
-		$sql = "SELECT contact_id, login, nom_usuel, prenom_usuel
-				FROM contact_contact
-				WHERE token='{$this->get->__1__}'
-					AND token_expires > NOW()";
+		$sql = "SELECT c.contact_id, c.login, c.nom_usuel, c.prenom_usuel
+				FROM contact_contact c
+					JOIN contact_email e USING (contact_id)
+				WHERE e.token='user/password/{$this->get->__1__}'
+					AND e.token_expires>NOW()";
 
 		$this->data = DB()->queryRow($sql);
 		$this->data || p::redirect('error/token');
 
-		tribes_email::confirm($this->get->__1__);
+		tribes_email::confirm("user/password/{$this->get->__1__}", false);
 	}
 
 	protected function composeForm($o, $f, $send)
@@ -49,11 +50,10 @@ class extends agent_pForm
 
 	protected function save($data)
 	{
-		$data['token'] = '';
-
 		$contact = new tribes_contact($this->data->contact_id);
 		$contact->save($data, 'user/password/confirmation');
 
+		tribes_email::confirm("user/password/{$this->get->__1__}");
 		s::flash('referer', 'user/edit');
 
 		return array('login', 'Mot de passe mis à jour');

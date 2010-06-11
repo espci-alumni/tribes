@@ -5,8 +5,8 @@ Un email a été ajouté à votre compte.
 </p>
 
 <p>
-Vous devez maintenant cliquer sur le lien ci-dessous pour l'activer&nbsp;:<br/>
-<a href="{~}confirm/email/{a$token}">{~}confirm/email/{a$token}</a>
+Vous devez maintenant cliquer sur le lien suivant pour l'activer&nbsp;:<br />
+<a href="{~}{a$token}">{~}{a$token}</a>
 </p>
 
 <!-- AGENT 'email/footer' -->

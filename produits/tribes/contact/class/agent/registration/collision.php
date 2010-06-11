@@ -10,8 +10,8 @@ class extends agent_pForm
 
 		$sql = "SELECT contact_id, email
 				FROM contact_email
-				WHERE token='{$this->get->__1__}'
-					AND token_expires > NOW()";
+				WHERE token='registration/collision/{$this->get->__1__}'
+					AND token_expires>NOW()";
 		$this->data = DB()->queryRow($sql);
 
 		$this->data || p::forbidden();
@@ -19,10 +19,10 @@ class extends agent_pForm
 
 	protected function save($data)
 	{
-		$contact = new tribes_contact($this->data->contact_id);
-		$contact->save(
+		$email = new tribes_email($this->data->contact_id);
+		$email->save(
 			array(
-				'token' => p::strongid(8),
+				'token' => 'user/password/' . p::strongid(8),
 				'email' => $this->data->email,
 			),
 			'user/password/request'

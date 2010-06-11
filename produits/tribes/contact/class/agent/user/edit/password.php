@@ -10,7 +10,6 @@ class extends agent_user_edit
 
 	protected function save($data)
 	{
-		$data['token'] = '';
 		$this->contact->save($data);
 
 		return '';

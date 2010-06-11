@@ -72,8 +72,6 @@ CREATE TABLE contact_contact (
   statut_inscription enum('','demande','accepted') NOT NULL,
   login varbinary(255) NOT NULL,
   `password` varbinary(40) NOT NULL,
-  token varbinary(8) default NULL,
-  token_expires datetime NOT NULL,
   is_active tinyint(4) NOT NULL,
   is_obsolete tinyint(4) NOT NULL,
   admin_confirmed datetime NOT NULL,
