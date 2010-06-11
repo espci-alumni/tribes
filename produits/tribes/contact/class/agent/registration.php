@@ -38,7 +38,7 @@ class extends agent_login
 
 		$sql = self::sqlSelectMatchingContact($data);
 
-		if ($contact = $db->queryRow($sql))
+		if ($contact = $db->queryOne($sql))
 		{
 			$token = p::strongid(8);
 
@@ -46,7 +46,7 @@ class extends agent_login
 					SET token='registration/collision/{$token}',
 						token_expires=NOW()+INTERVAL 60 MINUTE,
 						is_obsolete=IF(is_obsolete,-1,0)
-					WHERE contact_id={$contact->contact_id}
+					WHERE contact_id={$contact}
 						AND email=" . DB()->quote($data['email']) . "
 						AND contact_confirmed";
 			$db->exec($sql);
@@ -80,7 +80,7 @@ class extends agent_login
 		return 'user/edit';
 	}
 
-	protected static function sqlSelectMatchingContact($data)
+	static function sqlSelectMatchingContact($data)
 	{
 		$pattern = 'REPLACE(%s,"%s","")';
 		$sql = sprintf($pattern, '%s', "'");
