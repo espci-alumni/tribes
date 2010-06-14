@@ -1,5 +1,4 @@
-<!-- AGENT 'header' title="Mes coordonnées" -->
-<!-- AGENT $form -->
+<!-- SET $_step_content -->
 <h3>Emails</h3>
 
 <p class="explication">
@@ -74,19 +73,9 @@ car même si vous choisissez de ne pas partager ces données dans l'annuaire, el
 très utiles à l'association le jour où vous déménagerez sans forcément penser à nous en avertir.
 </p>
 
-<!-- IF $adresses -->
 <table>
-<!--
-
-LOOP $adresses
-		INLINE user/edit/_adresse_item
-END:LOOP
-
--->
+<!-- INLINE user/edit/_adresse_item -->
 </table>
-<!-- END:IF -->
 
-<!-- IF $f_adresse_add -->
-<!-- AGENT $f_adresse_add value="ajouter une autre adresse" class='additem' _preserveScroll_=1 -->
-<!-- END:IF -->
-<!-- AGENT $form _mode_='close' -->
+<!-- END:SET -->
+<!-- INLINE user/step -->

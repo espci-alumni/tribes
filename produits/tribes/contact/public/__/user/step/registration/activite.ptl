@@ -1,10 +1,11 @@
-<!-- AGENT 'header' title="Mes activités" -->
-<!-- AGENT $form -->
+<!-- SET $_step_content -->
 <p class="explication">
-Les activités professionnelles ou autres que vous renseignez ici
-sont à la base de toute mise en relation et networking au sein de la communauté.
-N'hésitez pas à remplir vos activités passées et présentes au complet,
-votre profil sera ainsi plus visible dans l'annuaire et
+Dans cette rubrique, nous vous proposons de renseigner les informations relatives au poste que vous occupez actuellement.
+L'activité professionnelle que vous renseignez ici
+est à la base de toute mise en relation et networking au sein de la communauté.
+N'hésitez pas donc à remplir vos activités passées et présentes au complet 
+dans le menu d'édition de votre profil. 
+Celui-ci sera ainsi plus visible dans l'annuaire et
 les contacts générés n'en seront que plus utiles et pertinents.
 </p>
 <h3>Votre statut principal actuel</h3>
@@ -14,7 +15,6 @@ les contacts générés n'en seront que plus utiles et pertinents.
 <table>
 <tr>
 	<td align="center">
-		<!-- AGENT $f_del_cv _format_='<p>%1%2</p>' -->
 		<p>
 			 <img src="{~}img/pdf.jpg" border="0" alt="PDF" /><br />
 			 <em>(Aucun CV déposé actuellement)</em>
@@ -31,18 +31,11 @@ les contacts générés n'en seront que plus utiles et pertinents.
 	</td>
 <tr/>
 </table>
-<h3>Activités</h3>
-<!-- IF $activites -->
+<h3>Activité actuelle</h3>
 <table>
 <tr>
-<!--
-LOOP $activites
-		INLINE user/edit/_activite_item
-END:LOOP -->
+	<!-- INLINE user/edit/_activite_item -->
 </tr>
 </table>
-<!-- IF $f_activite_add -->
-<!-- AGENT $f_activite_add value="ajouter une autre activité" class='additem' _preserveScroll_=1 -->
-<!-- END:IF -->
-<!-- AGENT $f_send value="Enregistrer" -->
-<!-- AGENT $form _mode_='close' -->
+<!-- END:SET -->
+<!-- INLINE user/step -->

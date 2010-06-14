@@ -4,7 +4,6 @@ class extends agent_user_step_registration
 {
 	protected function composeForm($o, $f, $send)
 	{
-		$o = $this->composeCv($o, $f, $send);
 		$o = $this->composeActivite($o, $f, $send);
 		
 		return $o;
@@ -28,7 +27,6 @@ class extends agent_user_step_registration
 	protected function save($data)
 	{
 		parent::saveActivite($data);
-		parent::saveCv($data);
 
 		return parent::save($data);
 	}

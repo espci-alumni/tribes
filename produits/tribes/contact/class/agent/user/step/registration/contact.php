@@ -5,7 +5,6 @@ class extends agent_user_step_registration
 	protected function composeForm($o,$f,$send)
 	{
 		$o = $this->composeContact($o, $f, $send);
-		$o = parent::composePhoto($o, $f, $send);
 
 		return $o;
 	}
@@ -31,13 +30,5 @@ class extends agent_user_step_registration
 		);
 	
 		return $o;
-	}
-
-	protected function save($data)
-	{
-		$this->savePhoto($data);
-		$this->contact->save($data);
-
-		return parent::save($data);
 	}
 }	
