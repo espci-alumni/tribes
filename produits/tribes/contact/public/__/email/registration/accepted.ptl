@@ -6,7 +6,7 @@ Votre demande d'inscription vient d'être acceptée.
 
 <p>
 Votre identifiant est&nbsp;: <strong>{a$login}</strong><br />
-<a href="{~}">Cliquer ici pour accéder à votre espace</a>
+<a href="{~}/login">Cliquer ici pour accéder à votre espace</a>
 </p>
 
 <!-- IF a$message -->

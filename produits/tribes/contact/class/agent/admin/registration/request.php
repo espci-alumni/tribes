@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_user_edit
+class extends agent_admin_user_edit
 {
 	public $get = array('__1__:i:1' => 0);
 
@@ -12,15 +12,12 @@ class extends agent_user_edit
 
 	protected
 
-	$requiredAuth = 'admin',
 	$confirmed = true,
 	$doublon_contact_id = 0;
 
 
 	function control()
 	{
-		$this->contact_id = $this->get->__1__;
-
 		parent::control();
 
 		if ($this->isAliasCollision())
@@ -62,18 +59,9 @@ class extends agent_user_edit
 		$o = $this->composeEmail($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send, -1);
 
-		$items = array('membre' => 'Membre', 'admin' => 'Admin');
-
 		$f->add('textarea', 'message');
-		$f->add('select', 'acces', array(
-			'firstItem'  => ' - Type d\'accès - ',
-			'item'       => $items,
-		));
 
-		$send->attach(
-			'message', '', '',
-			'acces', 'Veuillez spécifier le type d\'accès fourni à l\'utilisateur', ''
-		);
+		$send->attach('message', '', '');
 
 		return $o;
 	}
@@ -154,7 +142,6 @@ class extends agent_user_edit
 	{
 		$data += array(
 			'is_active' => 1,
-			'acces'     => $data['acces'],
 		);
 
 		parent::saveContact($data);
