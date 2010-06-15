@@ -8,6 +8,11 @@ votre profil sera ainsi plus visible dans l'annuaire et
 les contacts générés n'en seront que plus utiles et pertinents.
 </p>
 
+<h3>Votre statut principal actuel</h3>
+<table>
+<!-- AGENT $f_statut_activite _caption_="Statut principal actuel" -->
+</table>
+
 <h3>Activités</h3>
 
 <!-- IF $activites -->

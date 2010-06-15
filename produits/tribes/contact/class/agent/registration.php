@@ -2,12 +2,6 @@
 
 class extends agent_login
 {
-	protected
-
-	$maxage = -1,
-	$requiredAuth = false;
-
-
 	protected function composeForm($o, $f, $send)
 	{
 		$f->add('check', 'sexe', array('item' => array(
@@ -65,7 +59,7 @@ class extends agent_login
 			'cv_token'          => p::strongid(8),
 			'token'             => 'confirm/registration/' . p::strongid(8),
 			'origine'           => 'registration',
-			'etape_suivante' => $next_step,
+			'etape_suivante'    => $next_step,
 			'contact_confirmed' => true,
 		);
 
@@ -74,12 +68,12 @@ class extends agent_login
 		$contact = new tribes_contact(0, false);
 		$contact->save($data, 'registration/receipt');
 
-		$data['login'] = $data['email'];
-		parent::save($data);
-
 		$data['is_active'] = 1;
 		$contact = new tribes_email($contact->contact_id, false);
 		$contact->save($data, false);
+
+		$data['login'] = $data['email'];
+		parent::save($data);
 
 		return "user/step/{$next_step}";
 	}

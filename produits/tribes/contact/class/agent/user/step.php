@@ -11,7 +11,7 @@ class extends agent_user_edit
 	protected
 
 	$step,
-	$afterStep = 'login';
+	$afterStep = 'login/bienvenue';
 
 
 	function compose($o)

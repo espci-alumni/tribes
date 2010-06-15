@@ -134,12 +134,6 @@ class extends agent_pForm
 		$f->add('name', 'prenom_usuel');
 		$f->add('date', 'date_naissance');
 
-		$sql = "SELECT `value` AS K, `group` AS G, `value` AS V
-				FROM item_lists
-				WHERE type='contact/statut'
-				ORDER BY sort_key, `group`, `value`";
-		$f->add('select', 'statut_activite', array('firstItem' => '- Choisir dans la liste -', 'sql' => $sql));
-
 		$f->add('email', 'conjoint_email');
 
 		$send->attach(
@@ -149,7 +143,6 @@ class extends agent_pForm
 			'nom_etudiant', "Veuillez renseigner le nom d'étudiant", '',
 			'nom_usuel'   , "Veuillez renseigner le nom usuel"     , '',
 			'prenom_usuel', "Veuillez renseigner le prénom usuel"  , '',
-			'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', '',
 			'date_naissance', '', '',
 			'conjoint_email', '', 'Veuillez renseigner une adresse email valide'
 		);
@@ -162,8 +155,11 @@ class extends agent_pForm
 
 	protected function composeLogin($o, $f, $send)
 	{
-		$this->loginField = $f->add('text', 'login', '[a-z]+(?:-?[a-z]+)+\.[a-z]+(?:-?[a-z]+)+');
-		$send->attach('login', 'Veuillez saisir un identifiant', 'Identifiant non valide');
+		if (!empty($this->data->login))
+		{
+			$this->loginField = $f->add('text', 'login', '[a-z]+(?:-?[a-z]+)+\.[a-z]+(?:-?[a-z]+)+');
+			$send->attach('login', 'Veuillez saisir un identifiant', 'Identifiant non valide');
+		}
 
 		return $o;
 	}
@@ -241,9 +237,19 @@ class extends agent_pForm
 		return $o;
 	}
 
-	protected function composeActivite($o, $f, $send)
+	protected function composeActivite($o, $f, $send, $new = false)
 	{
-		$this->activites = $o->activites = new loop_edit_contact_activite($f, $this->contact_id, $send);
+		$sql = "SELECT `value` AS K, `group` AS G, `value` AS V
+				FROM item_lists
+				WHERE type='contact/statut'
+				ORDER BY sort_key, `group`, `value`";
+		$f->add('select', 'statut_activite', array('firstItem' => '- Choisir dans la liste -', 'sql' => $sql));
+
+		$send->attach(
+			'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', ''
+		);
+
+		$this->activites = $o->activites = new loop_edit_contact_activite($f, $this->contact_id, $send, $new);
 
 		return $o;
 	}
@@ -350,6 +356,11 @@ class extends agent_pForm
 
 	protected function saveActivite($data)
 	{
+		if (empty($data['nom_civil']))
+		{
+			$this->contact->save($data);
+		}
+
 		$counter = 0;
 		$i = 0;
 		$adresse_id = array();

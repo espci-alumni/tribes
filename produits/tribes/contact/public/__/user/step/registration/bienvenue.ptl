@@ -1,2 +1,21 @@
-<!-- SET $_step_content -->Bienvenue !<!-- END:SET -->
-<!-- INLINE user/step -->
+<!--
+
+SET $step_title -->Félicitations&nbsp;!<!-- END:SET
+INLINE user/step/_header
+
+-->
+<p>
+Vous avez finalisé votre demande d'inscription et fourni les informations essentielles à sa validation.
+L'écran suivant vous permettra de vous connecter et de continuer à compléter votre profil
+pour vous assurer une meilleure visibilité dans l'annuaire.
+</p>
+
+<p>
+<strong>Vous avez également reçu un email.</strong>
+Merci de cliquer sur le lien qu'il contient pour achever définitivement la procédure d'inscription.
+</p>
+
+<p>
+Si ce message tarde à venir, pensez à vérifier votre dossier de courriers <em>Indésirables</em> (spam) avant de nous contacter.
+</p>
+<!-- INLINE user/step/_footer -->

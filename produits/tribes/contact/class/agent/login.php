@@ -2,7 +2,11 @@
 
 class extends agent_pForm
 {
-	protected $requiredAuth = false;
+	protected
+
+	$maxage = -1,
+	$requiredAuth = false;
+
 
 	protected function composeForm($o, $f, $send)
 	{
@@ -56,7 +60,7 @@ class extends agent_pForm
 
 		return '' !== $row->etape_suivante
 			? "user/step/{$row->etape_suivante}"
-			: 'user/edit';
+			: 'user/edit/contact';
 	}
 
 	protected function login($contact)

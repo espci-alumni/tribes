@@ -1,4 +1,4 @@
-<!-- SET $_step_content -->
+<!-- INLINE user/step/_header -->
 <p class="explication">
 Cette rubrique vous permet de personnaliser votre profil en complétant vos informations personnelles.
 </p>
@@ -36,15 +36,9 @@ Cette rubrique vous permet de personnaliser votre profil en complétant vos info
 		AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$_f
 		AGENT $f_prenom_usuel _caption_="Prénom usuel"
 
-		IF $f_conjoint_email
-			SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Une adresse mail de votre conjoint.</small>"}<!-- END:SET
-			AGENT $f_conjoint_email _caption_="Conjoint" _format_=$_f
-		END:IF
-
 		-->
 		</table>
 	</td>
 </tr>
 </table>
-<!-- END:SET -->
-<!-- INLINE user/step -->
+<!-- INLINE user/step/_footer -->

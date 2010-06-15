@@ -14,10 +14,11 @@ class extends loop_edit
 	$editAdresse = true;
 
 
-	function __construct($f, $contact_id, $send)
+	function __construct($f, $contact_id, $send, $new = false)
 	{
-		$loop = new loop_contact_activite($contact_id);
+		$loop = new loop_contact_activite($contact_id, $new > 0);
 
+		$new && $this->allowAddDel = false;
 		$this->defaultLength = s::get('contact_id') == $contact_id ? 1 : 0;
 
 		parent::__construct($f, $loop);

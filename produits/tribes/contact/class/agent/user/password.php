@@ -54,7 +54,7 @@ class extends agent_pForm
 		$contact->save($data, 'user/password/confirmation');
 
 		tribes_email::confirm("user/password/{$this->get->__1__}");
-		s::flash('referer', 'user/edit');
+		s::flash('referer', 'user/edit/contact');
 
 		return array('login', 'Mot de passe mis à jour');
 	}

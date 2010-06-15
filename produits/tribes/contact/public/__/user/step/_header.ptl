@@ -31,19 +31,3 @@ END:SET
 <!-- AGENT $form -->
 
 <div id="step_content">
-{$_step_content}
-</div>
-
-<div id="step_send">
-<!--
-IF $step_position+1 == $steps
-	AGENT $f_send value="Terminer"
-ELSE
-	AGENT $f_send value="Suite"
-END:IF
--->
-</div>
-
-<!-- AGENT $form _mode_='close' -->
-
-<!-- AGENT 'footer' -->
