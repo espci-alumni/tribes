@@ -4,7 +4,17 @@ class extends agent_user_edit
 {
 	public $get = array('__1__:i:1' => 0);
 
-	protected $requiredAuth = 'admin';
+	protected
+
+	$requiredAuth = 'admin',
+	$confirmed = true;
+
+
+	protected static $acces = array(
+		'membre' => 'Membre',
+		'admin'  => 'Administrateur',
+	);
+
 
 	function control()
 	{
@@ -37,14 +47,10 @@ class extends agent_user_edit
 	{
 		$o = parent::composeContact($o, $f, $send);
 
-		$items = array('membre' => 'Membre', 'admin' => 'Admin');
-
-		$f->add('select', 'acces', array(
-			'item'       => $items,
-		));
+		$f->add('select', 'acces', array('item' => self::$acces));
 
 		$send->attach(
-			'acces', 'Veuillez spécifier le type d\'accès fourni à l\'utilisateur', ''
+			'acces', "Veuillez spécifier le type d'accès fourni à l'utilisateur", ''
 		);
 
 		return $o;

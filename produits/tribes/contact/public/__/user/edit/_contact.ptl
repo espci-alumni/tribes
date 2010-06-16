@@ -6,10 +6,10 @@ en joignant une photographie, téléchargeant votre CV
 et en complétant vos informations personnelles.
 </p>
 
-<!-- IF $connected_is_admin -->
+<!-- IF $f_acces -->
 <h3>Niveau de privilèges</h3>
 <table>
-<!-- AGENT $f_acces _caption_="Acces" -->
+<!-- AGENT $f_acces _caption_="Privilèges" -->
 </table>
 <!-- END:IF -->
 

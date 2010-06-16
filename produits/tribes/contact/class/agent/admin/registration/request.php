@@ -2,18 +2,13 @@
 
 class extends agent_admin_user_edit
 {
-	public $get = array('__1__:i:1' => 0);
-
 	protected static
 
 	$mergeTableInsert = array(),
 	$mergeTableUpdate = array();
 
 
-	protected
-
-	$confirmed = true,
-	$doublon_contact_id = 0;
+	protected $doublon_contact_id = 0;
 
 
 	function control()

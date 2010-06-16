@@ -36,7 +36,7 @@ class extends agent_pForm
 		$this->contact = new tribes_contact($this->contact_id, $this->confirmed);
 
 		$this->data = (array) $this->data;
-		$this->data += $this->contact->fetchRow('contact_id, login, contact_confirmed, admin_confirmed, contact_modified, photo_token, cv_token, contact_data');
+		$this->data += $this->contact->fetchRow('contact_id, login, contact_confirmed, admin_confirmed, contact_modified, photo_token, cv_token, contact_data, acces');
 
 		$this->email    = new tribes_email($this->contact_id, $this->confirmed);
 		$this->adresse  = new tribes_adresse($this->contact_id, $this->confirmed);
