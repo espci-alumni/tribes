@@ -34,6 +34,9 @@ class extends agent_login
 
 		if ($contact = $db->queryOne($sql))
 		{
+			$this->data = (object) $data;
+			$this->data->contact_id = $contact;
+
 			$token = p::strongid(8);
 
 			$sql = "UPDATE contact_email

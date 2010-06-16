@@ -49,7 +49,6 @@ class extends agent_pForm
 
 		$contact_id = $row->contact_id;
 
-		$row->email = $row->login . $CONFIG['tribes.emailDomain'];
 		$row->saltedPassword = $row->password;
 		$row->password = $data['password'];
 		$row->referer  = s::flash('referer');

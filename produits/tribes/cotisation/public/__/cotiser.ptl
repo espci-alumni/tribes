@@ -1,14 +1,26 @@
 <!-- AGENT 'header' title="Cotiser" public=1 -->
 
+<!-- IF a$__1__ == 'failed' -->
+<p>Identification échouée</p>
+<!-- END:IF -->
+
+<!-- AGENT $form -->
+
 <h2>Vous possédez déjà un compte&nbsp;?</h2>
 
-<p>
-<!-- AGENT 'login' -->
-</p>
+<table>
+<!-- AGENT $f_login _caption_="Identifiant" autofocus=1 placeholder='prenom.nom ou email' -->
+<!-- AGENT $f_password _caption_="Mot de passe" -->
+<tr>
+	<td colspan="2" align="right">
+	<!-- AGENT $f_send_login value="Connexion" --><br />
+	Mot de passe perdu&nbsp;? Merci de remplir le formulaire ci-dessous.
+	</td>
+</tr>
+</table>
 
 <h2>Vous n'avez pas encore de compte&nbsp;?</h2>
 
-<!-- AGENT $form -->
 <p>
 Veuillez remplir vos nom et prénom en faisant attention aux majuscules, minuscules ainsi qu'aux accents, cédilles, <em>etc</em>.<br />
 Par exemple, saisissez <em>François</em> (F majuscule, le reste en minuscule, cédille) plutôt que <em><strike>francois</strike></em> ou <em><strike>FRANCOIS</strike></em>.

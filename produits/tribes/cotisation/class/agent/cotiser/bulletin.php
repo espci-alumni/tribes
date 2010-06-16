@@ -31,14 +31,24 @@ class extends agent_pForm
 
 	function compose($o)
 	{
+		$sql = "SELECT email
+				FROM contact_email
+				WHERE contact_id={$this->contact_id}
+					AND is_active
+					AND contact_confirmed
+				LIMIT 1";
+
 		$sql = "SELECT
 					sexe,
 					nom_usuel AS nom,
 					prenom_usuel AS prenom,
+					({$sql}) AS email,
 					IF (cotisation_date>=NOW() - INTERVAL 1 YEAR, cotisation_date + INTERVAL 1 YEAR - INTERVAL 1 DAY, 0) AS cotisation_expires
 				FROM contact_contact
 				WHERE contact_id={$this->contact_id}";
 		$o = DB()->queryRow($sql);
+
+		s::get('cotisation_email') || s::set('cotisation_email', $o->email);
 
 		$sql = "SELECT *
 				FROM cotisation
@@ -84,7 +94,7 @@ class extends agent_pForm
 			'token'           => p::strongId(8),
 			'contact_id'      => $this->contact_id,
 			'cotisation_date' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']),
-			'email'           => s::get('email') ? s::get('email') : s::get('cotisation_email'),
+			'email'           => s::get('cotisation_email'),
 		);
 
 		list($data['cotisation'], $data['type']) = explode('-', $data['type'], 2);

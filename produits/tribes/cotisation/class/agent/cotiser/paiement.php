@@ -1,6 +1,6 @@
 <?php
 
-// TODO : lien vers user/edit
+// TODO : exploiter s::get('cotisation_next_step');
 // Trouver un moyen (dans cette page ou une autre) pour que l'user soit invité à mettre à jour
 // sa fiche dans l'annuaire, sans rompre le processus mental en cours !
 // Peut-être simplement un lien dans cotiser/merci ?
