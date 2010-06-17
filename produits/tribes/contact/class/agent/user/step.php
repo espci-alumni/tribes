@@ -1,11 +1,5 @@
 <?php
-/*
-* Cette classe est une classe générique définissant l'ensemble des fonctions
-* permettant de créer l'enchaînement des étapes du processus d'inscription
-* ou de mise à jour réclamées
-* @getNextStep calcule le nom de l'étape suivant l'étape actuelle
-* @saveStep met à jour en base de données l'avancement de l'inscription du contact en cours
-*/
+
 class extends agent_user_edit
 {
 	protected
