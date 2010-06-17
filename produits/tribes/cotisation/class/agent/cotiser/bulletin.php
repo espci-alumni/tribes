@@ -43,7 +43,7 @@ class extends agent_pForm
 					nom_usuel AS nom,
 					prenom_usuel AS prenom,
 					({$sql}) AS email,
-					IF (cotisation_date>=NOW() - INTERVAL 1 YEAR, cotisation_date + INTERVAL 1 YEAR - INTERVAL 1 DAY, 0) AS cotisation_expires
+					IF (cotisation_expires>=NOW()+INTERVAL 1 DAY, cotisation_expires, 0) AS cotisation_expires
 				FROM contact_contact
 				WHERE contact_id={$this->contact_id}";
 		$o = DB()->queryRow($sql);
@@ -97,7 +97,7 @@ class extends agent_pForm
 			'email'           => s::get('cotisation_email'),
 		);
 
-		list($data['cotisation'], $data['type']) = explode('-', $data['type'], 2);
+		list($data['nb_mois'], $data['cotisation'], $data['type']) = explode('-', $data['type'], 3);
 
 		if ($data['soutien_suggestion']) $data['soutien'] = $data['soutien_suggestion'];
 		unset($data['soutien_suggestion']);
@@ -107,7 +107,7 @@ class extends agent_pForm
 			$data['paiement_date'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
 
 			$sql = "UPDATE contact_contact SET
-						cotisation_date=NOW()
+						cotisation_expires=NOW()+INTERVAL {$data['nb_mois']} MONTH
 					WHERE contact_id={$this->contact_id}";
 			DB()->exec($sql);
 

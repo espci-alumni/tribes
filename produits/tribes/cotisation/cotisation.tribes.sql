@@ -1,2 +1,2 @@
 ALTER TABLE contact_contact
-ADD cotisation_date DATETIME     NOT NULL AFTER statut_inscription;
+ADD cotisation_expires DATETIME     NOT NULL AFTER date_deces;

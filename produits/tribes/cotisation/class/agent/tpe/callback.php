@@ -36,7 +36,7 @@ class extends agent_tpe___x5Fadapter
 
 			$sql = 0 < $is_ok ? 'CB' : 'TST';
 			$sql = "UPDATE contact_contact c, cotisation p SET
-						c.cotisation_date=NOW(),
+						c.cotisation_expires=MAX(NOW(), c.cotisation_expires) + INTERVAL p.nb_mois MONTH,
 						p.paiement_euro={$euro},
 						p.paiement_date=NOW(),
 						p.paiement_mode='{$sql}',

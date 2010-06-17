@@ -1,9 +1,5 @@
 <?php
 
-// TODO : Remplacer contact_contact.cotisation_date par cotisation_expires
-// Calculer cotisation_expires en fonction de la date de cotisation, via un tableau :
-// type -> interval de prolongation par rapport au MAX(NOW(), cotisation_expires)
-//
 // TODO : reprendre l'info "promotion" sans créer de dépendence forte, sinon la documenter
 
 class extends self
@@ -19,9 +15,9 @@ class extends self
 
 			while ($row = $result->fetchRow())
 			{
-				$c = explode('-', $row->value, 2);
+				$c = explode('-', $row->value, 3);
 
-				self::$cotisation_type[$row->value] = $c[1] . ' - ' . $c[0] . ' €';
+				self::$cotisation_type[$row->value] = $c[2] . ' - ' . $c[1] . ' €';
 			}
 		}
 

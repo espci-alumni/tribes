@@ -8,7 +8,7 @@ class extends self
 
 		if ($contact->acces)
 		{
-			$sql = "SELECT cotisation_date>=NOW() - INTERVAL 1 YEAR
+			$sql = "SELECT cotisation_expires>=NOW()
 					FROM contact_contact
 					WHERE contact_id={$contact->contact_id}";
 			s::set('is_cotisant', DB()->queryOne($sql));
