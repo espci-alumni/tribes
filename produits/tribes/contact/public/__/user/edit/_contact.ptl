@@ -14,6 +14,7 @@ et en complétant vos informations personnelles.
 <!-- END:IF -->
 
 <table>
+<!-- IF $f_photo && $f_cv -->
 <tr>
 	<td>
 		<h3>Photo</h3>
@@ -63,6 +64,7 @@ et en complétant vos informations personnelles.
 		</table>
 	</td>
 </tr>
+<!-- END:IF -->
 <tr>
 	<td>
 		<h3>Nom d'usage</h3>
@@ -94,8 +96,9 @@ et en complétant vos informations personnelles.
 	<td>
 		<table>
 		<!--
-
-		AGENT $f_sexe _glue_=' ' _format_='<tr><td>&nbsp;</td><td class="input">%1%2</td></tr>'
+		IF $f_sexe
+			AGENT $f_sexe _glue_=' ' _format_='<tr><td>&nbsp;</td><td class="input">%1%2</td></tr>'
+		END:IF
 		AGENT $f_nom_civil _caption_="Nom civil"
 		AGENT $f_prenom_civil _caption_="Prénom civil"
 

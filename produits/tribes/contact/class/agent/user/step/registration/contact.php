@@ -4,7 +4,11 @@ class extends agent_user_step_registration
 {
 	protected function composeForm($o,$f,$send)
 	{
-		return $this->composeContact($o, $f, $send);
+		$o = $this->composeContact($o, $f, $send);
+
+		unset($o->f_sexe, $o->f_conjoint_email);
+
+		return $o;
 	}
 
 	protected function composePhoto($o, $f, $send) {return $o;}
