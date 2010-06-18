@@ -22,7 +22,7 @@ LOOP $adresses
 	<tr>
 		<td colspan="2">
 		<!--
-			IF $admin_confirmed <= $contact_modified
+			IF $id && $admin_confirmed <= $contact_modified
 				IF d$is_admin_confirmed
 					-->Bloc refusé par l'administrateur<!--
 				ELSE

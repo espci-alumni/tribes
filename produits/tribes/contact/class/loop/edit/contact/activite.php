@@ -30,7 +30,7 @@ class extends loop_edit
 
 	function populateForm($a, $data, $counter)
 	{
-		if ($data->is_shared < 0) unset($data->is_shared);
+		if (isset($data->is_shared) && $data->is_shared < 0) unset($data->is_shared);
 
 		$f = $this->form;
 		$f->setDefaults($data);

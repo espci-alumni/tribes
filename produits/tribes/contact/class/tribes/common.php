@@ -25,6 +25,7 @@ class
 		'is_active'   => 'int',
 		'is_obsolete' => 'int',
 		'sort_key'    => 'int',
+		'admin_confirmed'   => 'int',
 		'contact_confirmed' => 'int',
 	),
 	$contactData;
@@ -116,14 +117,14 @@ class
 			$data['contact_confirmed'] = $this->contact_id == tribes::getConnectedId() || $this->confirmed;
 		}
 
-		isset($data['admin_confirmed'])   && $data['admin_confirmed']   = $data['admin_confirmed']   ? 'NOW()' : 0;
-		isset($data['contact_confirmed']) && $data['contact_confirmed'] = $data['contact_confirmed'] ? 'NOW()' : 0;
+		if (empty($data['admin_confirmed'])) unset($data['admin_confirmed']);
+		else $data['admin_confirmed'] = 'NOW()';
+
+		if (empty($data['contact_confirmed'])) unset($data['contact_confirmed']);
+		else $data['contact_confirmed'] = 'NOW()';
 
 		if ($id)
 		{
-			if (empty($data['admin_confirmed'])  ) unset($data['admin_confirmed']);
-			if (empty($data['contact_confirmed'])) unset($data['contact_confirmed']);
-
 			$sql = "UPDATE contact_{$this->table}
 					SET {$this->table}_id={$id}";
 			foreach ($meta as $k) isset($data[$k]) && $sql .= ",{$k}=" . $data[$k];
@@ -140,7 +141,7 @@ class
 					VALUES
 						(" . implode(',', $data) . ")
 					ON DUPLICATE KEY UPDATE contact_id={$this->contact_id}";
-			foreach ($meta as $k) $sql .= ",{$k}=VALUES({$k})";
+			foreach ($meta as $k) isset($data[$k]) && $sql .= ",{$k}=VALUES({$k})";
 			$action = $db->exec($sql);
 			$action || $action = false;
 
