@@ -14,11 +14,6 @@ IF a$__1__ == 'password' --><p>Veuillez remplir ce formulaire afin de redéfinir
 
 <!-- AGENT $form -->
 
-<p>
-Merci de remplir vos nom et prénom en faisant attention aux majuscules, minuscules ainsi qu'aux accents, cédilles, <em>etc</em>.<br />
-Par exemple, saisissez <em>François</em> (F majuscule, le reste en minuscule, cédille) plutôt que <em><strike>francois</strike></em> ou <em><strike>FRANCOIS</strike></em>.
-</p>
-
 <table>
 <!-- INLINE _registration -->
 <tr>
