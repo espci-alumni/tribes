@@ -8,6 +8,8 @@ class extends agent
 	{
 		isset($this->contact_id) || $this->contact_id = $this->connected_id;
 
+		$o->contact_id = $this->contact_id;
+
 		$sql = "SELECT h.*, prenom_usuel, nom_usuel, login
 				FROM contact_historique h
 					JOIN contact_contact c ON c.contact_id=h.contact_id

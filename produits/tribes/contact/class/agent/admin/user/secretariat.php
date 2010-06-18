@@ -8,10 +8,7 @@ class extends agent_user_secretariat
 	{
 		$this->contact_id = $this->get->__1__;
 
-		$o = parent::compose($o);
-		$o->contact_id = $this->contact_id;
-
-		return $o;
+		return parent::compose($o);
 	}
 
 	function composeBlocnote($o, $f, $send)

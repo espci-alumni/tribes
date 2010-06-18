@@ -34,9 +34,9 @@ class extends self
 			if ($user->user_email != $contact->email || $user->username != $contact->login)
 			{
 				$data = array(
-					'username'             => $contact->login,
-					'user_email'           => $contact->email,
-					'user_email_hash'      => crc32(strtolower($contact->email)) . strlen($contact->email),
+					'username'        => $contact->login,
+					'user_email'      => $contact->email,
+					'user_email_hash' => crc32(strtolower($contact->email)) . strlen($contact->email),
 				);
 
 				$db->autoExecute(

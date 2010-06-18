@@ -9,8 +9,9 @@ class extends agent_user_edit
 	$requiredAuth = 'admin',
 	$confirmed = true;
 
+	protected static
 
-	protected static $acces = array(
+	$acces = array(
 		'membre' => 'Membre',
 		'admin'  => 'Administrateur',
 	);
@@ -54,15 +55,5 @@ class extends agent_user_edit
 		);
 
 		return $o;
-	}
-
-	protected function save($data)
-	{
-		$this->saveContact($data);
-		$this->saveEmail($data);
-		$this->saveAdresse($data);
-		$new_adresse_url = $this->saveActivite($data);
-
-		return $new_adresse_url;
 	}
 }

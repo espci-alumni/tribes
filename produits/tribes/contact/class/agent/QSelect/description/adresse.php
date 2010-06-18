@@ -11,9 +11,9 @@ class extends agent_QSelect
 	function compose($o)
 	{
 		$sql = "SELECT description AS VALUE
-			FROM contact_adresse
-			WHERE description!=''
-			GROUP BY description";
+				FROM contact_adresse
+				WHERE description!=''
+				GROUP BY description";
 
 		$o->DATA = new loop_sql($sql);
 

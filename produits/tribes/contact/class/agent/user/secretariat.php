@@ -7,7 +7,7 @@ class extends agent_pForm
 	function compose($o)
 	{
 		isset($this->contact_id) || $this->contact_id = $this->connected_id;
-
+		$o->contact_id = $this->contact_id;
 		return parent::compose($o);
 	}
 

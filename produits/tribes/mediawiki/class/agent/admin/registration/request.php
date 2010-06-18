@@ -15,10 +15,10 @@ class extends self
 		$mediaWikiDb = $CONFIG['tribes.mediaWikiDb'];
 
 		$data = array(
-			'user_name' => ucfirst($contact->user),
+			'user_name'      => ucfirst($contact->user),
 			'user_real_name' => $contact->login,
-			'user_email' => $contact->email,
-			'user_token' => $user_token,
+			'user_email'     => $contact->email,
+			'user_token'     => $user_token,
 			'user_email_authenticated' => date('YmdHis'),
 		);
 

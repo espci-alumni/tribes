@@ -15,12 +15,11 @@ class extends self
 				WHERE contact_id='{$this->contact_id}'
 					AND cotisation_expires>=NOW()+INTERVAL 1 DAY";
 
-		// TODO : ajouter un champ pour saisir l'email
 		$f->add('date',  'cotisation_date', array('default' => DB()->queryOne($sql)));
-		$f->add('check', 'type', array(	'item' => tribes::getCotisationType()));
-		$f->add('text',  'paiement_euro', '\d+([.,]\d*)?');
+		$f->add('check', 'type',            array('item' => tribes::getCotisationType()));
+		$f->add('text',  'paiement_euro',   '\d+([.,]\d*)?');
 		$f->add('date',  'paiement_date');
-		$f->add('check', 'paiement_mode', array('item' => self::$paiement_mode));
+		$f->add('check', 'paiement_mode',   array('item' => self::$paiement_mode));
 		$f->add('text',  'paiement_ref');
 
 		$send->attach(

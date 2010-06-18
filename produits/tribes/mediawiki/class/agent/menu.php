@@ -7,7 +7,7 @@ class extends self
 	static function __constructStatic()
 	{
 		self::$onglets['wiki'] = array(
-			'titre' => 'Wiki',
+			'titre'  => 'Wiki',
 			'linkto' => 'wiki/',
 		);
 

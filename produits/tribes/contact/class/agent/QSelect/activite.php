@@ -4,7 +4,6 @@ class extends agent_QSelect
 {
 	public $get = '__1__:c:titre';
 
-
 	protected
 
 	$template = 'QSelect/Search.js',

@@ -8,7 +8,7 @@ class extends notification
 
 		$c =& $this->context;
 
-		if (!empty($c['token']) && isset($c['email']))
+		if (!empty($c['token'], $c['email']))
 		{
 			$this->mail($c['email']);
 		}

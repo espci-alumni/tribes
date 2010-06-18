@@ -17,6 +17,7 @@ class extends loop_sql
 				FROM contact_adresse
 				WHERE contact_id={$contact_id}
 					AND admin_confirmed
+					AND contact_confirmed
 					AND is_shared
 					AND is_obsolete<=0
 					AND description!=''

@@ -13,7 +13,6 @@ class extends agent_pForm
 				WHERE token='registration/collision/{$this->get->__1__}'
 					AND token_expires>NOW()";
 		$this->data = DB()->queryRow($sql);
-
 		$this->data || p::forbidden();
 	}
 

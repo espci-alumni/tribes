@@ -32,13 +32,13 @@ class extends tribes_common
 	function __construct($contact_id, $confirmed = false)
 	{
 		$this->metaFields += array(
-			'conjoint_email'      => 'stringNull',
-			'acces'               => 'string',
-			'password'            => 'saltedHash',
-			'photo_token'         => 'string',
-			'cv_token'            => 'string',
-			'cv_text'             => 'string',
-			'etape_suivante'	  => 'string',
+			'conjoint_email' => 'stringNull',
+			'acces'          => 'string',
+			'password'       => 'saltedHash',
+			'photo_token'    => 'string',
+			'cv_token'       => 'string',
+			'cv_text'        => 'string',
+			'etape_suivante' => 'string',
 		);
 
 		parent::__construct($contact_id, $confirmed);

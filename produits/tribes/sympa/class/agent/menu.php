@@ -5,7 +5,7 @@ class extends self
 	static function __constructStatic()
 	{
 		self::$onglets['sympa'] = array(
-			'titre' => 'Sympa',
+			'titre'  => 'Sympa',
 			'linkto' => 'wws/',
 		);
 

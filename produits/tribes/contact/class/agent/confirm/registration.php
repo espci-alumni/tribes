@@ -2,8 +2,6 @@
 
 class extends agent_confirm_email
 {
-	const NOTIFICATION_DELAY = 300;
-
 	function control()
 	{
 		$sql = "SELECT contact_id, nom_civil, prenom_civil, sexe
@@ -16,12 +14,6 @@ class extends agent_confirm_email
 
 		tribes_email::confirm("confirm/registration/{$this->get->__1__}");
 
-		pTask::schedule(
-			new pTask(
-				array('notification', 'send'),
-				array('registration/request', $data)
-			),
-			self::NOTIFICATION_DELAY
-		);
+		notification::send('registration/request', $data);
 	}
 }

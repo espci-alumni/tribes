@@ -8,7 +8,7 @@ class extends loop_edit_contact_adresse
 		$this->send = $send;
 
 		$default = array(
-			'adresse_id' => 0,
+			'adresse_id'  => 0,
 			'description' => 'Personnel',
 		);
 

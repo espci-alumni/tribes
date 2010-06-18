@@ -51,7 +51,7 @@ class extends agent_pForm
 			'item' => array(1 => 'Oui', 0 => 'Non')
 		));
 
-		$this->send->attach('email_confirmed', 'Cet email vous appartient-il ?', '');
+		$this->send->attach('email_confirmed', $o->email . ' : Cet email vous appartient-il ?', '');
 
 		$this->form->pullContext();
 

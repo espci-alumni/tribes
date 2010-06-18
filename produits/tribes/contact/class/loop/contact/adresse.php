@@ -30,7 +30,7 @@ class extends loop_sql
 		if ($new)
 		{
 			$sql .= "JOIN contact_activite ac ON ac.adresse_id=ad.adresse_id
-				WHERE ad.contact_id={$contact_id} AND ad.is_obsolete=0 AND ad.contact_data='' AND ad.contact_confirmed
+				WHERE ad.contact_id={$contact_id} AND ad.is_obsolete=0 AND ad.contact_data=''
 				ORDER BY ac.sort_key";
 		}
 		else

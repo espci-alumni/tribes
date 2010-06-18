@@ -53,6 +53,7 @@ class extends agent_admin_user_edit
 		$o = $this->composeContact($o, $f, $send);
 		$o = $this->composeEmail($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send, -1);
+		$o = $this->composeActivite($o, $f, $send, -1);
 
 		$f->add('textarea', 'message');
 
@@ -100,6 +101,7 @@ class extends agent_admin_user_edit
 			$this->saveContact($data);
 			$this->saveEmail($data);
 			$this->saveAdresse($data);
+			$this->saveActivite($data);
 
 			if ($this->doublon_contact_id != $this->contact_id)
 			{
@@ -151,9 +153,10 @@ class extends agent_admin_user_edit
 		);
 
 		self::$mergeTableInsert = array(
-			'contact_email'   => array('email_id',   $a),
-			'contact_adresse' => array('adresse_id', $a),
-			'contact_contact' => array('contact_id', $a + array(
+			'contact_email'    => array('email_id',    $a),
+			'contact_adresse'  => array('adresse_id',  $a),
+			'contact_activite' => array('activite_id', $a),
+			'contact_contact'  => array('contact_id',  $a + array(
 				'acces' => "IF(VALUES(acces)='admin' OR acces='admin','admin',IF(VALUES(acces)='membre' OR acces='membre','membre',''))"
 			))
 		);

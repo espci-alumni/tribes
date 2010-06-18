@@ -4,5 +4,5 @@
 
 $CONFIG += array(
 //	'tribes.emailDSN' => '...',
-	'tribes.emailLocalRestricted' => 1,
+	'tribes.emailLocalRestricted' => 0,
 );

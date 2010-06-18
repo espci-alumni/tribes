@@ -14,6 +14,6 @@ class extends self
 
 	protected static function sympaLogin($contact)
 	{
-		setcookie('sympauser', $contact->email . ':' . substr( md5($contact->email . $CONFIG['sympa.secret']), -8), 0, '/wws/', $CONFIG['session.cookie_domain']);
+		setcookie('sympauser', $contact->email . ':' . substr(md5($contact->email . $CONFIG['sympa.secret']), -8), 0, '/wws/', $CONFIG['session.cookie_domain']);
 	}
 }

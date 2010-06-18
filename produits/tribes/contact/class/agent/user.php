@@ -6,25 +6,19 @@ class extends agent
 
 	protected $contact;
 
+	protected static $selectFields = 'contact_id, login, sexe, prenom_usuel, nom_usuel, nom_etudiant, acces, photo_token, cv_token';
+
+
 	function control()
 	{
 		$this->get->__1__ || p::forbidden();
 
 		parent::control();
 
-		$sql = "SELECT contact_id,
-					login,
-					sexe,
-					prenom_usuel,
-					nom_usuel,
-					nom_etudiant,
-					acces,
-					photo_token,
-					cv_token
+		$sql = "SELECT " . self::selectFields . "
 				FROM contact_contact
 				WHERE contact_id={$this->get->__1__}";
 		$this->contact = DB()->queryRow($sql);
-
 		$this->contact || p::forbidden();
 	}
 

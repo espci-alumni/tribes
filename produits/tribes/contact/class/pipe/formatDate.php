@@ -13,7 +13,7 @@ class
 	{
 		$s = p::string($s);
 
-		return '0000-00-00' === $s ? '' : preg_replace("'(....)-(..)-(..)'u", self::$format, $s);
+		return (int) $s ? preg_replace("'(....)-(..)-(..)'u", self::$format, $s) : '';
 	}
 
 	static function js()
@@ -23,7 +23,7 @@ class
 P$formatDate = function($s)
 {
 	$s = str($s);
-	return '0000-00-00' == $s ? '' : $s.replace(/(....)-(..)-(..)/g, <?php echo jsquote(self::$format); ?>);
+	return $s/1 ? $s.replace(/(....)-(..)-(..)/g, <?php echo jsquote(self::$format); ?>) : '';
 }
 
 <?php	}

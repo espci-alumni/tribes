@@ -11,7 +11,7 @@ class extends self
 					WHERE contact_id={$this->contact_id}
 						AND admin_confirmed
 						AND contact_confirmed
-						AND user!=''";
+						AND login!=''";
 			if ($this->context['email'] = DB()->queryOne($sql))
 			{
 				$this->context['email'] .= $CONFIG['tribes.emailDomain'];

@@ -7,6 +7,7 @@ class extends agent
 	$maxage = -1,
 	$requiredAuth = false;
 
+
 	function compose($o)
 	{
 		$o->form_logout = new pForm(false);

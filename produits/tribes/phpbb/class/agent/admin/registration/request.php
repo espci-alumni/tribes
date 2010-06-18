@@ -15,12 +15,12 @@ class extends self
 		$phpbbDb = $CONFIG['tribes.phpbbDb'];
 
 		$data = array(
-			'username'             => $contact->login,
-			'username_clean'       => $contact->user,
-			'user_email'           => $contact->email,
-			'user_email_hash'      => crc32(strtolower($contact->email)) . strlen($contact->email),
-			'user_regdate'         => $_SERVER['REQUEST_TIME'],
-			'group_id'             => 2,
+			'username'        => $contact->login,
+			'username_clean'  => $contact->user,
+			'user_email'      => $contact->email,
+			'user_email_hash' => crc32(strtolower($contact->email)) . strlen($contact->email),
+			'user_regdate'    => $_SERVER['REQUEST_TIME'],
+			'group_id'        => 2,
 		);
 
 		$db->autoExecute($phpbbDb . '.users', $data);

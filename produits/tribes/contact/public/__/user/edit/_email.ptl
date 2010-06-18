@@ -1,9 +1,9 @@
-<!-- IF $f_email_add || $alias -->
+<!-- IF $f_email_add || $aliases -->
 
 <h3>Liste de vos alias</h3>
 
 <ul>
-<!-- LOOP $alias -->
+<!-- LOOP $aliases -->
 	<li>{$alias}</li>
 <!-- END:LOOP-->
 </ul>

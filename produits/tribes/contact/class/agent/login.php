@@ -7,6 +7,10 @@ class extends agent_pForm
 	$maxage = -1,
 	$requiredAuth = false;
 
+	protected static
+
+	$sessionFields = 'contact_id, password, login, user, nom_usuel, prenom_usuel, etape_suivante, acces';
+
 
 	protected function composeForm($o, $f, $send)
 	{
@@ -35,7 +39,7 @@ class extends agent_pForm
 				AND email=" . DB()->quote($data['login'])
 		);
 
-		$sql = "SELECT contact_id, password, login, user, nom_usuel, prenom_usuel, etape_suivante, acces
+		$sql = "SELECT " . self::$sessionFields . "
 				FROM contact_contact
 					JOIN (({$sql[0]}) UNION ({$sql[1]}) ) u USING (contact_id)
 				WHERE password!=''";
@@ -53,22 +57,20 @@ class extends agent_pForm
 		$row->password = $data['password'];
 		$row->referer  = s::flash('referer');
 
-		s::regenerateId(true, true);
-		s::set($row);
-		$this->login($row);
-
-		return '' !== $row->etape_suivante
-			? "user/step/{$row->etape_suivante}"
-			: 'user/edit/contact';
-	}
-
-	protected function login($contact)
-	{
 		if ($sql = s::flash('confirmed_email_id'))
 		{
 			$email = new tribes_email($contact->contact_id);
 			$email->save(array('contact_confirmed' => true), null, $sql);
 		}
+
+		s::regenerateId(true, true);
+		s::set($row);
+
+		$this->login($row);
+
+		if ('' !== $row->etape_suivante) return "user/step/{$row->etape_suivante}";
+
+		// TODO: Vérifier qu'on a au moins un email actif pour ce contact
 
 		$sql = "SELECT 1
 				FROM contact_email
@@ -76,11 +78,13 @@ class extends agent_pForm
 					AND NOT contact_confirmed
 					AND admin_confirmed
 					AND is_obsolete<=0";
-		if (DB()->queryOne($sql))
-		{
-			s::set('iframe_src', 'user/email/confirm');
-		}
+		if (DB()->queryOne($sql)) return 'user/email/confirm';
 
-		// TODO: Vérifier ici qu'on a au moins un email actif pour ce contact
+		return agent_menu::ACCUEIL_CONNECTED;
+	}
+
+	protected function login($contact)
+	{
+		// Hook for superpositions
 	}
 }

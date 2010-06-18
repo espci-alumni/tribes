@@ -11,7 +11,7 @@ class extends self
 		switch ($message)
 		{
 		case self::ACTION_INSERT:
-			if (!$this->confirmed || empty($data['contact_confirmed'])) break;
+			if (!$this->confirmed) break;
 
 		case self::ACTION_CONFIRM:
 		case self::ACTION_UPDATE:
@@ -40,7 +40,7 @@ class extends self
 
 			if ($this->confirmed)
 			{
-				if (isset($data['prenom_usuel']) && isset($data['nom_usuel']))
+				if (isset($data['prenom_usuel'], $data['nom_usuel']))
 				{
 					$update['display'] = $data['prenom_usuel'] . ' ' . $data['nom_usuel'] . ' - ' . $domain;
 				}
@@ -85,7 +85,7 @@ class extends self
 				$update['user']   = $contact->user;
 				$update['domain'] = $domain;
 
-				$contact->login !== $contact->user  && $update['canonic'] = $contact->login;
+				$contact->login !== $contact->user && $update['canonic'] = $contact->login;
 
 				$sql = array('created', 'NOW()', 'created=created');
 

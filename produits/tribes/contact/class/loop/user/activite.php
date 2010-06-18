@@ -10,9 +10,9 @@ class extends loop_sql
 					SEPARATOR ' / '
 				)
 				FROM contact_organisation o
-				JOIN contact_affiliation af
-					ON af.organisation_id=o.organisation_id
-						AND af.is_admin_confirmed
+					JOIN contact_affiliation af
+						ON af.organisation_id=o.organisation_id
+							AND af.is_admin_confirmed
 				WHERE af.activite_id=ac.activite_id
 				GROUP BY ''";
 
@@ -39,6 +39,7 @@ class extends loop_sql
 						ON ad.adresse_id=ac.adresse_id AND ad.is_shared
 				WHERE ac.contact_id={$contact_id}
 					AND ac.admin_confirmed
+					AND ac.contact_confirmed
 					AND ac.is_shared
 					AND ac.is_obsolete<=0
 				ORDER BY ac.sort_key";

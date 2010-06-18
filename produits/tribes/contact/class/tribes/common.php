@@ -9,12 +9,10 @@ class
 	ACTION_UPDATE  = 2,
 	ACTION_INSERT  = 1;
 
-
 	public
 
 	$contact_id,
 	$confirmed;
-
 
 	protected
 

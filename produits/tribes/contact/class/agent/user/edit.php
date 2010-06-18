@@ -39,7 +39,7 @@ class extends agent_pForm
 		$this->data += $this->contact->fetchRow('contact_id, login, contact_confirmed, admin_confirmed, contact_modified, photo_token, cv_token, contact_data, acces');
 
 		$this->email    = new tribes_email($this->contact_id, $this->confirmed);
-		$this->adresse  = new tribes_adresse($this->contact_id, $this->confirmed);
+		$this->adresse  = new tribes_adresse ($this->contact_id, $this->confirmed);
 		$this->activite = new tribes_activite($this->contact_id, $this->confirmed);
 
 		$this->data = (object) $this->data;
@@ -49,7 +49,7 @@ class extends agent_pForm
 	function compose($o)
 	{
 		$o->contact_id = $this->contact_id;
-		$o->login = $this->data->login;
+		$o->login      = $this->data->login;
 
 		$o->is_admin_confirmed = $this->data->admin_confirmed > $this->data->contact_modified;
 		$o->connected_is_admin = $this->connected_is_admin;
@@ -156,7 +156,7 @@ class extends agent_pForm
 		if (!empty($this->data->login))
 		{
 			$this->loginField = $f->add('text', 'login', '[a-z]+(?:-?[a-z]+)+\.[a-z]+(?:-?[a-z]+)+');
-			$send->attach('login', 'Veuillez saisir un identifiant', 'Identifiant non valide');
+			$send->attach('login', 'Veuillez saisir un identifiant', "Seul le format prenom.nom sans caractères spéciaux est autorisé");
 		}
 
 		return $o;
@@ -171,7 +171,7 @@ class extends agent_pForm
 				WHERE contact_id={$this->contact_id}
 					AND hidden=0
 				ORDER BY alias";
-		$o->alias = new loop_sql($sql);
+		$o->aliases = new loop_sql($sql);
 
 		return $o;
 	}
