@@ -60,6 +60,12 @@ class extends tribes_common
 
 		empty($data['token']) || $data += array('token_expires' => 'NOW() + INTERVAL ' . tribes::PENDING_PERIOD);
 
+		if ($this->confirmed)
+		{
+			$data['admin_confirmed']   = false;
+			$data['contact_confirmed'] = true;
+		}
+
 		return parent::save($data, $message, $id);
 	}
 

@@ -22,7 +22,6 @@ class extends loop_sql
 					ad.adresse_id AS id,
 					ad.is_obsolete,
 					IF(ad.admin_confirmed,ad.admin_confirmed,'') AS admin_confirmed,
-					IF(ad.contact_confirmed,ad.contact_confirmed,'') AS contact_confirmed,
 					ad.contact_data,
 					IF(ad.contact_modified,ad.contact_modified,'') AS contact_modified, ad.is_active, ad.is_shared,
 					IF (NOT ISNULL(ac.activite_id),({$sql}),'') AS organisation
@@ -31,13 +30,13 @@ class extends loop_sql
 		if ($new)
 		{
 			$sql .= "JOIN contact_activite ac ON ac.adresse_id=ad.adresse_id
-				WHERE ad.contact_id={$contact_id} AND ad.is_obsolete=0 AND ad.contact_data=''
+				WHERE ad.contact_id={$contact_id} AND ad.is_obsolete=0 AND ad.contact_data='' AND ad.contact_confirmed
 				ORDER BY ac.sort_key";
 		}
 		else
 		{
 			$sql .= "LEFT JOIN contact_activite ac ON ac.adresse_id=ad.adresse_id
-				WHERE ad.contact_id={$contact_id} AND ad.is_obsolete<=0 AND ad.contact_data!=''
+				WHERE ad.contact_id={$contact_id} AND ad.is_obsolete<=0 AND ad.contact_data!='' AND ad.contact_confirmed
 				ORDER BY ad.sort_key";
 		}
 

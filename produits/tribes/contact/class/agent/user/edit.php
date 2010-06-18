@@ -338,8 +338,6 @@ class extends agent_pForm
 						'sort_key'   => ++$counter,
 					);
 
-					isset($data['contact_confirmed']) && $a['contact_confirmed'] = $data['contact_confirmed'];
-
 					$this->adresse->save($a, null, $b->id);
 				}
 				else $b->deleted = true;
@@ -413,8 +411,6 @@ class extends agent_pForm
 						'contact_id' => $this->contact_id,
 						'sort_key'   => ++$counter,
 					);
-
-					isset($data['contact_confirmed']) && $a['contact_confirmed'] = $data['contact_confirmed'];
 
 					$this->activite->save($a, null, $b->id);
 				}

@@ -75,7 +75,7 @@ class
 		else if (!empty($data[$this->table . '_id'])) $id = $data[$this->table . '_id'];
 		else $data[$this->table . '_id'] =& $id;
 
-		$notice = array('admin_confirmed' => $this->confirmed) + $data;
+		$notice = $data + array('admin_confirmed' => $this->confirmed);
 
 		$meta = $this->filterMeta($data);
 
@@ -92,7 +92,7 @@ class
 
 		if ($this->confirmed)
 		{
-			$meta['admin_confirmed'] = 'NOW()';
+			isset($meta['admin_confirmed']) || $meta['admin_confirmed'] = true;
 
 			$data = array_merge(
 				array_map(array($db, 'quote'), $data),
@@ -113,35 +113,23 @@ class
 
 		if (isset($data['contact_data']) && !isset($data['contact_confirmed']) && $this->contact_id)
 		{
-			$data['contact_confirmed'] = $this->contact_id == tribes::getConnectedId();
+			$data['contact_confirmed'] = $this->contact_id == tribes::getConnectedId() || $this->confirmed;
 		}
 
+		isset($data['admin_confirmed'])   && $data['admin_confirmed']   = $data['admin_confirmed']   ? 'NOW()' : 0;
 		isset($data['contact_confirmed']) && $data['contact_confirmed'] = $data['contact_confirmed'] ? 'NOW()' : 0;
 
 		if ($id)
 		{
-			if (!empty($data['contact_confirmed']))
-			{
-				$contact_confirmed = $data['contact_confirmed'];
-				unset($data['contact_confirmed']);
-			}
-			else $contact_confirmed = false;
+			if (empty($data['admin_confirmed'])  ) unset($data['admin_confirmed']);
+			if (empty($data['contact_confirmed'])) unset($data['contact_confirmed']);
 
 			$sql = "UPDATE contact_{$this->table}
 					SET {$this->table}_id={$id}";
 			foreach ($meta as $k) isset($data[$k]) && $sql .= ",{$k}=" . $data[$k];
 			$sql .= " WHERE contact_id={$this->contact_id}
 						AND {$this->table}_id={$id}";
-			$action = $db->exec($sql) || !$contact_confirmed ? self::ACTION_UPDATE : self::ACTION_CONFIRM;
-
-			if ($contact_confirmed)
-			{
-				$sql = "UPDATE contact_{$this->table}
-						SET contact_confirmed={$contact_confirmed}
-						WHERE contact_id={$this->contact_id}
-							AND {$this->table}_id={$id}";
-				$db->exec($sql) || $action = false;
-			}
+			$action = $db->exec($sql) || empty($data['contact_confirmed']) ? self::ACTION_UPDATE : self::ACTION_CONFIRM;
 		}
 		else
 		{

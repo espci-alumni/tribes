@@ -16,11 +16,10 @@ class extends loop_sql
 					{$this->table}_id AS id,
 					is_obsolete,
 					IF(admin_confirmed,admin_confirmed,'') AS admin_confirmed,
-					IF(contact_confirmed,contact_confirmed,'') AS contact_confirmed,
 					contact_data
 					{$sql}
 				FROM contact_{$this->table}
-				WHERE contact_id={$contact_id} AND is_obsolete<=0 AND contact_data!=''
+				WHERE contact_id={$contact_id} AND is_obsolete<=0 AND contact_data!='' AND contact_confirmed
 				ORDER BY sort_key";
 
 		parent::__construct($sql, array($this, 'filterRow'));
