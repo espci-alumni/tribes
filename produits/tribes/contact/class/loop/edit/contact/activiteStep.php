@@ -5,6 +5,7 @@ class extends loop_edit_contact_activite
 	function __construct($f, $send)
 	{
 		$this->allowAddDel = false;
+		$this->editAdresse = false;
 		$this->send = $send;
 
 		$default = array(

@@ -22,7 +22,9 @@ IF $f_statut
 END:IF
 AGENT $f_date_debut _caption_="Début"
 AGENT $f_date_fin _caption_="Fin"
-AGENT $f_adresse_id _caption_="Coordonnées"
+IF $f_adresse_id
+	AGENT $f_adresse_id _caption_="Coordonnées"
+END:IF
 AGENT $f_site_web _caption_="Site Web"
 AGENT $f_keyword _caption_="Mots clés"
 
