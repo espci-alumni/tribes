@@ -87,6 +87,11 @@ class
 		if ($data)
 		{
 			$meta['contact_data'] = $db->quote(serialize($data));
+
+			if (!isset($meta['contact_confirmed']) && $this->contact_id)
+			{
+				$meta['contact_confirmed'] = $this->contact_id == tribes::getConnectedId() || $this->confirmed;
+			}
 		}
 
 		if ($this->confirmed)
@@ -108,11 +113,6 @@ class
 			);
 
 			$meta = array_keys($meta);
-		}
-
-		if (isset($data['contact_data']) && !isset($data['contact_confirmed']) && $this->contact_id)
-		{
-			$data['contact_confirmed'] = $this->contact_id == tribes::getConnectedId() || $this->confirmed;
 		}
 
 		if (empty($data['admin_confirmed'])) unset($data['admin_confirmed']);
