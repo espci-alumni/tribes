@@ -54,7 +54,13 @@ class extends agent_pForm
 		$o->is_admin_confirmed = $this->data->admin_confirmed > $this->data->contact_modified;
 		$o->connected_is_admin = $this->connected_is_admin;
 
-		return parent::compose($o);
+		$o = parent::compose($o);
+
+		$o->emails    = $this->emails;
+		$o->adresses  = $this->adresses;
+		$o->activites = $this->activites;
+
+		return $o;
 	}
 
 	protected function composeForm($o, $f, $send)
@@ -91,6 +97,26 @@ class extends agent_pForm
 			if ($f->getElement('password')->getValue() !== $e->getValue())
 			{
 				$e->setError('Confirmation échouée');
+				return false;
+			}
+		}
+
+		if (isset($this->emails))
+		{
+			$has_active_email = false;
+			$emails = array();
+
+			while ($e = $this->emails->loop())
+			{
+				$emails[] = $e;
+				if (empty($e->deleted) && $e->f_is_active->getDbValue()) $has_active_email = true;
+			}
+
+			$this->emails = new loop_array($emails, 'filter_rawArray');
+
+			if (!$has_active_email)
+			{
+				$f->getElement('email_add')->setError('Veuillez sélectionner au moins une adresse email de correspondance');
 				return false;
 			}
 		}
@@ -230,7 +256,7 @@ class extends agent_pForm
 
 	protected function composeAdresse($o, $f, $send, $new = false)
 	{
-		$this->adresses = $o->adresses = new loop_edit_contact_adresse($f, $this->contact_id, $send, $new);
+		$this->adresses = new loop_edit_contact_adresse($f, $this->contact_id, $send, $new);
 
 		return $o;
 	}
@@ -247,7 +273,7 @@ class extends agent_pForm
 			'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', ''
 		);
 
-		$this->activites = $o->activites = new loop_edit_contact_activite($f, $this->contact_id, $send, $new);
+		$this->activites = new loop_edit_contact_activite($f, $this->contact_id, $send, $new);
 
 		return $o;
 	}

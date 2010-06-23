@@ -3,6 +3,7 @@
 <!-- INLINE user/_onglets -->
 
 <!-- AGENT $form -->
+<!-- AGENT $form _mode_='errormsg' -->
 
 <!-- INLINE user/edit/_login -->
 <!-- INLINE user/edit/_password -->
