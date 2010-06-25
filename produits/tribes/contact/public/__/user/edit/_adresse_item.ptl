@@ -7,12 +7,14 @@ IF $f_adresse_del
 	AGENT $f_adresse_del value="supprimer cette adresse" class='additem' _format_=$_f _preserveScroll_=1
 END:IF
 
+IF !$hide_is_active
 -->
 <tr>
 	<td>&nbsp;</td>
 	<td><!-- AGENT $f_is_active _format_='%1%2' --></td>
 </tr>
 <!--
+END:IF
 
 IF $activite_id
 -->

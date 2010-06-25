@@ -357,9 +357,9 @@ class extends agent_pForm
 				if ('' !== implode('', $a))
 				{
 					$a += array(
+						'is_active'  => $b->f_is_active->getValue(),
 						'contact_id' => $this->contact_id,
 						'sort_key'   => ++$counter,
-						'is_active'    => $b->f_is_active->getValue(),
 					);
 
 					$this->adresse->save($a, null, $b->id);

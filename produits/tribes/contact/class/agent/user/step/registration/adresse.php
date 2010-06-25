@@ -11,7 +11,7 @@ class extends agent_user_step_registration
 	{
 		$o = parent::composeAdresse($o, $f, $send, true);
 
-		$this->adresses = $o->adresses = new loop_edit_contact_adresseStep($f, $send);
+		$this->adresses = new loop_edit_contact_adresseStep($f, $send);
 
 		return $o;
 	}

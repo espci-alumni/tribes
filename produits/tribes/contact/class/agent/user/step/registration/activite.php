@@ -11,7 +11,7 @@ class extends agent_user_step_registration
 	{
 		$o = parent::composeActivite($o, $f, $send, true);
 
-		$this->activites = $o->activites = new loop_edit_contact_activiteStep($f, $send);
+		$this->activites = new loop_edit_contact_activiteStep($f, $send);
 
 		return $o;
 	}
