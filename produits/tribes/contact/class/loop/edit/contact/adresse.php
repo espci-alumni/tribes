@@ -35,6 +35,7 @@ class extends loop_edit
 			'src' => 'QSelect/description/adresse',
 			'disabled' => isset($data->c_description) ? !$data->c_description : !empty($data->activite_id),
 		));
+		$f->add('check', 'is_active', array('item' => array(1 => 'Adresse de correspondance'), 'multiple' => true));
 		$f->add('textarea', 'adresse');
 		$f->add('text', 'ville_avant');
 		$f->add('city', 'ville', array('isdata' => false));

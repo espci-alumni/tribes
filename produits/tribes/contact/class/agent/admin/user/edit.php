@@ -37,9 +37,9 @@ class extends agent_user_edit
 		$o = $this->composeAdresse($o, $f, $send);
 		$o = $this->composeActivite($o, $f, $send);
 
-		$o->emails   ->adminMode = true;
-		$o->adresses ->adminMode = true;
-		$o->activites->adminMode = true;
+		$this->emails   ->adminMode = true;
+		$this->adresses ->adminMode = true;
+		$this->activites->adminMode = true;
 
 		return $o;
 	}

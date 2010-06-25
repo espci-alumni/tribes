@@ -103,22 +103,14 @@ class extends agent_pForm
 
 		if (isset($this->emails))
 		{
-			$has_active_email = false;
-			$emails = array();
-
-			while ($e = $this->emails->loop())
-			{
-				$emails[] = $e;
-				if (empty($e->deleted) && $e->f_is_active->getDbValue()) $has_active_email = true;
-			}
-
-			$this->emails = new loop_array($emails, 'filter_rawArray');
-
-			if (!$has_active_email)
-			{
-				$f->getElement('email_add')->setError('Veuillez sélectionner au moins une adresse email de correspondance');
+			if (!$this->hasActivatedData($f->getElement('email_add'), $this->emails, 'email '))
 				return false;
-			}
+		}
+
+		if (!empty($this->adresses))
+		{
+			if (!$this->hasActivatedData($f->getElement('adresse_add'), $this->adresses))
+				return false;
 		}
 
 		return true;
@@ -190,7 +182,7 @@ class extends agent_pForm
 
 	protected function composeEmail($o, $f, $send)
 	{
-		$this->emails = $o->emails = new loop_edit_contact_email($f, $this->contact_id, $send);
+		$this->emails = new loop_edit_contact_email($f, $this->contact_id, $send);
 
 		$sql = "SELECT alias
 				FROM contact_alias
@@ -360,8 +352,8 @@ class extends agent_pForm
 				{
 					$a += array(
 						'contact_id' => $this->contact_id,
-						'is_active'  => !$counter,
 						'sort_key'   => ++$counter,
+						'is_active'    => $b->f_is_active->getValue(),
 					);
 
 					$this->adresse->save($a, null, $b->id);
@@ -590,5 +582,27 @@ class extends agent_pForm
 		}
 
 		return false;
+	}
+
+	protected function hasActivatedData($element, &$loop, $message = '')
+	{
+		$has_active_data = false;
+		$data = array();
+
+		while ($e = $loop->loop())
+		{
+			$data[] = $e;
+			if (empty($e->deleted) && $e->f_is_active->getDbValue()) $has_active_data = true;
+		}
+
+		$loop = new loop_array($data, 'filter_rawArray');
+
+		if (!$has_active_data)
+		{
+			$element->setError('Veuillez sélectionner au moins une adresse ' . $message . 'de correspondance');
+			return false;
+		}
+
+		return true;
 	}
 }
