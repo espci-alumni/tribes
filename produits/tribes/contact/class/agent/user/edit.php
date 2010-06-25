@@ -101,16 +101,22 @@ class extends agent_pForm
 			}
 		}
 
-		if (isset($this->emails))
+		if (isset($this->emails) && !$this->emails->adminMode)
 		{
-			if (!$this->hasActivatedData($f->getElement('email_add'), $this->emails, 'email '))
+			if (!$this->hasActiveItem($this->emails))
+			{
+				$f->getElement('email_add')->setError('Veuillez sélectionner au moins une adresse email de correspondance');
 				return false;
+			}
 		}
 
-		if (!empty($this->adresses))
+		if (isset($this->adresses) && !$this->adresses->adminMode)
 		{
-			if (!$this->hasActivatedData($f->getElement('adresse_add'), $this->adresses))
+			if (!$this->hasActiveItem($this->adresses))
+			{
+				$f->getElement('adresse_add')->setError('Veuillez sélectionner au moins une adresse de correspondance');
 				return false;
+			}
 		}
 
 		return true;
@@ -584,7 +590,7 @@ class extends agent_pForm
 		return false;
 	}
 
-	protected function hasActivatedData($element, &$loop, $message = '')
+	protected function hasActiveItem(&$loop)
 	{
 		$has_active_data = false;
 		$data = array();
@@ -597,12 +603,6 @@ class extends agent_pForm
 
 		$loop = new loop_array($data, 'filter_rawArray');
 
-		if (!$has_active_data)
-		{
-			$element->setError('Veuillez sélectionner au moins une adresse ' . $message . 'de correspondance');
-			return false;
-		}
-
-		return true;
+		return $has_active_data;
 	}
 }

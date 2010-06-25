@@ -5,15 +5,9 @@
 <!-- AGENT $form -->
 <!-- AGENT $form _mode_='errormsg' -->
 
-
 <!-- IF !$login -->
-<h3>Contact non actif</h3>
-<p>
-Ce contact n'a pas encore démarré son inscription.
-Il est donc impossible de lui attribuer un identifiant ou un mot de passe.
-</p>
+<h3>Ce contact ne s'est pas encore inscrit, il n'a donc ni email universel ni mot de passe</h3>
 <!-- END:IF -->
-
 
 <!-- INLINE user/edit/_login -->
 <!-- INLINE user/edit/_password -->

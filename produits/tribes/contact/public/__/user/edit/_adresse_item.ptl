@@ -8,12 +8,12 @@ IF $f_adresse_del
 END:IF
 
 -->
-
 <tr>
+	<td>&nbsp;</td>
 	<td><!-- AGENT $f_is_active _format_='%1%2' --></td>
 </tr>
-
 <!--
+
 IF $activite_id
 -->
 <tr>
