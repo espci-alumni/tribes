@@ -1,26 +1,12 @@
 <?php
 
-class extends agent_user_edit
+class extends agent_admin_user_edit
 {
-	public $get = array('__1__:i:1');
-
 	protected
 
-	$requiredAuth = 'admin',
-	$confirmed = true,
-
-	$form,
-	$send,
 	$adresses,
 	$activites;
 
-
-	function control()
-	{
-		$this->contact_id = $this->get->__1__;
-
-		parent::control();
-	}
 
 	function compose($o)
 	{
@@ -46,13 +32,13 @@ class extends agent_user_edit
 
 	protected function composeForm($o, $f, $send)
 	{
-		$this->form = $f;
-		$this->send = $send;
-
 		$o = $this->composeLogin($o, $f, $send);
-		$o = $this->composeContact($o, $f, $send);
+		$o = agent_user_edit::composeContact($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send);
 		$o = $this->composeActivite($o, $f, $send);
+
+		$this->adresses ->adminMode = true;
+		$this->activites->adminMode = true;
 
 		return $o;
 	}
@@ -105,14 +91,14 @@ class extends agent_user_edit
 
 	protected function composeAdresse($o, $f, $send, $new = false)
 	{
-		$this->adresses = $o->adresses = new loop_edit_contact_adresseDiff($f, $this->contact_id, $send);
+		$this->adresses = new loop_edit_contact_adresseDiff($f, $this->contact_id, $send);
 
 		return $o;
 	}
 
-	protected function composeActivite($o, $f, $send)
+	protected function composeActivite($o, $f, $send, $new = false)
 	{
-		$this->activites = $o->activites = new loop_edit_contact_activiteDiff($f, $this->contact_id, $send);
+		$this->activites = new loop_edit_contact_activiteDiff($f, $this->contact_id, $send);
 
 		return $o;
 	}

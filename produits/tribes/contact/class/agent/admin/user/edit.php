@@ -26,7 +26,7 @@ class extends agent_user_edit
 
 	protected function composeForm($o, $f, $send)
 	{
-		if ($this->data->login)
+		if (!empty($this->data->login))
 		{
 			$o = $this->composeLogin($o, $f, $send);
 			$o = $this->composeNewPassword($o, $f, $send);
