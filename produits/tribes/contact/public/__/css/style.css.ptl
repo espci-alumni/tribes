@@ -158,3 +158,21 @@ input.text, input.QSelect, textarea, input.password
 	text-align: center;
 	font-size: 90%;
 }
+
+.separateur{
+  clear:both;
+}
+
+.explication{
+  font-style:italic;
+}
+
+.step_current
+{
+	font-weight: bold;
+}
+
+.step_done
+{
+	color: silver;
+}

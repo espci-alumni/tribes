@@ -6,7 +6,12 @@
 <!-- AGENT $form _mode_='errormsg' -->
 
 <!-- IF !$login -->
-<h3>Ce contact ne s'est pas encore inscrit, il n'a donc ni email universel ni mot de passe</h3>
+<!-- SET $_a -->{g$__AGENT__|replace:'/.*':''}<!-- END:SET -->
+<!-- IF 'admin' === $_a -->
+<h3>Ce contact n'est pas encore actif, il n'a donc ni email universel ni mot de passe</h3>
+<!-- ELSE -->
+<h3>Votre compte est en attente de validation par un modérateur</h3>
+<!-- END:IF -->
 <!-- END:IF -->
 
 <!-- INLINE user/edit/_login -->

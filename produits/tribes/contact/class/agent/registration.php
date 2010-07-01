@@ -76,9 +76,9 @@ class extends agent_login
 		$contact->save($data, false);
 
 		$data['login'] = $data['email'];
-		parent::save($data);
+		$data = parent::save($data);
 
-		return "user/step/{$next_step}";
+		return false !== $data ? "user/step/{$next_step}" : false;
 	}
 
 	static function sqlSelectMatchingContact($data)

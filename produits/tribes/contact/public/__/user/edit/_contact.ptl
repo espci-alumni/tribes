@@ -1,11 +1,5 @@
 <!-- IF $f_nom_civil -->
 
-<p class="explication">
-Cette rubrique vous permet de personnaliser votre profil
-en joignant une photographie, téléchargeant votre CV
-et en complétant vos informations personnelles.
-</p>
-
 <!-- IF $f_acces -->
 <h3>Niveau de privilèges</h3>
 <table>

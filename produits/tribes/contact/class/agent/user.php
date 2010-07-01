@@ -4,7 +4,10 @@ class extends agent
 {
 	public $get = '__1__:i:1';
 
-	protected $contact;
+	protected
+
+	$contact,
+	$requiredAuth = true;
 
 	protected static $selectFields = 'contact_id, login, sexe, prenom_usuel, nom_usuel, nom_etudiant, acces, photo_token, cv_token';
 
@@ -15,7 +18,9 @@ class extends agent
 
 		parent::control();
 
-		$sql = "SELECT " . self::selectFields . "
+		if (!s::get('acces') && $this->get->__1__ != $this->connected_id) p::forbidden();
+
+		$sql = "SELECT " . self::$selectFields . "
 				FROM contact_contact
 				WHERE contact_id={$this->get->__1__}";
 		$this->contact = DB()->queryRow($sql);

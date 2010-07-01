@@ -56,6 +56,7 @@ class extends agent_pForm
 		$row->saltedPassword = $row->password;
 		$row->password = $data['password'];
 		$row->referer  = s::flash('referer');
+		$row->email = $row->login ? $row->login . $CONFIG['tribes.emailDomain'] : '';
 
 		if ($sql = s::flash('confirmed_email_id'))
 		{
@@ -80,7 +81,7 @@ class extends agent_pForm
 					AND is_obsolete<=0";
 		if (DB()->queryOne($sql)) return 'user/email/confirm';
 
-		return agent_menu::ACCUEIL_CONNECTED;
+		return $row->acces ? agent_menu::ACCUEIL_CONNECTED : 'user/edit/contact';
 	}
 
 	protected function login($contact)

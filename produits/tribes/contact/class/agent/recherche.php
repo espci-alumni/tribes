@@ -53,13 +53,6 @@ class extends agent
 				'where' => '',
 				'show' => 0,
 			),
-			'statut_inscription' => array(
-				'table' => 'c',
-				'name' => 'Statut d\'inscription',
-				'select' => '',
-				'where' => '',
-				'show' => 0,
-			),
 		),
 	);
 

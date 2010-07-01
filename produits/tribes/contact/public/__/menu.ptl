@@ -50,12 +50,21 @@
 	<table width="100%">
 	<tr>
 		<td rowspan="2">
+		<!-- IF $acces -->
 			<a href="{$accueil_url|base:1}" target="content_iframe"><img src="/fr/img/logo.jpg" /></a>
 			<a href="{$accueil_url|base:1}" target="content_iframe">Accueil</a>
 
 			<!-- LOOP $onglets -->
 				| <a href="{$linkto|base:1}" target="content_iframe">{$titre}</a>
 			<!-- END:LOOP -->
+		<!-- ELSE -->
+			<img src="/fr/img/logo.jpg" />
+			Accueil
+
+			<!-- LOOP $onglets -->
+				| {$titre}
+			<!-- END:LOOP -->
+		<!-- END:IF -->
 		</td>
 		<td valign="top" align="right">
 			<a href="{$public_url|base:1}" target="_blank">Aller au site public</a>
@@ -63,8 +72,12 @@
 	</tr>
 	<tr>
 		<td align="right">
-			<a href="{~}user/edit/contact" target="content_iframe">{$prenom_usuel} {$nom_usuel}</a>
-			<!-- IF $connected_is_admin --> | <a href="{~}admin" target="content_iframe">Administration</a><!-- END:IF -->
+			<!-- IF $acces -->
+				<a href="{~}user/edit/contact" target="content_iframe">{$prenom_usuel} {$nom_usuel}</a>
+				<!-- IF 'admin' == $acces --> | <a href="{~}admin" target="content_iframe">Administration</a><!-- END:IF -->
+			<!-- ELSE -->
+				{$prenom_usuel} {$nom_usuel}
+			<!-- END:IF -->
 			<!-- AGENT 'user/_logout' --><br />
 			<!-- IF !$is_cotisant -->
 			<a href="{/}fr/adherer" target="_blank">Cotiser</a> pour soutenir les efforts de l'Association</a>

@@ -17,8 +17,8 @@ AGENT 'header' title=$_title
 <!-- LOOP $steps -->
 <!--
 SET $_class
-	IF $KEY == d$step_position    -->step_current<!--
-	ELSEIF $KEY < d$step_position -->step_done<!--
+	IF $iteratorPosition == d$step_position    -->step_current<!--
+	ELSEIF $iteratorPosition < d$step_position -->step_done<!--
 	ELSE                          -->step_todo<!--
 	END:IF
 END:SET

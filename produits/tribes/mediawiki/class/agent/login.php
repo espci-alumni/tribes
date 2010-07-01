@@ -65,5 +65,6 @@ class extends self
 		setcookie($mediaWikiDb . 'UserID'  , $user_id           , 0, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
 		setcookie($mediaWikiDb . 'UserName', $data['user_name'] , 0, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
 		setcookie($mediaWikiDb . 'Token'   , $data['user_token'], 0, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
+		setcookie($mediaWikiDb . 'LoggedOut', '', 1, '/');
 	}
 }

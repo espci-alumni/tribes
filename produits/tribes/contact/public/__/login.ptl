@@ -9,7 +9,7 @@ Pour vérifier que cet email vous appartient réellement, merci de vous connecte
 <!-- ELSEIF a$__1__ == 'bienvenue' -->
 <p>
 Votre demande d'inscription a bien été enregistrée.
-Merci de vérifier votre messagerie électronique, un email vous a été envoyé.
+Merci de vérifier votre boîte de réception, un message électronique vous a été envoyé.
 Vous pouvez dès maintenant vous connecter pour compléter plus avant votre profil.
 </p>
 <!-- END:IF -->

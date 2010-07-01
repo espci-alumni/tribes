@@ -12,10 +12,6 @@ AGENT 'header' title=$_title
 <div align="right"><a href="{~}admin/user/edit/{$contact_id}"><img src="{~}img/b_edit.gif" alt="modifier" /></a></div>
 <!-- END:IF -->
 
-<!-- IF $statut_inscription == 'demande' -->
-<h3>Cette fiche est en cours de validation par un modérateur</h3>
-<!-- END:IF-->
-
 <!-- IF $hasPhoto -->
 <img src="{~}user/photo/{$photo_token}/{$login}.jpg" /><br />
 <!-- ELSE -->
