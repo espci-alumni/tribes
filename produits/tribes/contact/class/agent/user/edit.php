@@ -54,13 +54,11 @@ class extends agent_pForm
 		$o->is_admin_confirmed = $this->data->admin_confirmed > $this->data->contact_modified;
 		$o->connected_is_admin = $this->connected_is_admin;
 
-		$o = parent::compose($o);
+		$o->emails    =& $this->emails;
+		$o->adresses  =& $this->adresses;
+		$o->activites =& $this->activites;
 
-		$o->emails    = $this->emails;
-		$o->adresses  = $this->adresses;
-		$o->activites = $this->activites;
-
-		return $o;
+		return parent::compose($o);
 	}
 
 	protected function composeForm($o, $f, $send)
