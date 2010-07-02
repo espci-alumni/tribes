@@ -60,7 +60,7 @@ class extends tribes_common
 
 		empty($data['token']) || $data += array('token_expires' => 'NOW() + INTERVAL ' . tribes::PENDING_PERIOD);
 
-		$data['admin_confirmed'] = false;
+		$data += array('admin_confirmed' => false);
 
 		return parent::save($data, $message, $id);
 	}
@@ -104,6 +104,7 @@ class extends tribes_common
 
 		$resetToken && $data['token'] = '';
 		$data['is_obsolete'] = 0;
+		$data['admin_confirmed'] = true;
 		$row->has_active_email || $data['is_active'] = 1;
 
 		if ($row->contact_id && $row->contact_id == tribes::getConnectedId())
