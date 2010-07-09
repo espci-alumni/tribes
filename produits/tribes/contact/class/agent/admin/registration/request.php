@@ -161,6 +161,8 @@ class extends agent_admin_user_edit
 			))
 		);
 
+		unset(self::$mergeTableInsert['contact_activite'][1]['is_active']);
+
 		self::$mergeTableUpdate = array(
 			'contact_historique' => array('origine_contact_id' => "IF(origine_contact_id=%d,%d,origine_contact_id)"),
 			'contact_alias' => array(),
@@ -186,9 +188,11 @@ class extends agent_admin_user_edit
 				$sql = "INSERT IGNORE INTO {$table} (" . implode(',', array_keys($from)) . ")
 						VALUES (" . implode(',', $from) . ")";
 
+				foreach ($info[1] as $k => $v) $info[1][$k] = sprintf($v, $from_contact_id, $to_contact_id);
+
 				$from = $info[1] + $from;
 				$sql .= "ON DUPLICATE KEY UPDATE contact_id={$to_contact_id}";
-				foreach ($from as $k => $v) if ("''" !== $v) $sql .= ",{$k}=" . sprintf($v, $from_contact_id, $to_contact_id);
+				foreach ($from as $k => $v) if ("''" !== $v) $sql .= ",{$k}={$v}";
 
 				$db->exec($sql);
 			}

@@ -103,8 +103,12 @@ class extends agent_pForm
 		{
 			if (!$this->hasActiveItem($this->emails))
 			{
-				$f->getElement('email_add')->setError('Veuillez sélectionner au moins une adresse email de correspondance');
-				return false;
+				if ($e = $f->getElement('email_add'))
+				{
+					$e->setError('Veuillez sélectionner au moins une adresse email de correspondance');
+					return false;
+				}
+				else E('email_add non défini ?!');
 			}
 		}
 
@@ -112,8 +116,12 @@ class extends agent_pForm
 		{
 			if (!$this->hasActiveItem($this->adresses))
 			{
-				$f->getElement('adresse_add')->setError('Veuillez sélectionner au moins une adresse de correspondance');
-				return false;
+				if ($e = $f->getElement('adresse_add'))
+				{
+					$e->setError('Veuillez sélectionner au moins une adresse de correspondance');
+					return false;
+				}
+				else E('adresse_add non défini ?!');
 			}
 		}
 
@@ -521,6 +529,12 @@ class extends agent_pForm
 
 			if (file_exists($file . '~')) unlink($file . '~');
 			else $data['cv_token'] = p::strongid(8);
+
+			if (!empty($this->data->cv_text))
+			{
+				$data['cv_text'] = '';
+				$this->contact->updateContactModified($this->contact_id);
+			}
 		}
 
 		if (!$this->data->cv_token)
