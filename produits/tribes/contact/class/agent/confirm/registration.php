@@ -4,7 +4,9 @@ class extends agent_confirm_email
 {
 	function control()
 	{
-		$sql = "SELECT contact_id, nom_civil, prenom_civil, sexe
+		$sql = array_merge(tribes_contact::$dataFields, tribes_email::$dataFields);
+		$sql = implode(',', $sql);
+		$sql = "SELECT contact_id,{$sql}
 				FROM contact_contact c
 					JOIN contact_email e USING (contact_id)
 				WHERE e.token='confirm/registration/{$this->get->__1__}'

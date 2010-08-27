@@ -1,15 +1,14 @@
 <!-- AGENT 'email/header' title="Demandes d'inscription en attente" -->
+
 <p>
 Demandes d'inscription en attente&nbsp;:
 </p>
 
 <!-- LOOP $contacts -->
 <p>
-Depuis le {$contact_modified|formatDate} :
+Depuis le {$contact_modified|formatDate}&nbsp;:
 <ul>
-	<li>Sexe&nbsp;: {$sexe}</li>
-	<li>Nom&nbsp;: {$nom_civil}</li>
-	<li>Prénom&nbsp;: {$prenom_civil}</li>
+<!-- INLINE email/registration/_requestInfo -->
 </ul>
 
 <a href="{~}admin/registration/request/{$contact_id}">Cliquez ici pour traiter cette demande</a>.

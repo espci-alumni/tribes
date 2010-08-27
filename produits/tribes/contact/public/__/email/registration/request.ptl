@@ -4,9 +4,7 @@
 Nouvelle demande d'inscription&nbsp;:
 
 <ul>
-	<li>Sexe&nbsp;: {a$sexe}</li>
-	<li>Nom&nbsp;: {a$nom_civil}</li>
-	<li>Prénom&nbsp;: {a$prenom_civil}</li>
+<!-- INLINE email/registration/_requestInfo -->
 </ul>
 
 <a href="{~}admin/registration/request/{a$contact_id}">Cliquez ici pour traiter cette demande</a>.
