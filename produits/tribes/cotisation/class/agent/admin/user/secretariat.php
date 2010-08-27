@@ -68,7 +68,7 @@ class extends self
 			$sql = "UPDATE contact_contact c, cotisation p SET
 						c.cotisation_expires=p.cotisation_date+INTERVAL p.nb_mois MONTH
 					WHERE c.contact_id=p.contact_id
-						AND p.token={$data['token']}";
+						AND p.token='{$data['token']}'";
 			$db->exec($sql);
 
 			notification::send('user/cotisation', $data);

@@ -23,7 +23,7 @@ class
 P$formatDate = function($s)
 {
 	$s = str($s);
-	return $s/1 ? $s.replace(/(....)-(..)-(..)/g, <?php echo jsquote(self::$format); ?>) : '';
+	return parseInt($s) ? $s.replace(/(....)-(..)-(..)/g, <?php echo jsquote(self::$format); ?>) : '';
 }
 
 <?php	}
