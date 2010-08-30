@@ -1,30 +1,5 @@
 <!-- IF !g+1$headerNestingTribes -->
-
-<!-- SET g$inputFormat --><tr><td class="label">%0&nbsp;:</td><td class="input">%1%2</td></tr><!-- END:SET -->
-<!-- SET $_year -->{date:'Y'}<!-- END:SET -->
-<!-- SET a$head -->
-{a$head}
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/smoothness/jquery-ui.css" />
-<script type="text/javascript" src="{base:'js/jquery'}"></script >
-<script type="text/javascript" src="http://jquery-ui.googlecode.com/svn/trunk/ui/i18n/jquery.ui.datepicker-{g$__LANG__|substr:0:2|default:'fr'}.js"></script >
-<script type="text/javascript">
-onDOMLoaded.push(function()
-{
-$.datepicker.setDefaults({changeMonth: true, changeYear: true});
-
-$('input[name=f_date_naissance]').datepicker({dateFormat: 'dd-mm-yy', yearRange: '{$_year-100}:{$_year-18}'});
-$('input.date'                  ).datepicker({dateFormat: 'dd-mm-yy'});
-$('input.monthyear'             ).datepicker({dateFormat:    'mm-yy', yearRange: '{$_year-50}:{$_year+20}'});
-
-});
-</script >
-<!-- END:SET -->
-
+<!-- INLINE tribes/_headerPre -->
 <!-- INLINE header -->
-
-<!-- IF !a$minimal -->
-<p>{$message}</p>
-<h1>{a$title}</h1>
-<!-- END:IF -->
-
+<!-- INLINE tribes/_headerPost -->
 <!-- END:IF -->

@@ -1,13 +1,4 @@
-<!--
-
-IF 1 == g-1$headerNestingTribes
-
-	-->
-	<div id="footer">&copy; <a href="http://www.intellagence.eu/">IntellAgence Technologies</a></div>
-	<!--
-
-	INLINE footer
-
-END:IF
-
--->
+<!-- IF 1 == g-1$headerNestingTribes -->
+<!-- INLINE tribes/_footer -->
+<!-- INLINE footer -->
+<!-- END:IF -->
