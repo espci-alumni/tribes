@@ -39,7 +39,10 @@ class extends self
 
 		if ($promotions)
 		{
-			$f->add('select', 'promotion', array('item' => $promotions));
+			$f->add('select', 'promotion', array(
+				'firstItem' => '- Choisir dans la liste -',
+				'item'      => $promotions,
+			));
 		}
 		else
 		{

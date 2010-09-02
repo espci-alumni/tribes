@@ -1,5 +1,3 @@
 <?php
 
-$CONFIG += array(
-//	'sympa.secret' => '...',
-);
+#patchwork ../email
