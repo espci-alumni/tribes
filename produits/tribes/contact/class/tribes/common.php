@@ -176,6 +176,9 @@ class
 		}
 	}
 
+	function getDataFields() {return $this->dataFields;}
+	function getMetaFields() {return $this->metaFields;}
+
 	protected function filterData($data)
 	{
 		$table = array();

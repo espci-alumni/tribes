@@ -9,7 +9,7 @@ class extends agent_pForm
 
 	protected static
 
-	$sessionFields = 'contact_id, password, login, user, nom_usuel, prenom_usuel, etape_suivante, acces';
+	$sessionFields = 'c.contact_id, password, login, user, nom_usuel, prenom_usuel, etape_suivante, acces';
 
 
 	protected function composeForm($o, $f, $send)
@@ -27,21 +27,22 @@ class extends agent_pForm
 
 	protected function save($data)
 	{
+		$sql = $CONFIG['tribes.emailDomain'];
+
+		if (0 === strcasecmp($sql, substr($data['login'], -strlen($sql))))
+		{
+			$data['login'] = substr($data['login'], -strlen($sql));
+		}
+
 		$sql = str_replace('-', '', $data['login']);
 
-		$sql = array(
-			"SELECT contact_id
-			 FROM contact_alias
-			 WHERE alias=" . DB()->quote($sql),
-			"SELECT contact_id
-			 FROM contact_email
-			 WHERE contact_confirmed
-				AND email=" . DB()->quote($data['login'])
-		);
+		$sql = strpos($sql, '@')
+			? ("contact_email u ON contact_confirmed AND email=" . DB()->quote($data['login']))
+			: ("contact_alias u ON alias=" . DB()->quote($sql));
 
 		$sql = "SELECT " . self::$sessionFields . "
-				FROM contact_contact
-					JOIN (({$sql[0]}) UNION ({$sql[1]}) ) u USING (contact_id)
+				FROM contact_contact c
+					JOIN {$sql} AND u.contact_id=c.contact_id
 				WHERE password!=''";
 		$result = DB()->query($sql);
 

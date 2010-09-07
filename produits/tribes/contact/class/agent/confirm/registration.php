@@ -4,8 +4,7 @@ class extends agent_confirm_email
 {
 	function control()
 	{
-		$sql = array_merge(tribes_contact::$dataFields, tribes_email::$dataFields);
-		$sql = implode(',', $sql);
+		$sql = implode(',', tribes::getDataFields(array('contact', 'email')));
 		$sql = "SELECT contact_id,{$sql}
 				FROM contact_contact c
 					JOIN contact_email e USING (contact_id)

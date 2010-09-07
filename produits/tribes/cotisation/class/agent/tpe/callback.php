@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_tpe___x5Fadapter
+class extends agent_tpe_response
 {
 	function compose($o)
 	{

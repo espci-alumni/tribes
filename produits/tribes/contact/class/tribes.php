@@ -46,6 +46,23 @@ class
 		return $a;
 	}
 
+	static function getDataFields($type)
+	{
+		$fields = array();
+
+		foreach ((array) $type as $type)
+		{
+			$type = 'tribes_' . $type;
+			$type = new $type(0);
+			foreach ($type->getDataFields() as $type)
+			{
+				$fields[] = $type;
+			}
+		}
+
+		return $fields;
+	}
+
 	static function getDoublonSuggestions($contact_id, $data)
 	{
 		$doublons  = array();

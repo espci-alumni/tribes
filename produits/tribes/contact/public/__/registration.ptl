@@ -1,16 +1,4 @@
-<!--
-
-SET $title
-	IF a$__1__ == 'password' -->Mot de passe perdu<!--
-	ELSE -->Inscription<!--
-	END:IF
-END:SET
-
-AGENT 'header' title=$title public=1
-
-IF a$__1__ == 'password' --><p>Veuillez remplir ce formulaire afin de redéfinir un nouveau mot de passe</p><!-- END:IF
-
--->
+<!-- AGENT 'header' title="Inscription" public=1 -->
 
 <!-- AGENT $form -->
 
@@ -18,19 +6,14 @@ IF a$__1__ == 'password' --><p>Veuillez remplir ce formulaire afin de redéfinir
 <!-- INLINE _registration -->
 <tr>
 	<td colspan="2" align = "right">
-	<!--
-		IF a$__1__ == 'password'
-			AGENT $f_send value="Envoyer"
-		ELSE
-			AGENT $f_send value="Adhérer"
-		END:IF
-	-->
+	<!-- AGENT $f_send value="Adhérer" -->
 	</td>
 </tr>
 </table>
 
 <p>
-Dès validation de votre inscription, un lien vous sera envoyé par email, qui vous permettra de confirmer définitivement votre demande d'inscription. Celle-ci sera alors traitée par le secrétariat de l'association et vous recevrez votre mot de passe dans les plus brefs délais.
+Dès validation de votre inscription, un lien vous sera envoyé par email, qui vous permettra de la confirmer définitivement.
+Votre demande sera alors transmise au secrétariat pour vérification et acceptation dans les plus brefs délais.
 </p>
 
 <!-- AGENT $form _mode_='close' -->

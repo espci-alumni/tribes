@@ -66,10 +66,11 @@ class extends agent_login
 			'contact_confirmed' => true,
 		);
 
-		$this->data = (object) $data;
-
 		$contact = new tribes_contact(0, false);
 		$contact->save($data, 'registration/receipt');
+
+		$this->data = (object) $data;
+		$this->data->contact_id = $contact->contact_id;
 
 		$data['is_active'] = 1;
 		$contact = new tribes_email($contact->contact_id, false);
