@@ -1,2 +1,2 @@
 <!-- INLINE email/registration/_requestInfo -->
-<li>Promotion&nbsp;: {a$promotion}</li>
+<li>Promotion&nbsp;: {$promotion|default:a$promotion}</li>
