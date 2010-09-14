@@ -1,6 +1,6 @@
 <!--
 
-AGENT $form_logout
+AGENT $form_logout target='_self'
 AGENT $f_logout value="Déconnexion"
 AGENT $form_logout _mode_='close'
 

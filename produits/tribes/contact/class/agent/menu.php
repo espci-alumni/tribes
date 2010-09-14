@@ -28,10 +28,6 @@ class extends agent
 		$o->accueil_url = $o->acces ? self::ACCUEIL_CONNECTED : 'user/edit';
 		$o->public_url  = self::ACCUEIL_PUBLIC;
 
-		$o->iframe_src = s::flash('iframe_src');
-		$o->iframe_src || $o->iframe_src = s::flash('referer');
-		$o->iframe_src || $o->iframe_src = p::base($o->accueil_url, 1);
-
 		$o->onglets = new loop_array(self::$onglets, 'filter_rawArray');
 
 		return $o;

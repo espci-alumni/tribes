@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base target="iframe">
+<script type="text/javascript" src="{base:'js/w'}"></script>
+<!--[if lt IE 7]>
+<style>body{behavior:url("{base:'fix/hover.htc'}")} select{behavior:url("{base:'fix/select.htc'}")} img,input{behavior:url("{base:'fix/png.htc'}");}</style>
+<![endif]-->
+<link rel="shortcut icon" href="{base:'favicon.ico'}" type="image/vnd.miscrosoft.icon" />
+<style>
+html, body, #iframe_menu
+{
+	overflow: hidden;
+}
+
+html, body, #iframe, #iframe_body
+{
+	margin:  0;
+	padding: 0;
+	border:  0;
+	width:  100%;
+	height: 100%;
+}
+
+#iframe_body
+{
+	position: absolute;
+	top:    0;
+	left:   0;
+	right:  0;
+	bottom: 0;
+}
+
+#iframe_menu, #iframe_menuIEShadow
+{
+	height: {$iframe_menu_height|default:0}px;
+	-moz-box-shadow: 0 0 5px #aaa;
+	-webkit-box-shadow: 0 0 5px #aaa;
+	box-shadow: 0 0 5px #aaa;
+
+	z-index: 1;
+	position: absolute;
+	top:   0;
+	left:  0;
+	right: 0;
+}
+
+#iframe_main
+{
+	top:    {$iframe_menu_height|default:0}px;
+	bottom: 0px; /* use always pixel unit for IE7 and below */
+
+	left:   0;
+	right:  0;
+	position: absolute;
+}
+</style>
+<!--[if lt IE 9]>
+<style>
+#iframe_menuIEShadow
+{
+	display: block;
+	top: -2px;
+	left: -3px;
+	background-color: white;
+	width: 100%;
+	filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=.15);
+}
+</style>
+<![endif]-->
+{$iframe_head}
+</head>
+<body>
+<div id="iframe_body">
+<!--[if lt IE 9]><div id="iframe_menuIEShadow"></div><![endif]-->
+<div id="iframe_menu">{$iframe_menu}</div>
+<div id="iframe_main"><iframe id="iframe" name="iframe" src="/" frameborder="no" allowtransparency="true" onmouseover="window.fixExternalLinks&&fixExternalLinks()" onload="this.onmouseover()"></iframe></div>
+</div>
+<script>
+var iframe = document.getElementById('iframe');
+
+(function()
+{
+	var f = iframe,
+		bUrl  = location.href,
+		rUrl  = location.protocol + '//' + location.hostname + '/',
+		rPath = location.pathname.replace(/^\/+/, '').replace(/\/+[^.\/]*$/, '/'),
+		fUrl  = fUrlGet(),
+		fPath = fPathGet(fUrl);
+
+	if ('' != location.hash) bUrl = bUrl.substr(0, bUrl.length - location.hash.length);
+	else if ('#' == bUrl.substr(bUrl.length-1)) bUrl = bUrl.substr(0, bUrl.length-1);
+
+	if (location.hash != fPath) location.replace(bUrl + fPath);
+
+	if (fUrl != f.src) f.src = fUrl;
+
+	function fUrlGet()
+	{
+		var url = location.hash;
+
+		url = url && url.substr(1).replace(/\s+$/, '');
+
+		return rUrl + url;
+	}
+
+	function fPathGet(url)
+	{
+		if (0 == url.indexOf(rUrl))
+		{
+			url = url.substr(rUrl.length).replace(/^\/+/, '');
+
+			url = '' == rPath || 0 == url.indexOf(rPath)
+				? url.substr(rPath.length).replace(/^\/+/, '')
+				: url;
+		}
+
+		return '' != url ? '#' + url : '';
+	}
+
+	setInterval(function()
+	{
+		var fDoc;
+
+		try
+		{
+			fDoc = f.contentDocument || frames['iframe'].contentWindow;
+
+			if ('http' == fDoc.location.protocol.substr(0, 4))
+			{
+				if (fDoc.title && fDoc.title != document.title) document.title = fDoc.title;
+
+				if (fDoc.location.href != fUrl)
+				{
+					fUrl = fDoc.location.href;
+
+					fPath = fPathGet(fUrl);
+
+					if (location.hash != fPath) location.replace(bUrl + fPath);
+
+					return;
+				}
+			}
+		}
+		catch (e)
+		{
+			fDoc = 0;
+
+			if ('' != fPath)
+			{
+				fPath = '';
+				location.replace(bUrl + '#');
+
+				return;
+			}
+		}
+
+		switch (location.hash)
+		{
+		case fPath: return;
+		case '#': if ('' == fPath) return;
+		}
+
+		fUrl  = fUrlGet();
+		fPath = fPathGet(fUrl);
+
+		if (location.hash != fPath) location.replace(bUrl + fPath);
+
+		if (fDoc) fDoc.location.replace(fUrl);
+		else if (fUrl != f.src) f.src = fUrl;
+	},
+		200
+	);
+
+	window.fixExternalLinks = function()
+	{
+		try
+		{
+			var a = (f.contentDocument || frames['iframe'].contentWindow.document).getElementsByTagName('A'), i = a.length, r = rUrl;
+
+			while (i--)
+			{
+				if (0 != a[i].href.indexOf(r) && !a[i].target)
+				{
+					a[i].target = '_parent';
+				}
+			}
+
+			if (navigator.userAgent.indexOf('WebKit'))
+			{
+				// Workaround a bug with non-transparent iframe + box-shadow on menu div
+
+				a = getComputedStyle(f.contentDocument.body, null).backgroundColor;
+
+				if ('rgba(0, 0, 0, 0)' != a)
+				{
+					r = document.getElementById('iframe_main');
+					i = getComputedStyle(r, null).backgroundColor;
+					f.contentWindow.addEventListener('unload', function() {r.style.backgroundColor = i;});
+					r.style.backgroundColor = a;
+					f.contentDocument.body.style.backgroundColor='rgba(0, 0, 0, 0)';
+				}
+			}
+		}
+		catch (e)
+		{
+		}
+	}
+})();
+</script>
+<!--[if lt IE 8]>
+<script>
+(function()
+{
+var main = document.getElementById('iframe_main'), body = document.body, style = iframe.style;
+(window.onresize = function() {style.height = (body.clientHeight - main.offsetTop - parseInt(main.currentStyle.bottom)) + 'px';})()
+})();
+</script>
+<![endif]-->
+</body>
+</html>
