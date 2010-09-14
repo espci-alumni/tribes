@@ -16,14 +16,15 @@ class extends self
 	{
 		$db = DB();
 		$phpbbDb = $CONFIG['tribes.phpbbDb'];
+		$phpbb   = $phpbbDb . '.' . $CONFIG['tribes.phpbbPrefix'];
 		$is_admin = tribes::connectedIsAuth('admin');
 
 		$sql = "SELECT u.user_id, user_email, username,
 					g1.group_id IS NOT NULL AND g2.group_id IS NOT NULL AS is_admin,
 					g1.group_id IS NOT NULL  OR g2.group_id IS NOT NULL AS is_moderator
-				FROM {$phpbbDb}.users u
-					LEFT JOIN {$phpbbDb}.user_group g1 ON g1.user_id=u.user_id AND g1.group_id=4
-					LEFT JOIN {$phpbbDb}.user_group g2 ON g2.user_id=u.user_id AND g2.group_id=5
+				FROM {$phpbb}users u
+					LEFT JOIN {$phpbb}user_group g1 ON g1.user_id=u.user_id AND g1.group_id=4
+					LEFT JOIN {$phpbb}user_group g2 ON g2.user_id=u.user_id AND g2.group_id=5
 				WHERE username_clean='{$contact->user}'";
 		$user = $db->queryRow($sql);
 
@@ -40,7 +41,7 @@ class extends self
 				);
 
 				$db->autoExecute(
-					$phpbbDb . '.users',
+					$phpbb . 'users',
 					$data,
 					MDB2_AUTOQUERY_UPDATE,
 					"user_id={$user_id}"
@@ -51,12 +52,12 @@ class extends self
 
 			if ($is_admin && !$user->is_admin)
 			{
-				$sql = "INSERT IGNORE INTO {$phpbbDb}.user_group (user_id,group_id,user_pending)
+				$sql = "INSERT IGNORE INTO {$phpbb}user_group (user_id,group_id,user_pending)
 						VALUES ({$user_id},4,0),({$user_id},5,0)";
 			}
 			else if (!$is_admin && $user->is_moderator)
 			{
-				$sql = "DELETE FROM {$phpbbDb}.user_group WHERE user_id={$user_id} AND group_id IN (4,5)";
+				$sql = "DELETE FROM {$phpbb}user_group WHERE user_id={$user_id} AND group_id IN (4,5)";
 			}
 
 			$sql && $db->exec($sql);
@@ -79,7 +80,7 @@ class extends self
 			'session_admin'      => $is_admin ? 1 : 0,
 		);
 
-		$db->autoExecute($phpbbDb . '.sessions', $data, MDB2_AUTOQUERY_INSERT);
+		$db->autoExecute($phpbb . 'sessions', $data, MDB2_AUTOQUERY_INSERT);
 
 		setcookie($phpbbDb . '_u'  , $user_id           , 0, $CONFIG['tribes.phpbbPath'], $CONFIG['session.cookie_domain']);
 		setcookie($phpbbDb . '_sid', $data['session_id'], 0, $CONFIG['tribes.phpbbPath'], $CONFIG['session.cookie_domain']);

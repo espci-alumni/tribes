@@ -37,8 +37,8 @@ class extends agent_pForm
 		$sql = str_replace('-', '', $data['login']);
 
 		$sql = strpos($sql, '@')
-			? ("contact_email u ON contact_confirmed AND email=" . DB()->quote($data['login']))
-			: ("contact_alias u ON alias=" . DB()->quote($sql));
+			? ("contact_email u ON u.contact_confirmed AND u.email=" . DB()->quote($data['login']))
+			: ("contact_alias u ON u.alias=" . DB()->quote($sql));
 
 		$sql = "SELECT " . self::$sessionFields . "
 				FROM contact_contact c

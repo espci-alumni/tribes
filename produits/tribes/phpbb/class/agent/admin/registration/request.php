@@ -12,7 +12,7 @@ class extends self
 	static function phpbbCreateAccount($contact)
 	{
 		$db = DB();
-		$phpbbDb = $CONFIG['tribes.phpbbDb'];
+		$phpbb = $CONFIG['tribes.phpbbDb'] . '.' . $CONFIG['tribes.phpbbPrefix'];
 
 		$data = array(
 			'username'        => $contact->login,
@@ -23,10 +23,10 @@ class extends self
 			'group_id'        => 2,
 		);
 
-		$db->autoExecute($phpbbDb . '.users', $data);
+		$db->autoExecute($phpbb . 'users', $data);
 		$user_id = $db->lastInsertId();
 
-		$sql = "INSERT IGNORE INTO {$phpbbDb}.user_group (user_id,group_id,user_pending)
+		$sql = "INSERT IGNORE INTO {$phpbb}user_group (user_id,group_id,user_pending)
 				VALUES ({$user_id},2,0)";
 		$db->exec($sql);
 
