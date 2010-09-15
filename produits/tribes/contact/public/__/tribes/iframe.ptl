@@ -10,51 +10,43 @@
 <![endif]-->
 <link rel="shortcut icon" href="{base:'favicon.ico'}" type="image/vnd.miscrosoft.icon" />
 <style>
-html, body, #iframe_menu
-{
-	overflow: hidden;
-}
-
-html, body, #iframe, #iframe_body
-{
-	margin:  0;
-	padding: 0;
-	border:  0;
-	width:  100%;
-	height: 100%;
-}
-
-#iframe_body
+#iframe_body, #iframe_menu, #iframe_menuIEShadow, #iframe_main, #iframe
 {
 	position: absolute;
+
 	top:    0;
 	left:   0;
 	right:  0;
+
+	width:  100%;
+
+	margin:  0;
+	padding: 0;
+	border:  0;
+}
+
+#iframe_body, #iframe
+{
+	height: 100%;
 	bottom: 0;
 }
 
 #iframe_menu, #iframe_menuIEShadow
 {
 	height: {$iframe_menu_height|default:0}px;
+
 	-moz-box-shadow: 0 0 5px #aaa;
 	-webkit-box-shadow: 0 0 5px #aaa;
 	box-shadow: 0 0 5px #aaa;
 
+	overflow: hidden;
 	z-index: 1;
-	position: absolute;
-	top:   0;
-	left:  0;
-	right: 0;
 }
 
 #iframe_main
 {
 	top:    {$iframe_menu_height|default:0}px;
 	bottom: 0px; /* use always pixel unit for IE7 and below */
-
-	left:   0;
-	right:  0;
-	position: absolute;
 }
 </style>
 <!--[if lt IE 9]>
@@ -214,8 +206,9 @@ var iframe = document.getElementById('iframe');
 <script>
 (function()
 {
-var main = document.getElementById('iframe_main'), body = document.body, style = iframe.style;
-(window.onresize = function() {style.height = (body.clientHeight - main.offsetTop - parseInt(main.currentStyle.bottom)) + 'px';})()
+var main = document.getElementById('iframe_main'), doc = document.documentElement, style = iframe.style;
+(window.onresize = function() {style.height = (doc.clientHeight - main.offsetTop - parseInt(main.currentStyle.bottom)) + 'px';
+})()
 })();
 </script>
 <![endif]-->

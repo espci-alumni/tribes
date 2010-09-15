@@ -14,6 +14,11 @@
 	margin: 0 auto;
 }
 
+#iframe_main
+{
+	width: 966px;
+}
+
 </style>
 <!-- END:SET -->
 <!-- SET $iframe_menu -->
@@ -37,7 +42,7 @@
 	<!-- END:IF -->
 	</td>
 	<td valign="top" align="right">
-		<a href="{$public_url|base:1}" target="_blank">Aller au site public</a>
+		<a href="{$public_url|base:1}">Aller au site public</a>
 	</td>
 </tr>
 <tr>
@@ -50,7 +55,7 @@
 		<!-- END:IF -->
 		<!-- AGENT 'user/_logout' --><br />
 		<!-- IF !$is_cotisant -->
-		<a href="{/}fr/adherer" target="_blank">Cotiser</a> pour soutenir les efforts de l'Association</a>
+		<a href="{/}fr/adherer">Cotiser</a> pour soutenir les efforts de l'Association</a>
 		<!-- ELSE -->
 		Tu es à jour de ta cotisation
 		<!-- END:IF -->
