@@ -25,6 +25,11 @@
 	border:  0;
 }
 
+#iframe_body
+{
+	overflow-x: hidden;
+}
+
 #iframe_body, #iframe
 {
 	height: 100%;
@@ -51,6 +56,11 @@
 </style>
 <!--[if lt IE 9]>
 <style>
+#iframe_body
+{
+	_overflow-x: visible; /*IE6 workaround*/
+}
+
 #iframe_menuIEShadow
 {
 	display: block;
@@ -68,7 +78,7 @@
 <div id="iframe_body">
 <!--[if lt IE 9]><div id="iframe_menuIEShadow"></div><![endif]-->
 <div id="iframe_menu">{$iframe_menu}</div>
-<div id="iframe_main"><iframe id="iframe" name="iframe" src="/" frameborder="no" allowtransparency="true" onmouseover="window.fixExternalLinks&&fixExternalLinks()" onload="this.onmouseover()"></iframe></div>
+<div id="iframe_main"><iframe id="iframe" name="iframe" src="/" frameborder="no" allowtransparency="true" onmouseover="window.updateIframe&&updateIframe()" onload="this.onmouseover()"></iframe></div>
 </div>
 <script>
 var iframe = document.getElementById('iframe');
@@ -166,24 +176,16 @@ var iframe = document.getElementById('iframe');
 		200
 	);
 
-	window.fixExternalLinks = function()
+	window.updateIframe = function()
 	{
+		var a, r, i;
+
 		try
 		{
-			var a = (f.contentDocument || frames['iframe'].contentWindow.document).getElementsByTagName('A'), i = a.length, r = rUrl;
-
-			while (i--)
-			{
-				if (0 != a[i].href.indexOf(r) && !a[i].target)
-				{
-					a[i].target = '_parent';
-				}
-			}
+			// Workaround a webkit bug with non-transparent iframe + box-shadow on menu div
 
 			if (navigator.userAgent.indexOf('WebKit'))
 			{
-				// Workaround a bug with non-transparent iframe + box-shadow on menu div
-
 				a = getComputedStyle(f.contentDocument.body, null).backgroundColor;
 
 				if ('rgba(0, 0, 0, 0)' != a)
@@ -196,9 +198,23 @@ var iframe = document.getElementById('iframe');
 				}
 			}
 		}
-		catch (e)
+		catch (a) {}
+
+		try
 		{
+			// Set external links' target to the current page (_parent);
+
+			a = (f.contentDocument || frames['iframe'].contentWindow.document).getElementsByTagName('A'), i = a.length, r = rUrl;
+
+			while (i--)
+			{
+				if (0 != a[i].href.indexOf(r) && !a[i].target)
+				{
+					a[i].target = '_parent';
+				}
+			}
 		}
+		catch (a) {}
 	}
 })();
 </script>

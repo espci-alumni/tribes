@@ -14,11 +14,6 @@
 	margin: 0 auto;
 }
 
-#iframe_main
-{
-	width: 966px;
-}
-
 </style>
 <!-- END:SET -->
 <!-- SET $iframe_menu -->
