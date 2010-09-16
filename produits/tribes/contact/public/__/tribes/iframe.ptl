@@ -25,9 +25,9 @@
 	border:  0;
 }
 
-#iframe_body
+html
 {
-	overflow-x: hidden;
+	overflow-x: hidden; /* Fix box-shadow overflow on full width layout */
 }
 
 #iframe_body, #iframe
@@ -44,6 +44,7 @@
 	-webkit-box-shadow: 0 0 5px #aaa;
 	box-shadow: 0 0 5px #aaa;
 
+	white-space: nowrap;
 	overflow: hidden;
 	z-index: 1;
 }
@@ -56,11 +57,6 @@
 </style>
 <!--[if lt IE 9]>
 <style>
-#iframe_body
-{
-	_overflow-x: visible; /*IE6 workaround*/
-}
-
 #iframe_menuIEShadow
 {
 	display: block;
@@ -223,8 +219,7 @@ var iframe = document.getElementById('iframe');
 (function()
 {
 var main = document.getElementById('iframe_main'), doc = document.documentElement, style = iframe.style;
-(window.onresize = function() {style.height = (doc.clientHeight - main.offsetTop - parseInt(main.currentStyle.bottom)) + 'px';
-})()
+(window.onresize = function() {style.height = (doc.clientHeight - main.offsetTop - parseInt(main.currentStyle.bottom)) + 'px';})()
 })();
 </script>
 <![endif]-->
