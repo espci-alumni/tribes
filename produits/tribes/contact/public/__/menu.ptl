@@ -1,4 +1,5 @@
 <!-- SET $iframe_menu_height -->110<!-- END:SET -->
+<!-- SET $iframe_src -->{$public_url|base:1}<!-- END:SET -->
 <!-- SET $iframe_head -->
 <link rel="stylesheet" type="text/css" href="{base:'css/style'}" />
 <style>
@@ -12,6 +13,11 @@
 {
 	width: 950px;
 	margin: 0 auto;
+}
+
+#iframe_main
+{
+	width: 966px;
 }
 
 </style>

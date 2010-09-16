@@ -74,7 +74,7 @@ html
 <div id="iframe_body">
 <!--[if lt IE 9]><div id="iframe_menuIEShadow"></div><![endif]-->
 <div id="iframe_menu">{$iframe_menu}</div>
-<div id="iframe_main"><iframe id="iframe" name="iframe" src="/" frameborder="no" allowtransparency="true" onmouseover="window.updateIframe&&updateIframe()" onload="this.onmouseover()"></iframe></div>
+<div id="iframe_main"><iframe id="iframe" name="iframe" src="{$iframe_src|default:'/'}" frameborder="no" allowtransparency="true" onmouseover="window.updateIframe&&updateIframe()" onload="this.onmouseover()"></iframe></div>
 </div>
 <script>
 var iframe = document.getElementById('iframe');
@@ -82,9 +82,9 @@ var iframe = document.getElementById('iframe');
 (function()
 {
 	var f = iframe,
+		bSrc  = f.src,
 		bUrl  = location.href,
 		rUrl  = location.protocol + '//' + location.hostname + '/',
-		rPath = location.pathname.replace(/^\/+/, '').replace(/\/+[^.\/]*$/, '/'),
 		fUrl  = fUrlGet(),
 		fPath = fPathGet(fUrl);
 
@@ -93,27 +93,22 @@ var iframe = document.getElementById('iframe');
 
 	if (location.hash != fPath) location.replace(bUrl + fPath);
 
-	if (fUrl != f.src) f.src = fUrl;
+	f.src = fUrl;
 
 	function fUrlGet()
 	{
 		var url = location.hash;
 
-		url = url && url.substr(1).replace(/\s+$/, '');
+		url = rUrl + (url && url.substr(1).replace(/\s+$/, ''));
 
-		return rUrl + url;
+		return url != bUrl ? url : bSrc;
 	}
 
 	function fPathGet(url)
 	{
-		if (0 == url.indexOf(rUrl))
-		{
-			url = url.substr(rUrl.length).replace(/^\/+/, '');
+		if (0 == url.indexOf(rUrl)) url = url.substr(rUrl.length);
 
-			url = '' == rPath || 0 == url.indexOf(rPath)
-				? url.substr(rPath.length).replace(/^\/+/, '')
-				: url;
-		}
+		url = url.replace(/^\/+/, '');
 
 		return '' != url ? '#' + url : '';
 	}
@@ -167,7 +162,7 @@ var iframe = document.getElementById('iframe');
 		if (location.hash != fPath) location.replace(bUrl + fPath);
 
 		if (fDoc) fDoc.location.replace(fUrl);
-		else if (fUrl != f.src) f.src = fUrl;
+		else f.src = fUrl;
 	},
 		200
 	);
