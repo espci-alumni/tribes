@@ -10,24 +10,19 @@
 <![endif]-->
 <link rel="shortcut icon" href="{base:'favicon.ico'}" type="image/vnd.miscrosoft.icon" />
 <style>
-#iframe_body, #iframe_menu, #iframe_menuIEShadow, #iframe_main, #iframe
+#iframe_body, #iframe_menu, #iframe_shadow, #iframe_main, #iframe
 {
 	position: absolute;
 
-	top:    0;
-	left:   0;
-	right:  0;
+	top:   0;
+	left:  0;
+	right: 0;
 
-	width:  100%;
+	width: 100%;
 
 	margin:  0;
 	padding: 0;
 	border:  0;
-}
-
-html
-{
-	overflow-x: hidden; /* Fix box-shadow overflow on full width layout */
 }
 
 #iframe_body, #iframe
@@ -36,45 +31,36 @@ html
 	bottom: 0;
 }
 
-#iframe_menu, #iframe_menuIEShadow
+#iframe_menu
 {
 	height: {$iframe_menu_height|default:0}px;
 
-	-moz-box-shadow: 0 0 5px #aaa;
-	-webkit-box-shadow: 0 0 5px #aaa;
-	box-shadow: 0 0 5px #aaa;
-
 	white-space: nowrap;
 	overflow: hidden;
-	z-index: 1;
+}
+
+#iframe_shadow
+{
+	top:    {$iframe_menu_height|default:0}px;
+	height: 4px;
+	border-top:  1px solid #f3f3f3;
+	margin-top: -1px;
+	background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAECAYAAABP2FU6AAAAAXNSR0IArs4c6QAAABxJREFUCNdjeP78eRgTAwPDNSYGBoZHTAwMDF8BRd0Fv5rb4D0AAAAASUVORK5CYII=) repeat-x top;
 }
 
 #iframe_main
 {
 	top:    {$iframe_menu_height|default:0}px;
-	bottom: 0px; /* use always pixel unit for IE7 and below */
+	bottom: 0px; /* always use pixel unit for IE7 and below */
 }
 </style>
-<!--[if lt IE 9]>
-<style>
-#iframe_menuIEShadow
-{
-	display: block;
-	top: -2px;
-	left: -3px;
-	background-color: white;
-	width: 100%;
-	filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=.15);
-}
-</style>
-<![endif]-->
 {$iframe_head}
 </head>
 <body>
 <div id="iframe_body">
-<!--[if lt IE 9]><div id="iframe_menuIEShadow"></div><![endif]-->
-<div id="iframe_menu">{$iframe_menu}</div>
 <div id="iframe_main"><iframe id="iframe" name="iframe" src="{$iframe_src|default:'/'}" frameborder="no" allowtransparency="true" onmouseover="window.updateIframe&&updateIframe()" onload="this.onmouseover()"></iframe></div>
+<div id="iframe_shadow"></div>
+<div id="iframe_menu">{$iframe_menu}</div>
 </div>
 <script>
 var iframe = document.getElementById('iframe');
@@ -170,26 +156,6 @@ var iframe = document.getElementById('iframe');
 	window.updateIframe = function()
 	{
 		var a, r, i;
-
-		try
-		{
-			// Workaround a webkit bug with non-transparent iframe + box-shadow on menu div
-
-			if (navigator.userAgent.indexOf('WebKit'))
-			{
-				a = getComputedStyle(f.contentDocument.body, null).backgroundColor;
-
-				if ('rgba(0, 0, 0, 0)' != a)
-				{
-					r = document.getElementById('iframe_main');
-					i = getComputedStyle(r, null).backgroundColor;
-					f.contentWindow.addEventListener('unload', function() {r.style.backgroundColor = i;});
-					r.style.backgroundColor = a;
-					f.contentDocument.body.style.backgroundColor='rgba(0, 0, 0, 0)';
-				}
-			}
-		}
-		catch (a) {}
 
 		try
 		{
