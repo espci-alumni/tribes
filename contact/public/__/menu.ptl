@@ -1,203 +1,67 @@
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- SET $iframe_menu_height -->110<!-- END:SET -->
+<!-- SET $iframe_src -->{$public_url|base:1}<!-- END:SET -->
+<!-- SET $iframe_head -->
+<link rel="stylesheet" type="text/css" href="{base:'css/style'}" />
+<style>
 
-	<!-- This page is rendered in quirks mode for Internet Explorer 6 -->
+#iframe_menu
+{
+	background: white url("/fr/img/outer.jpg") 0 -7px no-repeat;
+}
 
-	<title>{a$title|default:'Tribes - by IntellAgence'}</title>
+#iframe_body
+{
+	width: 950px;
+	margin: 0 auto;
+}
 
-	<script type="text/javascript" src="{base:'js/w'}"></script>
+#iframe_main
+{
+	width: 966px;
+}
 
-	<!--[if lt IE 7]>
-	<style type="text/css">body{behavior:url("{base:'fix/hover.htc'}")} select{behavior:url("{base:'fix/select.htc'}")} img,input{behavior:url("{base:'fix/png.htc'}");}</style>
-	<![endif]-->
-
-	<link rel="shortcut icon" href="{base:'favicon.ico'}" type="image/vnd.miscrosoft.icon" />
-
-	<link rel="stylesheet" type="text/css" href="{base:'css/style'}" />
-	<style type="text/css">
-
-	html, body     {margin:0;padding:0;height:100%;width:100%;overflow:hidden;}
-	#page_table    {                   height:100%;width:100%;}
-	#header_cell   {margin:0;padding:0;                       border-bottom:1px solid #bcc5d3;}
-	#content_cell  {margin:0;padding:0;height:100%;}
-	#content_iframe{                   height:100%;width:100%;}
-
-	body, #content_cell
-	{
-		background-color: white;
-	}
-
-	#page_table
-	{
-		width: 950px;
-		margin: 0 auto;
-		background: white url("/fr/img/outer.jpg") 0 -7px no-repeat;
-		position: relative;
-	}
-
-	#header_cell
-	{
-		background: white url("/fr/img/outer.jpg") 0 -7px no-repeat;
-	}
-	</style>
-</head>
-<body>
-
-<table id="page_table">
+</style>
+<!-- END:SET -->
+<!-- SET $iframe_menu -->
+<table width="100%">
 <tr>
-	<td id="header_cell">
-	<table width="100%">
-	<tr>
-		<td rowspan="2">
-		<!-- IF $acces -->
-			<a href="{$accueil_url|base:1}" target="content_iframe"><img src="/fr/img/logo.jpg" /></a>
-			<a href="{$accueil_url|base:1}" target="content_iframe">Accueil</a>
+	<td rowspan="2">
+	<!-- IF $acces -->
+		<a href="{$accueil_url|base:1}"><img src="/fr/img/logo.jpg" /></a>
+		<a href="{$accueil_url|base:1}">Accueil</a>
 
-			<!-- LOOP $onglets -->
-				| <a href="{$linkto|base:1}" target="content_iframe">{$titre}</a>
-			<!-- END:LOOP -->
-		<!-- ELSE -->
-			<img src="/fr/img/logo.jpg" />
-			Accueil
+		<!-- LOOP $onglets -->
+			| <a href="{$linkto|base:1}">{$titre}</a>
+		<!-- END:LOOP -->
+	<!-- ELSE -->
+		<img src="/fr/img/logo.jpg" />
+		Accueil
 
-			<!-- LOOP $onglets -->
-				| {$titre}
-			<!-- END:LOOP -->
-		<!-- END:IF -->
-		</td>
-		<td valign="top" align="right">
-			<a href="{$public_url|base:1}" target="_blank">Aller au site public</a>
-		</td>
-	</tr>
-	<tr>
-		<td align="right">
-			<!-- IF $acces -->
-				<a href="{~}user/edit/contact" target="content_iframe">{$prenom_usuel} {$nom_usuel}</a>
-				<!-- IF 'admin' == $acces --> | <a href="{~}admin" target="content_iframe">Administration</a><!-- END:IF -->
-			<!-- ELSE -->
-				{$prenom_usuel} {$nom_usuel}
-			<!-- END:IF -->
-			<!-- AGENT 'user/_logout' --><br />
-			<!-- IF !$is_cotisant -->
-			<a href="{/}fr/adherer" target="_blank">Cotiser</a> pour soutenir les efforts de l'Association</a>
-			<!-- ELSE -->
-			Tu es à jour de ta cotisation
-			<!-- END:IF -->
-		</td>
-	</tr>
-	</table>
+		<!-- LOOP $onglets -->
+			| {$titre}
+		<!-- END:LOOP -->
+	<!-- END:IF -->
+	</td>
+	<td valign="top" align="right">
+		<a href="{$public_url|base:1}">Aller au site public</a>
 	</td>
 </tr>
 <tr>
-	<td id="content_cell"><iframe class="content_iframe" name="content_iframe" id="content_iframe" src="javascript:void(0);" frameborder="0" scrolling="yes"></iframe></td>
+	<td align="right">
+		<!-- IF $acces -->
+			<a href="{~}user/edit/contact">{$prenom_usuel} {$nom_usuel}</a>
+			<!-- IF 'admin' == $acces --> | <a href="{~}admin">Administration</a><!-- END:IF -->
+		<!-- ELSE -->
+			{$prenom_usuel} {$nom_usuel}
+		<!-- END:IF -->
+		<!-- AGENT 'user/_logout' --><br />
+		<!-- IF !$is_cotisant -->
+		<a href="{/}fr/adherer">Cotiser</a> pour soutenir les efforts de l'Association</a>
+		<!-- ELSE -->
+		Tu es à jour de ta cotisation
+		<!-- END:IF -->
+	</td>
 </tr>
 </table>
-
-<script type="text/javascript">
-
-(function()
-{
-	var f = document.getElementById('content_iframe'),
-		bUrl  = location.href,
-		rUrl  = location.protocol + '//' + location.hostname + '/',
-		rPath = location.pathname.replace(/^\/+/, '').replace(/\/+[^.\/]*$/, '/'),
-		fUrl  = fUrlGet(),
-		fPath = fPathGet(fUrl);
-
-	if ('' != location.hash) bUrl = bUrl.substr(0, bUrl.length - location.hash.length);
-	else if ('#' == bUrl.substr(bUrl.length-1)) bUrl = bUrl.substr(0, bUrl.length-1);
-
-	// if (location.hash != ('#' == fPath ? '' : fPath)) location.replace(bUrl + fPath); // XXX
-
-	f.scrolling = 'auto';
-	f.setAttribute && f.setAttribute('scrolling', 'auto');
-	f.src = fUrl;
-
-	return; // XXX
-
-	function fUrlGet()
-	{
-		var url = location.hash;
-
-		url = url && url.substr(1).replace(/\s+$/, '');
-
-		if (url)
-		{
-			url = base(url, 1);
-			if (0 != url.indexOf(rUrl)) url = '';
-		}
-
-		return url || {$iframe_src|base:1|js};
-	}
-
-	function fPathGet(url)
-	{
-		if (0 == url.indexOf(rUrl))
-		{
-			url = url.substr(rUrl.length).replace(/^\/+/, '');
-
-			url = '' == rPath || 0 == url.indexOf(rPath)
-				? url.substr(rPath.length).replace(/^\/+/, '')
-				: ('/' + url);
-		}
-
-		return '#' + url;
-	}
-
-	setInterval(function()
-	{
-		var fDoc;
-
-		try
-		{
-			fDoc = f.contentDocument || frames['content_iframe'];
-
-			if ('http' == fDoc.location.protocol.substr(0, 4))
-			{
-				if (fDoc.title != document.title) document.title = fDoc.title;
-
-				if (fDoc.location.href != fUrl)
-				{
-					fUrl = fDoc.location.href;
-
-					fPath = fPathGet(fUrl);
-
-					if (location.hash != ('#' == fPath ? '' : fPath)) location.replace(bUrl + fPath);
-
-					return;
-				}
-			}
-		}
-		catch (e)
-		{
-			fDoc = 0;
-
-			if ('#' != fPath)
-			{
-				fPath = '#';
-				location.replace(bUrl + '#');
-
-				return;
-			}
-		}
-
-		if (location.hash != ('#' == fPath ? '' : fPath))
-		{
-			fUrl  = fUrlGet();
-			fPath = fPathGet(fUrl);
-
-			if (location.hash != ('#' == fPath ? '' : fPath)) location.replace(bUrl + fPath);
-
-			if (fDoc) fDoc.location.replace(fUrl);
-			else f.src = fUrl;
-		}
-	},
-		50
-	);
-})();
-
-</script>
-
-</body>
-</html>
+<!-- END:SET -->
+<!-- INLINE tribes/iframe -->

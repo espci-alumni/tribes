@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base target="iframe">
+<script type="text/javascript" src="{base:'js/w'}"></script>
+<!--[if lt IE 7]>
+<style>body{behavior:url("{base:'fix/hover.htc'}")} select{behavior:url("{base:'fix/select.htc'}")} img,input{behavior:url("{base:'fix/png.htc'}");}</style>
+<![endif]-->
+<link rel="shortcut icon" href="{base:'favicon.ico'}" type="image/vnd.microsoft.icon" />
+<style>
+#iframe_body, #iframe_menu, #iframe_shadow, #iframe_main, #iframe
+{
+	position: absolute;
+
+	top:   0;
+	left:  0;
+	right: 0;
+
+	width: 100%;
+
+	margin:  0;
+	padding: 0;
+	border:  0;
+}
+
+#iframe_body, #iframe
+{
+	height: 100%;
+	bottom: 0;
+}
+
+#iframe_menu
+{
+	height: {$iframe_menu_height|default:0}px;
+
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#iframe_shadow
+{
+	top:    {$iframe_menu_height|default:0}px;
+	height: 4px;
+	border-top:  1px solid #f3f3f3;
+	margin-top: -1px;
+	background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAECAYAAABP2FU6AAAAAXNSR0IArs4c6QAAABxJREFUCNdjeP78eRgTAwPDNSYGBoZHTAwMDF8BRd0Fv5rb4D0AAAAASUVORK5CYII=) repeat-x top;
+}
+
+#iframe_main
+{
+	top:    {$iframe_menu_height|default:0}px;
+	bottom: 0px; /* always use pixel unit for IE7 and below */
+}
+</style>
+{$iframe_head}
+</head>
+<body>
+<div id="iframe_body">
+<div id="iframe_main"><iframe id="iframe" name="iframe" src="{$iframe_src|default:'/'}" frameborder="no" allowtransparency="true" onmouseover="window.updateIframe&&updateIframe()" onload="this.onmouseover()"></iframe></div>
+<div id="iframe_shadow"></div>
+<div id="iframe_menu">{$iframe_menu}</div>
+</div>
+<script>
+var iframe = document.getElementById('iframe');
+
+(function()
+{
+	var f = iframe,
+		bSrc  = f.src,
+		bUrl  = location.href,
+		rUrl  = location.protocol + '//' + location.hostname + '/',
+		fUrl  = fUrlGet(),
+		fPath = fPathGet(fUrl);
+
+	if ('' != location.hash) bUrl = bUrl.substr(0, bUrl.length - location.hash.length);
+	else if ('#' == bUrl.substr(bUrl.length-1)) bUrl = bUrl.substr(0, bUrl.length-1);
+
+	if (location.hash != fPath) location.replace(bUrl + fPath);
+
+	f.src = fUrl;
+
+	function fUrlGet()
+	{
+		var url = location.hash;
+
+		url = rUrl + (url && url.substr(1).replace(/\s+$/, ''));
+
+		return url != bUrl ? url : bSrc;
+	}
+
+	function fPathGet(url)
+	{
+		if (0 == url.indexOf(rUrl)) url = url.substr(rUrl.length);
+
+		url = url.replace(/^\/+/, '');
+
+		return '' != url ? '#' + url : '';
+	}
+
+	setInterval(function()
+	{
+		var fDoc;
+
+		try
+		{
+			fDoc = f.contentDocument || frames['iframe'].contentWindow;
+
+			if ('http' == fDoc.location.protocol.substr(0, 4))
+			{
+				if (fDoc.title && fDoc.title != document.title) document.title = fDoc.title;
+
+				if (fDoc.location.href != fUrl)
+				{
+					fUrl = fDoc.location.href;
+
+					fPath = fPathGet(fUrl);
+
+					if (location.hash != fPath) location.replace(bUrl + fPath);
+
+					return;
+				}
+			}
+		}
+		catch (e)
+		{
+			fDoc = 0;
+
+			if ('' != fPath)
+			{
+				fPath = '';
+				location.replace(bUrl + '#');
+
+				return;
+			}
+		}
+
+		switch (location.hash)
+		{
+		case fPath: return;
+		case '#': if ('' == fPath) return;
+		}
+
+		fUrl  = fUrlGet();
+		fPath = fPathGet(fUrl);
+
+		if (location.hash != fPath) location.replace(bUrl + fPath);
+
+		if (fDoc) fDoc.location.replace(fUrl);
+		else f.src = fUrl;
+	},
+		200
+	);
+
+	window.updateIframe = function()
+	{
+		var a, r, i;
+
+		try
+		{
+			// Set external links' target to the current page (_parent);
+
+			a = (f.contentDocument || frames['iframe'].contentWindow.document).getElementsByTagName('A'), i = a.length, r = rUrl;
+
+			while (i--)
+			{
+				if (0 != a[i].href.indexOf(r) && !a[i].target)
+				{
+					a[i].target = '_parent';
+				}
+			}
+		}
+		catch (a) {}
+	}
+})();
+</script>
+<!--[if lt IE 8]>
+<script>
+(function()
+{
+var main = document.getElementById('iframe_main'), doc = document.documentElement, style = iframe.style;
+(window.onresize = function() {style.height = (doc.clientHeight - main.offsetTop - parseInt(main.currentStyle.bottom)) + 'px';})()
+})();
+</script>
+<![endif]-->
+</body>
+</html>
