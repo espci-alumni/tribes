@@ -1,0 +1,180 @@
+<!-- INLINE css/style.css -->
+
+body
+{
+	margin: 10px;
+}
+
+a
+{
+	color: blue;
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+#header_cell form
+{
+	display: inline;
+}
+
+input.text, input.QSelect, textarea, input.password
+{
+	width: 300px;
+}
+
+.notice
+{
+	float: right;
+	width: 400px;
+	margin-right: 100px;
+	text-align: justify;
+	background: #CCC;
+	border: 2px solid black;
+	padding: 20px;
+}
+
+.unconfirmed
+{
+	font-style: italic;
+	color: gray;
+}
+
+.requestHeading
+{
+	background-color: silver;
+	font-weight: bold;
+	font-size: 120%;
+}
+
+#onglets
+{
+	height: 30px;
+	width: 100%;
+}
+
+#onglets_rech
+{
+	height: 30px;
+	width: 100%;
+}
+
+#onglets ul 
+{
+	margin-left: 7px;
+	list-style: none;
+	display: block;
+	height: 29px;
+}
+
+#onglets ul li 
+{
+	display: inline;
+	float: left;
+	height: 20px;
+	padding: 0;
+}
+
+#onglets ul li a 
+{
+	display: inline;
+	text-align: center;
+	background: url() no-repeat top left;
+	font-weight: normal;
+   	padding: 5px 10px 5px 10px;
+}
+
+#onglets_rech ul 
+{
+	margin-left: 7px;
+	list-style: none;
+	float: left;
+	display: block;
+	height: 29px;
+}
+
+#onglets_rech ul li 
+{
+	display: inline;
+	float: left;
+	height: 20px;
+	padding: 0;
+}
+
+#onglets_rech ul li a 
+{
+	display: inline;
+	text-align: center;
+	background: url() no-repeat top left;
+	font-weight: normal;
+   	padding: 5px 10px 5px 10px;
+}
+
+.infos
+{
+	border-right: 1px solid black;
+	background-color: #E1E1E1;
+}
+
+.consult
+{
+	border-right: 1px solid silver;
+	background-color: #9F9F9F;
+}
+.consult a
+{
+	color: white;
+}
+
+.moteur
+{
+	display : inline;
+	float: right;
+	margin-right: 50px;
+	margin-top: -90px;
+	background-color: black;
+	border: 1px solid white;
+	width : 100px;
+	height: 20px;
+	color: white;
+	text-align: center;
+}
+
+.moteur a
+{
+	color: white;
+}
+
+.moteur a:hover
+{
+	background-color: gray;
+}
+
+#footer
+{
+	text-align: center;
+	font-size: 90%;
+}
+
+.separateur
+{
+  clear: both;
+}
+
+.explication
+{
+  font-style: italic;
+}
+
+.step_current
+{
+	font-weight: bold;
+}
+
+.step_done
+{
+	color: silver;
+}

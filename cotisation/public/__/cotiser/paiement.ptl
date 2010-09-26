@@ -1,0 +1,68 @@
+<!-- AGENT 'header' title="Récapitulatif de votre cotisation" -->
+
+<h2>{$prenom} {$nom}</h2>
+
+<!-- SET $_euro -->{$cotisation+$soutien-$paiement_euro}<!-- END:SET -->
+
+<!-- IF $_euro -->
+<p>
+Vous pouvez maintenant procéder au paiement en ligne de votre bulletin de cotisation.
+</p>
+
+<p>
+Cliquer sur l'image ci-dessous pour accéder à la page de paiement sécurisé :
+</p>
+
+<!--
+SET $_tpe -->tpe/_cotisation/{g$__1__}<!-- END:SET
+AGENT $_tpe
+-->
+
+{* TODO : proposer un bulletin à imprimer pour payer par chèque *}
+
+<!-- END:IF -->
+
+<div id="print">
+<table>
+<tr>
+	<td>Référence&nbsp;:</td>
+	<td>C/{$token}</td>
+</tr>
+<tr>
+	<td>Nom&nbsp;:</td>
+	<td>{$nom}</td>
+</tr>
+<tr>
+	<td>Prénom&nbsp;:</td>
+	<td>{$prenom}</td>
+</tr>
+<tr>
+	<td>Email&nbsp;:</td>
+	<td>{$email}</td>
+</tr>
+<tr>
+	<td>Catégorie&nbsp;:</td>
+	<td>{$type}</td>
+</tr>
+<tr>
+	<td>Montant de la cotisation&nbsp;:</td>
+	<td align="right">{$cotisation}&nbsp;€</td>
+</tr>
+<tr>
+	<td>Soutien complémentaire&nbsp;:</td>
+	<td align="right">{$soutien}&nbsp;€</td>
+</tr>
+<tr>
+	<td>TOTAL&nbsp;:</td>
+	<td align="right">{'%0.2f'|printf:$_euro}&nbsp;€</td>
+</tr>
+<tr>
+	<td colspan="2">
+	Commentaire&nbsp;:<br />
+	{$commentaire|nl2br}
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- AGENT 'footer' -->

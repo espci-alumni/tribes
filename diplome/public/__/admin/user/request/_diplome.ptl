@@ -1,0 +1,20 @@
+<!--
+
+IF $f_ecole
+	SET $c -->{$f|diffFormat:$c_ecole:$ecole}<!-- END:SET
+	AGENT $f_ecole _caption_="École" _format_=$c placeholder=d$p
+END:IF
+IF $f_promotion
+	SET $c -->{$f|diffFormat:$c_promotion:$promotion}<!-- END:SET
+	AGENT $f_promotion _caption_="Promotion" _format_=$c placeholder=d$p
+END:IF
+IF $f_programme
+	SET $c -->{$f|diffFormat:$c_programme:$programme}<!-- END:SET
+	AGENT $f_programme _caption_="Programme" _format_=$c placeholder=d$p
+END:IF
+IF $f_specialite
+	SET $c -->{$f|diffFormat:$c_specialite:$specialite}<!-- END:SET
+	AGENT $f_specialite _caption_="Option" _format_=$c placeholder=d$p
+END:IF
+
+-->

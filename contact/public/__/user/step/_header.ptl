@@ -1,0 +1,33 @@
+<!--
+
+SET $_title
+	IF $steps > 1
+		-->Étape {$step_position+1} sur {$steps} - {$step_title}<!--
+	ELSE
+		-->{$step_title}<!--
+	END:IF
+END:SET
+
+AGENT 'header' title=$_title
+
+-->
+
+<!-- IF $steps > 1 -->
+<ol id="steps">
+<!-- LOOP $steps -->
+<!--
+SET $_class
+	IF $iteratorPosition == d$step_position    -->step_current<!--
+	ELSEIF $iteratorPosition < d$step_position -->step_done<!--
+	ELSE                          -->step_todo<!--
+	END:IF
+END:SET
+-->
+<li class="{$_class}">{$VALUE}</li>
+<!-- END:LOOP -->
+</ol>
+<!-- END:IF -->
+
+<!-- AGENT $form -->
+
+<div id="step_content">

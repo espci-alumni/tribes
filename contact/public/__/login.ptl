@@ -1,0 +1,32 @@
+<!-- AGENT 'header' title="Identification" public=1 -->
+
+<!-- IF a$__1__ == 'failed' -->
+<p>Identification échouée</p>
+<!-- ELSEIF a$__1__ == 'confirmEmail' -->
+<p>
+Pour vérifier que cet email vous appartient réellement, merci de vous connecter ci-dessous.
+</p>
+<!-- ELSEIF a$__1__ == 'bienvenue' -->
+<p>
+Votre demande d'inscription a bien été enregistrée.
+Merci de vérifier votre boîte de réception, un message électronique vous a été envoyé.
+Vous pouvez dès maintenant vous connecter pour compléter plus avant votre profil.
+</p>
+<!-- END:IF -->
+
+<!-- AGENT $form -->
+<table>
+<!-- IF a$__1__ == 'bienvenue' --><!-- AGENT $f_login _caption_="Email" autofocus=1 placeholder='votre email' -->
+<!-- ELSE --><!-- AGENT $f_login _caption_="Identifiant" autofocus=1 placeholder='prenom.nom ou email' -->
+<!-- END:IF -->
+<!-- AGENT $f_password _caption_="Mot de passe" -->
+<tr>
+	<td colspan="2" align="right">
+	<!-- AGENT $f_send value="Connexion" --><br />
+	<a href="{~}registration/password">Mot de passe perdu&nbsp;?</a>
+	</td>
+</tr>
+</table>
+<!-- AGENT $form _mode_='close' -->
+
+<!-- AGENT 'footer' -->

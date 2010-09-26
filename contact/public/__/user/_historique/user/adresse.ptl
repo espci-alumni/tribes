@@ -1,0 +1,13 @@
+<!-- LOOP a$details -->
+
+<h3>
+<!--     IF $action == g$ACTION_INSERT  -->Nouvelle adresse ajoutée<!-- IF $admin_confirmed --> et publiée<!-- END:IF -->
+<!-- ELSEIF $action == g$ACTION_UPDATE  -->Adresse modifée<!-- IF $admin_confirmed --> et publiée<!-- END:IF -->
+<!-- ELSEIF $action == g$ACTION_DELETE  -->Adresse supprimée
+<!-- ELSEIF $action == g$ACTION_CONFIRM -->Adresse confirmée
+<!-- END:IF -->
+</h3>
+
+<!-- INLINE user/_adresse -->
+
+<!-- END:LOOP -->

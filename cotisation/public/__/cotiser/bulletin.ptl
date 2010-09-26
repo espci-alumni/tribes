@@ -1,0 +1,35 @@
+<!-- AGENT 'header' title="Bulletin de cotisation" -->
+
+<h2>{$prenom} {$nom}</h2>
+
+<!-- IF $cotisation_expires -->
+<p>
+<strong>Attention&nbsp;: vous êtes actuellement à jour de votre cotisation jusqu'au {$cotisation_expires|formatDate}&nbsp;!</strong>
+</p>
+<!-- END:IF -->
+
+<hr />
+
+<!-- AGENT $form -->
+
+<table>
+<!-- AGENT $f_type _caption_="Catégorie de cotisation" -->
+<tr>
+	<!-- AGENT $f_soutien_suggestion _glue_=' - ' _caption_='Soutien complémentaire' _format_='<td class="label">%0&nbsp;:</td><td class="input">%1%2'  -->
+	<!-- AGENT $f_soutien _format_='&nbsp;: %1&nbsp;€ %2</td>' style='width: 40px' onfocus='var s=this.form.f_soutien_suggestion;s[s.length-1].click()' -->
+</tr>
+<!-- AGENT $f_commentaire _caption_="Commentaire éventuel" -->
+</table>
+
+<p>
+En cliquant sur ce bouton, votre demande d'adhésion sera enregistrée. Elle ne sera définitive que lorsque nous aurons reçu le paiement de votre cotisation.
+La page suivante vous permettra de payer par carte bancaire&nbsp;:
+</p>
+
+<div style="text-align: center; margin: 50px">
+<!-- AGENT $f_send value="Enregistrer mon adhésion" -->
+</div>
+
+<!-- AGENT $form _mode_='close' -->
+
+<!-- AGENT 'footer' -->

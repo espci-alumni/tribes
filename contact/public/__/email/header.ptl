@@ -1,0 +1,20 @@
+<!--
+
+IF !g+1$headerNesting
+
+--><html>
+<head>
+	<title>{a$title}</title>
+</head>
+<body>
+
+
+<p>
+Bonjour,
+</p>
+
+<!--
+
+END:IF
+
+-->

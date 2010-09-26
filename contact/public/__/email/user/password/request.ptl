@@ -1,0 +1,17 @@
+<!-- AGENT 'email/header' title="Récupération de mot de passe" -->
+
+<p>
+Vous avez demandé un rappel de votre mot de passe.
+</p>
+
+<p>
+Par mesure de sécurité, vous devez maintenant cliquer sur le lien suivant pour en choisir un nouveau&nbsp;:<br />
+<a href="{~}{a$token}">{~}{a$token}</a>
+</p>
+
+<p>
+Si vous n'êtes pas à l'origine de ce rappel,
+merci d'ignorer ce message.
+</p>
+
+<!-- AGENT 'email/footer' -->

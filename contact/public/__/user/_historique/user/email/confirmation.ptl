@@ -1,0 +1,9 @@
+<!-- LOOP a$details -->
+
+<h3>Adresse email activée</h3>
+
+<p>
+{$email}
+</p>
+
+<!-- END:LOOP -->

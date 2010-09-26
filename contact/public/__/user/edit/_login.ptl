@@ -1,0 +1,9 @@
+<!-- IF $f_login -->
+
+<h3>Identifiant / Email Universel</h3>
+
+<table>
+<!--AGENT $f_login _caption_="Identifiant" -->
+</table>
+
+<!-- END:IF -->

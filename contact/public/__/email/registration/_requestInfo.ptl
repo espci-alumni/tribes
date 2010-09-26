@@ -1,0 +1,3 @@
+<li>Sexe&nbsp;:   {$sexe|default:a$sexe}</li>
+<li>Nom&nbsp;:    {$nom_civil|default:a$nom_civil}</li>
+<li>Prénom&nbsp;: {$prenom_civil|default:a$prenom_civil}</li>

@@ -1,0 +1,21 @@
+<!-- AGENT 'header' title="Inscription" public=1 -->
+
+<!-- AGENT $form -->
+
+<table>
+<!-- INLINE _registration -->
+<tr>
+	<td colspan="2" align = "right">
+	<!-- AGENT $f_send value="Adhérer" -->
+	</td>
+</tr>
+</table>
+
+<p>
+Dès validation de votre inscription, un lien vous sera envoyé par email, qui vous permettra de la confirmer définitivement.
+Votre demande sera alors transmise au secrétariat pour vérification et acceptation dans les plus brefs délais.
+</p>
+
+<!-- AGENT $form _mode_='close' -->
+
+<!-- AGENT 'footer' -->

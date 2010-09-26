@@ -1,0 +1,26 @@
+<!-- AGENT 'email/header' title="Confirmation de réception de votre cotisation" -->
+
+{* TODO : afficher plus de détails sur la cotisation *}
+{* TODO : inciter le contact à s'inscrire si besoin *}
+
+<p>
+Votre bulletin de cotisation a bien été enregistré.
+</p>
+
+<p>
+Il est possible que vous deviez vous déconnecter
+puis vous reconnecter pour en voir l'effet sur le site.
+</p>
+
+<ul>
+	<li>Référence&nbsp;: C/{a$token}</li>
+	<li>Date&nbsp;: {a$cotisation_date}</li>
+	<li>Type&nbsp;: {a$type} - {printf:'%d':a$cotisation}€</li>
+	<li>Payé&nbsp;: {printf:'%0.2f':a$paiement_euro}€</li>
+</ul>
+
+<p>
+Merci&nbsp;!
+</p>
+
+<!-- AGENT 'email/footer' -->

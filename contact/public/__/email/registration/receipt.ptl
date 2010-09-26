@@ -1,0 +1,12 @@
+<!-- AGENT 'email/header' title="Demande d'inscription à confirmer" -->
+
+<p>
+Vous avez effectué une demande d'inscription.
+</p>
+
+<p>
+Vous devez maintenant cliquez sur le lien ci-dessous pour la confirmer définitivement&nbsp;:<br/>
+<a href="{~}{a$token}">{~}{a$token}</a>
+</p>
+
+<!-- AGENT 'email/footer' -->

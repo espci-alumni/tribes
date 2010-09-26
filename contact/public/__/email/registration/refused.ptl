@@ -1,0 +1,11 @@
+<!-- AGENT 'email/header' title="Inscription refusée" -->
+
+<p>
+Votre demande d'inscription a été refusée.
+</p>
+
+<!-- IF a$message -->
+<p>{a$message|nl2br}</p>
+<!-- END:IF -->
+
+<!-- AGENT 'email/footer' -->

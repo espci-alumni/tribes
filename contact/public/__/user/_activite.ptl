@@ -1,0 +1,18 @@
+<h4><!-- IF $titre  -->{$titre} -
+	<!-- ELSEIF $fonction -->{$fonction} -
+	<!-- END:IF -->
+	{$organisation}
+</h4>
+
+<table>
+	<!-- IF $date_debut --><tr><td colspan="2">Depuis {$date_debut|replace:'(....)-(..)-..':'$2/$1'} jusqu'<!-- IF $date_fin -->à {$date_fin|replace:'(....)-(..)-..':'$2/$1'}<!-- ELSE -->à aujourd'hui<!-- END:IF --></td></tr><!-- END:IF -->
+	<!-- IF $service  --><tr><td>Service&nbsp;:</td><td>{$service}</td></tr><!-- END:IF -->
+	<!-- IF $titre && $fonction --><tr><td>Département&nbsp;:</td><td>{$fonction}</td></tr><!-- END:IF -->
+	<!-- IF $secteur  --><tr><td>Secteur&nbsp;:</td><td>{$secteur}</td></tr><!-- END:IF -->
+	<!-- IF $site_web --><tr><td>Site web&nbsp;:</td><td>{$site_web|urlize}</td></tr><!-- END:IF -->
+<!-- IF $adresse_id -->
+<tr>
+	<td colspan="2"><!-- INLINE user/_adresse --></td>
+</tr>
+<!-- END:IF -->
+</table>

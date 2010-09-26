@@ -1,0 +1,50 @@
+<!-- IF $f_adresse_add || $adresses -->
+
+<p class="explication">
+Que vous choisissiez de les partager ou non avec les autres membres de l'annuaire,
+les coordonnées que vous renseignerez ici serviront à entrer en contact direct avec vous,
+lors de communications officielles ou statutaires par exemple.
+N'hésitez pas à renseigner les adresses de vos parents ou grands-parents si possible,
+car même si vous choisissez de ne pas partager ces données dans l'annuaire, elles seront
+très utiles à l'association le jour où vous déménagerez sans forcément penser à nous en avertir.
+</p>
+
+<h3>Coordonnées</h3>
+
+<!-- IF $adresses -->
+<table>
+<!--
+
+LOOP $adresses
+	IF $deleted --><input type="hidden" name="deleted_adresse[]" value="{$deleted}" /><!--
+	ELSE
+	-->
+	<tr>
+		<td colspan="2">
+		<!--
+			IF $id && $admin_confirmed <= $contact_modified
+				IF d$is_admin_confirmed
+					-->Bloc refusé par l'administrateur<!--
+				ELSE
+					-->Bloc en attente de validation par l'administrateur<!--
+				END:IF
+			ELSE
+				-->&nbsp;{*Bloc déjà validé par l'administrateur*}<!--
+			END:IF
+		-->
+		</td>
+	</tr>
+	<!--
+		INLINE user/edit/_adresse_item
+	END:IF
+END:LOOP
+
+-->
+</table>
+<!-- END:IF -->
+
+<!-- IF $f_adresse_add -->
+<!-- AGENT $f_adresse_add value="ajouter une autre adresse" class='additem' _preserveScroll_=1 -->
+<!-- END:IF -->
+
+<!-- END:IF -->

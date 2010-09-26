@@ -1,0 +1,13 @@
+<!--
+
+AGENT 'header' title="Demandes d'inscription en attente"
+
+IF $contacts
+	INLINE email/registration/requests
+ELSE
+	--><p>Pas de demandes d'inscription en attente</p><!--
+END:IF 
+
+AGENT 'footer'
+
+-->

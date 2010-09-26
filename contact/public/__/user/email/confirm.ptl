@@ -1,0 +1,15 @@
+<!-- AGENT 'header' title="Emails à confirmer" -->
+
+<!-- AGENT $form -->
+<table>
+<!-- LOOP $emails -->
+<tr>
+	<td>{$email}</td>
+	<td><!-- AGENT $f_email_confirmed _format_='%1' _glue_='&nbsp;' --></td>
+</tr>
+<!-- END:LOOP -->
+</table>
+
+<!-- AGENT $f_send value="Valider" -->
+<!-- AGENT $form _mode_='close' -->
+<!-- AGENT 'footer' -->

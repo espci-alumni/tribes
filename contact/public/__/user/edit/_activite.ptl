@@ -1,0 +1,54 @@
+<!-- IF $f_activite_add || $activites -->
+
+<p class="explication">
+Les activités professionnelles ou autres que vous renseignez ici
+sont à la base de toute mise en relation et networking au sein de la communauté.
+N'hésitez pas à remplir vos activités passées et présentes au complet,
+votre profil sera ainsi plus visible dans l'annuaire et
+les contacts générés n'en seront que plus utiles et pertinents.
+</p>
+
+<h3>Votre statut principal actuel</h3>
+<table>
+<!-- AGENT $f_statut_activite _caption_="Statut principal actuel" -->
+</table>
+
+<h3>Activités</h3>
+
+<!-- IF $activites -->
+<table>
+<!--
+
+LOOP $activites
+	IF $deleted --><input type="hidden" name="deleted_activite[]" value="{$deleted}" /><!--
+	ELSE
+	-->
+	<tr>
+		<td colspan="2">
+		<!--
+			IF $id && $admin_confirmed <= $contact_modified
+				IF d$is_admin_confirmed
+					-->Bloc refusé par l'administrateur<!--
+				ELSE
+					-->Bloc en attente de validation par l'administrateur<!--
+				END:IF
+			ELSE
+				-->&nbsp;{*Bloc déjà validé par l'administrateur*}<!--
+			END:IF
+		-->
+		</td>
+	</tr>
+	<!--
+		INLINE user/edit/_activite_item
+	END:IF
+END:LOOP
+
+-->
+</table>
+<!-- END:IF -->
+
+<!-- IF $f_activite_add -->
+<!-- AGENT $f_activite_add value="ajouter une autre activité" class='additem' _preserveScroll_=1 -->
+<!-- END:IF -->
+
+<!-- END:IF -->

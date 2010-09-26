@@ -1,0 +1,41 @@
+<!--
+
+AGENT 'header' title="Historique"
+
+SET g$ACTION_DELETE  -->4<!-- END:SET
+SET g$ACTION_CONFIRM -->3<!-- END:SET
+SET g$ACTION_UPDATE  -->2<!-- END:SET
+SET g$ACTION_INSERT  -->1<!-- END:SET
+
+-->
+<!-- INLINE user/_onglets -->
+
+<!-- LOOP $historiques -->
+
+<fieldset>
+<legend>{$historique_id} - <a href="{~}user/{$contact_id}">{$prenom_usuel} {$nom_usuel}</a> à {$date_contact|formatDate}</legend>
+
+<!--
+
+AGENT "user/_historique/{$historique}"
+
+	details = $details
+
+	contact_login  = $login
+	contact_prenom = $prenom_usuel
+	contact_nom    = $nom_usuel
+
+	origine_login  = $origine_login
+	origine_prenom = $origine_prenom
+	origine_nom    = $origine_nom
+
+-->
+
+<p>
+Origine de l'action&nbsp;: <a href="{~}user/{$origine_contact_id}">{$origine_prenom} {$origine_nom}</a>
+</p>
+</fieldset>
+
+<!-- END:LOOP -->
+
+<!-- AGENT 'footer' -->

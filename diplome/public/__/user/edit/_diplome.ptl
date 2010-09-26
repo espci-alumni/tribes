@@ -1,0 +1,20 @@
+<h3>Formation</h3>
+
+<table>
+<!--
+
+IF $f_ecole
+	AGENT $f_ecole      _caption_="École"
+END:IF
+IF $f_promotion
+	AGENT $f_promotion  _caption_="Promotion" placeholder="aaaa"
+END:IF
+IF $f_programme
+	AGENT $f_programme  _caption_="Programme"
+END:IF
+IF $f_specialite
+	AGENT $f_specialite _caption_="Option"
+END:IF
+
+-->
+</table>

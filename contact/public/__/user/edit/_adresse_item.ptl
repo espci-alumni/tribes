@@ -1,0 +1,44 @@
+<!--
+
+SET $_f -->{g$inputFormat|replace:'%0&nbsp;:':'%0&nbsp;'}<!-- END:SET
+AGENT $f_is_shared _glue_=' ' _format_=$_f
+
+IF $f_adresse_del
+	AGENT $f_adresse_del value="supprimer cette adresse" class='additem' _format_=$_f _preserveScroll_=1
+END:IF
+
+IF !$hide_is_active
+-->
+<tr>
+	<td>&nbsp;</td>
+	<td><!-- AGENT $f_is_active _format_='%1%2' --></td>
+</tr>
+<!--
+END:IF
+
+IF $activite_id
+-->
+<tr>
+	<td class="label"><strong>Activité associée</strong>&nbsp;:</td>
+	<td>
+		<strong>{$organisation}</strong><br />
+		{$titre}
+	</td>
+</tr>
+<!--
+ELSE
+	AGENT $f_description _caption_="Description"
+END:IF
+
+SET $_f -->{g$inputFormat|replace:'(%0&nbsp;:)':"$1<br /><small>Tel qu'imprimé sur une lettre :<br />raison sociale, rue, BP, etc.<br />hors champs qui suivent.</small>"}<!-- END:SET
+AGENT $f_adresse _caption_="Adresse" _format_=$_f
+AGENT $f_ville_avant _caption_="Code postal" placeholder="Ex. : 75020"
+AGENT $f_ville _caption_="Ville" 
+AGENT $f_ville_apres _caption_="Complément" placeholder="Ex. : CEDEX 09"
+AGENT $f_pays _caption_="Pays"
+AGENT $f_email_list _caption_="Email(s)"
+AGENT $f_tel_portable _caption_="Téléphone portable"
+AGENT $f_tel_fixe _caption_="Téléphone fixe"
+AGENT $f_tel_fax _caption_="Fax"
+
+-->

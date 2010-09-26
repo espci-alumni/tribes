@@ -1,0 +1,5 @@
+<!-- IF !g+1$headerNestingTribes -->
+<!-- INLINE tribes/_headerPre -->
+<!-- INLINE header -->
+<!-- INLINE tribes/_headerPost -->
+<!-- END:IF -->

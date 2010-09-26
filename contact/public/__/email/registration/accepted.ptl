@@ -1,0 +1,17 @@
+<!-- AGENT 'email/header' title="Inscription acceptée" -->
+
+<p>
+Votre demande d'inscription vient d'être acceptée.
+</p>
+
+<p>
+Votre identifiant est&nbsp;: <strong>{a$login}</strong><br />
+<a href="{~}">Cliquer ici pour accéder à votre espace</a>
+</p>
+
+<!-- IF a$message -->
+<p>Message personnel du modérateur&nbsp;:</p>
+<blockquote>{a$message|nl2br}</blockquote>
+<!-- END:IF -->
+
+<!-- AGENT 'email/footer' -->

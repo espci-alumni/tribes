@@ -1,0 +1,13 @@
+<!-- AGENT 'email/header' title="Nouvelle demande d'inscription" -->
+
+<p>
+Nouvelle demande d'inscription&nbsp;:
+
+<ul>
+<!-- INLINE email/registration/_requestInfo -->
+</ul>
+
+<a href="{~}admin/registration/request/{a$contact_id}">Cliquez ici pour traiter cette demande</a>.
+</p>
+
+<!-- AGENT 'email/footer' -->

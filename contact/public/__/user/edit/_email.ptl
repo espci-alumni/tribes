@@ -1,0 +1,70 @@
+<!-- IF $f_email_add || $aliases -->
+
+<h3>Liste de vos alias</h3>
+
+<ul>
+<!-- LOOP $aliases -->
+	<li>{$alias}</li>
+<!-- END:LOOP-->
+</ul>
+
+
+<h3>Emails</h3>
+
+<!-- IF $emails -->
+<table>
+<!--
+
+SET $f --><!-- END:SET
+
+LOOP $emails
+
+	IF $deleted
+		--><input type="hidden" name="deleted_email[]" value="{$deleted}" /><!--
+
+		IF $email
+			-->
+			<tr>
+				<td><del>{$email}</del></td>
+				<td>&nbsp;</td>
+			</tr>
+			<!--
+		END:IF
+	ELSE
+		-->
+		<tr>
+			<td>
+			<!--
+
+			IF !$email_id
+				AGENT $f_email _caption_="Email" _format_='%1%2'
+			ELSEIF $admin_confirmed
+				-->{$email}<!--
+			ELSE
+				--><span class="unconfirmed">{$email} (<abbr title="Vous devez cliquer sur le lien de confirmation envoyé pour vérification à cette adresse">non confirmé</abbr>)</span><!--
+			END:IF
+
+			-->
+			</td>
+			<td>
+				<!--
+				IF $f_email_del
+					AGENT $f_email_del value="supprimer cet e-mail" class='additem' _preserveScroll_=1
+				ELSE -->&nbsp;<!--
+				END:IF
+				-->
+			</td>
+			<td><!-- AGENT $f_is_active _format_='%1%2' --></td>
+		</tr>
+		<!--
+	END:IF
+
+END:LOOP
+
+-->
+</table>
+<!-- END:IF -->
+
+<!-- AGENT $f_email_add value="ajouter un autre e-mail" class='additem' _preserveScroll_=1 -->
+
+<!-- END:IF -->

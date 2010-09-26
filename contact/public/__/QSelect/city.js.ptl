@@ -1,0 +1,54 @@
+<!-- AGENT 'js/QSelect/liveAgent' -->
+
+function QSelectCity($liveAgent, $loop, $key)
+{
+	$liveAgent = QSelectLiveAgent($liveAgent, $loop, $key);
+
+	return function($this, $input, $select, $options)
+	{
+		var $driver = $liveAgent($this, $input, $select, $options);
+
+		$driver.fixTab = 1;
+		$driver.setValue = function()
+		{
+			var $city, $pays, $idx = $select.selectedIndex, $i;
+			
+			if ($idx>=0)
+			{
+				$pays = $options[$idx].text;
+				$i = $pays.lastIndexOf(',');
+
+				$city = $pays.substr(0, $i);
+				$pays = $pays.substr($i + 2);
+				
+				$this.sync($city);
+				$input.select();
+				$input.focus();
+
+				$input.form[$input.name.replace('ville', 'pays')].value = $pays;
+
+				return 1;
+			}
+			else
+			{
+				//$pays = $options[$idx].text;
+				$i = $options[0].text.substr.lastIndexOf(',');
+
+				$city = $options[0].text.substr(0, $i);
+				$pays = $options[0].text.substr($i + 2);
+				
+				$this.sync($city);
+				$input.select();
+				$input.focus();
+
+				$input.form[$input.name.replace('ville', 'pays')].value = $pays;
+			}
+
+			return 0;
+		}
+
+		return $driver;
+	}
+}
+
+onDOMLoaded.push((function(e){return function(){QSelect(e,QSelectCity({$src|js},{$loop|js},{$key|js}))}})(formStack.shift()))

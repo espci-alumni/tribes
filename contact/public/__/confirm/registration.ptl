@@ -1,0 +1,11 @@
+<!-- AGENT 'header' title="Demande d'inscription enregistrée" public=1 -->
+
+<p>
+Votre demande a été transmise aux personnes chargées de valider les inscriptions.
+</p>
+
+<p>
+En attendant l'activation finale de votre compte, vous pouvez dès maintenant <a href="{~}user/edit/contact">compléter votre profil</a>.
+</p>
+
+<!-- AGENT 'footer' -->

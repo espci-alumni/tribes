@@ -1,0 +1,4 @@
+<!-- IF $f_nom_civil -->
+<!-- INLINE user/edit/_contact -->
+<!-- INLINE user/edit/_diplome -->
+<!-- END:IF -->

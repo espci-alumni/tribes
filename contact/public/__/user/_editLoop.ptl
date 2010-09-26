@@ -1,0 +1,21 @@
+<tr>
+	<td>{$data}</td>
+	<td>{$description|default:'&nbsp;'}</td>
+	<td>
+	<!--
+		IF !$admin_confirmed -->Non confirmé<!--
+		ELSEIF $is_obsolete == -1 -->Toujours valide ?<!--
+		ELSE -->Ok<!--
+		END:IF
+	-->
+	</td>
+	<td>
+	<!--
+		IF $f_is_obsolete
+			AGENT $f_is_obsolete _format_='%1' _glue_='&nbsp;'
+		ELSE
+			-->&nbsp;<!--
+		END:IF
+	-->
+	</td>
+</tr>

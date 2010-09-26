@@ -1,0 +1,30 @@
+<!--
+
+SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_description:$description}<!-- END:SET
+AGENT $f_description _caption_="Description" _format_=$c placeholder=d$p
+
+SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_adresse:$adresse}<!-- END:SET
+AGENT $f_adresse _caption_="Adresse" _format_=$c placeholder=d$p
+
+SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville_avant:$ville_avant}<!-- END:SET
+AGENT $f_ville_avant _caption_="Code postal" _format_=$c placeholder=d$p
+
+SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville:$ville}<!-- END:SET
+AGENT $f_ville _caption_="Ville" _format_=$c placeholder=d$p
+
+SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_ville_apres:$ville_apres}<!-- END:SET
+AGENT $f_ville_apres _caption_="Complément" _format_=$c placeholder=d$p
+
+SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_pays:$pays}<!-- END:SET
+AGENT $f_pays _caption_="Pays" _format_=$c placeholder=d$p
+
+SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_portable:$tel_portable}<!-- END:SET
+AGENT $f_tel_portable _caption_="Tél. portable" _format_=$c placeholder=d$p
+
+SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_fixe:$tel_fixe}<!-- END:SET
+AGENT $f_tel_fixe _caption_="Tél. fixe" _format_=$c placeholder=d$p
+
+SET $c -->{$new_adresse|test:d$fnew:d$f|diffFormat:$c_tel_fax:$tel_fax}<!-- END:SET
+AGENT $f_tel_fax _caption_="Fax" _format_=$c placeholder=d$p
+
+-->
