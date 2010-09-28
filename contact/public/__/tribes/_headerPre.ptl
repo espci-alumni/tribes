@@ -2,9 +2,7 @@
 <!-- SET $_year -->{date:'Y'}<!-- END:SET -->
 <!-- SET a$head -->
 {a$head}
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/smoothness/jquery-ui.css" />
-<script type="text/javascript" src="{base:'js/jquery'}"></script >
-<script type="text/javascript" src="http://jquery-ui.googlecode.com/svn/trunk/ui/i18n/jquery.ui.datepicker-{g$__LANG__|substr:0:2|default:'fr'}.js"></script >
+<script type="text/javascript" src="{base:'jquery/jquery.js'}"></script >
 <script type="text/javascript">
 onDOMLoaded.push(function()
 {
