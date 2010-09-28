@@ -1,10 +1,12 @@
+<!-- SERVERSIDE -->
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title></title>
-<base target="iframe">
 <script type="text/javascript" src="{base:'js/w'}"></script>
+<!-- END:SERVERSIDE -->
+<base target="iframe">
 <!--[if lt IE 7]>
 <style>body{behavior:url("{base:'fix/hover.htc'}")} select{behavior:url("{base:'fix/select.htc'}")} img,input{behavior:url("{base:'fix/png.htc'}");}</style>
 <![endif]-->
@@ -55,7 +57,9 @@
 }
 </style>
 {$iframe_head}
+<!-- SERVERSIDE -->
 </head>
+<!-- END:SERVERSIDE -->
 <body>
 <div id="iframe_body">
 <div id="iframe_main"><iframe id="iframe" name="iframe" src="{$iframe_src|default:'/'}" frameborder="no" allowtransparency="true" onmouseover="window.updateIframe&&updateIframe()" onload="this.onmouseover()"></iframe></div>
@@ -68,18 +72,19 @@ var iframe = document.getElementById('iframe');
 (function()
 {
 	var f = iframe,
-		bSrc  = f.src,
-		bUrl  = location.href,
-		rUrl  = location.protocol + '//' + location.hostname + '/',
-		fUrl  = fUrlGet(),
-		fPath = fPathGet(fUrl);
+		bSrc = f.src,
+		bUrl = location.href,
+		rUrl = location.protocol + '//' + location.hostname + '/',
+		fUrl = location.hash, fPath;
 
-	if ('' != location.hash) bUrl = bUrl.substr(0, bUrl.length - location.hash.length);
+	if ('' != fUrl) bUrl = bUrl.substr(0, bUrl.length - fUrl.length);
 	else if ('#' == bUrl.substr(bUrl.length-1)) bUrl = bUrl.substr(0, bUrl.length-1);
 
-	if (location.hash != fPath) location.replace(bUrl + fPath);
+	fUrl = '' == fUrl || '#' == fUrl ? bSrc : fUrlGet();
+	fPath = fPathGet(fUrl);
 
-	f.src = fUrl;
+	if (location.hash != fPath) location.replace(bUrl + fPath);
+	if (f.src != fUrl) f.src = fUrl;
 
 	function fUrlGet()
 	{
@@ -174,7 +179,7 @@ var iframe = document.getElementById('iframe');
 		catch (a) {}
 	}
 })();
-</script>
+</script >
 <!--[if lt IE 8]>
 <script>
 (function()
@@ -182,7 +187,7 @@ var iframe = document.getElementById('iframe');
 var main = document.getElementById('iframe_main'), doc = document.documentElement, style = iframe.style;
 (window.onresize = function() {style.height = (doc.clientHeight - main.offsetTop - parseInt(main.currentStyle.bottom)) + 'px';})()
 })();
-</script>
+</script >
 <![endif]-->
 </body>
 </html>
