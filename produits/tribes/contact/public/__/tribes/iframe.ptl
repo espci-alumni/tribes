@@ -71,25 +71,29 @@ var iframe = document.getElementById('iframe');
 
 (function()
 {
+	// Be aware that firefox url-decodes location.hash, but not location.href
+
 	var f = iframe,
 		bSrc = f.src,
 		bUrl = location.href,
 		rUrl = location.protocol + '//' + location.hostname + '/',
-		fUrl = location.hash, fPath;
+		fUrl = '', fPath = bUrl.indexOf('#');
 
-	if ('' != fUrl) bUrl = bUrl.substr(0, bUrl.length - fUrl.length);
-	else if ('#' == bUrl.substr(bUrl.length-1)) bUrl = bUrl.substr(0, bUrl.length-1);
+	if (0 <= fPath)
+	{
+		fUrl = '#' + bUrl.substr(fPath + 1);
+		if ('#' == fUrl) fUrl = '';
+		bUrl = bUrl.substr(0, fPath);
+	}
 
-	fUrl = '' == fUrl || '#' == fUrl ? bSrc : fUrlGet();
+	fUrl = '' == fUrl ? bSrc : fUrlGet(fUrl);
 	fPath = fPathGet(fUrl);
 
 	if (location.hash != fPath) location.replace(bUrl + fPath);
 	if (f.src != fUrl) f.src = fUrl;
 
-	function fUrlGet()
+	function fUrlGet(url)
 	{
-		var url = location.hash;
-
 		url = rUrl + (url && url.substr(1).replace(/\s+$/, ''));
 
 		return url != bUrl ? url : bSrc;
@@ -106,7 +110,10 @@ var iframe = document.getElementById('iframe');
 
 	setInterval(function()
 	{
-		var fDoc;
+		var fHash = location.href, fDoc = fHash.indexOf('#');
+
+		fHash = 0 <= fDoc ? '#' + fHash.substr(fDoc + 1) : '';
+		if ('#' == fHash) fHash = '';
 
 		try
 		{
@@ -122,7 +129,7 @@ var iframe = document.getElementById('iframe');
 
 					fPath = fPathGet(fUrl);
 
-					if (location.hash != fPath) location.replace(bUrl + fPath);
+					if (fHash != fPath) location.replace(bUrl + fPath);
 
 					return;
 				}
@@ -141,16 +148,12 @@ var iframe = document.getElementById('iframe');
 			}
 		}
 
-		switch (location.hash)
-		{
-		case fPath: return;
-		case '#': if ('' == fPath) return;
-		}
+		if (fHash == fPath) return;
 
-		fUrl  = fUrlGet();
+		fUrl  = fUrlGet(fHash);
 		fPath = fPathGet(fUrl);
 
-		if (location.hash != fPath) location.replace(bUrl + fPath);
+		if (fHash != fPath) location.replace(bUrl + fPath);
 
 		if (fDoc) fDoc.location.replace(fUrl);
 		else f.src = fUrl;
