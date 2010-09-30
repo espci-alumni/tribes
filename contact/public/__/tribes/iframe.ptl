@@ -62,34 +62,50 @@
 <!-- END:SERVERSIDE -->
 <body>
 <div id="iframe_body">
-<div id="iframe_main"><iframe id="iframe" name="iframe" src="{$iframe_src|default:'/'}" frameborder="no" allowtransparency="true" onmouseover="window.updateIframe&&updateIframe()" onload="this.onmouseover()"></iframe></div>
+<div id="iframe_main"><noscript><iframe id="iframe" name="iframe" src="{$iframe_src|default:'/'}" frameborder="0" allowtransparency="true"></iframe></noscript></div>
 <div id="iframe_shadow"></div>
 <div id="iframe_menu">{$iframe_menu}</div>
 </div>
 <script>
-var iframe = document.getElementById('iframe');
+var iframe;
 
-(function()
+setTimeout(function()
 {
-	var f = iframe,
-		bSrc = f.src,
-		bUrl = location.href,
-		rUrl = location.protocol + '//' + location.hostname + '/',
-		fUrl = location.hash, fPath;
+	// Be aware that firefox url-decodes location.hash, but not location.href
 
-	if ('' != fUrl) bUrl = bUrl.substr(0, bUrl.length - fUrl.length);
-	else if ('#' == bUrl.substr(bUrl.length-1)) bUrl = bUrl.substr(0, bUrl.length-1);
+	var f = location,
+		bSrc = {$iframe_src|default:'/'|js},
+		bUrl = f.href,
+		rUrl = f.protocol + '//' + f.hostname + '/',
+		fUrl = '', fPath = bUrl.indexOf('#'),
+		fLoc;
 
-	fUrl = '' == fUrl || '#' == fUrl ? bSrc : fUrlGet();
+	try {f = document.createElement('<iframe name="iframe">');}
+	catch (fLoc) {f = document.createElement('iframe');}
+
+	iframe = f;
+	f.id = f.name = 'iframe';
+	f.frameBorder = 0;
+	f.allowTransparency = true;
+	f.onload = updateIframe;
+
+	if (0 <= fPath)
+	{
+		fUrl = '#' + bUrl.substr(fPath + 1);
+		if ('#' == fUrl) fUrl = '';
+		bUrl = bUrl.substr(0, fPath);
+	}
+
+	fUrl = '' == fUrl ? bSrc : fUrlGet(fUrl);
 	fPath = fPathGet(fUrl);
 
 	if (location.hash != fPath) location.replace(bUrl + fPath);
-	if (f.src != fUrl) f.src = fUrl;
 
-	function fUrlGet()
+	f.src = fLoc = fUrl;
+	document.getElementById('iframe_main').appendChild(f);
+
+	function fUrlGet(url)
 	{
-		var url = location.hash;
-
 		url = rUrl + (url && url.substr(1).replace(/\s+$/, ''));
 
 		return url != bUrl ? url : bSrc;
@@ -106,26 +122,29 @@ var iframe = document.getElementById('iframe');
 
 	setInterval(function()
 	{
-		var fDoc;
+		var fHash = location.href, fDoc = fHash.indexOf('#');
+
+		fHash = 0 <= fDoc ? '#' + fHash.substr(fDoc + 1) : '';
+		if ('#' == fHash) fHash = '';
 
 		try
 		{
 			fDoc = f.contentDocument || frames['iframe'].contentWindow;
 
-			if ('http' == fDoc.location.protocol.substr(0, 4))
+			if (fLoc && fLoc != fDoc.location.href) return;
+
+			fLoc = false;
+
+			if (fDoc.title && fDoc.title != document.title) document.title = fDoc.title;
+
+			if (fDoc.location.href != fUrl && /^https?:$/.test(fDoc.location.protocol))
 			{
-				if (fDoc.title && fDoc.title != document.title) document.title = fDoc.title;
+				fUrl  = fDoc.location.href;
+				fPath = fPathGet(fUrl);
 
-				if (fDoc.location.href != fUrl)
-				{
-					fUrl = fDoc.location.href;
+				if (fHash != fPath) location.replace(bUrl + fPath);
 
-					fPath = fPathGet(fUrl);
-
-					if (location.hash != fPath) location.replace(bUrl + fPath);
-
-					return;
-				}
+				return;
 			}
 		}
 		catch (e)
@@ -141,16 +160,13 @@ var iframe = document.getElementById('iframe');
 			}
 		}
 
-		switch (location.hash)
-		{
-		case fPath: return;
-		case '#': if ('' == fPath) return;
-		}
+		if (fHash == fPath) return;
 
-		fUrl  = fUrlGet();
+		fUrl  = fUrlGet(fHash);
 		fPath = fPathGet(fUrl);
+		fLoc  = fUrl;
 
-		if (location.hash != fPath) location.replace(bUrl + fPath);
+		if (fHash != fPath) location.replace(bUrl + fPath);
 
 		if (fDoc) fDoc.location.replace(fUrl);
 		else f.src = fUrl;
@@ -158,7 +174,7 @@ var iframe = document.getElementById('iframe');
 		200
 	);
 
-	window.updateIframe = function()
+	function updateIframe()
 	{
 		var a, r, i;
 
@@ -178,15 +194,15 @@ var iframe = document.getElementById('iframe');
 		}
 		catch (a) {}
 	}
-})();
+}, 0);
 </script >
 <!--[if lt IE 8]>
 <script>
-(function()
+setTimeout(function()
 {
 var main = document.getElementById('iframe_main'), doc = document.documentElement, style = iframe.style;
 (window.onresize = function() {style.height = (doc.clientHeight - main.offsetTop - parseInt(main.currentStyle.bottom)) + 'px';})()
-})();
+}, 0);
 </script >
 <![endif]-->
 </body>
