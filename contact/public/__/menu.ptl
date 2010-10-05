@@ -1,7 +1,7 @@
 <!-- SET $iframe_menu_height -->110<!-- END:SET -->
 <!-- SET $iframe_src -->{$public_url|base:1}<!-- END:SET -->
 <!-- SET $iframe_head -->
-<link rel="stylesheet" type="text/css" href="{base:'css/style'}" />
+<link rel="stylesheet" type="text/css" href="{base:'css/style'}">
 <style>
 
 #iframe_menu
@@ -27,14 +27,14 @@
 <tr>
 	<td rowspan="2">
 	<!-- IF $acces -->
-		<a href="{$accueil_url|base:1}"><img src="/fr/img/logo.jpg" /></a>
+		<a href="{$accueil_url|base:1}"><img src="/fr/img/logo.jpg"></a>
 		<a href="{$accueil_url|base:1}">Accueil</a>
 
 		<!-- LOOP $onglets -->
 			| <a href="{$linkto|base:1}">{$titre}</a>
 		<!-- END:LOOP -->
 	<!-- ELSE -->
-		<img src="/fr/img/logo.jpg" />
+		<img src="/fr/img/logo.jpg">
 		Accueil
 
 		<!-- LOOP $onglets -->
@@ -44,6 +44,7 @@
 	</td>
 	<td valign="top" align="right">
 		<a href="{$public_url|base:1}">Aller au site public</a>
+		<!-- AGENT 'user/_logout' -->
 	</td>
 </tr>
 <tr>
@@ -53,8 +54,7 @@
 			<!-- IF 'admin' == $acces --> | <a href="{~}admin">Administration</a><!-- END:IF -->
 		<!-- ELSE -->
 			{$prenom_usuel} {$nom_usuel}
-		<!-- END:IF -->
-		<!-- AGENT 'user/_logout' --><br />
+		<!-- END:IF --><br>
 		<!-- IF !$is_cotisant -->
 		<a href="{/}fr/adherer">Cotiser</a> pour soutenir les efforts de l'Association</a>
 		<!-- ELSE -->
