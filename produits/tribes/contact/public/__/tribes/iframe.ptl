@@ -77,8 +77,13 @@ setTimeout(function()
 		bSrc = {$iframe_src|default:'/'|js},
 		bUrl = f.href,
 		rUrl = f.protocol + '//' + f.hostname + '/',
-		fUrl = '', fPath = bUrl.indexOf('#'),
-		fLoc;
+		fPath = bUrl.indexOf('#'),
+		fLoc = document.getElementsByTagName('A'),
+		fUrl = fLoc.length;
+
+	while (fUrl--)
+		if (/^\w+:/.test(fLoc[fUrl].href) && 0 != fLoc[fUrl].href.indexOf(rUrl) && !fLoc[fUrl].target)
+			fLoc[fUrl].target = '_self';
 
 	try {f = document.createElement('<iframe name="iframe">');}
 	catch (fLoc) {f = document.createElement('iframe');}
@@ -95,6 +100,7 @@ setTimeout(function()
 		if ('#' == fUrl) fUrl = '';
 		bUrl = bUrl.substr(0, fPath);
 	}
+	else fUrl = '';
 
 	fUrl = '' == fUrl ? bSrc : fUrlGet(fUrl);
 	fPath = fPathGet(fUrl);
@@ -185,12 +191,8 @@ setTimeout(function()
 			a = (f.contentDocument || frames['iframe'].contentWindow.document).getElementsByTagName('A'), i = a.length, r = rUrl;
 
 			while (i--)
-			{
 				if (0 != a[i].href.indexOf(r) && !a[i].target)
-				{
 					a[i].target = '_parent';
-				}
-			}
 		}
 		catch (a) {}
 	}
