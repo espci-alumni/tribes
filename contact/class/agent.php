@@ -16,7 +16,7 @@ class extends self
 
 			if (!$this->connected_id)
 			{
-				s::flash('referer', p::__URI__());
+				s::flash('referer', substr(p::__URI__(), strlen(p::__BASE__())));
 				p::redirect('login');
 			}
 

@@ -1,5 +1,5 @@
-<!-- SET $iframe_menu_height -->110<!-- END:SET -->
-<!-- SET $iframe_src -->{$public_url|base:1}<!-- END:SET -->
+<!-- SET $iframe_menu_height -->85<!-- END:SET -->
+<!-- SET $iframe_src -->{$accueil_url|base:1}<!-- END:SET -->
 <!-- SET $iframe_head -->
 <link rel="stylesheet" type="text/css" href="{base:'css/style'}">
 <style>
