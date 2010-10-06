@@ -80,9 +80,11 @@ class extends agent_pForm
 					AND NOT contact_confirmed
 					AND admin_confirmed
 					AND is_obsolete<=0";
-		if (DB()->queryOne($sql)) return 'user/email/confirm';
+		if (DB()->queryOne($sql)) return 'user/step/emailConfirmation';
 
-		return $row->acces ? agent_menu::ACCUEIL_CONNECTED : 'user/edit/contact';
+		$sql = s::flash('referer');
+
+		return $row->acces ? ($sql ? $sql : agent_menu::ACCUEIL_CONNECTED) : 'user/edit/contact';
 	}
 
 	protected function login($contact)
