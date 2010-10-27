@@ -20,7 +20,7 @@ class
 	{
 		?>/*<script>*/
 
-P$formatDate = function($s)
+function($s)
 {
 	$s = str($s);
 	return parseInt($s) ? $s.replace(/(....)-(..)-(..)/g, <?php echo jsquote(self::$format); ?>) : '';
