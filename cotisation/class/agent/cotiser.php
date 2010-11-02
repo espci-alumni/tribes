@@ -19,7 +19,8 @@ class extends agent_registration
 
 		if ($send->isOn())
 		{
-			$send = agent_login::save($send->getData());
+			$data = $send->getData();
+			$send = agent_login::save($data);
 
 			if (false === $send) {}
 			else if ('login/failed' === $send)

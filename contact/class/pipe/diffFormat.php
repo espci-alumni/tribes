@@ -19,7 +19,7 @@ class
 	{
 		?>/*<script>*/
 
-P$diffFormat = function($f, $old, $new)
+function($f, $old, $new)
 {
 	$old = str($old);
 	$new = str($new);

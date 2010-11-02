@@ -68,7 +68,7 @@ class extends agent_pForm
 		s::regenerateId(true, true);
 		s::set($row);
 
-		$this->login($row);
+		$row->acces && $this->login($row);
 
 		if ('' !== $row->etape_suivante) return "user/step/{$row->etape_suivante}";
 

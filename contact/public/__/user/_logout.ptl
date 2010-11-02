@@ -1,7 +1,7 @@
 <!--
 
 AGENT $form_logout target='_self' style='display: inline'
-AGENT $f_logout type='image' title="Déconnexion" src='img/logout.png' width=16 height=16
+AGENT $f_logout type='image' title="Déconnexion" src='img/logout.png'
 AGENT $form_logout _mode_='close'
 
 -->

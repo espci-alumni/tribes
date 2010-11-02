@@ -4,7 +4,7 @@
 
 <!-- IF $cotisation_expires -->
 <p>
-<strong>Attention&nbsp;: vous êtes actuellement à jour de votre cotisation jusqu'au {$cotisation_expires|formatDate}&nbsp;!</strong>
+<strong>Vous êtes actuellement à jour de votre cotisation jusqu'au {$cotisation_expires|formatDate}.</strong>
 </p>
 <!-- END:IF -->
 
