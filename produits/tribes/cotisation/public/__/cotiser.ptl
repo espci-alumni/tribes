@@ -5,7 +5,6 @@
 <!-- END:IF -->
 
 <!-- AGENT $form -->
-
 <h2>Vous possédez déjà un compte&nbsp;?</h2>
 
 <table>
@@ -18,7 +17,9 @@
 	</td>
 </tr>
 </table>
+<!-- AGENT $form _mode_='close' -->
 
+<!-- AGENT $form -->
 <h2>Vous n'avez pas encore de compte&nbsp;?</h2>
 
 <table>
@@ -29,7 +30,6 @@
 	</td>
 </tr>
 </table>
-
 <!-- AGENT $form _mode_='close' -->
 
 <!-- AGENT 'footer' -->

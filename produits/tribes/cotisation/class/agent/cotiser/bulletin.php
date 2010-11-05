@@ -105,6 +105,7 @@ class extends agent_pForm
 		if (0 == $data['cotisation'])
 		{
 			$data['paiement_date'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
+			$data['paiement_euro'] = 0;
 
 			$sql = "UPDATE contact_contact SET
 						cotisation_expires=NOW()+INTERVAL {$data['nb_mois']} MONTH

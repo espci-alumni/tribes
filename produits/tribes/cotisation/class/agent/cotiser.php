@@ -19,22 +19,16 @@ class extends agent_registration
 
 		if ($send->isOn())
 		{
-			$send = agent_login::save($send->getData());
+			$data = agent_login::save($send->getData());
 
-			if (false === $send) {}
-			else if ('login/failed' === $send)
+			if ('login/failed' === $data)
 			{
 				p::redirect('cotiser/failed');
 			}
-			else
+			else if (false !== $data)
 			{
-				if (false === strpos($data['login'], '@'))
-				{
-					$data['login'] .= $CONFIG['tribes.emailDomain'];
-				}
-
 				s::set(array(
-					'cotisation_email'     => $data['login'],
+					'cotisation_email'     => s::get('email'),
 					'cotisation_next_step' => $data,
 				));
 

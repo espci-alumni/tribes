@@ -54,7 +54,7 @@ AGENT $_tpe
 </tr>
 <tr>
 	<td>TOTAL&nbsp;:</td>
-	<td align="right">{'%0.2f'|printf:$_euro}&nbsp;€</td>
+	<td align="right">{'%0.2f'|printf:$paiement_euro}&nbsp;€</td>
 </tr>
 <tr>
 	<td colspan="2">
