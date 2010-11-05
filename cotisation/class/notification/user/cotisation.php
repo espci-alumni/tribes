@@ -6,7 +6,10 @@ class extends notification
 	{
 		parent::doSend();
 
-		if (empty($this->context['email']))
+		if (!((float) $this->context['paiement_euro']) && ((float) $this->context['soutien']))
+		{
+		}
+		else if (empty($this->context['email']))
 		{
 			$has_active = false;
 

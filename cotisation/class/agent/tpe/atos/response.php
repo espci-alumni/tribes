@@ -51,8 +51,8 @@ class extends agent_tpe_atos_request
 				);
 
 				$token = $a['customer_id'];
-				$is_ok = '00' === $a['response_code']) ? 1 : 0;
-				$euro  = $is_ok ? (float) $a['amount'] : 0;
+				$is_ok = '00' === $a['response_code'] ? 1 : 0;
+				$euro  = $is_ok ? $a['amount'] / 100 : 0;
 
 				return array($o, $token, $euro, $is_ok, $data);
 			}

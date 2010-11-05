@@ -54,6 +54,9 @@ class extends agent
 
 	protected static function composeTpe($o, $ref, $euro, $email)
 	{
+		// Disable Firefox back-forward cache
+		header('Cache-Control: no-store');
+
 		$request_bin = self::$request_bin;
 		$p           = self::$parameters;
 

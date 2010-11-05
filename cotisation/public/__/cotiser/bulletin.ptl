@@ -22,12 +22,12 @@
 </table>
 
 <p>
-En cliquant sur ce bouton, votre demande d'adhésion sera enregistrée. Elle ne sera définitive que lorsque nous aurons reçu le paiement de votre cotisation.
-La page suivante vous permettra de payer par carte bancaire&nbsp;:
+En cliquant sur ce bouton, votre bulletin de cotisation sera enregistré.
+La page suivante vous permettra le cas échéant de payer par carte bancaire&nbsp;:
 </p>
 
 <div style="text-align: center; margin: 50px">
-<!-- AGENT $f_send value="Enregistrer mon adhésion" -->
+<!-- AGENT $f_send value="Enregistrer" -->
 </div>
 
 <!-- AGENT $form _mode_='close' -->
