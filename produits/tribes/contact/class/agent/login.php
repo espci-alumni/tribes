@@ -31,7 +31,7 @@ class extends agent_pForm
 
 		if (0 === strcasecmp($sql, substr($data['login'], -strlen($sql))))
 		{
-			$data['login'] = substr($data['login'], -strlen($sql));
+			$data['login'] = substr($data['login'], 0, -strlen($sql));
 		}
 
 		$sql = str_replace('-', '', $data['login']);
