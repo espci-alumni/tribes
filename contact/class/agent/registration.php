@@ -101,7 +101,7 @@ class extends agent_login
 				sprintf($sql, DB()->quote($data['prenom_civil']))
 			);
 
-		$sql = "SELECT c.contact_id
+		$sql = "SELECT c.contact_id, e.email
 				FROM contact_contact c
 					JOIN contact_email e USING (contact_id)
 				WHERE e.email=" . DB()->quote($data['email']) . "
