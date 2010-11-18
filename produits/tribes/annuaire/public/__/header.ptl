@@ -3,7 +3,7 @@
 INLINE header
 
 IF 1 == g$headerNestingTribes && 'user/' == g$__AGENT__
-	--><script type="text/javascript" src="{$js_navigation_url}"></script><!--
+	--><script src="{$js_navigation_url}"></script><!--
 END:IF
 
 -->

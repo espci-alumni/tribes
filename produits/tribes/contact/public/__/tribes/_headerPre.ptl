@@ -2,9 +2,8 @@
 <!-- SET $_year -->{date:'Y'}<!-- END:SET -->
 <!-- SET a$head -->
 {a$head}
-<script type="text/javascript" src="{base:'jquery/jquery.js'}"></script >
-<script type="text/javascript">
-onDOMLoaded.push(function()
+<script>
+$(function()
 {
 $.datepicker.setDefaults({changeMonth: true, changeYear: true});
 
@@ -13,5 +12,5 @@ $('input.date'                  ).datepicker({dateFormat: 'dd-mm-yy'});
 $('input.monthyear'             ).datepicker({dateFormat:    'mm-yy', yearRange: '{$_year-50}:{$_year+20}'});
 
 });
-</script >
+</script>
 <!-- END:SET -->
