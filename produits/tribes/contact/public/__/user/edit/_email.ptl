@@ -1,26 +1,13 @@
-<!-- IF $f_email_add || $aliases -->
-
-<h3>Liste de vos alias</h3>
-
-<ul>
-<!-- LOOP $aliases -->
-	<li>{$alias}</li>
-<!-- END:LOOP-->
-</ul>
-
-
-<h3>Emails</h3>
-
+<!-- IF $f_email_add -->
+<h3>Emails tiers</h3>
+<div class="contenu">
 <!-- IF $emails -->
-<table>
+<table class="delitem">
 <!--
-
 SET $f --><!-- END:SET
-
 LOOP $emails
-
 	IF $deleted
-		--><input type="hidden" name="deleted_email[]" value="{$deleted}" /><!--
+		--><input type="hidden" name="deleted_email[]" value="{$deleted}"><!--
 
 		IF $email
 			-->
@@ -33,28 +20,28 @@ LOOP $emails
 	ELSE
 		-->
 		<tr>
-			<td>
+			<td width="100%">
 			<!--
 
 			IF !$email_id
-				AGENT $f_email _caption_="Email" _format_='%1%2'
+				AGENT $f_email _caption_="Email" _format_='%1%2' autocomplete='off'
 			ELSEIF $admin_confirmed
-				-->{$email}<!--
+				--><span class="email{$is_active|test:' active'}">{$email}</span><!--
 			ELSE
-				--><span class="unconfirmed">{$email} (<abbr title="Vous devez cliquer sur le lien de confirmation envoyé pour vérification à cette adresse">non confirmé</abbr>)</span><!--
+				--><span class="email unconfirmed{$is_active|test:' active'}">{$email} (<abbr title="Lien de confirmation envoyé à cette adresse n'a pas été activé">non confirmé</abbr>)</span><!--
 			END:IF
 
 			-->
 			</td>
+			<td><!-- AGENT $f_is_active _format_='%1%2' --></td>
 			<td>
 				<!--
 				IF $f_email_del
-					AGENT $f_email_del value="supprimer cet e-mail" class='additem' _preserveScroll_=1
+					AGENT $f_email_del title="supprimer cet e-mail" value='✖' class='delitem' _preserveScroll_=1
 				ELSE -->&nbsp;<!--
 				END:IF
 				-->
 			</td>
-			<td><!-- AGENT $f_is_active _format_='%1%2' --></td>
 		</tr>
 		<!--
 	END:IF
@@ -64,7 +51,19 @@ END:LOOP
 -->
 </table>
 <!-- END:IF -->
-
-<!-- AGENT $f_email_add value="ajouter un autre e-mail" class='additem' _preserveScroll_=1 -->
-
+<!-- AGENT $f_email_add value="ajouter un autre e-mail ✚" class='additem' _preserveScroll_=1 -->
+</div>
 <!-- END:IF -->
+
+<!-- IF $aliases -->
+<h3>Alias</h3>
+<div class="contenu">
+<ul>
+<!-- LOOP $aliases -->
+	<li>{$alias}</li>
+<!-- END:LOOP-->
+</ul>
+</div>
+<!-- END:IF -->
+
+<!-- INLINE user/edit/_login -->

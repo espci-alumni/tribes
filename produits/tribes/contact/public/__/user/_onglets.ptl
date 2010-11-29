@@ -1,18 +1,26 @@
 <!-- IF g$__AGENT__ != 'admin/user/edit/' -->
+
+<!-- INLINE css/_onglets -->
+
 <div id="onglets">
+<h3>Mon profil</h3>
 <ul>
-	<li class="infos"><a href="{~}user/edit/contact">Informations personnelles</a></li>
-	<li class="infos"><a href="{~}user/edit/adresse">Coordonnées</a></li>
-	<li class="infos"><a href="{~}user/edit/activite">Activités</a></li>
-	<li class="infos"><a href="{~}user/edit/email">Emails</a></li>
-	<li class="infos"><a href="{~}user/edit/password">Mot de passe</a></li>
-	<li class="consult"><a href="{~}user/historique">Historique</a></li>
+	<li>{"Informations personnelles"|linkto:'user/edit/contact'}</li>
+	<li>{"Coordonnées"|linkto:'user/edit/adresse'}</li>
+	<li>{"Activités"|linkto:'user/edit/activite'}</li>
+	<li>{"Emails"|linkto:'user/edit/email'}</li>
+	<li>{"Mot de passe"|linkto:'user/edit/password'}</li>
+</ul>
+
+<h3>Administration</h3>
+<ul>
+	<li>{"Historique"|linkto:'user/historique'}</li>
 	<!-- IF $connected_is_admin -->
-	<li class="consult"><a href="{~}admin/user/secretariat/{$contact_id}">Secrétariat</a></li>
+	<!-- SET $_a -->admin/user/secretariat/{$contact_id}<!-- END:SET -->
+	<li>{"Secrétariat"|linkto:$_a}</li>
 	<!-- ELSE -->
-	<li class="consult"><a href="{~}user/secretariat">Secrétariat</a></li>
+	<li>{"Secrétariat"|linkto:'user/secretariat'}</li>
 	<!-- END:IF -->
 </ul>
 </div>
-<br />
 <!-- END:IF -->

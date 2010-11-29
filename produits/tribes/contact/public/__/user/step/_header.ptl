@@ -8,26 +8,33 @@ SET $_title
 	END:IF
 END:SET
 
-AGENT 'header' title=$_title
+SET $_head
+	INLINE css/_steps
+	-->{$_head}<!--
+END:SET
+
+AGENT 'header' title=$_title head=$_head
 
 -->
 
 <!-- IF $steps > 1 -->
-<ol id="steps">
+<div id="steps">
+<ul>
 <!-- LOOP $steps -->
 <!--
 SET $_class
-	IF $iteratorPosition == d$step_position    -->step_current<!--
-	ELSEIF $iteratorPosition < d$step_position -->step_done<!--
-	ELSE                          -->step_todo<!--
+	IF $iteratorPosition == d$step_position    -->step-current<!--
+	ELSEIF $iteratorPosition < d$step_position -->step-done<!--
+	ELSE                          -->step-todo<!--
 	END:IF
 END:SET
 -->
-<li class="{$_class}">{$VALUE}</li>
+<li class="{$_class}"><span class="ol-bullet">{$iteratorPosition+1}.&nbsp;</span>{$VALUE}</li>
 <!-- END:LOOP -->
-</ol>
+</ul>
+</div>
 <!-- END:IF -->
 
 <!-- AGENT $form -->
 
-<div id="step_content">
+<div id="step-content">

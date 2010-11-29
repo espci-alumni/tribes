@@ -1,54 +1,52 @@
 <!-- IF $f_activite_add || $activites -->
 
+<h2>Activités</h2>
 <p class="explication">
-Les activités professionnelles ou autres que vous renseignez ici
-sont à la base de toute mise en relation et networking au sein de la communauté.
 N'hésitez pas à remplir vos activités passées et présentes au complet,
 votre profil sera ainsi plus visible dans l'annuaire et
-les contacts générés n'en seront que plus utiles et pertinents.
+les contacts générés n'en seront que plus pertinents.
 </p>
 
-<h3>Votre statut principal actuel</h3>
+<h2>Statut principal actuel</h2>
 <table>
 <!-- AGENT $f_statut_activite _caption_="Statut principal actuel" -->
 </table>
 
-<h3>Activités</h3>
+<!-- LOOP $activites -->
 
-<!-- IF $activites -->
-<table>
+<!-- IF $deleted -->
+	<input type="hidden" name="deleted_activite[]" value="{$deleted}">
+	<!-- IF $activite_id -->
+	<h3><del>{$description|default:$organisation}</del></h3>
+	<div class="contenu">
+	(bloc marqué pour suppression à l'enregistrement de cette page)
+	</div>
+	<!-- END:IF -->
+
+<!-- ELSE -->
+<h3>{$description|default:$organisation|default:'✰'}</h3>
+<div class="contenu">
 <!--
-
-LOOP $activites
-	IF $deleted --><input type="hidden" name="deleted_activite[]" value="{$deleted}" /><!--
+IF $id && $admin_confirmed <= $contact_modified
+	IF d$is_admin_confirmed
+		--><p class="explication">Bloc refusé par l'administrateur</p><!--
 	ELSE
-	-->
-	<tr>
-		<td colspan="2">
-		<!--
-			IF $id && $admin_confirmed <= $contact_modified
-				IF d$is_admin_confirmed
-					-->Bloc refusé par l'administrateur<!--
-				ELSE
-					-->Bloc en attente de validation par l'administrateur<!--
-				END:IF
-			ELSE
-				-->&nbsp;{*Bloc déjà validé par l'administrateur*}<!--
-			END:IF
-		-->
-		</td>
-	</tr>
-	<!--
-		INLINE user/edit/_activite_item
+		--><p class="explication">Bloc en attente de validation par l'administrateur</p><!--
 	END:IF
-END:LOOP
-
+END:IF
 -->
+<table>
+<!-- INLINE user/edit/_activite_item -->
 </table>
-<!-- END:IF -->
+</div>
+
+<!-- END:IF-->
+
+<!-- END:LOOP -->
 
 <!-- IF $f_activite_add -->
-<!-- AGENT $f_activite_add value="ajouter une autre activité" class='additem' _preserveScroll_=1 -->
+<h3 class="additem"><!-- AGENT $f_activite_add value="nouvelle activité ✚" class='additem' _preserveScroll_=1 --></h3>
+<div class="contenu"></div>
 <!-- END:IF -->
 
 <!-- END:IF -->

@@ -1,13 +1,15 @@
 <!--
 
-SET $_f -->{g$inputFormat|replace:'%0&nbsp;:':'%0&nbsp;'}<!-- END:SET
-AGENT $f_is_shared _glue_=' ' _format_=$_f
-
 IF $f_activite_del
-	AGENT $f_activite_del value="supprimer cette activité" class='additem' _format_=$_f _preserveScroll_=1
+-->
+<tr>
+	<td>&nbsp;</td>
+	<td><!-- AGENT $f_activite_del title="supprimer cette activité" value="✖" class='delitem' _preserveScroll_=1 _format_='%1' --></td>
+</tr>
+<!--
 END:IF
 
-SET $_f -->{g$inputFormat|replace:'%1%2':'%1%2<br /><small><em>Groupe, entreprise, université, école… séparés par des /</em></small>'}<!-- END:SET
+SET $_f -->{g$inputFormat|replace:'%1%2':'%1%2<br><small><em>Groupe, entreprise, université, école… séparés par des /</em></small>'}<!-- END:SET
 AGENT $f_organisation _caption_="Organisation(s)"  _format_=$_f
 AGENT $f_service _caption_="Service"
 AGENT $f_titre _caption_="Titre"
@@ -29,3 +31,13 @@ AGENT $f_site_web _caption_="Site Web"
 AGENT $f_keyword _caption_="Mots clés"
 
 -->
+<tr>
+	<td>&nbsp;</td>
+	<td>
+		<!-- AGENT $f_is_shared _glue_=' ' _format_='%1' -->
+		<p class="explication">
+		En mode <strong>Confidentiel</strong>, seul le secrétariat pourra consulter ces informations.<br>
+		Le mode <strong>Partagé</strong> assure leur visibilité dans l'annuaire et favorise la mise en relation au sein de la communauté.
+		</p>
+	</td>
+</tr>

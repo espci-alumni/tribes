@@ -1,10 +1,12 @@
 <!--
 
-SET $_f -->{g$inputFormat|replace:'%0&nbsp;:':'%0&nbsp;'}<!-- END:SET
-AGENT $f_is_shared _glue_=' ' _format_=$_f
-
 IF $f_adresse_del
-	AGENT $f_adresse_del value="supprimer cette adresse" class='additem' _format_=$_f _preserveScroll_=1
+-->
+<tr>
+	<td>&nbsp;</td>
+	<td><!-- AGENT $f_adresse_del title="supprimer cette adresse" value="✖" class='delitem' _preserveScroll_=1 _format_='%1' --></td>
+</tr>
+<!--
 END:IF
 
 IF !$hide_is_active
@@ -21,7 +23,7 @@ IF $activite_id
 <tr>
 	<td class="label"><strong>Activité associée</strong>&nbsp;:</td>
 	<td>
-		<strong>{$organisation}</strong><br />
+		<strong>{$organisation}</strong><br>
 		{$titre}
 	</td>
 </tr>
@@ -30,11 +32,11 @@ ELSE
 	AGENT $f_description _caption_="Description"
 END:IF
 
-SET $_f -->{g$inputFormat|replace:'(%0&nbsp;:)':"$1<br /><small>Tel qu'imprimé sur une lettre :<br />raison sociale, rue, BP, etc.<br />hors champs qui suivent.</small>"}<!-- END:SET
+SET $_f -->{g$inputFormat|replace:'(%0&nbsp;:)':"$1<br><small>Tel qu'imprimé sur une lettre :<br>raison sociale, rue, BP, etc.<br>hors champs qui suivent.</small>"}<!-- END:SET
 AGENT $f_adresse _caption_="Adresse" _format_=$_f
-AGENT $f_ville_avant _caption_="Code postal" placeholder="Ex. : 75020"
+AGENT $f_ville_avant _caption_="Code postal" placeholder="ex. 75020"
 AGENT $f_ville _caption_="Ville" 
-AGENT $f_ville_apres _caption_="Complément" placeholder="Ex. : CEDEX 09"
+AGENT $f_ville_apres _caption_="Complément" placeholder="ex. CEDEX 09"
 AGENT $f_pays _caption_="Pays"
 AGENT $f_email_list _caption_="Email(s)"
 AGENT $f_tel_portable _caption_="Téléphone portable"
@@ -42,3 +44,13 @@ AGENT $f_tel_fixe _caption_="Téléphone fixe"
 AGENT $f_tel_fax _caption_="Fax"
 
 -->
+<tr>
+	<td>&nbsp;</td>
+	<td>
+		<!-- AGENT $f_is_shared _glue_=' ' _format_='%1' -->
+		<p class="explication">
+		En mode <strong>Confidentiel</strong>, seul le secrétariat pourra consulter ces informations.<br>
+		Le mode <strong>Partagé</strong> assure leur visibilité dans l'annuaire et favorise la mise en relation au sein de la communauté.
+		</p>
+	</td>
+</tr>

@@ -1,50 +1,46 @@
 <!-- IF $f_adresse_add || $adresses -->
-
+<h2>Coordonnées</h2>
 <p class="explication">
-Que vous choisissiez de les partager ou non avec les autres membres de l'annuaire,
-les coordonnées que vous renseignerez ici serviront à entrer en contact direct avec vous,
-lors de communications officielles ou statutaires par exemple.
 N'hésitez pas à renseigner les adresses de vos parents ou grands-parents si possible,
-car même si vous choisissez de ne pas partager ces données dans l'annuaire, elles seront
-très utiles à l'association le jour où vous déménagerez sans forcément penser à nous en avertir.
+car même si vous choisissez de ne pas les partager l'annuaire, elles serviront
+le jour où vous déménagerez sans forcément penser à nous en informer.
 </p>
 
-<h3>Coordonnées</h3>
+<!-- LOOP $adresses -->
 
-<!-- IF $adresses -->
-<table>
+<!-- IF $deleted -->
+	<input type="hidden" name="deleted_adresse[]" value="{$deleted}">
+	<!-- IF $adresse_id -->
+	<h3><del>{$description|default:$organisation}</del></h3>
+	<div class="contenu">
+	(bloc marqué pour suppression à l'enregistrement de cette page)
+	</div>
+	<!-- END:IF -->
+
+<!-- ELSE -->
+<h3>{$description|default:$organisation|default:'✰'}</h3>
+<div class="contenu">
 <!--
-
-LOOP $adresses
-	IF $deleted --><input type="hidden" name="deleted_adresse[]" value="{$deleted}" /><!--
+IF $id && $admin_confirmed <= $contact_modified
+	IF d$is_admin_confirmed
+		--><p class="explication">Bloc refusé par l'administrateur</p><!--
 	ELSE
-	-->
-	<tr>
-		<td colspan="2">
-		<!--
-			IF $id && $admin_confirmed <= $contact_modified
-				IF d$is_admin_confirmed
-					-->Bloc refusé par l'administrateur<!--
-				ELSE
-					-->Bloc en attente de validation par l'administrateur<!--
-				END:IF
-			ELSE
-				-->&nbsp;{*Bloc déjà validé par l'administrateur*}<!--
-			END:IF
-		-->
-		</td>
-	</tr>
-	<!--
-		INLINE user/edit/_adresse_item
+		--><p class="explication">Bloc en attente de validation par l'administrateur</p><!--
 	END:IF
-END:LOOP
-
+END:IF
 -->
+<table>
+<!-- INLINE user/edit/_adresse_item -->
 </table>
-<!-- END:IF -->
+</div>
+
+<!-- END:IF-->
+
+<!-- END:LOOP -->
 
 <!-- IF $f_adresse_add -->
-<!-- AGENT $f_adresse_add value="ajouter une autre adresse" class='additem' _preserveScroll_=1 -->
+<h3 class="additem"><!-- AGENT $f_adresse_add value="nouvelle adresse ✚" class='additem' _preserveScroll_=1 --></h3>
+<div class="contenu"></div>
 <!-- END:IF -->
 
 <!-- END:IF -->

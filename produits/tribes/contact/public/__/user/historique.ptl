@@ -10,6 +10,7 @@ SET g$ACTION_INSERT  -->1<!-- END:SET
 -->
 <!-- INLINE user/_onglets -->
 
+<div class="contenu">
 <!-- LOOP $historiques -->
 
 <fieldset>
@@ -37,5 +38,6 @@ Origine de l'action&nbsp;: <a href="{~}user/{$origine_contact_id}">{$origine_pre
 </fieldset>
 
 <!-- END:LOOP -->
+</div>
 
 <!-- AGENT 'footer' -->

@@ -2,6 +2,7 @@
 <!-- SET $_year -->{date:'Y'}<!-- END:SET -->
 <!-- SET a$head -->
 {a$head}
+<link rel="shortcut icon" href="{~}favicon.ico" type="image/x-icon">
 <script>
 $(function()
 {
