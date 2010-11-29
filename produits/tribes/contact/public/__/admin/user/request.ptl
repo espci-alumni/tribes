@@ -25,6 +25,7 @@ AGENT $form
 
 -->
 
+<div class="contenu">
 <table>
 <tr>
 	<th>&nbsp;</th>
@@ -39,10 +40,11 @@ INLINE admin/user/request/_activite
 
 -->
 </table>
+</div>
 
-<!-- 
+<div class="submit"><!-- AGENT $f_send value="Enregistrer" --></div>
 
-AGENT $f_send value="Enregistrer"
+<!--
 
 AGENT $form _mode_='close'
 

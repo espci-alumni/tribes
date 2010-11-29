@@ -12,9 +12,7 @@ Votre demande sera alors transmise au secrétariat pour vérification et accepta
 </table>
 </div>
 
-<div class="submit">
-<!-- AGENT $f_send value="Adhérer" -->
-</div>
+<div class="submit"><!-- AGENT $f_send value="Adhérer" --></div>
 
 <!-- AGENT $form _mode_='close' -->
 

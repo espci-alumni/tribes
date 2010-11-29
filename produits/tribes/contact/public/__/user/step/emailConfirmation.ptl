@@ -1,15 +1,23 @@
 <!-- AGENT 'header' title="Emails à confirmer" -->
-
 <!-- AGENT $form -->
+
+<!-- IF $emails > 1 -->
+<h3>Merci de confirmer que ces emails sont bien les vôtres&nbsp;:</h3>
+<!-- ELSE -->
+<h3>Merci de confirmer que cet email est bien le vôtre&nbsp;:</h3>
+<!-- END:IF -->
+<div class="contenu">
 <table>
 <!-- LOOP $emails -->
 <tr>
-	<td>{$email}</td>
+	<td><span class="email">{$email}</span>&nbsp;:</td>
 	<td><!-- AGENT $f_email_confirmed _format_='%1' _glue_='&nbsp;' --></td>
 </tr>
 <!-- END:LOOP -->
 </table>
+</div>
 
-<!-- AGENT $f_send value="Valider" -->
+<div class="submit"><!-- AGENT $f_send value="Valider" --></div>
+
 <!-- AGENT $form _mode_='close' -->
 <!-- AGENT 'footer' -->

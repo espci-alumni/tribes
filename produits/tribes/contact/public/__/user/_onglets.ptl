@@ -1,8 +1,17 @@
-<!-- IF g$__AGENT__ != 'admin/user/edit/' -->
-
 <!-- INLINE css/_onglets -->
-
 <div id="onglets">
+<!-- SET $_a -->{g$__AGENT__|replace:'^((admin/)?).*':'$1'}<!-- END:SET -->
+<!-- IF $_a -->
+<h3>Administration</h3>
+<ul>
+	<!-- SET $_a -->admin/user/edit/{$contact_id}<!-- END:SET -->
+	<li>{"Profil"|linkto:$_a}</li>
+	<!-- SET $_a -->admin/user/historique/{$contact_id}<!-- END:SET -->
+	<li>{"Historique"|linkto:$_a}</li>
+	<!-- SET $_a -->admin/user/secretariat/{$contact_id}<!-- END:SET -->
+	<li>{"Secrétariat"|linkto:$_a}</li>
+</ul>
+<!-- ELSE -->
 <h3>Mon profil</h3>
 <ul>
 	<li>{"Informations personnelles"|linkto:'user/edit/contact'}</li>
@@ -15,12 +24,7 @@
 <h3>Administration</h3>
 <ul>
 	<li>{"Historique"|linkto:'user/historique'}</li>
-	<!-- IF $connected_is_admin -->
-	<!-- SET $_a -->admin/user/secretariat/{$contact_id}<!-- END:SET -->
-	<li>{"Secrétariat"|linkto:$_a}</li>
-	<!-- ELSE -->
 	<li>{"Secrétariat"|linkto:'user/secretariat'}</li>
-	<!-- END:IF -->
-</ul>
-</div>
+<ul>
 <!-- END:IF -->
+</div>

@@ -25,8 +25,10 @@ Vous pouvez dès maintenant vous connecter pour compléter plus avant votre prof
 </div>
 
 <div class="submit">
-	<!-- AGENT $f_send value="Connexion" --><br>
+	<!-- AGENT $f_send value="Connexion" -->
+	<p>
 	<a href="{~}registration/password">Mot de passe perdu&nbsp;?</a>
+	</p>
 </div>
 
 <!-- AGENT $form _mode_='close' -->
