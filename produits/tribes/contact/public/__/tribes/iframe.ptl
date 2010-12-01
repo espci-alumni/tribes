@@ -12,6 +12,12 @@
 <![endif]-->
 <link rel="shortcut icon" href="{base:'favicon.ico'}" type="image/vnd.microsoft.icon" />
 <style>
+
+html
+{
+	overflow-y: auto !important;
+}
+
 #iframe_body, #iframe_menu, #iframe_shadow, #iframe_main, #iframe
 {
 	position: absolute;

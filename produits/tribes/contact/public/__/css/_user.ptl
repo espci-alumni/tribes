@@ -12,7 +12,9 @@ text-align:center;
 float:left;
 clear:none;
 width:200px;
-background: url({~}img/letter.gif) white center 40px no-repeat;
+background-image: url({~}img/letter.gif);
+background-position: center 40px;
+background-repeat: no-repeat;
 }
 
 #user-adresse ul
@@ -22,8 +24,13 @@ padding-top: 90px;
 
 #b_edit
 {
-text-align:right;
-margin-top:-30px;
+float:right;
+margin-top:-40px;
+}
+
+#navigation_resultats
+{
+margin-top:-47px;
 }
 
 .contenu

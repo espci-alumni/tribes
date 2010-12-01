@@ -32,7 +32,7 @@
 </table>
 </div>
 
-<div id="submit"><!-- AGENT $f_send value="Continuer…" --></div>
+<div class="submit"><!-- AGENT $f_send value="Continuer…" --></div>
 
 <!-- AGENT $form _mode_='close' -->
 
