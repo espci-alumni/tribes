@@ -1,7 +1,9 @@
 <!--
 
-SET $c -->{$f|diffFormat:$c_login:$login}<!-- END:SET
-AGENT $f_login _caption_="Identifiant" _format_=$c placeholder=d$p
+IF $f_login
+	SET $c -->{$f|diffFormat:$c_login:$login}<!-- END:SET
+	AGENT $f_login _caption_="Identifiant" _format_=$c placeholder=d$p
+END:IF
 
 SET $c -->
 <tr>
