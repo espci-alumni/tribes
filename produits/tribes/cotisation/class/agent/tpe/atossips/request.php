@@ -4,13 +4,13 @@ class extends agent
 {
 	protected static
 
-	$request_bin  = '/usr/local/bin/sogenactif/request',
-	$response_bin = '/usr/local/bin/sogenactif/response',
+	$request_bin  = 'data/atossips/request',
+	$response_bin = 'data/atossips/response',
 
 	$parameters = array(
 		// XXX Deux principaux paramètres à ajuster
 		// 'merchant_id'      => '012345678901234',
-		// 'pathfile'         => '.../pathfile',
+		'pathfile'         => 'data/atossips/pathfile',
 
 		// 'merchant_country' => 'fr',
 		// 'currency_code'    => '978', // EUR
@@ -57,9 +57,10 @@ class extends agent
 		// Disable Firefox back-forward cache
 		header('Cache-Control: no-store');
 
-		$request_bin = self::$request_bin;
+		$request_bin = patchworkPath(self::$request_bin);
 		$p           = self::$parameters;
 
+		$p['pathfile']               = patchworkPath($p['pathfile']);
 		$p['amount']                 = $euro * 100;
 		$p['normal_return_url']      = p::__BASE__() . 'cotiser/merci?T$=' . p::getAntiCSRFtoken();
 		$p['cancel_return_url']      = p::__BASE__() . 'cotiser/paiement/' . $ref . '?T$=' . p::getAntiCSRFtoken();
@@ -70,7 +71,7 @@ class extends agent
 		foreach ($p as $k => $v) $request_bin .= ' ' . escapeshellarg("{$k}={$v}");
 
 		$v = explode('!', `{$request_bin}`);
-		$o->atos_html = $v[3];
+		$o->atossips_html = $v[3];
 
 		return $o;
 	}

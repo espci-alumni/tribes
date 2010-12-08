@@ -7,11 +7,6 @@
 Votre bulletin de cotisation a bien été enregistré.
 </p>
 
-<p>
-Il est possible que vous deviez vous déconnecter
-puis vous reconnecter pour en voir l'effet sur le site.
-</p>
-
 <ul>
 	<li>Référence&nbsp;: C/{a$token}</li>
 	<li>Date&nbsp;: {a$cotisation_date}</li>

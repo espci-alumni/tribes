@@ -1,0 +1,23 @@
+###############################################################################
+#
+#	Fichier des parametres ELYSNET
+#
+#	Remarque :	Ce fichier parametre est sous la responsabilite du CCF
+#
+###############################################################################
+
+
+# Logo du commercant (il apparait en entete sur les pages de paiement)
+
+ADVERT!!
+
+# fond d'ecran
+
+BACKGROUND!fond_elysnet.gif!
+
+# Logo CCF-ELSYNET (il apparait a droite sur les pages de paiement)
+
+LOGO2!ccf-elysnet.gif!
+
+# END OF FILE
+

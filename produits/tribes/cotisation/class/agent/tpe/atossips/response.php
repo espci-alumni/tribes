@@ -1,13 +1,13 @@
 <?php
 
-class extends agent_tpe_atos_request
+class extends agent_tpe_atossips_request
 {
 	protected static function composeResponse($o, $data)
 	{
 		if (isset($data['DATA']) && is_string($data['DATA']))
 		{
-			$data = self::$response_bin
-				. ' ' . escapeshellarg('pathfile=' . self::$parameters['pathfile'])
+			$data = patchworkPath(self::$response_bin)
+				. ' ' . escapeshellarg('pathfile=' . patchworkPath(self::$parameters['pathfile']))
 				. ' ' . escapeshellarg('message=' . $data['DATA']);
 
 			$data = `{$data}`;

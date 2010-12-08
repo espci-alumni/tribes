@@ -1,0 +1,20 @@
+###############################################################################
+#
+#	Fichier des paramètres MERCANET BNP PARIBAS
+#
+#	Remarque :	Ce fichier paramètre est sous la responsabilité de
+#				BNP PARIBAS
+#
+###############################################################################
+
+
+# Logo central de BNP PARIBAS 
+
+ADVERT!advert.gif!
+
+# Logo BNP PARIBAS
+
+LOGO!mercanet.gif!
+
+# END OF FILE
+
