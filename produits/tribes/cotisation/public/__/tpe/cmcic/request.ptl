@@ -1,7 +1,7 @@
-<!--
+<div style="text-align: center"><!--
 
 AGENT $form
 AGENT $send value="Payer en ligne" type='image' src='tpe/cmcic/tpe.gif' alt="Payer en ligne"
 AGENT $form _mode_='close'
 
--->
+--></div>

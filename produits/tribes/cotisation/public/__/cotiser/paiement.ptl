@@ -4,26 +4,19 @@
 
 <div class="contenu">
 <!-- SET $_euro -->{$cotisation+$soutien-$paiement_euro}<!-- END:SET -->
+<!-- SET $_tpe -->tpe/_cotisation/{g$__1__}<!-- END:SET -->
 
 <!-- IF $_euro -->
 <p>
-Vous pouvez maintenant procéder au paiement en ligne de votre bulletin de cotisation.
+Vous pouvez maintenant procéder au paiement de votre bulletin de cotisation&nbsp;:
 </p>
 
-<p>
-Cliquer sur l'image ci-dessous pour accéder à la page de paiement sécurisé :
-</p>
-
-<!--
-SET $_tpe -->tpe/_cotisation/{g$__1__}<!-- END:SET
-AGENT $_tpe
--->
-
-{* TODO : proposer un bulletin à imprimer pour payer par chèque *}
+<ul>
+<!-- INLINE cotiser/_paiement -->
+</ul>
 
 <!-- END:IF -->
 
-<div id="print">
 <table>
 <tr>
 	<td>Référence&nbsp;:</td>
@@ -64,7 +57,6 @@ AGENT $_tpe
 	</td>
 </tr>
 </table>
-</div>
 </div>
 
 <!-- AGENT 'footer' -->
