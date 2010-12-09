@@ -126,6 +126,7 @@ class extends agent_admin_user_edit
 		else
 		{
 			$data = array(
+				'is_obsolete' => 1,
 				'message' => $data['message'],
 			);
 
