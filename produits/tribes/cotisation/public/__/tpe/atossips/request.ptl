@@ -1,1 +1,1 @@
-{$atossips_html|replace:'Vous utilisez .* standard SSL, c':'C'|allowhtml}
+<div style="text-align:center">{$atossips_html|allowhtml}</div>

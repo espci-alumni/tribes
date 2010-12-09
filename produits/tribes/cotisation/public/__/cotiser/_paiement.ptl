@@ -1,1 +1,9 @@
-<li class="no-print">par <strong>carte bancaire</strong>&nbsp;:<!-- AGENT $_tpe --></li>
+<li>par <strong>carte bancaire</strong>, merci de choisir une carte ci-dessous&nbsp;:
+<div style="margin: auto; padding: 20px; width: 350px"><!-- AGENT $_tpe --></div>
+</li>
+<li>par <strong>chèque</strong>, merci d'imprimer cette page et de l'envoyer accompagnée de votre chèque à l'ordre de&nbsp;:
+<div style="margin: auto; padding: 20px; width: 350px">
+<a href="javascript:print()" style="float:right"><img src="{~}cotiser/print-icon.png" alt="Imprimer" title="Cliquer ici pour imprimer cette page"></a>
+<address><!-- INLINE cotiser/_adressePaiement --></address>
+</div>
+</li>

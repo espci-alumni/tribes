@@ -25,13 +25,9 @@ CONDITION!SSL!
 
 CURRENCY!978!
 
-# Liste des cartes acceptées par le commercant
-
-CARD_LIST!CB,VISA,MASTERCARD!
-
 # flag d'edition des libelles des blocs de paiement
 
-HEADER_FLAG!yes!
+HEADER_FLAG!no!
 
 # Code langage de l'acheteur (fr=francais)
 
@@ -41,13 +37,9 @@ LANGUAGE!fr!
 
 MERCHANT_COUNTRY!fr!
 
-# Code langage du commercant
-
-MERCHANT_LANGUAGE!fr!
-
 # Liste des moyens de paiement acceptes
 
-PAYMENT_MEANS!CB,2,VISA,2,MASTERCARD,2!
+PAYMENT_MEANS!CB,1,VISA,1,MASTERCARD,1!
 
 # Passage en une seule frame securisée au moment du paiement
 
