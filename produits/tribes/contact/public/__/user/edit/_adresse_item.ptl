@@ -4,7 +4,7 @@ IF $f_adresse_del
 -->
 <tr>
 	<td>&nbsp;</td>
-	<td><!-- AGENT $f_adresse_del title="supprimer cette adresse" value="✖" class='delitem' _preserveScroll_=1 _format_='%1' --></td>
+	<td><!-- AGENT $f_adresse_del title="supprimer cette adresse" value="✖" class='delitem' _preserveScroll_=1 --></td>
 </tr>
 <!--
 END:IF

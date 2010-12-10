@@ -19,7 +19,7 @@ le jour où vous déménagerez sans forcément penser à nous en informer.
 
 <!-- ELSE -->
 <h3>{$description|default:$organisation|default:'✰'}</h3>
-<div class="contenu">
+<div class="contenu{$description|test:'':' active-tab'}">
 <!--
 IF $id && $admin_confirmed <= $contact_modified
 	IF d$is_admin_confirmed

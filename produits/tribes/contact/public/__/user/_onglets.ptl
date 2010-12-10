@@ -1,4 +1,48 @@
 <!-- INLINE css/_onglets -->
+
+<script>
+$(function()
+{
+	$('.tab-group h3').show();
+
+	$('div.tab-group').each(function()
+	{
+		var tab = $('<div class="tab-titles">'),
+			contenus = $('h3+.contenu', this),
+			tab_group = this,
+			focused = $('h3+.contenu.active-tab', this).last()[0] || contenus[0];
+
+		$(focused).prev().addClass('active-tab');
+
+		contenus.each(function(index)
+		{
+			var h = $(this).prev();
+
+			h.remove();
+
+			h.css({
+				display: 'inline',
+				cursor: 'pointer'
+			});
+
+			h.click(function()
+			{
+				contenus.hide();
+				$(contenus[index]).show();
+				$('.active-tab', tab_group).removeClass('active-tab');
+				$(this).addClass('active-tab');
+
+			});
+
+			tab.append(h);
+		});
+
+		tab.insertBefore(contenus[0]);
+		$(focused).show();
+	});
+});
+</script>
+
 <div id="onglets">
 <!-- SET $_a -->{g$__AGENT__|replace:'^((admin/)?).*':'$1'}<!-- END:SET -->
 <!-- IF $_a -->
