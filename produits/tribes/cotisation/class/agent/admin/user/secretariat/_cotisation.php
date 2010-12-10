@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class extends agent_admin_user_secretariat
 {
 	protected static $paiement_mode = array(
 		'ESP' => 'Espèces',
@@ -8,7 +8,7 @@ class extends self
 		'VIR' => 'Virement',
 	);
 
-	function composeCotisation($o, $f, $send)
+	protected function composeForm($o, $f, $send)
 	{
 		$sql = "SELECT cotisation_expires
 				FROM contact_contact
@@ -17,27 +17,25 @@ class extends self
 
 		$f->add('date',  'cotisation_date', array('default' => DB()->queryOne($sql)));
 		$f->add('check', 'type',            array('item' => tribes::getCotisationType()));
-		$f->add('text',  'paiement_euro', array('valid' => 'float'));
+		$f->add('text',  'paiement_euro',   array('valid' => 'float'));
 		$f->add('date',  'paiement_date');
 		$f->add('check', 'paiement_mode',   array('item' => self::$paiement_mode));
 		$f->add('text',  'paiement_ref');
 
 		$send->attach(
 			'cotisation_date', '', '',
-			'type',            '', 'Merci de saisir le type de cotisation',
+			'type',            'Merci de saisir le type de cotisation', '',
 			'paiement_euro',   '', 'Merci de saisir un nombre entier ou décimal',
 			'paiement_date',   '', '',
-			'paiement_mode',   '', 'Merci de saisir le mode de paiement',
+			'paiement_mode',   'Merci de saisir le mode de paiement', '',
 			'paiement_ref',    '', ''
 		);
 
-		return parent::composeCotisation($o, $f, $send);
+		return parent::composeForm($o, $f, $send);
 	}
 
-	function save($data)
+	protected function save($data)
 	{
-		$url = parent::save($data);
-
 		$db = DB();
 
 		if (isset($data['paiement_euro']) && '' !== $data['paiement_euro'])
@@ -73,6 +71,6 @@ class extends self
 			notification::send('user/cotisation', $data);
 		}
 
-		return $url;
+		return '';
 	}
 }

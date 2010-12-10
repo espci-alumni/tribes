@@ -1,0 +1,17 @@
+<h3>Bloc-note</h3>
+
+<div class="contenu">
+<!-- IF $notes -->
+<!-- LOOP $notes -->
+<fieldset>
+<ul>
+	<li><strong>Note&nbsp;:</strong> {$note}</li>
+	<li>{$date_contact}</li>
+</ul>
+</fieldset>
+<!-- END:LOOP -->
+
+<!-- ELSE -->
+<p class="explication">Aucune note n'est enregistrée actuellement dans le fichier à votre nom.</p>
+<!-- END:IF -->
+</div>
