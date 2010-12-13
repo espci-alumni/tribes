@@ -9,6 +9,11 @@ class extends self
 			'linkto' => 'annuaire/',
 		);
 
+		self::$onglets['atlas'] = array(
+			'titre'  => 'Atlas',
+			'linkto' => 'annuaire/atlas/',
+		);
+
 		parent::__constructStatic();
 	}
 }
