@@ -21,7 +21,7 @@
 </tr>
 <tr>
 	<td align="center">
-		<p><img src="{~}user/photo/{$photo_token}/~{$login}.jpg" alt="Photo"></p>
+		<p><img src="{userDoc:'photo':$photo_token:$login:0}" alt="Photo"></p>
 		<!--
 		IF $hasPhoto
 			AGENT $f_del_photo _format_='<p>%1%2</p>'
@@ -31,7 +31,7 @@
 	<td align="center">
 		<!-- IF $hasCv -->
 		<p>
-		<a href="{~}user/cv/{$cv_token}/~{$login}.pdf" title="Téléchargez le CV">
+		<a href="{userDoc:'cv':$cv_token:$login:0}" title="Téléchargez le CV">
 			<img src="{~}img/pdf.png" border="0" alt="PDF">
 			<br>Télécharger le CV
 		</a>

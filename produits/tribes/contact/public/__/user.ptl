@@ -22,7 +22,7 @@ AGENT 'header' title=$_title head=$_head
 	<h3>{$prenom_usuel} {$nom_usuel}</h3>
 
 	<!-- IF $hasPhoto -->
-	<img src="{~}user/photo/{$photo_token}/{$login}.jpg"><br>
+	<img src="{userDoc:'photo':$photo_token:$login:1}"><br>
 	<!-- ELSE -->
 	<img src="{~}img/photo.gif"><br>
 	<!-- END:IF -->
@@ -43,7 +43,7 @@ AGENT 'header' title=$_title head=$_head
 	<!-- END:IF -->
 	<!-- IF $hasCv -->
 	<p>
-		<a href="{~}user/cv/{$cv_token}/~{$login}.pdf" title="Téléchargez le CV" ><img src="{~}img/pdf.png" border="0" alt="PDF">
+		<a href="{userDoc:'cv':$cv_token:$login:1}" title="Téléchargez le CV"><img src="{~}img/pdf.png" border="0" alt="PDF">
 		<br>Télécharger le CV</a>
 	</p>
 	<!-- END:IF -->

@@ -36,14 +36,14 @@ END:SET
 <tr>
 	<td>&nbsp;</td>
 	<td>
-		<!-- IF $hasPhoto --><img src="{~}user/photo/{$photo_token}/{$c_login}.jpg" />
-		<!--ELSE --><img src="{~}img/photo.gif" />
+		<!-- IF $hasPhoto --><img src="{userDoc:'photo':$photo_token:$c_login:1}">
+		<!--ELSE --><img src="{~}img/photo.gif">
 		<!-- END:IF-->
 	</td>
 	<td>
 	<!--
 		IF $newPhoto
-			--><img src="{~}user/photo/{$photo_token}/~{$c_login}.jpg" /><br /><!--
+			--><img src="{userDoc:'photo':$photo_token:$c_login:0}"><br><!--
 			AGENT $f_decision_photo _glue_=' ' _format_='%1%2'
 		ELSE -->&nbsp;<!--
 		END:IF
@@ -60,12 +60,12 @@ IF $newCv -->
 <tr>
 	<td>&nbsp;</td>
 	<td>
-		<!-- IF $hasCv --><a href="{~}user/cv/{$cv_token}/{$c_login}.pdf">Actuel</a>
+		<!-- IF $hasCv --><a href="{userDoc:'cv':$cv_token:$c_login:1}">Actuel</a>
 		<!--ELSE -->&nbsp;
 		<!-- END:IF-->
 	</td>
 	<td>
-		<a href="{~}user/cv/{$cv_token}/~{$c_login}.pdf">Voir le CV proposé</a><br />
+		<a href="{userDoc:'cv':$cv_token:$c_login:0}">Voir le CV proposé</a><br>
 		<!-- AGENT $f_decision_cv _glue_=' ' _format_='%1%2' -->
 	</td>
 </tr><!--

@@ -33,8 +33,13 @@ class extends agent
 		$o->email = $o->login ? $o->login . $CONFIG['tribes.emailDomain'] : '';
 		$o->connected_is_admin = $this->connected_is_admin;
 
-		$o->hasPhoto = file_exists(patchworkPath('data/photo/') . $o->photo_token . '.jpg');
-		$o->hasCv    = file_exists(patchworkPath('data/cv/')    . $o->cv_token    . '.pdf');
+		$file = explode('.', $o->photo_token) + array(1 => 'jpg', 'jpg');
+		$o->photo_token = implode('.', $file);
+		$o->hasPhoto = file_exists(patchworkPath('data/photo/') . "{$file[0]}.{$file[1]}");
+
+		$file = explode('.', $o->cv_token) + array(1 => 'pdf', 'pdf');
+		$o->cv_token = implode('.', $file);
+		$o->hasCv = file_exists(patchworkPath('data/cv/') . "{$file[0]}.{$file[1]}");
 
 		$o->adresses  = new loop_user_adresse($this->contact->contact_id);
 		$o->activites = new loop_user_activite($this->contact->contact_id);

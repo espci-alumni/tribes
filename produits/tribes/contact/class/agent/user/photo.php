@@ -16,19 +16,19 @@ class extends agent
 	$requiredAuth = false,
 
 	$contact = false,
-	$token;
+	$file;
 
 	function control()
 	{
 		parent::control();
 
-		$this->token = $this->get->__1__;
+		$this->file = $this->get->__1__ . strrchr($this->get->__2__, '.');
 		$this->contact = '~' === $this->get->__2__[0];
 	}
 
 	function compose($o)
 	{
-		$file = patchworkPath('data/photo/') . $this->token . '.jpg';
+		$file = patchworkPath('data/photo/') . $this->file;
 
 		$this->sendfile($file);
 
