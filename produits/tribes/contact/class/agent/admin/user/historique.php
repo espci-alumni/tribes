@@ -2,7 +2,10 @@
 
 class extends agent_user_historique
 {
-	public $get = array('__1__:i:1');
+	public $get = array(
+		'__1__:i:1' => 0,
+		'p:i:1'     => 1,
+	);
 
 	protected $requiredAuth = 'admin';
 

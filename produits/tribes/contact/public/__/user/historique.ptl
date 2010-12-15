@@ -40,4 +40,14 @@ Origine de l'action&nbsp;: <a href="{~}user/{$origine_contact_id}">{$origine_pre
 <!-- END:LOOP -->
 </div>
 
+<!--
+
+AGENT 'widget/pagination'
+
+	results_nb       = $results_nb
+	results_per_page = $results_per_page
+	page             = $page
+
+-->
+
 <!-- AGENT 'footer' -->

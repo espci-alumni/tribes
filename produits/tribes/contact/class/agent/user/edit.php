@@ -314,7 +314,7 @@ class extends agent_pForm
 				if ('' !== implode('', $a))
 				{
 					$a += array(
-						'is_active'  => $b->f_is_active->getDbValue(),
+						'is_active'  => $b->f_is_active->getValue() ? 1 : 0,
 						'contact_id' => $this->contact_id,
 						'sort_key'   => ++$counter,
 					);
@@ -363,7 +363,7 @@ class extends agent_pForm
 				if ('' !== implode('', $a))
 				{
 					$a += array(
-						'is_active'  => $b->f_is_active->getValue(),
+						'is_active'  => $b->f_is_active->getValue() ? 1 : 0,
 						'contact_id' => $this->contact_id,
 						'sort_key'   => ++$counter,
 					);
@@ -633,7 +633,7 @@ class extends agent_pForm
 		while ($e = $loop->loop())
 		{
 			$data[] = $e;
-			if (empty($e->deleted) && $e->f_is_active->getDbValue()) $has_active_data = true;
+			if (empty($e->deleted) && $e->f_is_active->getValue()) $has_active_data = true;
 		}
 
 		$loop = new loop_array($data, 'filter_rawArray');
