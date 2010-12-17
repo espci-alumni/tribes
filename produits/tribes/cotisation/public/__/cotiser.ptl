@@ -1,7 +1,7 @@
 <!-- AGENT 'header' title="Cotiser" public=1 -->
 
 <!-- IF a$__1__ == 'failed' -->
-<p class="errormsg">Identifiant ou mot de passe incorrect</p>
+<p class="errormsg">Email ou mot de passe incorrect</p>
 <!-- END:IF -->
 
 <!-- AGENT $form -->
@@ -9,7 +9,7 @@
 
 <div class="contenu">
 <table>
-<!-- AGENT $f_login _caption_="Identifiant" autofocus=1 placeholder='prenom.nom ou email' -->
+<!-- AGENT $f_login _caption_="Email" autofocus=1 -->
 <!-- AGENT $f_password _caption_="Mot de passe" -->
 </table>
 </div>

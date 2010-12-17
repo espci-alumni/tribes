@@ -2,7 +2,7 @@
 
 <div class="contenu">
 <!-- IF a$__1__ == 'failed' -->
-<p class="errormsg">Identifiant ou mot de passe incorrect</p>
+<p class="errormsg">Email ou mot de passe incorrect</p>
 <!-- ELSEIF a$__1__ == 'confirmEmail' -->
 <p>
 Pour vérifier que cet email vous appartient réellement, merci de vous connecter ci-dessous.
@@ -17,9 +17,7 @@ Vous pouvez dès maintenant vous connecter pour compléter plus avant votre prof
 
 <!-- AGENT $form -->
 <table>
-<!-- IF a$__1__ == 'bienvenue' --><!-- AGENT $f_login _caption_="Email" autofocus=1 placeholder='votre email' -->
-<!-- ELSE --><!-- AGENT $f_login _caption_="Identifiant" autofocus=1 placeholder='prenom.nom ou email' -->
-<!-- END:IF -->
+<!-- AGENT $f_login _caption_="Email" autofocus=1 -->
 <!-- AGENT $f_password _caption_="Mot de passe" -->
 </table>
 </div>

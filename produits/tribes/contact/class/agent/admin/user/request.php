@@ -47,8 +47,8 @@ class extends agent_admin_user_edit
 	{
 		$file = explode('.', $this->data->photo_token) + array(1 => 'jpg', 'jpg');
 		$o->photo_token = implode('.', $file);
-		$o->hasPhoto = file_exists(patchworkPath('data/photo/') . "{$file[0]}.{$file[1]}";
-		$o->newPhoto = file_exists(patchworkPath('data/photo/') . "{$file[0]}.{$file[2]}~";
+		$o->hasPhoto = file_exists(patchworkPath('data/photo/') . "{$file[0]}.{$file[1]}" );
+		$o->newPhoto = file_exists(patchworkPath('data/photo/') . "{$file[0]}.{$file[2]}~");
 
 		if ($o->newPhoto)
 		{
@@ -71,8 +71,8 @@ class extends agent_admin_user_edit
 	{
 		$file = explode('.', $this->data->cv_token) + array(1 => 'pdf', 'pdf');
 		$o->cv_token = implode('.', $file);
-		$o->hasCv = file_exists(patchworkPath('data/cv/') . "{$file[0]}.{$file[1]}";
-		$o->newCv = file_exists(patchworkPath('data/cv/') . "{$file[0]}.{$file[2]}~";
+		$o->hasCv = file_exists(patchworkPath('data/cv/') . "{$file[0]}.{$file[1]}" );
+		$o->newCv = file_exists(patchworkPath('data/cv/') . "{$file[0]}.{$file[2]}~");
 
 		if ($o->newCv)
 		{

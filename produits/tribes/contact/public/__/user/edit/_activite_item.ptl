@@ -36,8 +36,8 @@ AGENT $f_keyword _caption_="Mots clés"
 	<td>
 		<!-- AGENT $f_is_shared _glue_=' ' _format_='%1' -->
 		<p class="explication">
-		En mode <strong>Confidentiel</strong>, seul le secrétariat pourra consulter ces informations.<br>
-		Le mode <strong>Partagé</strong> assure leur visibilité dans l'annuaire et favorise la mise en relation au sein de la communauté.
+		Le mode <strong>Partagé</strong> assure la visibilité de ces informations dans l'annuaire et favorise ainsi la mise en relation au sein de la communauté.
+		En mode <strong>Confidentiel</strong>, seul le secrétariat pourra les consulter.
 		</p>
 	</td>
 </tr>
