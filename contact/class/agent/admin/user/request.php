@@ -45,11 +45,12 @@ class extends agent_admin_user_edit
 
 	protected function composePhoto($o, $f, $send)
 	{
-		$file = patchworkPath('data/photo/') . $this->data->photo_token . '.jpg';
-		$o->hasPhoto = file_exists($file);
-		$file .= '~';
+		$file = explode('.', $this->data->photo_token) + array(1 => 'jpg', 'jpg');
+		$o->photo_token = implode('.', $file);
+		$o->hasPhoto = file_exists(patchworkPath('data/photo/') . "{$file[0]}.{$file[1]}" );
+		$o->newPhoto = file_exists(patchworkPath('data/photo/') . "{$file[0]}.{$file[2]}~");
 
-		if ($o->newPhoto = file_exists($file))
+		if ($o->newPhoto)
 		{
 			$f->add('check', 'decision_photo', array(
 				'item' => array('1' => 'Accepter', '0' => 'Rejeter')
@@ -68,11 +69,12 @@ class extends agent_admin_user_edit
 
 	protected function composeCv($o, $f, $send)
 	{
-		$file = patchworkPath('data/cv/') . $this->data->cv_token . '.pdf';
-		$o->hasCv = file_exists($file);
-		$file .= '~';
+		$file = explode('.', $this->data->cv_token) + array(1 => 'pdf', 'pdf');
+		$o->cv_token = implode('.', $file);
+		$o->hasCv = file_exists(patchworkPath('data/cv/') . "{$file[0]}.{$file[1]}" );
+		$o->newCv = file_exists(patchworkPath('data/cv/') . "{$file[0]}.{$file[2]}~");
 
-		if ($o->newCv = file_exists($file))
+		if ($o->newCv)
 		{
 			$f->add('check', 'decision_cv', array(
 				'item' => array('1' => 'Accepter', '0' => 'Rejeter')
@@ -107,12 +109,14 @@ class extends agent_admin_user_edit
 	{
 		if (isset($this->photoField) && !$data['decision_photo'])
 		{
-			@unlink(patchworkPath('data/photo/') . $this->data->photo_token . '.jpg~');
+			$file = explode('.', $this->data->photo_token) + array(1 => 'jpg', 'jpg');
+			@unlink(patchworkPath('data/photo/') . "{$file[0]}.{$file[2]}~");
 		}
 
 		if (isset($this->cvField) && !$data['decision_cv'])
 		{
-			@unlink(patchworkPath('data/cv/') . $this->data->cv_token . '.pdf~');
+			$file = explode('.', $this->data->cv_token) + array(1 => 'pdf', 'pdf');
+			@unlink(patchworkPath('data/cv/') . "{$file[0]}.{$file[2]}~");
 		}
 
 		$this->saveContact($data);

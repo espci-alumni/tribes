@@ -1,6 +1,6 @@
 </div>
 
-<div id="step_send">
+<div class="submit">
 <!--
 IF $step_position+1 == $steps
 	AGENT $f_send value="Terminer"

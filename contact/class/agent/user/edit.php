@@ -208,11 +208,11 @@ class extends agent_pForm
 
 	protected function composePhoto($o, $f, $send)
 	{
-		$o->photo_token = $this->data->photo_token;
+		$file = explode('.', $this->data->photo_token) + array(1 => 'jpg', 'jpg');
+		$o->photo_token = implode('.', $file);
 
-		$file = patchworkPath('data/photo/') . $this->data->photo_token . '.jpg';
-
-		$o->hasPhoto = file_exists($file) || file_exists($file . '~');
+		$file[0] = patchworkPath('data/photo/') . $file[0];
+		$o->hasPhoto = file_exists("{$file[0]}.{$file[1]}") || file_exists("{$file[0]}.{$file[2]}~");
 
 		if ($o->hasPhoto)
 		{
@@ -234,11 +234,11 @@ class extends agent_pForm
 
 	protected function composeCv($o, $f, $send)
 	{
-		$o->cv_token = $this->data->cv_token;
+		$file = explode('.', $this->data->cv_token) + array(1 => 'pdf', 'pdf');
+		$o->cv_token = implode('.', $file);
 
-		$file = patchworkPath('data/cv/') . $this->data->cv_token . '.pdf';
-
-		$o->hasCv = file_exists($file) || file_exists($file . '~');
+		$file[0] = patchworkPath('data/cv/') . $file[0];
+		$o->hasCv = file_exists("{$file[0]}.{$file[1]}") || file_exists("{$file[0]}.{$file[2]}~");
 
 		if ($o->hasCv)
 		{
@@ -314,7 +314,7 @@ class extends agent_pForm
 				if ('' !== implode('', $a))
 				{
 					$a += array(
-						'is_active'  => $b->f_is_active->getDbValue(),
+						'is_active'  => $b->f_is_active->getValue() ? 1 : 0,
 						'contact_id' => $this->contact_id,
 						'sort_key'   => ++$counter,
 					);
@@ -363,7 +363,7 @@ class extends agent_pForm
 				if ('' !== implode('', $a))
 				{
 					$a += array(
-						'is_active'  => $b->f_is_active->getValue(),
+						'is_active'  => $b->f_is_active->getValue() ? 1 : 0,
 						'contact_id' => $this->contact_id,
 						'sort_key'   => ++$counter,
 					);
@@ -458,17 +458,19 @@ class extends agent_pForm
 
 	protected function savePhoto(&$data)
 	{
+		$token = explode('.', $this->data->photo_token) + array(1 => 'jpg', 'jpg');
+
 		if (!empty($data['del_photo']))
 		{
-			$file = patchworkPath('data/photo/') . $this->data->photo_token . '.jpg';
+			$file = patchworkPath('data/photo/') . "{$token[0]}.{$token[2]}~";
 
-			if (file_exists($file . '~')) unlink($file . '~');
-			else $data['photo_token'] = p::strongid(8);
+			if (file_exists($file)) unlink($file);
+			else $this->data->photo_token = '';
 		}
 
 		if (!$this->data->photo_token)
 		{
-			$this->data->photo_token = $data['photo_token'] = p::strongid(8);
+			$token[0] = $this->data->photo_token = $data['photo_token'] = p::strongid(8);
 		}
 
 		if (isset($this->photoField) && $this->photoField->getStatus())
@@ -496,39 +498,47 @@ class extends agent_pForm
 			imagefilledrectangle($th_img, 0, 0, $th_w, $th_h, $bgcolor);
 			imagecopyresampled($th_img, $src_img, 0, 0, 0, 0, $th_w, $th_h, $src_w, $src_h);
 
-			$file = patchworkPath('data/photo/') . $this->data->photo_token . '.jpg~';
+			$file = patchworkPath('data/photo/') . $token[0];
 
-			imagejpeg($th_img, $file, 90);
+			@unlink("{$file}.{$token[2]}~");
+			'jpg' !== $token[2] && @unlink($file . ".jpg~");
+			$token[2] = 'jpg';
+			imagejpeg($th_img, $file . ".{$token[2]}~", 90);
 
 			$this->confirmed || $this->contact->updateContactModified($this->contact_id);
 		}
 
 		if ($this->confirmed)
 		{
-			$file = patchworkPath('data/photo/');
+			$file = array(patchworkPath('data/photo/'), $token[0], ".{$token[2]}");
 
-			$photo_token = p::strongid(8);
+			$token = p::strongid(8);
 
-			if (@rename($file . $this->data->photo_token . '.jpg~', $file . $photo_token . '.jpg'))
+			if (@rename($file[0] . $file[1] . $file[2] . '~', $file[0] . $token . $file[2]))
 			{
+				$token .= $file[2];
+
 				notification::send('user/photo', array(
 					'contact_id'  => $this->contact_id,
-					'photo_token' => $photo_token,
+					'photo_token' => $token,
 				));
 
-				$data['photo_token'] = $photo_token;
+				$this->data->photo_token = $data['photo_token'] = $token;
 			}
 		}
 	}
 
 	protected function saveCv(&$data)
 	{
+		$token = explode('.', $this->data->cv_token) + array(1 => 'pdf', 'pdf');
+		$cv_text = '';
+
 		if (!empty($data['del_cv']))
 		{
-			$file = patchworkPath('data/cv/') . $this->data->cv_token . '.pdf';
+			$file = patchworkPath('data/cv/') . "{$token[0]}.{$token[2]}~";
 
-			if (file_exists($file . '~')) unlink($file . '~');
-			else $data['cv_token'] = p::strongid(8);
+			if (file_exists($file)) unlink($file);
+			else $this->data->cv_token = '';
 
 			if (!empty($this->data->cv_text))
 			{
@@ -539,46 +549,59 @@ class extends agent_pForm
 
 		if (!$this->data->cv_token)
 		{
-			$this->data->cv_token = $data['cv_token'] = p::strongid(8);
+			$token[0] = $this->data->cv_token = $data['cv_token'] = p::strongid(8);
 		}
-
-		$cv_text = '';
 
 		if (isset($this->cvField) && $this->cvField->getStatus())
 		{
 			if ($file = $this->cvField->getValue())
 			{
-				$cv_text = new converter_txt_pdf;
+				$ext = array(patchworkPath('data/cv/') . $token[0], '');
 
-				if ($cv_text = $cv_text->convertFile($file['tmp_name']))
+				foreach (array('pdf', 'doc') as $ext[1])
 				{
-					move_uploaded_file($file['tmp_name'], patchworkPath('data/cv/') . $this->data->cv_token . '.pdf~');
+					$cv_text = 'converter_txt_' . $ext[1];
+					$cv_text = new $cv_text;
+					if ($cv_text = $cv_text->convertFile($file['tmp_name']))
+					{
+						@unlink("{$ext[0]}.{$token[2]}~");
+						$ext[1] !== $token[2] && @unlink("{$ext[0]}.{$ext[1]}~");
+						$token[2] = $ext[1];
+						$this->data->cv_token = $data['cv_token'] = implode('.', $token);
+						move_uploaded_file($file['tmp_name'], "{$ext[0]}.{$token[2]}~");
 
-					$this->confirmed || $this->contact->updateContactModified($this->contact_id);
+						$this->confirmed || $this->contact->updateContactModified($this->contact_id);
+						break;
+					}
 				}
+
+				unset($ext);
 			}
 		}
 
 		if ($this->confirmed)
 		{
-			$file = patchworkPath('data/cv/');
+			$file = array(patchworkPath('data/cv/'), $token[0], ".{$token[2]}");
 
-			$cv_token = p::strongid(8);
+			$token = p::strongid(8);
 
-			if (@rename($file . $this->data->cv_token . '.pdf~', $file . $cv_token . '.pdf'))
+			if (@rename($file[0] . $file[1] . $file[2] . '~', $file[0] . $token . $file[2]))
 			{
 				if (!$cv_text)
 				{
-					$cv_text = new converter_txt_pdf;
-					$cv_text = $cv_text->convertFile($file . $cv_token . '.pdf');
+					$cv_text = 'converter_txt_' . $file[2];
+					$cv_text = new $cv_text;
+					$cv_text = $cv_text->convertFile($file['tmp_name']);
 				}
+
+				$token .= $file[2];
 
 				notification::send('user/cv', array(
 					'contact_id' => $this->contact_id,
-					'cv_token'   => $cv_token,
+					'cv_token'   => $token,
 				));
 
-				$data['cv_token'] = $cv_token;
+				$this->data->cv_token = $data['cv_token'] = $token;
 				$data['cv_text']  = $cv_text;
 			}
 		}
@@ -610,7 +633,7 @@ class extends agent_pForm
 		while ($e = $loop->loop())
 		{
 			$data[] = $e;
-			if (empty($e->deleted) && $e->f_is_active->getDbValue()) $has_active_data = true;
+			if (empty($e->deleted) && $e->f_is_active->getValue()) $has_active_data = true;
 		}
 
 		$loop = new loop_array($data, 'filter_rawArray');

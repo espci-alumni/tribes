@@ -1,0 +1,55 @@
+<!-- IF $cotisations || $f_cotisation_date -->
+
+<h3>Cotisation</h3>
+
+<div class="contenu">
+<!-- AGENT $form -->
+<table>
+<!--
+
+SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Point de départ pour calculer la date d'échéance de la cotisation.</small>"}<!-- END:SET
+AGENT $f_cotisation_date _caption_="Date de cotisation"  _format_=$_f
+AGENT $f_type            _caption_="Catégorie de cotisation"
+AGENT $f_paiement_euro   _caption_="Montant du paiement" _format_='<td>%0&nbsp;:</td><td>%1&nbsp;€ %2</td>' style='text-align:right'
+AGENT $f_paiement_mode   _caption_="Mode de paiement" _glue_=' - '
+AGENT $f_paiement_date   _caption_="Date de paiement"
+AGENT $f_paiement_ref    _caption_="Référence du paiement"
+
+-->
+</table>
+
+<div class="submit"><!-- AGENT $f_send value="Enregistrer" --></div>
+<!-- AGENT $form _mode_='close' -->
+
+<h4>Historique de cotisation</h4>
+
+<!-- IF $cotisations -->
+<table>
+<tr>
+	<th>Date</th>
+	<th colspan="2">Cotisation</th>
+	<th>Soutien</th>
+	<th>Payé</th>
+	<th>Mode</th>
+	<th>Réf.<th>
+</tr>
+<!-- LOOP $cotisations -->
+<tr class="{$iteratorPosition%2|test:'odd':'even'}">
+	<td>{$paiement_date|replace:' .*$':''|formatDate}</td>
+	<td>{$type}</td>
+	<td align="right">{$cotisation}&nbsp;€</td>
+	<td align="right"><!-- IF $soutien/1 -->{$soutien}&nbsp;€<!-- ELSE -->-<!-- END:IF --></td>
+	<td align="right">{$paiement_euro}&nbsp;€</td>
+	<td align="center">{$paiement_mode}</td>
+	<td><!-- IF 'ESP'==$paiement_mode || 'CHQ'==$paiement_mode || 'VIR'==$paiement_mode -->{$paiement_ref}<!-- ELSE -->&nbsp;<!-- END:IF --></td>
+</tr>
+<!-- END:LOOP -->
+</table>
+
+<!-- ELSE -->
+
+<p class="explication">Aucun historique n'est enregistré actuellement.</p>
+<!-- END:IF -->
+</div>
+
+<!-- END:IF -->

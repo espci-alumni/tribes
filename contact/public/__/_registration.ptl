@@ -6,7 +6,7 @@ SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Tel qu'inscrit sur vo
 AGENT $f_nom_civil _caption_="Nom civil" _format_=$_f
 AGENT $f_prenom_civil _caption_="Prénom civil"
 
-AGENT $f_email _caption_="Email"
-AGENT $f_password _caption_="Nouveau mot de passe"
+AGENT $f_email    _caption_="Email"                autocomplete='off'
+AGENT $f_password _caption_="Nouveau mot de passe" autocomplete='off'
 
 -->

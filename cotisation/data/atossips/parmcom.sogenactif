@@ -1,0 +1,20 @@
+###############################################################################
+#
+#	Fichier des parametres Sogenactif paiement
+#
+#	Remarque :	Ce fichier paramètre est sous la responsabilité de la
+#				Societe Generale
+#
+###############################################################################
+
+
+# Logo de la Societe Generale
+
+ADVERT!sg.gif!
+
+# Logo Interactis paiement
+
+LOGO2!sogenactif.gif!
+
+# END OF FILE
+

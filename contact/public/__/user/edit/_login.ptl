@@ -1,9 +1,8 @@
 <!-- IF $f_login -->
-
-<h3>Identifiant / Email Universel</h3>
-
+<h3>Email Universel</h3>
+<div class="contenu">
 <table>
 <!--AGENT $f_login _caption_="Identifiant" -->
 </table>
-
+</div>
 <!-- END:IF -->

@@ -1,25 +1,27 @@
 <!-- IF $f_nom_civil -->
 
 <!-- IF $f_acces -->
-<h3>Niveau de privilèges</h3>
+<h2>Privilèges</h2>
 <table>
 <!-- AGENT $f_acces _caption_="Privilèges" -->
 </table>
 <!-- END:IF -->
 
-<table>
 <!-- IF $f_photo && $f_cv -->
+<h3>Profil</h3>
+<div class="contenu">
+<table width="100%">
 <tr>
-	<td>
-		<h3>Photo</h3>
+	<td width="50%">
+		<h4>Photo</h4>
 	</td>
-	<td>
-		<h3><em>Curriculum Vitæ</em></h3>
+	<td width="50%">
+		<h4>Curriculum Vitæ</h4>
 	</td>
 </tr>
 <tr>
 	<td align="center">
-		<p><img src="{~}user/photo/{$photo_token}/~{$login}.jpg" /></p>
+		<p><img src="{userDoc:'photo':$photo_token:$login:0}" alt="Photo"></p>
 		<!--
 		IF $hasPhoto
 			AGENT $f_del_photo _format_='<p>%1%2</p>'
@@ -29,80 +31,71 @@
 	<td align="center">
 		<!-- IF $hasCv -->
 		<p>
-		<a href="{~}user/cv/{$cv_token}/~{$login}.pdf" title="Téléchargez le CV" ><img src="{~}img/pdf.jpg" border="0" alt="PDF" />
-		<br />Télécharger le CV</a>
+		<a href="{userDoc:'cv':$cv_token:$login:0}" title="Téléchargez le CV">
+			<img src="{~}img/pdf.png" border="0" alt="PDF">
+			<br>Télécharger le CV
+		</a>
 		</p>
-		<!-- AGENT $f_del_cv _format_='<p>%1%2</p>' -->
+		<p><!-- AGENT $f_del_cv _format_='%1%2' --></p>
 		<!-- ELSE-->
 		<p>
-			 <img src="{~}img/pdf.jpg" border="0" alt="PDF" /><br />
-			 <em>(Aucun CV déposé actuellement)</em>
+		<img src="{~}img/pdf-off.png" border="0" alt="PDF">
+		<br><em>(Aucun CV déposé actuellement)</em>
 		</p>
 		<!-- END:IF -->
-		<p>
-			<small>Le CV déposé ici sera visible et indexé <br />dans le moteur de recherche de l'annuaire.</small>
-		</p>
+		<p><small>Les CV déposés sont indexés dans l'annuaire.</small></p>
 	</td>
 </tr>
 <tr>
 	<td align="center">
-		<table>
-		<!-- AGENT $f_photo _caption_="Photo" -->
-		<tr><td></td><td class="explication">(JPG, GIF ou PNG uniquement)</td></tr>
-		</table>
+		<p><!-- AGENT $f_photo _caption_="Photo" _format_='%1%2' --></p>
+		<p class="explication">(JPG, GIF ou PNG uniquement)</p>
 	</td>
-	 <td align="center">
-		<table>
-		<!-- AGENT $f_cv _caption_='CV' -->
-		<tr><td></td><td class="explication">(PDF uniquement)</td></tr>
-		</table>
-	</td>
-</tr>
-<!-- END:IF -->
-<tr>
-	<td>
-		<h3>Nom d'usage</h3>
-	</td>
-	<td>
-		<h3>Etat civil de naissance</h3>
-	</td>
-</tr>
-<tr>
-	<td>
-		<table>
-		<!--
-
-		SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Le nom sous lequel vos camarades vous connaissaient à l'École.</small>"}<!-- END:SET
-		AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$_f
-
-		SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Le nom que vous utilisez habituellement aujourd'hui.</small>"}<!-- END:SET
-		AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$_f
-		AGENT $f_prenom_usuel _caption_="Prénom usuel"
-
-		IF $f_conjoint_email
-			SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>L'adresse email de votre conjoint.</small>"}<!-- END:SET
-			AGENT $f_conjoint_email _caption_="Conjoint" _format_=$_f
-		END:IF
-
-		-->
-		</table>
-	</td>
-	<td>
-		<table>
-		<!--
-		IF $f_sexe
-			AGENT $f_sexe _glue_=' ' _format_='<tr><td>&nbsp;</td><td class="input">%1%2</td></tr>'
-		END:IF
-		AGENT $f_nom_civil _caption_="Nom civil"
-		AGENT $f_prenom_civil _caption_="Prénom civil"
-
-		SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Votre date de naissance est gardée confidentielle.</small>"}<!-- END:SET
-		AGENT $f_date_naissance _caption_="Date de naissance"  _format_=$_f
-
-		-->
-		</table>
+	<td align="center">
+		<p><!-- AGENT $f_cv _caption_='CV' _format_='%1%2' --></p>
+		<p class="explication">(PDF uniquement)</p>
 	</td>
 </tr>
 </table>
+</div>
+<!-- END:IF -->
 
+<h3>Identité</h3>
+<div class="contenu">
+
+<h4>Nom d'usage</h4>
+<table class="contenu">
+<!--
+
+SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom utilisé habituellement aujourd'hui.</small>"}<!-- END:SET
+AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$_f
+AGENT $f_prenom_usuel _caption_="Prénom usuel"
+
+SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom de famille porté à l'École.</small>"}<!-- END:SET
+AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$_f
+
+IF $f_conjoint_email
+	SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>L'adresse email du conjoint.</small>"}<!-- END:SET
+	AGENT $f_conjoint_email _caption_="Conjoint" _format_=$_f
+END:IF
+
+-->
+</table>
+
+<h4>Etat civil de naissance</h4>
+<table class="contenu">
+<!--
+IF $f_sexe
+	AGENT $f_sexe _glue_=' ' _format_='<tr><td>&nbsp;</td><td class="input">%1%2</td></tr>'
+END:IF
+AGENT $f_nom_civil _caption_="Nom civil"
+AGENT $f_prenom_civil _caption_="Prénom civil"
+
+SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Votre date de naissance est gardée confidentielle.</small>"}<!-- END:SET
+AGENT $f_date_naissance _caption_="Date de naissance"  _format_=$_f
+
+-->
+</table>
+
+</div>
 <!-- END:IF -->

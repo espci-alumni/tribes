@@ -1,180 +1,224 @@
 <!-- INLINE css/style.css -->
 
-body
+/*   STYLES PRINCIPAUX   */
+
+html {overflow-y:scroll;}
+a {text-decoration:none;}
+a:hover {text-decoration:underline;}
+
+.label {white-space: nowrap;}
+.contenu input.text, .contenu input.password, .contenu input.QSelect, .contenu textarea, .contenu select
 {
-	margin: 10px;
+width: 350px;
+height: 22px;
 }
 
-a
+/*-----------------------*/
+
+/*   WRAPPER   */
+
+#body-max
 {
-	color: blue;
-	text-decoration: none;
+width:915px;
+height:auto;
+margin-left:auto;
+margin-right:auto;
 }
 
-a:hover
+/* -----------------------*/
+
+/*   TITRE DE LA PAGE  */
+
+h1
 {
-	text-decoration: underline;
+font-size:20px;
+color:#5c5c5c;
+margin-left:240px;
 }
 
-#header_cell form
+/*----------------------*/
+
+/*   CORP DU CONTENU   */
+
+#body-contenu
 {
-	display: inline;
+width:873px;
+height:auto;
+margin-left:20px;
+background-color:#ebebeb;
+float:left;
+border:solid 1px #b7b7b7;
+padding:10px 10px 10px 10px;
+color:#5c5c5c;
+font-size:12px;
 }
 
-input.text, input.QSelect, textarea, input.password
+div.submit
 {
-	width: 300px;
+text-align:center;
+margin:10px;
 }
 
-.notice
+.submit table
 {
-	float: right;
-	width: 400px;
-	margin-right: 100px;
-	text-align: justify;
-	background: #CCC;
-	border: 2px solid black;
-	padding: 20px;
+display:inline;
 }
 
-.unconfirmed
+div.submit input.submit
 {
-	font-style: italic;
-	color: gray;
+border:none;
+padding:6px 20px 6px 20px;
+font-size:16px;
+color:white;
+border:1px solid #165f00;
+background:url({~}img/spritey.png) #26c900 0px -102px repeat-x;
+font-weight:bold;
 }
 
-.requestHeading
+div.submit input.submit:hover
 {
-	background-color: silver;
-	font-weight: bold;
-	font-size: 120%;
+background:url({~}img/spritey.png) #26c900 0px -120px repeat-x;
 }
 
-#onglets
+/* --------------------------- */
+
+/*    ONGLETS CONTEXTUELS    */
+
+.tab-titles
 {
-	height: 30px;
-	width: 100%;
+padding: 10px;
 }
 
-#onglets_rech
+.tab-group h3
 {
-	height: 30px;
-	width: 100%;
+display:inline;
+width:auto;
+height:30px;
+background-color:#b7b7b7;
+margin-left:10px;
+font-variant:small-caps;
+padding:10px 20px;
+color:#fff;
 }
 
-#onglets ul 
+.tab-group h3:hover, .tab-group h3.active-tab
 {
-	margin-left: 7px;
-	list-style: none;
-	display: block;
-	height: 29px;
+background-color:#fff;
+color:#7d7d7d;
 }
 
-#onglets ul li 
+h3.additem{padding:0;}
+
+input.additem:hover
 {
-	display: inline;
-	float: left;
-	height: 20px;
-	padding: 0;
+background-color:#5c5c5c;
 }
 
-#onglets ul li a 
+input.additem
 {
-	display: inline;
-	text-align: center;
-	background: url() no-repeat top left;
-	font-weight: normal;
-   	padding: 5px 10px 5px 10px;
+padding:10px 20px;
+background-color:#b7b7b7;
+color:#fff;
+border:none;
+margin-bottom:-11px;
 }
 
-#onglets_rech ul 
+
+/*------------------------------*/
+
+/*   DIV CONTEXTUELS   */
+
+.contenu
 {
-	margin-left: 7px;
-	list-style: none;
-	float: left;
-	display: block;
-	height: 29px;
+padding:10px;
+background-color:#fff;
+color: black;
+margin-bottom: 20px;
 }
 
-#onglets_rech ul li 
+.js .tab-group div.contenu, .js .tab-group h3
 {
-	display: inline;
-	float: left;
-	height: 20px;
-	padding: 0;
+display: none;
 }
 
-#onglets_rech ul li a 
+#body-contenu h2
 {
-	display: inline;
-	text-align: center;
-	background: url() no-repeat top left;
-	font-weight: normal;
-   	padding: 5px 10px 5px 10px;
-}
-
-.infos
-{
-	border-right: 1px solid black;
-	background-color: #E1E1E1;
-}
-
-.consult
-{
-	border-right: 1px solid silver;
-	background-color: #9F9F9F;
-}
-.consult a
-{
-	color: white;
-}
-
-.moteur
-{
-	display : inline;
-	float: right;
-	margin-right: 50px;
-	margin-top: -90px;
-	background-color: black;
-	border: 1px solid white;
-	width : 100px;
-	height: 20px;
-	color: white;
-	text-align: center;
-}
-
-.moteur a
-{
-	color: white;
-}
-
-.moteur a:hover
-{
-	background-color: gray;
-}
-
-#footer
-{
-	text-align: center;
-	font-size: 90%;
-}
-
-.separateur
-{
-  clear: both;
+font-size:18px;
+color:#5c5c5c;
+margin:10px;
 }
 
 .explication
 {
-  font-style: italic;
+margin:10px;
 }
 
-.step_current
+.email.unconfirmed
 {
-	font-weight: bold;
+color:#888;
 }
 
-.step_done
+.email.active
 {
-	color: silver;
+font-weight: bold;
 }
+
+table.delitem
+{
+border-collapse:separate;
+}
+
+table.delitem td
+{
+border:solid 1px white;
+white-space: nowrap;
+}
+
+table.delitem tr:hover td
+{
+border-color:#ebebeb;
+}
+
+table.delitem tr input.delitem
+{
+visibility: hidden;
+}
+
+table.delitem tr:hover input.delitem
+{
+visibility: visible;
+}
+
+input.delitem
+{
+float: right;
+background:none;
+border:none;
+color:red;
+font-size:16px;
+}
+
+/*--------------------------------*/
+
+/*   FOOTER   */
+
+#footer
+{
+width:895px;
+height:27px;
+padding-top:20px;
+background:url({~}img/spritey.png) 0 0 repeat-x;
+margin-left:20px;
+margin-top:30px;
+margin-bottom:20px;
+text-align:center;
+float:left;
+font-size:10px;
+}
+
+#footer a
+{
+color:#5c5c5c;
+}
+
+/*-----------------------*/

@@ -2,19 +2,32 @@
 
 class extends agent
 {
+	public $get = array('p:i:1' => 1);
+
 	protected $contact_id;
+
+	protected static $perPage = 20;
 
 	function compose($o)
 	{
 		isset($this->contact_id) || $this->contact_id = $this->connected_id;
 
+		$start  = ($this->get->p - 1) * self::$perPage;
+		$length = self::$perPage;
+
+		$sql = "SELECT COUNT(*) FROM contact_historique WHERE contact_id={$this->contact_id}";
+		$o->results_nb       = DB()->queryOne($sql);
+		$o->results_per_page = self::$perPage;
+		$o->page             = $this->get->p;
+
 		$o->contact_id = $this->contact_id;
 
 		$sql = "SELECT h.*, prenom_usuel, nom_usuel, login
 				FROM contact_historique h
-					JOIN contact_contact c ON c.contact_id=h.contact_id
+					JOIN contact_contact c USING (contact_id)
 				WHERE h.contact_id={$this->contact_id}
-				ORDER BY historique_id DESC";
+				ORDER BY historique_id DESC
+				LIMIT {$start}, {$length}";
 
 		$o->historiques = new loop_sql($sql, array($this, 'filterRow'));
 

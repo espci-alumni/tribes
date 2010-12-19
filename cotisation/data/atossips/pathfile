@@ -1,0 +1,44 @@
+#########################################################################
+#
+#	Pathfile 
+#
+#	Liste des fichiers parametres utilises par le module de paiement
+#
+#########################################################################
+#
+#
+#-------------------------------------------------------------------------
+# Activation (YES) / Désactivation (NO) du mode DEBUG
+#-------------------------------------------------------------------------
+#
+DEBUG!NO!
+#
+# ------------------------------------------------------------------------
+# Chemin vers le répertoire des logos depuis le web alias  
+# ------------------------------------------------------------------------
+#
+D_LOGO!/fr/tpe/atossips/!
+#
+# --------------------------------------------------------------------------
+#  Fichiers paramètres liés a l'api Atos SIPS
+# --------------------------------------------------------------------------
+#
+# fichier des  paramètres par défaut
+#
+F_DEFAULT!/usr/local/atossips/parmcom.default!
+#
+# fichier paramètre commercant
+#
+F_PARAM!/usr/local/atossips/parmcom!
+#
+# certificat du commercant
+#
+F_CERTIFICATE!/usr/local/atossips/certif!
+# 
+# type du certificat 	
+# 
+#F_CTYPE!php!
+#
+# --------------------------------------------------------------------------
+# 	end of file
+# --------------------------------------------------------------------------

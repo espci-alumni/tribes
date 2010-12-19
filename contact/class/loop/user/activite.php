@@ -42,7 +42,7 @@ class extends loop_sql
 					AND ac.contact_confirmed
 					AND ac.is_shared
 					AND ac.is_obsolete<=0
-				ORDER BY ac.sort_key";
+				ORDER BY IF(date_fin,date_fin,date_debut) DESC,ac.sort_key";
 
 		parent::__construct($sql);
 	}

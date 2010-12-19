@@ -1,35 +1,39 @@
 <!-- AGENT 'header' title="Cotiser" public=1 -->
 
 <!-- IF a$__1__ == 'failed' -->
-<p>Identification échouée</p>
+<p class="errormsg">Email ou mot de passe incorrect</p>
 <!-- END:IF -->
 
 <!-- AGENT $form -->
-<h2>Vous possédez déjà un compte&nbsp;?</h2>
+<h3>Vous possédez déjà un compte&nbsp;?</h3>
 
+<div class="contenu">
 <table>
-<!-- AGENT $f_login _caption_="Identifiant" autofocus=1 placeholder='prenom.nom ou email' -->
+<!-- AGENT $f_login _caption_="Email" autofocus=1 -->
 <!-- AGENT $f_password _caption_="Mot de passe" -->
-<tr>
-	<td colspan="2" align="right">
-	<!-- AGENT $f_send_login value="Connexion" --><br />
-	Mot de passe perdu&nbsp;? Merci de remplir le formulaire ci-dessous.
-	</td>
-</tr>
 </table>
+</div>
+
+<div class="submit">
+	<!-- AGENT $f_send_login value="Connexion" -->
+	<p>
+	Mot de passe perdu&nbsp;?<br>
+	Merci de remplir le formulaire ci-dessous.
+	</p>
+</div>
 <!-- AGENT $form _mode_='close' -->
 
 <!-- AGENT $form -->
-<h2>Vous n'avez pas encore de compte&nbsp;?</h2>
+<h3>Vous n'avez pas encore de compte&nbsp;?</h3>
 
+<div class="contenu">
 <table>
 <!-- INLINE _registration -->
-<tr>
-	<td colspan="2" align="right">
-		<!-- AGENT $f_send value="Continuer…" -->
-	</td>
-</tr>
 </table>
+</div>
+
+<div class="submit"><!-- AGENT $f_send value="Continuer…" --></div>
+
 <!-- AGENT $form _mode_='close' -->
 
 <!-- AGENT 'footer' -->

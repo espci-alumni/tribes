@@ -1,0 +1,19 @@
+###############################################################################
+#
+#	Fichier des parametres ELYSNET
+#
+#	Remarque :	Ce fichier parametre est sous la responsabilite du CCF
+#
+###############################################################################
+
+
+# fond d'ecran
+
+BACKGROUND!fond_etransactions.gif!
+
+# Logo CA-ETRANSACTIONS (il apparait a droite sur les pages de paiement)
+
+LOGO2!ca-etransactions.gif!
+
+# END OF FILE
+

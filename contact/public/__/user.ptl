@@ -1,76 +1,78 @@
 <!--
 
 IF !$_title
-	SET $_title -->{"Profil de"} {$prenom_usuel} {$nom_usuel}<!--END:SET
+	SET $_title -->{$prenom_usuel} {$nom_usuel}<!--END:SET
 END:IF
 
-AGENT 'header' title=$_title
+SET $_head
+	INLINE css/_user
+	-->{$_head}<!--
+END:SET
+
+AGENT 'header' title=$_title head=$_head
 
 -->
 
 <!-- IF $connected_is_admin -->
-<div align="right"><a href="{~}admin/user/edit/{$contact_id}"><img src="{~}img/b_edit.gif" alt="modifier" /></a></div>
+<div id="b_edit"><a href="{~}admin/user/edit/{$contact_id}"><img src="{~}img/b_edit.gif" alt="modifier"></a></div>
 <!-- END:IF -->
 
-<!-- IF $hasPhoto -->
-<img src="{~}user/photo/{$photo_token}/{$login}.jpg" /><br />
-<!-- ELSE -->
-<img src="{~}img/photo.gif" /><br />
-<!-- END:IF -->
+<div id="user-contact" class="contenu">
 
-<!-- IF $hasCv -->
-<a href="{~}user/cv/{$cv_token}/{$login}.pdf">Télécharger le CV</a><br />
-<!-- END:IF -->
+	<h3>{$prenom_usuel} {$nom_usuel}</h3>
 
-<!-- IF $nom_etudiant != $nom_usuel || $date_naissance -->
-<table>
-<!-- IF $nom_etudiant != $nom_usuel -->
-<tr>
-	<td>Nom à l'école&nbsp;:</td>
-	<td>{$nom_etudiant}</td>
-</tr>
-<!-- END:IF -->
-<!-- IF $date_naissance -->
-<tr>
-	<td>Né<!-- IF 'F' == $sexe -->e<!-- END:IF --> le&nbsp;:</td>
-	<td>{$date_naissance|formatDate}</td>
-</tr>
-<!-- END:IF -->
-</table>
-<!-- END:IF -->
-
-<!-- IF $email -->
-<h3>Email de contact</h3>
-<p>
-{$email|mailto}
-</p>
-<!-- ELSE -->
-<h3>Faire passer le mot</h3>
-<p>
-Tu connais {$prenom_usuel} {$nom_usuel} ?<br />
-Propose-lui de se connecter sur {/|replace:'/|http://www.':''|capitalize} !
-</p>
-<!-- END:IF -->
+	<!-- IF $hasPhoto -->
+	<img src="{userDoc:'photo':$photo_token:$login:1}"><br>
+	<!-- ELSE -->
+	<img src="{~}img/photo.gif"><br>
+	<!-- END:IF -->
+	<!-- IF $nom_etudiant != $nom_usuel -->
+	<p>Nom à l'école&nbsp;: {$nom_etudiant}</p>
+	<!-- END:IF -->
+	<!-- IF $date_naissance -->
+	<p>Né<!-- IF 'F' == $sexe -->e<!-- END:IF --> le&nbsp;: {$date_naissance|formatDate}</p>
+	<!-- END:IF -->
+	<!-- IF $email -->
+	<p class="email">{$email|mailto}</p>
+	<!-- ELSE -->
+	<h3>Faire passer le mot</h3>
+	<p>
+		Tu connais {$prenom_usuel}&nbsp;?<br>
+		Propose-lui de se connecter sur {/|replace:'/|http://www.':''}&nbsp;!
+	</p>
+	<!-- END:IF -->
+	<!-- IF $hasCv -->
+	<p>
+		<a href="{userDoc:'cv':$cv_token:$login:1}" title="Téléchargez le CV"><img src="{~}img/pdf.png" border="0" alt="PDF">
+		<br>Télécharger le CV</a>
+	</p>
+	<!-- END:IF -->
+</div>
 
 <!-- IF $adresses -->
-<h3>Coordonnées</h3>
+<div id="user-adresse" class="contenu">
 
-<ul>
-<!-- LOOP $adresses -->
-	<li><!-- INLINE user/_adresse --></li>
-<!-- END:LOOP -->
-</ul>
+	<h3>Coordonnées</h3>
+
+	<ul>
+		<!-- LOOP $adresses -->
+		<li><!-- INLINE user/_adresse --></li>
+		<!-- END:LOOP -->
+	</ul>
+</div>
 <!-- END:IF -->
 
-
 <!-- IF $activites -->
-<h3>Activités</h3>
+<div class="contenu" style="float:left;clear:none;width:420px;">
 
-<ul>
-<!-- LOOP $activites -->
-	<li><!-- INLINE user/_activite --></li>
-<!-- END:LOOP -->
-</ul>
+	<h3>Activité{$activites-1|test:'s'}</h3>
+
+	<ul>
+		<!-- LOOP $activites -->
+		<li><!-- INLINE user/_activite --></li>
+		<!-- END:LOOP -->
+	</ul>
+</div>
 <!-- END:IF -->
 
 <!-- AGENT 'footer' -->

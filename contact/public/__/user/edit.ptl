@@ -1,4 +1,4 @@
-<!-- AGENT 'header' title="Mon profil" -->
+<!-- AGENT 'header' title="Profil" -->
 
 <!-- INLINE user/_onglets -->
 
@@ -7,27 +7,30 @@
 
 <!-- IF !$login -->
 <!-- SET $_a -->{g$__AGENT__|replace:'/.*':''}<!-- END:SET -->
-<!-- IF 'admin' === $_a -->
+<!-- IF 'admin' == $_a -->
 <h3>Ce contact n'est pas encore actif, il n'a donc ni email universel ni mot de passe</h3>
 <!-- ELSE -->
 <h3>Votre compte est en attente de validation par un modérateur</h3>
 <!-- END:IF -->
 <!-- END:IF -->
 
-<!-- INLINE user/edit/_login -->
-<!-- INLINE user/edit/_password -->
+<div class="tab-group">
 <!-- INLINE user/edit/_contact -->
-<!-- INLINE user/edit/_email -->
-<!-- INLINE user/edit/_adresse -->
-<!-- INLINE user/edit/_activite -->
+<!-- INLINE user/edit/_password -->
+</div>
+<div class="tab-group">
+	<!-- INLINE user/edit/_email -->
+	<!-- INLINE user/edit/_login -->
+</div>
+<div class="tab-group"><!-- INLINE user/edit/_adresse --></div>
+<div class="tab-group"><!-- INLINE user/edit/_activite --></div>
 
-<h3>Enregistrer</h3>
-
-<!-- IF $f_cur_pwd -->
-<table><!-- AGENT $f_cur_pwd _caption_="Votre mot de passe actuel" --></table>
-<!-- END:IF -->
-
-<!-- AGENT $f_send value="Enregistrer" -->
+<div class="submit">
+	<!-- IF $f_cur_pwd -->
+	<table><!-- AGENT $f_cur_pwd _caption_="Votre mot de passe actuel" --></table>
+	<!-- END:IF -->
+	<!-- AGENT $f_send value="Enregistrer" -->
+</div>
 
 <!-- AGENT $form _mode_='close' -->
 

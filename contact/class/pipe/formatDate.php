@@ -12,8 +12,8 @@ class
 	static function php($s)
 	{
 		$s = p::string($s);
-
-		return (int) $s ? preg_replace("'(....)-(..)-(..)'u", self::$format, $s) : '';
+		$s = str_replace('0000-00-00', '', $s);
+		return preg_replace("'(\d\d\d\d)-(\d\d)-(\d\d)'", self::$format, $s);
 	}
 
 	static function js()
@@ -22,8 +22,9 @@ class
 
 function($s)
 {
-	$s = str($s);
-	return parseInt($s) ? $s.replace(/(....)-(..)-(..)/g, <?php echo jsquote(self::$format); ?>) : '';
+	return str($s)
+		.replace(/0000-00-00/g, '')
+		.replace(/(\d\d\d\d)-(\d\d)-(\d\d)/g, <?php echo jsquote(self::$format); ?>);
 }
 
 <?php	}

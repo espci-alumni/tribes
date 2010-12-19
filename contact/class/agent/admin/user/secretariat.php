@@ -1,46 +1,32 @@
 <?php
 
-class extends agent_user_secretariat
+class extends agent_pForm
 {
-	public $get = array('__1__:i:1');
+	public $get = array('contact_id:i:1');
 
-	protected $requiredAuth = 'admin';
+	protected
+
+	$requiredAuth = 'admin',
+	$contact_id,
+	$form;
 
 
 	function compose($o)
 	{
-		$this->contact_id = $this->get->__1__;
+		$this->contact_id = $this->get->contact_id;
+
+		$o = substr_replace(get_class($this), '', 6, 6);
+		$o  = patchwork_class2file(substr($o, 6));
+		$o = agent::get($o, (array) $this->get);
+		$o->contact_id = $this->contact_id;
 
 		return parent::compose($o);
 	}
 
-	function composeBlocnote($o, $f, $send)
+	protected function composeForm($o, $f, $send)
 	{
-		$f->add('textarea', 'note');
+		$this->form = $f;
 
-		$send->attach('note', '', '');
-
-		return parent::composeBlocnote($o, $f, $send);
-	}
-
-	function save($data)
-	{
-		$data['contact_id'] = $this->contact_id;
-
-		!empty($data['note']) && notification::send('user/blocnote', $data);
-
-		return '';
-	}
-
-	function filterRow($o)
-	{
-		$o = parent::filterRow($o);
-
-		$o->f_del = new pForm_check($this->form, 'f_del', array(
-			'item' => array($o->historique_id => 'suppression'),
-			'multiple' => true
-		));
-		
-		return $o;
+		return parent::composeForm($o, $f, $send);
 	}
 }

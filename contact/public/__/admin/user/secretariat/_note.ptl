@@ -1,0 +1,26 @@
+<h3>Bloc-note</h3>
+
+<div class="contenu">
+<!-- IF $f_note -->
+
+<!-- AGENT $form -->
+<table>
+<!-- AGENT $f_note _caption_="Bloc Notes"-->
+</table>
+
+<div class="submit"><!-- AGENT $f_send value="Enregistrer" --></div>
+<!-- AGENT $form _mode_='close' -->
+
+<!-- END:IF -->
+
+<!-- LOOP $notes -->
+<fieldset>
+	<legend>Par <a href="{~}user/{$origine_contact_id}">{$origine_prenom} {$origine_nom}</a></legend>
+	<!-- AGENT $f_del class="delitem" title="✖" -->
+	<ul>
+			<li><strong>Note&nbsp;: </strong>{$note}</li>
+			<li>{$date_contact}</li>
+	</ul>
+</fieldset>
+<!-- END:LOOP -->
+</div>

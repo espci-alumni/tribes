@@ -1,0 +1,34 @@
+<h3>Cotisation</h3>
+
+<div class="contenu">
+<!-- IF $cotisations -->
+
+<table>
+<tr>
+	<th>Date</th>
+	<th colspan="2">Cotisation</th>
+	<th>Soutien</th>
+	<th>Payé</th>
+	<th>Mode</th>
+</tr>
+<!-- LOOP $cotisations -->
+<tr class="{$iteratorPosition%2|test:'odd':'even'}">
+	<td>{$paiement_date|replace:' .*$':''|formatDate}</td>
+	<td>{$type}</td>
+	<td align="right">{$cotisation}&nbsp;€</td>
+	<td align="right"><!-- IF $soutien/1 -->{$soutien}&nbsp;€<!-- ELSE -->-<!-- END:IF --></td>
+	<td align="right">{$paiement_euro}&nbsp;€</td>
+	<td align="center">{$paiement_mode}</td>
+</tr>
+<!-- END:LOOP -->
+</table>
+
+<!-- ELSE -->
+<p class="explication">Aucun historique n'est enregistré actuellement dans le fichier à votre nom.</p>
+
+<!-- IF a$cotiserlink --><!-- SET $_cotiserTarget -->target="_blank"<!-- END:SET --><!-- END:IF -->
+<p>
+Si vous souhaitez cotiser, <a href="{~}{a$cotiserlink|test:a$cotiserlink:'cotiser'}" {$_cotiserTarget}>merci de suivre ce lien</a>.
+</p>
+<!-- END:IF -->
+</div>

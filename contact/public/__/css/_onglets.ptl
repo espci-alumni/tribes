@@ -1,0 +1,72 @@
+<style>
+#body-contenu
+{
+margin-left:240px;
+width:653px;
+}
+
+#onglets
+{
+float:left;
+width:200px;
+height:auto;
+margin-top:-27px;
+margin-left:-225px;
+}
+
+#onglets ul
+{
+margin-bottom:30px;
+margin-left:0;
+margin-top:0;
+}
+
+#onglets li
+{
+list-style:none;
+}
+
+#onglets h3
+{
+display:block;
+width:190px;
+height:25px;
+font-size:16px;
+padding:5px 0 0 10px;
+margin-bottom:0;
+}
+
+#onglets .linkloop
+{
+display:block;
+width:180px;
+height:24px;
+color:white;
+background-color:#5c5c5c;
+padding-left:20px;
+padding-top:6px;
+font-size:12px;
+}
+
+#onglets li a
+{
+display:block;
+width:180px;
+height:24px;
+color:#7d7d7d;
+font-size:12px;
+padding-left:20px;
+padding-top:6px;
+background-color:#ebebeb;
+border-bottom:solid 1px #cecece;
+border-top:solid 1px white;
+}
+
+#onglets li a:hover
+{
+text-decoration:none;
+color:white;
+background-color:#5c5c5c;
+cursor:pointer;
+}
+</style>

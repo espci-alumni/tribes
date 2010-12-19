@@ -20,6 +20,7 @@ class extends agent
 				FROM contact_contact c
 				WHERE password!=''
 					AND acces=''
+					AND is_obsolete=0
 				ORDER BY contact_modified";
 
 		$o->contacts = new loop_sql($sql, array($this, 'filterContact'));

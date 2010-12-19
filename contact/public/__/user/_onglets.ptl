@@ -1,18 +1,74 @@
-<!-- IF g$__AGENT__ != 'admin/user/edit/' -->
+<!-- INLINE css/_onglets -->
+
+<script>
+$(function()
+{
+	$('.tab-group h3').show();
+
+	$('div.tab-group').each(function()
+	{
+		var tab = $('<div class="tab-titles">'),
+			contenus = $('h3+.contenu', this),
+			tab_group = this,
+			focused = $('h3+.contenu.active-tab', this).last()[0] || contenus[0];
+
+		$(focused).prev().addClass('active-tab');
+
+		contenus.each(function(index)
+		{
+			var h = $(this).prev();
+
+			h.remove();
+
+			h.css({
+				display: 'inline',
+				cursor: 'pointer'
+			});
+
+			h.click(function()
+			{
+				contenus.hide();
+				$(contenus[index]).show();
+				$('.active-tab', tab_group).removeClass('active-tab');
+				$(this).addClass('active-tab');
+
+			});
+
+			tab.append(h);
+		});
+
+		tab.insertBefore(contenus[0]);
+		$(focused).show();
+	});
+});
+</script>
+
 <div id="onglets">
+<!-- SET $_a -->{g$__AGENT__|replace:'^((admin/)?).*':'$1'}<!-- END:SET -->
+<!-- IF $_a -->
+<h3>Administration</h3>
 <ul>
-	<li class="infos"><a href="{~}user/edit/contact">Informations personnelles</a></li>
-	<li class="infos"><a href="{~}user/edit/adresse">Coordonnées</a></li>
-	<li class="infos"><a href="{~}user/edit/activite">Activités</a></li>
-	<li class="infos"><a href="{~}user/edit/email">Emails</a></li>
-	<li class="infos"><a href="{~}user/edit/password">Mot de passe</a></li>
-	<li class="consult"><a href="{~}user/historique">Historique</a></li>
-	<!-- IF $connected_is_admin -->
-	<li class="consult"><a href="{~}admin/user/secretariat/{$contact_id}">Secrétariat</a></li>
-	<!-- ELSE -->
-	<li class="consult"><a href="{~}user/secretariat">Secrétariat</a></li>
-	<!-- END:IF -->
+	<!-- SET $_a -->admin/user/edit/{$contact_id}<!-- END:SET -->
+	<li>{"Profil"|linkto:$_a}</li>
+	<!-- SET $_a -->admin/user/historique/{$contact_id}<!-- END:SET -->
+	<li>{"Historique"|linkto:$_a}</li>
+	<!-- SET $_a -->admin/user/secretariat/{$contact_id}<!-- END:SET -->
+	<li>{"Secrétariat"|linkto:$_a}</li>
 </ul>
-</div>
-<br />
+<!-- ELSE -->
+<h3>Mon profil</h3>
+<ul>
+	<li>{"Informations personnelles"|linkto:'user/edit/contact'}</li>
+	<li>{"Coordonnées"|linkto:'user/edit/adresse'}</li>
+	<li>{"Activités"|linkto:'user/edit/activite'}</li>
+	<li>{"Emails"|linkto:'user/edit/email'}</li>
+	<li>{"Mot de passe"|linkto:'user/edit/password'}</li>
+</ul>
+
+<h3>Administration</h3>
+<ul>
+	<li>{"Historique"|linkto:'user/historique'}</li>
+	<li>{"Secrétariat"|linkto:'user/secretariat'}</li>
+<ul>
 <!-- END:IF -->
+</div>

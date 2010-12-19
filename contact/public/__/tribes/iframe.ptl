@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title></title>
-<script type="text/javascript" src="{base:'js/w'}"></script>
+<script src="{base:'js/w'}"></script>
 <!-- END:SERVERSIDE -->
 <base target="iframe">
 <!--[if lt IE 7]>
@@ -12,6 +12,12 @@
 <![endif]-->
 <link rel="shortcut icon" href="{base:'favicon.ico'}" type="image/vnd.microsoft.icon" />
 <style>
+
+html
+{
+	overflow-y: auto !important;
+}
+
 #iframe_body, #iframe_menu, #iframe_shadow, #iframe_main, #iframe
 {
 	position: absolute;
@@ -197,7 +203,7 @@ setTimeout(function()
 		catch (a) {}
 	}
 }, 0);
-</script >
+</script>
 <!--[if lt IE 8]>
 <script>
 setTimeout(function()
@@ -205,7 +211,7 @@ setTimeout(function()
 var main = document.getElementById('iframe_main'), doc = document.documentElement, style = iframe.style;
 (window.onresize = function() {style.height = (doc.clientHeight - main.offsetTop - parseInt(main.currentStyle.bottom)) + 'px';})()
 }, 0);
-</script >
+</script>
 <![endif]-->
 </body>
 </html>

@@ -1,3 +1,3 @@
 <?php
 
-class extends agent_tpe_cmcic_response {}
+class extends agent_tpe_atossips_response {}

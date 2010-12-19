@@ -1,16 +1,12 @@
 <!-- AGENT 'header' title="Bulletin de cotisation" -->
 
-<h2>{$prenom} {$nom}</h2>
-
-<!-- IF $cotisation_expires -->
-<p>
-<strong>Vous êtes actuellement à jour de votre cotisation jusqu'au {$cotisation_expires|formatDate}.</strong>
-</p>
-<!-- END:IF -->
-
-<hr />
-
 <!-- AGENT $form -->
+<h3>{$prenom} {$nom}</h3>
+
+<div class="contenu">
+<!-- IF $cotisation_expires -->
+<p class="explication">Vous êtes actuellement à jour de votre cotisation jusqu'au {$cotisation_expires|formatDate}.</p>
+<!-- END:IF -->
 
 <table>
 <!-- AGENT $f_type _caption_="Catégorie de cotisation" -->
@@ -20,13 +16,14 @@
 </tr>
 <!-- AGENT $f_commentaire _caption_="Commentaire éventuel" -->
 </table>
+</div>
 
-<p>
-En cliquant sur ce bouton, votre bulletin de cotisation sera enregistré.
-La page suivante vous permettra le cas échéant de payer par carte bancaire&nbsp;:
+<div class="submit">
+<p class="explication">
+Votre cotisation sera prise en compte dès réception du paiement correspondant.<br>
+La page suivante vous permettra de payer par carte bancaire ou par chèque&nbsp;:
 </p>
 
-<div style="text-align: center; margin: 50px">
 <!-- AGENT $f_send value="Enregistrer" -->
 </div>
 
