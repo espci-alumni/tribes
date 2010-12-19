@@ -5,7 +5,7 @@
 
 <!-- AGENT $form -->
 <table>
-<!-- AGENT $f_note _caption_="Bloc Notes"-->
+<!-- AGENT $f_note _caption_="Bloc Notes" style='height:150px' -->
 </table>
 
 <div class="submit"><!-- AGENT $f_send value="Enregistrer" --></div>
