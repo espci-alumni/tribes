@@ -76,7 +76,7 @@ class extends tribes_adresse
 
 			$sql = "DELETE FROM contact_affiliation
 					WHERE activite_id={$id}
-						AND is_admin_confirmed={$confirmed}";
+						AND is_admin_confirmed<={$confirmed}";
 			$db->exec($sql);
 
 			$counter = 0;
@@ -122,7 +122,8 @@ class extends tribes_adresse
 				{
 					++$counter;
 
-					$a[$org_id] = "{$id},{$org_id},{$confirmed},{$counter}";
+					$a[$org_id] = "{$id},{$org_id},0,{$counter}";
+					$confirmed && $a[$org_id] .= "),({$id},{$org_id},1,{$counter}";
 				}
 			}
 
