@@ -24,7 +24,7 @@ AGENT 'header' title=$_title head=$_head
 	<!-- IF $hasPhoto -->
 	<img src="{userDoc:'photo':$photo_token:$login:1}"><br>
 	<!-- ELSE -->
-	<img src="{~}img/photo.gif"><br>
+	<img src="{~}img/photo-on.gif"><br>
 	<!-- END:IF -->
 	<!-- IF $nom_etudiant != $nom_usuel -->
 	<p>Nom à l'école&nbsp;: {$nom_etudiant}</p>

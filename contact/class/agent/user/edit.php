@@ -589,9 +589,9 @@ class extends agent_pForm
 			{
 				if (!$cv_text)
 				{
-					$cv_text = 'converter_txt_' . $file[2];
+					$cv_text = 'converter_txt_' . substr($file[2], 1);
 					$cv_text = new $cv_text;
-					$cv_text = $cv_text->convertFile($file['tmp_name']);
+					$cv_text = $cv_text->convertFile($file[0] . $token . $file[2]);
 				}
 
 				$token .= $file[2];
