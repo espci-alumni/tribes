@@ -29,6 +29,8 @@ class extends tribes_adresse
 
 	function save($data, $message = null, &$id = 0)
 	{
+		$db = DB();
+
 		if (!empty($data['keyword']))
 		{
 			$data['keyword'] = preg_replace("'\s*(?:[,;/]+\s*)+'", ', ', $data['keyword']);
@@ -36,8 +38,6 @@ class extends tribes_adresse
 
 			if ($this->confirmed)
 			{
-				$db = DB();
-
 				$a = preg_split("'[\s,;/]+'", $data['keyword']);
 				$o = array();
 
@@ -63,8 +63,6 @@ class extends tribes_adresse
 
 		if (!empty($data['organisation']))
 		{
-			$db = DB();
-
 			$confirmed = (int) (bool) $this->confirmed;
 
 			$org = explode('/', $data['organisation']);
