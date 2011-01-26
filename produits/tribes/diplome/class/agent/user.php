@@ -2,8 +2,11 @@
 
 class extends self
 {
+	protected static $selectFieldsDiplome = ', ecole, promotion';
+
 	static function __constructStatic()
 	{
-		self::$selectFields .= ', ecole, promotion';
+		parent::__constructStatic();
+		self::$selectFields .= self::$selectFieldsDiplome;
 	}
 }
