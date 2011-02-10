@@ -71,7 +71,7 @@ SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom utilisé habitue
 AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$_f
 AGENT $f_prenom_usuel _caption_="Prénom usuel"
 
-SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom de famille porté à l'École.</small>"}<!-- END:SET
+SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom de famille porté au début du cycle.</small>"}<!-- END:SET
 AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$_f
 
 IF $f_conjoint_email

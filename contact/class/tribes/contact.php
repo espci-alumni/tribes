@@ -48,6 +48,8 @@ class extends tribes_common
 
 	function save($data, $message = null, &$id = 0)
 	{
+		$db = DB();
+
 		if (!$this->contact_id)
 		{
 			$data['photo_token'] = p::strongid(8);
@@ -61,7 +63,6 @@ class extends tribes_common
 		{
 			$login = str_replace('-', '', $data['login']);
 
-			$db = DB();
 			$sql = "SELECT 1
 					FROM contact_alias
 					WHERE contact_id={$this->contact_id}
@@ -85,8 +86,6 @@ class extends tribes_common
 		{
 			if ($this->confirmed)
 			{
-				$db = DB();
-
 				if (!empty($data['login']))
 				{
 					$login = str_replace('-', '', $data['login']);
