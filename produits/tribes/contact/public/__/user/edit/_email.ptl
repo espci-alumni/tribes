@@ -7,8 +7,6 @@
 SET $f --><!-- END:SET
 LOOP $emails
 	IF $deleted
-		--><input type="hidden" name="deleted_email[]" value="{$deleted}"><!--
-
 		IF $email
 			-->
 			<tr>

@@ -2,7 +2,7 @@
 
 class extends self
 {
-	protected function composeDiplome($o)
+	protected function composeDiplome($o, $f, $send)
 	{
 		$sql = "SELECT ecole   AS c_ecole,
 					promotion  AS c_promotion,
@@ -15,6 +15,6 @@ class extends self
 
 		$o = (object) ((array) $o + $sql);
 
-		return agent_user_edit::composeDiplome($o);
+		return agent_user_edit::composeDiplome($o, $f, $send);
 	}
 }

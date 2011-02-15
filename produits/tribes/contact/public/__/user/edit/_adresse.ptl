@@ -7,7 +7,6 @@ N'hésitez pas à renseigner plusieurs adresses, professionnelles ou personnelle
 <!-- LOOP $adresses -->
 
 <!-- IF $deleted -->
-	<input type="hidden" name="deleted_adresse[]" value="{$deleted}">
 	<!-- IF $adresse_id -->
 	<h3><del>{$description|default:$organisation}</del></h3>
 	<div class="contenu">

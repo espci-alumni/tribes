@@ -17,7 +17,6 @@ les contacts générés n'en seront que plus pertinents.
 <!-- LOOP $activites -->
 
 <!-- IF $deleted -->
-	<input type="hidden" name="deleted_activite[]" value="{$deleted}">
 	<!-- IF $activite_id -->
 	<h3><del>{$description|default:$organisation}</del></h3>
 	<div class="contenu">
