@@ -4,7 +4,7 @@ IF $f_activite_del
 -->
 <tr>
 	<td>&nbsp;</td>
-	<td><!-- AGENT $f_activite_del title="supprimer cette activité" value="✖" class='delitem' _preserveScroll_=1 --></td>
+	<td><!-- AGENT $f_activite_del value="✘ Supprimer" class='delitem' _preserveScroll_=1 --></td>
 </tr>
 <!--
 END:IF
@@ -12,7 +12,7 @@ END:IF
 SET $_f -->{g$inputFormat|replace:'%1%2':'%1%2<br><small><em>Groupe, entreprise, université, école… séparés par des /</em></small>'}<!-- END:SET
 AGENT $f_organisation _caption_="Organisation(s)"  _format_=$_f
 AGENT $f_service _caption_="Service"
-AGENT $f_titre _caption_="Titre"
+AGENT $f_titre _caption_="Fonction"
 IF $f_fonction
 	AGENT $f_fonction _caption_="Département"
 END:IF

@@ -35,7 +35,7 @@ LOOP $emails
 			<td>
 				<!--
 				IF $f_email_del
-					AGENT $f_email_del title="supprimer cet e-mail" value='✖' class='delitem' _preserveScroll_=1
+					AGENT $f_email_del value='✘ Supprimer' class='delitem' _preserveScroll_=1
 				ELSE -->&nbsp;<!--
 				END:IF
 				-->
@@ -49,7 +49,7 @@ END:LOOP
 -->
 </table>
 <!-- END:IF -->
-<!-- AGENT $f_email_add value="ajouter un autre e-mail ✚" class='additem' _preserveScroll_=1 -->
+<!-- AGENT $f_email_add value="✚ Ajouter un autre email" class='additem' _preserveScroll_=1 -->
 </div>
 <!-- END:IF -->
 

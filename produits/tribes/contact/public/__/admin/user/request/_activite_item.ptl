@@ -4,7 +4,7 @@ SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_organisation:$organisatio
 AGENT $f_organisation _caption_="Organisation" _format_=$c placeholder=d$p
 
 SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_titre:$titre}<!-- END:SET
-AGENT $f_titre _caption_="Titre" _format_=$c placeholder=d$p
+AGENT $f_titre _caption_="Fonction" _format_=$c placeholder=d$p
 
 SET $c -->{$new_activite|test:d$fnew:d$f|diffFormat:$c_service:$service}<!-- END:SET
 AGENT $f_service _caption_="Service" _format_=$c placeholder=d$p

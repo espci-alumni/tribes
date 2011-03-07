@@ -16,7 +16,7 @@
 <!-- LOOP $notes -->
 <fieldset>
 	<legend>Par <a href="{~}user/{$origine_contact_id}">{$origine_prenom} {$origine_nom}</a></legend>
-	<!-- AGENT $f_del class="delitem" title="✖" -->
+	<!-- AGENT $f_del class="delitem" title="✖ Supprimer" -->
 	<ul>
 			<li><strong>Note&nbsp;: </strong>{$note}</li>
 			<li>{$date_contact}</li>

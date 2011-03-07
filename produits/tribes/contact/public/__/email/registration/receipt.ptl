@@ -5,7 +5,7 @@ Vous avez effectué une demande d'inscription.
 </p>
 
 <p>
-Vous devez maintenant cliquez sur le lien ci-dessous pour la confirmer définitivement&nbsp;:<br/>
+Merci de cliquer sur le lien ci-dessous pour valider votre email et ainsi confirmer votre demande d'inscription&nbsp;:<br>
 <a href="{~}{a$token}">{~}{a$token}</a>
 </p>
 
