@@ -8,7 +8,7 @@
 <!-- END:IF -->
 
 <!-- IF $f_photo && $f_cv -->
-<h3>Profil</h3>
+<h3>Photo &amp; CV</h3>
 <div class="contenu">
 <table width="100%">
 <tr>

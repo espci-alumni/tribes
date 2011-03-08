@@ -19,7 +19,7 @@ END:IF
 IF $f_secteur
 	AGENT $f_secteur _caption_="Secteur d'activité"
 END:IF
-IF $f_statut
+IF $f_statut && !$hide_statut
 	AGENT $f_statut _caption_="Statut"
 END:IF
 AGENT $f_date_debut _caption_="Début"
@@ -30,6 +30,7 @@ END:IF
 AGENT $f_site_web _caption_="Site Web"
 AGENT $f_keyword _caption_="Mots clés"
 
+IF $activite_id && !$is_shared
 -->
 <tr>
 	<td>&nbsp;</td>
@@ -41,3 +42,9 @@ AGENT $f_keyword _caption_="Mots clés"
 		</p>
 	</td>
 </tr>
+<!--
+ELSE
+	AGENT $f_is_shared type='hidden' value=1
+END:IF
+
+-->
