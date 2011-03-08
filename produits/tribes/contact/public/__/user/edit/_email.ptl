@@ -53,13 +53,21 @@ END:LOOP
 </div>
 <!-- END:IF -->
 
-<!-- IF $aliases -->
-<h3>Alias</h3>
+<!-- IF $f_login -->
+<h3>Email Universel</h3>
 <div class="contenu">
+<table>
+<!--AGENT $f_login _caption_="Email universel" -->
+</table>
+
+<!-- IF $aliases -->
+<h4>Alternative{$aliases-1|test:'s'}&nbsp;:</h4>
 <ul>
 <!-- LOOP $aliases -->
 	<li>{$alias}</li>
 <!-- END:LOOP-->
 </ul>
 </div>
+<!-- END:IF -->
+
 <!-- END:IF -->

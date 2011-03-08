@@ -23,8 +23,11 @@ class extends tribes_common
 	static
 
 	$alias = array(
-		array('prenom_civil', 'nom_usuel'),
+		array('prenom_usuel', 'nom_usuel'),
 		array('prenom_usuel', 'nom_etudiant'),
+		array('prenom_usuel', 'nom_civil'),
+		array('prenom_civil', 'nom_usuel'),
+		array('prenom_civil', 'nom_etudiant'),
 		array('prenom_civil', 'nom_civil'),
 	);
 

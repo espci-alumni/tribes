@@ -19,8 +19,7 @@
 <!-- INLINE user/edit/_password -->
 </div>
 <div class="tab-group">
-	<!-- INLINE user/edit/_email -->
-	<!-- INLINE user/edit/_login -->
+<!-- INLINE user/edit/_email -->
 </div>
 <div class="tab-group"><!-- INLINE user/edit/_adresse --></div>
 <div class="tab-group"><!-- INLINE user/edit/_activite --></div>
