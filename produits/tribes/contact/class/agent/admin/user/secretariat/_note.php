@@ -8,7 +8,10 @@ class extends agent_admin_user_secretariat
 
 		$send->attach('note', '', '');
 
-		return parent::composeForm($o, $f, $send);
+		$o = parent::composeForm($o, $f, $send);
+		$o->notes->addFilter(array($this, 'filterRow'));
+
+		return $o;
 	}
 
 	protected function save($data)
@@ -33,10 +36,10 @@ class extends agent_admin_user_secretariat
 	function filterRow($o)
 	{
 		$o->f_del = new pForm_check($this->form, 'f_del_historique', array(
-			'item' => array($o->historique_id => 'suppression'),
+			'item' => array($o->historique_id => 'Supprimer'),
 			'multiple' => true
 		));
 
-		return parent::filterRow($o);
+		return $o;
 	}
 }
