@@ -9,13 +9,6 @@ class extends agent_user_edit
 	$requiredAuth = 'admin',
 	$confirmed = true;
 
-	protected static
-
-	$acces = array(
-		'membre' => 'Membre',
-		'admin'  => 'Administrateur',
-	);
-
 
 	function control()
 	{
@@ -40,19 +33,6 @@ class extends agent_user_edit
 		$this->emails   ->adminMode = true;
 		$this->adresses ->adminMode = true;
 		$this->activites->adminMode = true;
-
-		return $o;
-	}
-
-	protected function composeContact($o, $f, $send)
-	{
-		$o = parent::composeContact($o, $f, $send);
-
-		$f->add('select', 'acces', array('item' => self::$acces));
-
-		$send->attach(
-			'acces', "Veuillez spécifier le type d'accès fourni à l'utilisateur", ''
-		);
 
 		return $o;
 	}
