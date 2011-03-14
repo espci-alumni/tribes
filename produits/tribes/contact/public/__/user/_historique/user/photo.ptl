@@ -3,7 +3,7 @@
 <h3>Nouvelle photo ajoutée<!-- IF $admin_confirmed --> et publiée<!-- END:IF --></h3>
 
 <p>
-<img src="{userDoc:'photo':$photo_token:$contact_login:$contact_confirmed}">
+<img src="{userDoc:'photo':$photo_token:$login:$contact_confirmed}">
 </p>
 
 <!-- END:LOOP -->

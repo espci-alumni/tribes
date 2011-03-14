@@ -102,8 +102,8 @@ class extends tribes_common
 				{
 					$sql = self::$alias[$i];
 
-					if (!isset($data[$sql[0]])) continue;
-					if (!isset($data[$sql[1]])) continue;
+					if (empty($data[$sql[0]])) continue;
+					if (empty($data[$sql[1]])) continue;
 
 					$login = tribes::makeIdentifier($data[$sql[0]], "- 'a-z")
 					 . '.' . tribes::makeIdentifier($data[$sql[1]], "- 'a-z");
