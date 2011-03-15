@@ -130,6 +130,14 @@ class extends tribes_common
 		return $message;
 	}
 
+	protected function filterDiplomeData($data)
+	{
+		if (empty($data['statut_activite'])) unset($data['statut_activite']);
+		else $data['statut_activite'] = u::ucfirst($data['statut_activite']);
+
+		return $data;
+	}
+
 	function delete($contact_id)
 	{
 		$sql = "DELETE FROM contact_alias WHERE contact_id={$contact_id}";

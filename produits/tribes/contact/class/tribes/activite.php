@@ -158,9 +158,16 @@ class extends tribes_adresse
 	{
 		$data = tribes_common::filterData($data);
 
-		isset($data['service'])  && $data['service']  = u::ucfirst($data['service']);
-		isset($data['fonction']) && $data['fonction'] = u::ucfirst($data['fonction']);
-		isset($data['secteur'])  && $data['secteur']  = u::ucfirst($data['secteur']);
+		isset($data['service']) && $data['service'] = u::ucfirst($data['service']);
+
+		if (empty($data['statut'])) unset($data['statut']);
+		else $data['statut'] = u::ucfirst($data['statut']);
+
+		if (empty($data['fonction'])) unset($data['fonction']);
+		else $data['fonction'] = u::ucfirst($data['fonction']);
+
+		if (empty($data['secteur'])) unset($data['secteur']);
+		else $data['secteur'] = u::ucfirst($data['secteur']);
 
 		return $data;
 	}

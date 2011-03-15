@@ -25,9 +25,11 @@ class extends self
 	protected function filterDiplomeData($data)
 	{
 		isset($data['ecole'])      && $data['ecole']      = u::ucfirst($data['ecole']);
-		isset($data['promotion'])  && $data['promotion']  = u::ucfirst($data['promotion']);
 		isset($data['programme'])  && $data['programme']  = u::ucfirst($data['programme']);
 		isset($data['specialite']) && $data['specialite'] = u::ucfirst($data['specialite']);
+
+		if (empty($data['promotion'])) unset($data['promotion']);
+		else $data['promotion']  = u::ucfirst($data['promotion']);
 
 		return $data;
 	}

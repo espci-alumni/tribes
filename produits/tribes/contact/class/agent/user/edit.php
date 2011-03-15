@@ -270,7 +270,10 @@ class extends agent_pForm
 				FROM item_lists
 				WHERE type='contact/statut'
 				ORDER BY sort_key, `group`, `value`";
-		$f->add('select', 'statut_activite', array('firstItem' => '- Choisir dans la liste -', 'sql' => $sql));
+		$f->add('select', 'statut_activite', array(
+			'firstItem' => '- Choisir dans la liste -',
+			'sql'       => $sql,
+		));
 
 		$send->attach(
 			'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', ''
