@@ -1,13 +1,20 @@
 <!-- IF $f_adresse_add || $adresses -->
+
 <h2>Coordonnées</h2>
+
+<!-- IF $f_adresse_add -->
 <p class="explication">
 N'hésitez pas à renseigner plusieurs adresses, professionnelles ou personnelles, confidentielles ou partagées.
 </p>
+<!-- ELSE -->
+<p class="explication">
+Merci de renseigner l'adresse à laquelle vous souhaitez recevoir les courriers envoyées par le secrétariat.
+</p>
+<!-- END:IF -->
 
 <!-- LOOP $adresses -->
 
 <!-- IF $deleted -->
-	<input type="hidden" name="deleted_adresse[]" value="{$deleted}">
 	<!-- IF $adresse_id -->
 	<h3><del>{$description|default:$organisation}</del></h3>
 	<div class="contenu">
@@ -37,7 +44,7 @@ END:IF
 <!-- END:LOOP -->
 
 <!-- IF $f_adresse_add -->
-<h3 class="additem"><!-- AGENT $f_adresse_add value="nouvelle adresse ✚" class='additem' _preserveScroll_=1 --></h3>
+<h3 class="additem"><!-- AGENT $f_adresse_add value="✚ Ajouter une adresse" class='additem' _preserveScroll_=1 --></h3>
 <div class="contenu"></div>
 <!-- END:IF -->
 

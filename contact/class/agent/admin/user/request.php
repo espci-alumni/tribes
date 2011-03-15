@@ -32,6 +32,15 @@ class extends agent_admin_user_edit
 
 	protected function composeForm($o, $f, $send)
 	{
+		$f->add('select', 'acces', array('item' => array(
+			'membre' => 'Utilisateur',
+			'admin'  => 'Administrateur',
+		)));
+
+		$send->attach(
+			'acces', "Veuillez spécifier le type d'accès fourni à l'utilisateur", ''
+		);
+
 		$o = $this->composeLogin($o, $f, $send);
 		$o = agent_user_edit::composeContact($o, $f, $send);
 		$o = $this->composeAdresse($o, $f, $send);

@@ -23,8 +23,11 @@ class extends tribes_common
 	static
 
 	$alias = array(
-		array('prenom_civil', 'nom_usuel'),
+		array('prenom_usuel', 'nom_usuel'),
 		array('prenom_usuel', 'nom_etudiant'),
+		array('prenom_usuel', 'nom_civil'),
+		array('prenom_civil', 'nom_usuel'),
+		array('prenom_civil', 'nom_etudiant'),
 		array('prenom_civil', 'nom_civil'),
 	);
 
@@ -99,8 +102,8 @@ class extends tribes_common
 				{
 					$sql = self::$alias[$i];
 
-					if (!isset($data[$sql[0]])) continue;
-					if (!isset($data[$sql[1]])) continue;
+					if (empty($data[$sql[0]])) continue;
+					if (empty($data[$sql[1]])) continue;
 
 					$login = tribes::makeIdentifier($data[$sql[0]], "- 'a-z")
 					 . '.' . tribes::makeIdentifier($data[$sql[1]], "- 'a-z");
@@ -125,6 +128,14 @@ class extends tribes_common
 		}
 
 		return $message;
+	}
+
+	protected function filterDiplomeData($data)
+	{
+		if (empty($data['statut_activite'])) unset($data['statut_activite']);
+		else $data['statut_activite'] = u::ucfirst($data['statut_activite']);
+
+		return $data;
 	}
 
 	function delete($contact_id)

@@ -8,7 +8,7 @@
 <!-- END:IF -->
 
 <!-- IF $f_photo && $f_cv -->
-<h3>Profil</h3>
+<h3>Photo &amp; CV</h3>
 <div class="contenu">
 <table width="100%">
 <tr>
@@ -60,19 +60,21 @@
 </div>
 <!-- END:IF -->
 
-<h3>Identité</h3>
+<h3>État civil</h3>
 <div class="contenu">
 
-<h4>Nom d'usage</h4>
+<h4>Prénom et nom usuels</h4>
 <table class="contenu">
 <!--
 
 SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom utilisé habituellement aujourd'hui.</small>"}<!-- END:SET
-AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$_f
 AGENT $f_prenom_usuel _caption_="Prénom usuel"
+AGENT $f_nom_usuel    _caption_="Nom usuel" _format_=$_f
 
-SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom de famille porté au début du cycle.</small>"}<!-- END:SET
-AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$_f
+IF $f_nom_etudiant
+	SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom de famille porté au début du cycle d'études.</small>"}<!-- END:SET
+	AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$_f
+END:IF
 
 IF $f_conjoint_email
 	SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>L'adresse email du conjoint.</small>"}<!-- END:SET
@@ -82,14 +84,14 @@ END:IF
 -->
 </table>
 
-<h4>Etat civil de naissance</h4>
+<h4>État civil de naissance</h4>
 <table class="contenu">
 <!--
 IF $f_sexe
 	AGENT $f_sexe _glue_=' ' _format_='<tr><td>&nbsp;</td><td class="input">%1%2</td></tr>'
 END:IF
-AGENT $f_nom_civil _caption_="Nom civil"
-AGENT $f_prenom_civil _caption_="Prénom civil"
+AGENT $f_prenom_civil _caption_="Prénom"
+AGENT $f_nom_civil _caption_="Nom de naissance"
 
 SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Votre date de naissance est gardée confidentielle.</small>"}<!-- END:SET
 AGENT $f_date_naissance _caption_="Date de naissance"  _format_=$_f

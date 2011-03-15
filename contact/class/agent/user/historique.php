@@ -56,6 +56,9 @@ class extends agent
 
 		if ($o->details && $sql = unserialize($o->details))
 		{
+			empty($sql['photo_token']) || $sql['photo_token'] = implode('.', explode('.', $sql['photo_token']) + array(1 => 'jpg', 'jpg'));
+			empty($sql['cv_token'   ]) || $sql['cv_token'   ] = implode('.', explode('.', $sql['cv_token']   ) + array(1 => 'pdf', 'pdf'));
+
 			$o->details = new loop_array(array($sql), 'filter_rawArray');
 		}
 

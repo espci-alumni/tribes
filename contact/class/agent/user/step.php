@@ -20,7 +20,7 @@ class extends agent_user_edit
 
 		return parent::compose($o);
 	}
-	
+
 	protected function getStep()
 	{
 		return new tribes_step(patchwork_class2file(substr(get_class($this), strlen(__CLASS__)+1)));

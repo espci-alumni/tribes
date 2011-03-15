@@ -1,23 +1,25 @@
 <!-- IF $f_activite_add || $activites -->
 
-<h2>Activités</h2>
-<p class="explication">
-N'hésitez pas à remplir vos activités passées et présentes au complet,
-votre profil sera ainsi plus visible dans l'annuaire et
-les contacts générés n'en seront que plus pertinents.
-</p>
+<h2>{$f_activite_add|test:"Activités":"Activité professionnelle actuelle"}</h2>
 
-<!-- IF $f_statut_activite -->
-<h2>Statut principal actuel</h2>
 <table>
 <!-- AGENT $f_statut_activite _caption_="Statut principal actuel" -->
 </table>
+
+<p class="explication">
+<!-- IF $f_activite_add -->
+N'hésitez pas à remplir vos activités passées et présentes au complet,
+votre profil sera ainsi plus visible dans l'annuaire et
+les contacts générés n'en seront que plus pertinents.
+<!-- ELSE -->
+Merci de renseigner votre activité professionnelle actuelle ou la plus récente.
+Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 <!-- END:IF -->
+</p>
 
 <!-- LOOP $activites -->
 
 <!-- IF $deleted -->
-	<input type="hidden" name="deleted_activite[]" value="{$deleted}">
 	<!-- IF $activite_id -->
 	<h3><del>{$description|default:$organisation}</del></h3>
 	<div class="contenu">
@@ -47,7 +49,7 @@ END:IF
 <!-- END:LOOP -->
 
 <!-- IF $f_activite_add -->
-<h3 class="additem"><!-- AGENT $f_activite_add value="nouvelle activité ✚" class='additem' _preserveScroll_=1 --></h3>
+<h3 class="additem"><!-- AGENT $f_activite_add value="✚ Ajouter une activité" class='additem' _preserveScroll_=1 --></h3>
 <div class="contenu"></div>
 <!-- END:IF -->
 

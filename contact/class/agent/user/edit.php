@@ -155,22 +155,21 @@ class extends agent_pForm
 			'M' => 'M.'
 		)));
 
-		$f->add('name', 'nom_civil');
-		$f->add('name', 'prenom_civil');
-		$f->add('name', 'nom_etudiant');
-		$f->add('name', 'nom_usuel');
 		$f->add('name', 'prenom_usuel');
+		$f->add('name', 'nom_usuel');
+		$f->add('name', 'nom_etudiant');
+		$f->add('name', 'prenom_civil');
+		$f->add('name', 'nom_civil');
 		$f->add('date', 'date_naissance');
-
 		$f->add('email', 'conjoint_email');
 
 		$send->attach(
 			'sexe',         "Veuillez renseigner le champs Mme Mlle M.", '',
-			'nom_civil',    "Veuillez renseigner votre nom civil", '',
-			'prenom_civil', "Veuillez renseigner votre prenom civil", '',
-			'nom_etudiant', "Veuillez renseigner le nom d'étudiant", '',
-			'nom_usuel'   , "Veuillez renseigner le nom usuel"     , '',
-			'prenom_usuel', "Veuillez renseigner le prénom usuel"  , '',
+			'prenom_usuel', "Veuillez renseigner le prénom usuel",       '',
+			'nom_usuel'   , "Veuillez renseigner le nom usuel",          '',
+			'nom_etudiant', '', '',
+			'prenom_civil', "Veuillez renseigner le prenom civil",       '',
+			'nom_civil',    "Veuillez renseigner le nom de naissance",   '',
 			'date_naissance', '', '',
 			'conjoint_email', '', 'Veuillez renseigner une adresse email valide'
 		);
@@ -271,7 +270,10 @@ class extends agent_pForm
 				FROM item_lists
 				WHERE type='contact/statut'
 				ORDER BY sort_key, `group`, `value`";
-		$f->add('select', 'statut_activite', array('firstItem' => '- Choisir dans la liste -', 'sql' => $sql));
+		$f->add('select', 'statut_activite', array(
+			'firstItem' => '- Choisir dans la liste -',
+			'sql'       => $sql,
+		));
 
 		$send->attach(
 			'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', ''
@@ -293,6 +295,10 @@ class extends agent_pForm
 
 	protected function saveContact($data)
 	{
+		isset($data['nom_civil'], $data['nom_etudiant'])
+			&& empty($data['nom_etudiant'])
+			&& $data['nom_etudiant'] = $data['nom_civil'];
+
 		$this->savePhoto($data);
 		$this->saveCv($data);
 
