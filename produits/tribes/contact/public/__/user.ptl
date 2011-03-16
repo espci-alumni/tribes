@@ -26,7 +26,7 @@ AGENT 'header' title=$_title head=$_head
 	<!-- ELSE -->
 	<img src="{~}img/photo-on.gif"><br>
 	<!-- END:IF -->
-	<!-- IF $nom_civil != $nom_usuel -->
+	<!-- IF $nom_civil && $nom_civil != $nom_usuel -->
 	<p>Nom de naissance&nbsp;: {$nom_civil}</p>
 	<!-- END:IF -->
 	<!-- IF $date_naissance -->
@@ -38,7 +38,7 @@ AGENT 'header' title=$_title head=$_head
 	<h3>Faire passer le mot</h3>
 	<p>
 		Tu connais {$prenom_usuel}&nbsp;?<br>
-		Propose-lui de se connecter sur {/|replace:'/|http://www.':''}&nbsp;!
+		Fait passer le mot et invite le à s'inscrire&nbsp;!
 	</p>
 	<!-- END:IF -->
 	<!-- IF $hasCv -->
