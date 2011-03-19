@@ -56,8 +56,16 @@ class extends agent_admin_user_edit
 		$o = $this->composeActivite($o, $f, $send, -1);
 
 		$f->add('textarea', 'message');
+		$f->add('select', 'acces', array('item' => array(
+			'membre' => 'Utilisateur',
+			'admin'  => 'Administrateur',
+		)));
 
-		$send->attach('message', '', '');
+		$send->attach(
+			'message', '', '',
+			'acces', "Veuillez spécifier le type d'accès fourni à l'utilisateur", ''
+		);
+
 
 		return $o;
 	}

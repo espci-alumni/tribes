@@ -1,12 +1,5 @@
 <!-- IF $f_nom_civil -->
 
-<!-- IF $f_acces -->
-<h2>Privilèges</h2>
-<table>
-<!-- AGENT $f_acces _caption_="Privilèges" -->
-</table>
-<!-- END:IF -->
-
 <!-- IF $f_photo && $f_cv -->
 <h3>Photo &amp; CV</h3>
 <div class="contenu">
