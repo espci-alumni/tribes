@@ -38,7 +38,11 @@ AGENT 'header' title=$_title head=$_head
 	<h3>Faire passer le mot</h3>
 	<p>
 		Tu connais {$prenom_usuel}&nbsp;?<br>
+		<!-- IF 'F' == $sexe -->
+		Fait passer le mot et invite la à s'inscrire&nbsp;!
+		<!-- ELSE -->
 		Fait passer le mot et invite le à s'inscrire&nbsp;!
+		<!-- END:IF -->
 	</p>
 	<!-- END:IF -->
 	<!-- IF $hasCv -->
