@@ -11,6 +11,7 @@
 <!-- IF $titre && $fonction -->{g$inputFormat|echo:"Département":$fonction}<!-- END:IF -->
 <!-- IF $secteur  -->{g$inputFormat|echo:"Secteur":$secteur}<!-- END:IF -->
 <!-- IF $site_web -->{g$inputFormat|echo:"Site web":$site_web|urlize}<!-- END:IF -->
+<!-- IF $keyword  -->{g$inputFormat|echo:"Mot-clés":$keyword}<!-- END:IF -->
 <!-- IF $adresse_id -->
 <tr>
 	<td colspan="2"><!-- INLINE user/_adresse --></td>

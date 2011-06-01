@@ -25,6 +25,7 @@ class extends loop_sql
 					IF(date_debut,date_debut,'') AS date_debut,
 					IF(date_fin,date_fin,'') AS date_fin,
 					site_web,
+					keyword,
 					ad.adresse_id,
 					adresse,
 					ville_avant,

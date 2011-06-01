@@ -1,0 +1,10 @@
+<!-- AGENT 'header' title="Administration" -->
+
+<h3>Nombre d'inscrits actuellement&nbsp;: {$nb_inscrits}</h3>
+
+<ul>
+	<li><a href="{~}admin/registration/requests">Demandes d'inscription à valider</a></li>
+	<li><a href="{~}admin/user/requests">Fiches modifiées à publier</a></li>
+</ul>
+
+<!-- AGENT 'footer' -->
