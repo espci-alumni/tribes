@@ -3,8 +3,19 @@
 /*   STYLES PRINCIPAUX   */
 
 html {overflow-y:scroll;}
-a {text-decoration:none;}
-a:hover {text-decoration:underline;}
+a {
+text-decoration:none;
+color : #3b5998;
+font-weight : 600;
+}
+
+a:visited {
+color : #3c4761;
+}
+
+a:hover {
+text-decoration:underline;
+}
 
 .label {
 white-space: nowrap;

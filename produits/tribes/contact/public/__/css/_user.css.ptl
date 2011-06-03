@@ -1,41 +1,113 @@
-
-#user-contact
+div.activite-cadre
 {
-float:left;
-clear:none;
-width:150px;
-text-align:center;
+    box-shadow      : 0 0 3px #aaa;
+    background-color: #fcfcfc;
+    border          : 1px solid #fff;
+    margin-bottom   : 10px;
+    padding         : 5px 10px;
 }
 
-#user-adresse
+div.nobg
 {
-float:left;
-clear:none;
-width:200px;
-background-image: url({~}img/letter.gif);
-background-position: center 40px;
-background-repeat: no-repeat;
+    background      : none;
+    box-shadow      : none;
 }
 
-#user-adresse ul
+h4.h4-section:first-child
 {
-padding-top: 90px;
+    margin-top      : 0;
+}
+
+h4.h4-section
+{
+    margin          : 20px 0 5px 0;
+}
+
+h1
+{
+    padding-left    : 20px;
+}
+
+#contact-left 
+{
+    float           : left;
+    width           : 230px;
+    position        : relative;
+}
+
+#contact-right
+{
+    float           : left;
+    width           : 635px;
+    position        : relative;
+}
+
+#picture
+{
+    margin-left     : 20px;
+    margin-bottom   : 10px;
+}
+
+img.picture 
+{
+    box-shadow      : 0 0 5px #aaa;
+}
+
+h2.organisation
+{
+    color           : #5a5a5a;
+    font-size       : 16px;
+    border-bottom   : 1px dashed #aaa;
+    margin          : 0 !important;
+}
+
+.datation
+{
+    font-size       : 9px;
+    font-weight     : 400;
+}
+
+h4.user-poste
+{
+    font-size       : 1em;
+    color           : #000;
+    font-weight     : 600;
+}
+
+table.activite-table
+{
+    margin-left     : 50px;
+}
+
+td.input, address
+{
+    color           : #000;
+    font-weight     : 600;
+}
+
+td, address
+{
+    padding-left    : 0;
+}
+
+#cv-link, #cv-link img
+{
+    vertical-align  : middle;
 }
 
 #b_edit
 {
-float:right;
-margin-top:-40px;
+    float           : right;
+    margin-top      : -40px;
 }
 
 #navigation_resultats
 {
-margin-top:-47px;
+    margin-top      : -47px;
 }
 
-.contenu
+#body-contenu
 {
-margin-left:10px;
+    background      : none;
+    border          : none;
 }
-
-
