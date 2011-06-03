@@ -5,8 +5,8 @@ IF !$_title
 END:IF
 
 SET $_head
-	INLINE css/_user
-	-->{$_head}<!--
+    --><style><!-- INLINE css/_user.css --></style>
+    {$_head}<!--
 END:SET
 
 AGENT 'header' title=$_title head=$_head

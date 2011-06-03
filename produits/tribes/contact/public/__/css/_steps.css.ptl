@@ -1,4 +1,4 @@
-<style>
+
 #body-contenu
 {
 border:none;
@@ -50,4 +50,4 @@ font-weight:bold;
 font-size:12px;
 }
 
-</style>
+

@@ -9,8 +9,8 @@ SET $_title
 END:SET
 
 SET $_head
-	INLINE css/_steps
-	-->{$_head}<!--
+    --><style><!--	INLINE css/_steps.css --></style>
+    {$_head}<!--
 END:SET
 
 AGENT 'header' title=$_title head=$_head

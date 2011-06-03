@@ -1,4 +1,4 @@
-<!-- INLINE css/_onglets -->
+<style><!-- INLINE css/_onglets.css --></style>
 
 <script>
 $(function()

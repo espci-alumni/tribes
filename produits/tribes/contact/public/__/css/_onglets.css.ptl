@@ -1,4 +1,3 @@
-<style>
 #body-contenu
 {
 margin-left:240px;
@@ -69,4 +68,3 @@ color:white;
 background-color:#5c5c5c;
 cursor:pointer;
 }
-</style>
