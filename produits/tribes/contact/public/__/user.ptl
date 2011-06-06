@@ -1,7 +1,7 @@
 <!--
 
 IF !$_title
-	SET $_title -->{$prenom_usuel} {$nom_usuel}<!--END:SET
+    SET $_title -->{$prenom_usuel} {$nom_usuel}<!-- END:SET
 END:IF
 
 SET $_head
@@ -17,66 +17,56 @@ AGENT 'header' title=$_title head=$_head
 <div id="b_edit"><a href="{~}admin/user/edit/{$contact_id}"><img src="{~}img/b_edit.gif" alt="modifier"></a></div>
 <!-- END:IF -->
 
-<div id="user-contact" class="contenu">
+<div id="contact-left">
+    <div id="picture">
+        <!-- IF $hasPhoto -->
+        <img class="picture" src="{userDoc:'photo':$photo_token:$login:1}"><br>
+        <!-- ELSE -->
+        <img class="picture" src="{~}img/photo.gif"><br>
+        <!-- END:IF -->
+    </div>
+    <!-- IF $nom_civil && $nom_civil != $nom_usuel -->
+    <p>Nom de naissance&nbsp;: {$nom_civil}</p>
+    <!-- END:IF -->
+    <!-- IF $date_naissance -->
+    <p>Né<!-- IF 'F' == $sexe -->e<!-- END:IF --> le&nbsp;: {$date_naissance|formatDate}</p>
+    <!-- END:IF -->
+    <!-- IF $email -->
+    <p class="email">{$email|mailto}</p>
+    <!-- END:IF -->
+    <!-- IF $hasCv -->
+    <p id="cv-link">
+        <a href="{userDoc:'cv':$cv_token:$login:1}" title="Téléchargez le CV"><img src="{~}img/pdf.png" border="0" alt="PDF">
+        &nbsp;Télécharger le cv</a>
+    </p>
+    <!-- ELSE -->
+    <p id="cv-link">
+        <img src="{~}img/pdf-off.png" border="0" alt="PDF">
+        &nbsp;Pas de cv à télécharger
+    </p>
+    <!-- END:IF -->
+    
+    <!-- IF $adresses -->
+    <h3>Coordonnées</h3>
 
-	<h3>{$prenom_usuel} {$nom_usuel}</h3>
-
-	<!-- IF $hasPhoto -->
-	<img src="{userDoc:'photo':$photo_token:$login:1}"><br>
-	<!-- ELSE -->
-	<img src="{~}img/photo.gif"><br>
-	<!-- END:IF -->
-	<!-- IF $nom_civil && $nom_civil != $nom_usuel -->
-	<p>Nom de naissance&nbsp;: {$nom_civil}</p>
-	<!-- END:IF -->
-	<!-- IF $date_naissance -->
-	<p>Né<!-- IF 'F' == $sexe -->e<!-- END:IF --> le&nbsp;: {$date_naissance|formatDate}</p>
-	<!-- END:IF -->
-	<!-- IF $email -->
-	<p class="email">{$email|mailto}</p>
-	<!-- ELSE -->
-	<h3>Faire passer le mot</h3>
-	<p>
-		Tu connais {$prenom_usuel}&nbsp;?<br>
-		<!-- IF 'F' == $sexe -->
-		Fait passer le mot et invite la à s'inscrire&nbsp;!
-		<!-- ELSE -->
-		Fait passer le mot et invite le à s'inscrire&nbsp;!
-		<!-- END:IF -->
-	</p>
-	<!-- END:IF -->
-	<!-- IF $hasCv -->
-	<p>
-		<a href="{userDoc:'cv':$cv_token:$login:1}" title="Téléchargez le CV"><img src="{~}img/pdf.png" border="0" alt="PDF">
-		<br>Télécharger le CV</a>
-	</p>
-	<!-- END:IF -->
+    <ul>
+        <!-- LOOP $adresses -->
+        <li><!-- INLINE user/_adresse --></li>
+        <!-- END:LOOP -->
+    </ul>
+    <!-- END:IF -->
 </div>
-
-<!-- IF $adresses -->
-<div id="user-adresse" class="contenu">
-
-	<h3>Coordonnées</h3>
-
-	<ul>
-		<!-- LOOP $adresses -->
-		<li><!-- INLINE user/_adresse --></li>
-		<!-- END:LOOP -->
-	</ul>
-</div>
-<!-- END:IF -->
-
+<div id="contact-right">
+{$_pre_activite}
 <!-- IF $activites -->
-<div class="contenu" style="float:left;clear:none;width:420px;">
+<div class="activite-cadre nobg">
 
-	<h3>Activité{$activites-1|test:'s'}</h3>
-
-	<ul>
-		<!-- LOOP $activites -->
-		<li><!-- INLINE user/_activite --></li>
-		<!-- END:LOOP -->
-	</ul>
+        <!-- LOOP $activites -->
+        <!-- INLINE user/_activite -->
+        <!-- END:LOOP -->
 </div>
 <!-- END:IF -->
 
+
+</div>
 <!-- AGENT 'footer' -->
