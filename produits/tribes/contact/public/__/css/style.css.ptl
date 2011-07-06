@@ -106,37 +106,45 @@ padding: 10px;
 .tab-group h3
 {
 display:inline;
+}
+
+.tab-group .acordeon
+{
+position:relative;
+top:-26px;
 width:auto;
 height:30px;
-background-color:#b7b7b7;
-margin-left:10px;
+background-color:#fff;
 font-variant:small-caps;
 padding:10px 20px;
-color:#fff;
+color:#333;
+border:1px solid #333;
+border-bottom:1px solid #fff;
+border-radius:5px 5px 0 0;
+cursor:pointer;
 }
 
-.tab-group h3:hover, .tab-group h3.active-tab
+.tab-group .onglet-first
 {
-background-color:#fff;
-color:#7d7d7d;
+top:10px;
 }
 
-h3.additem{padding:0;}
-
-input.additem:hover
+.tab-group .onglet-0
 {
-background-color:#5c5c5c;
+top:10px;
+}
+
+
+input.additem
+{
+border:0;
+background:0;
 }
 
 input.additem
 {
-padding:10px 20px;
-background-color:#b7b7b7;
-color:#fff;
-border:none;
-margin-bottom:-11px;
+margin-bottom:-1px;
 }
-
 
 /*------------------------------*/
 
@@ -150,9 +158,18 @@ color: black;
 margin-bottom: 20px;
 }
 
-.js .tab-group div.contenu, .js .tab-group h3
+.tab-group .contenu
 {
-display: none;
+margin-bottom:0;
+margin-top:-16px;
+border:1px solid #333;
+border-radius:0 5px 5px 5px;
+overflow:hidden;
+}
+
+.tab-group .contenu-first, .tab-group .contenu-0
+{
+margin-top:20px;
 }
 
 #body-contenu h2
@@ -210,6 +227,11 @@ background:none;
 border:none;
 color:red;
 font-size:16px;
+}
+
+table.onglet-table
+{
+width:100%
 }
 
 small {

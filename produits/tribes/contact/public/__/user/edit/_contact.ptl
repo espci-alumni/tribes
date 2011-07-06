@@ -1,8 +1,8 @@
 <!-- IF $f_nom_civil -->
 
 <!-- IF $f_photo && $f_cv -->
-<h3>Photo &amp; CV</h3>
-<div class="contenu">
+<span class="acordeon onglet-first"><h3>Photo &amp; CV</h3></span>
+<div class="contenu contenu-first">
 <table width="100%">
 <tr>
 	<td width="50%">
@@ -53,11 +53,11 @@
 </div>
 <!-- END:IF -->
 
-<h3>État civil</h3>
+<span class="acordeon"><h3>État civil</h3></span>
 <div class="contenu">
 
 <h4>Prénom et nom usuels</h4>
-<table class="contenu">
+<table class="onglet-table">
 <!--
 
 SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom utilisé habituellement aujourd'hui.</small>"}<!-- END:SET
@@ -78,7 +78,7 @@ END:IF
 </table>
 
 <h4>État civil de naissance</h4>
-<table class="contenu">
+<table>
 <!--
 IF $f_sexe
 	AGENT $f_sexe _glue_=' ' _format_='<tr><td>&nbsp;</td><td class="input">%1%2</td></tr>'

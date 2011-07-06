@@ -3,43 +3,36 @@
 <script>
 $(function()
 {
-	$('.tab-group h3').show();
-
-	$('div.tab-group').each(function()
-	{
-		var tab = $('<div class="tab-titles">'),
-			contenus = $('h3+.contenu', this),
-			tab_group = this,
-			focused = $('h3+.contenu.active-tab', this).last()[0] || contenus[0];
-
-		$(focused).prev().addClass('active-tab');
-
-		contenus.each(function(index)
-		{
-			var h = $(this).prev();
-
-			h.remove();
-
-			h.css({
-				display: 'inline',
-				cursor: 'pointer'
-			});
-
-			h.click(function()
-			{
-				contenus.hide();
-				$(contenus[index]).show();
-				$('.active-tab', tab_group).removeClass('active-tab');
-				$(this).addClass('active-tab');
-
-			});
-
-			tab.append(h);
-		});
-
-		tab.insertBefore(contenus[0]);
-		$(focused).show();
-	});
+    $('div.tab-group').each(function()
+    {
+        var tab = $('<div class="tab-titles">'),
+            contenus = $('.acordeon+.contenu', this),
+            tab_group = this,
+            size = $('.acordeon+.contenu', this).height();
+        contenus.each(function(index)
+        {
+        contenus.css('height','10px');
+        $(contenus).find('*').css('visibility','hidden');
+        $(contenus[0]).css('height',size+50);
+        $(contenus[0]).find('*').css('visibility','visible');
+               
+            var h = $(this).prev();
+            h.click(function()
+            {
+                
+                contenus.animate({
+                height : '10px'
+                }, function(){
+                    $(contenus).find('*').css('visibility','hidden')
+                });
+                $(contenus[index]).animate({
+                height : size+50
+                }, function(){
+                    $(contenus[index]).find('*').css('visibility','visible')
+                });
+                });
+            });
+    });
 });
 </script>
 

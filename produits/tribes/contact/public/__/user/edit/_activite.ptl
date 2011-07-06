@@ -21,15 +21,15 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 
 <!-- IF $deleted -->
 	<!-- IF $activite_id -->
-	<h3><del>{$description|default:$organisation}</del></h3>
-	<div class="contenu">
+	<span class="acordeon onglet-{$iteratorPosition}"><h3><del>{$description|default:$organisation}</del></h3></span>
+	<div class="contenu contenu-{$iteratorPosition}">
 	(bloc marqué pour suppression à l'enregistrement de cette page)
 	</div>
 	<!-- END:IF -->
 
 <!-- ELSE -->
-<h3>{$description|default:$organisation|default:'✰'}</h3>
-<div class="contenu{$description|test:1:$organisation|test:'':' active-tab'}">
+<span class="acordeon onglet-{$iteratorPosition}"><h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3></span>
+<div class="contenu{$description|test:1:$organisation|test:'':' active-tab'} contenu-{$iteratorPosition}">
 <!--
 IF $id && $admin_confirmed <= $contact_modified
 	IF d$is_admin_confirmed
@@ -39,7 +39,7 @@ IF $id && $admin_confirmed <= $contact_modified
 	END:IF
 END:IF
 -->
-<table>
+<table class="onglet-table">
 <!-- INLINE user/edit/_activite_item -->
 </table>
 </div>
@@ -49,8 +49,8 @@ END:IF
 <!-- END:LOOP -->
 
 <!-- IF $f_activite_add -->
-<h3 class="additem"><!-- AGENT $f_activite_add value="✚ Ajouter une activité" class='additem' _preserveScroll_=1 --></h3>
-<div class="contenu"></div>
+<span class="acordeon onglet-{$iteratorPosition} additem"><!-- AGENT $f_activite_add value="✚ Ajouter une activité" class='additem' _preserveScroll_=1 --></span>
+<div class="contenu contenu-{$iteratorPosition}"></div>
 <!-- END:IF -->
 
 <!-- END:IF -->

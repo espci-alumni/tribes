@@ -1,6 +1,6 @@
 <!-- IF $f_email_add -->
-<h3>Emails tiers</h3>
-<div class="contenu">
+<span class="acordeon onglet-first"><h3>Emails tiers</h3></span>
+<div class="contenu contenu-0">
 <!-- IF $emails -->
 <table class="delitem">
 <!--
@@ -54,7 +54,7 @@ END:LOOP
 <!-- END:IF -->
 
 <!-- IF $f_login -->
-<h3>Email Universel</h3>
+<span class="acordeon"><h3>Email Universel</h3></span>
 <div class="contenu">
 <table>
 <!--AGENT $f_login _caption_="Email universel" -->
