@@ -16,15 +16,24 @@ Merci de renseigner l'adresse à laquelle vous souhaitez recevoir les courriers 
 
 <!-- IF $deleted -->
 	<!-- IF $adresse_id -->
-	<span class="acordeon onglet-{$iteratorPosition}"><h3><del>{$description|default:$organisation}</del></h3></span>
-	<div class="contenu contenu-{$iteratorPosition}">
+	<div class="acordeon">
+    <div class="open-arrow">▼</div>
+    <del>{$titre}</del><br>
+    <h3><del>{$description|default:$organisation}</del></h3>
+    <br>
+    <del>{$ville}</del></div>
+	<div class="contenu">
 	(bloc marqué pour suppression à l'enregistrement de cette page)
 	</div>
 	<!-- END:IF -->
 
 <!-- ELSE -->
-<span class="acordeon onglet-{$iteratorPosition}"><h3>{$description|default:$organisation|default:'✰'}</h3></span>
-<div class="contenu contenu-{$iteratorPosition}">
+<div class="acordeon">
+<div class="open-arrow">▼</div>
+{$titre}<br>
+<h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3><br>
+{$ville}</div>
+<div class="contenu">
 <!--
 IF $id && $admin_confirmed <= $contact_modified
 	IF d$is_admin_confirmed
@@ -44,7 +53,7 @@ END:IF
 <!-- END:LOOP -->
 
 <!-- IF $f_adresse_add -->
-<span class="acordeon onglet-{$iteratorPosition}"><!-- AGENT $f_adresse_add value="✚ Ajouter une adresse" class='additem' _preserveScroll_=1 --></span>
+<div class="acordeon"><!-- AGENT $f_adresse_add value="✚ Ajouter une adresse" class='additem' _preserveScroll_=1 --></div>
 <div class="contenu"></div>
 <!-- END:IF -->
 

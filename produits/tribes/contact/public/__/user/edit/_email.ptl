@@ -1,6 +1,6 @@
 <!-- IF $f_email_add -->
-<span class="acordeon onglet-first"><h3>Emails tiers</h3></span>
-<div class="contenu contenu-0">
+<div class="acordeon"><div class="open-arrow">▼</div><h3>Emails tiers</h3></div>
+<div class="contenu">
 <!-- IF $emails -->
 <table class="delitem">
 <!--
@@ -49,24 +49,27 @@ END:LOOP
 -->
 </table>
 <!-- END:IF -->
-<!-- AGENT $f_email_add value="✚ Ajouter un autre email" class='additem' _preserveScroll_=1 -->
+<div class="acordeon"><!-- AGENT $f_email_add value="✚ Ajouter un autre email" class='additem' _preserveScroll_=1 --></div><div class="contenu"></div>
 </div>
 <!-- END:IF -->
 
 <!-- IF $f_login -->
-<span class="acordeon"><h3>Email Universel</h3></span>
+<div class="acordeon">
+<div class="open-arrow">▼</div>
+<h3>Email Universel</h3>
+</div>
 <div class="contenu">
-<table>
-<!--AGENT $f_login _caption_="Email universel" -->
-</table>
+    <table>
+    <!--AGENT $f_login _caption_="Email universel" -->
+    </table>
 
-<!-- IF $aliases -->
-<h4>Alternative{$aliases-1|test:'s'}&nbsp;:</h4>
-<ul>
-<!-- LOOP $aliases -->
-	<li>{$alias}</li>
-<!-- END:LOOP-->
-</ul>
+    <!-- IF $aliases -->
+    <h4>Alternative{$aliases-1|test:'s'}&nbsp;:</h4>
+    <ul>
+    <!-- LOOP $aliases -->
+        <li>{$alias}</li>
+    <!-- END:LOOP-->
+    </ul>
 </div>
 <!-- END:IF -->
 

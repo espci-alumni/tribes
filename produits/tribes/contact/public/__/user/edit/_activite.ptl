@@ -21,15 +21,49 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 
 <!-- IF $deleted -->
 	<!-- IF $activite_id -->
-	<span class="acordeon onglet-{$iteratorPosition}"><h3><del>{$description|default:$organisation}</del></h3></span>
-	<div class="contenu contenu-{$iteratorPosition}">
+	<div class="acordeon">
+    <div class="open-arrow">▼</div>
+    <del>{$titre}<br></del>
+    <h3><del>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</del></h3><br>
+    <del>{$service}</del>
+    
+    <span class="infoplus"><del>date de début :
+    <!-- IF $date_debut -->
+    {$date_debut}<br>
+    <!-- ELSE -->
+    "Non définit"
+    <!-- END:IF -->
+    date de fin :
+    <!-- IF $date_fin -->
+    {$date_fin}
+    <!-- ELSE -->
+    "activité en cours"
+    <!-- END:IF -->
+    </del></span></div>
+	<div class="contenu">
 	(bloc marqué pour suppression à l'enregistrement de cette page)
 	</div>
 	<!-- END:IF -->
 
 <!-- ELSE -->
-<span class="acordeon onglet-{$iteratorPosition}"><h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3></span>
-<div class="contenu{$description|test:1:$organisation|test:'':' active-tab'} contenu-{$iteratorPosition}">
+<div class="acordeon">
+<div class="open-arrow">▼</div>
+    {$titre}<br>
+    <h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3>
+    <br>
+    {$service}
+    
+    <span class="infoplus">date de début :
+    {$date_debut}<br>
+    date de fin :
+    <!-- IF $date_fin -->
+    {$date_fin}
+    <!-- ELSE -->
+    "activité en cours"
+    <!-- END:IF -->
+    </span>
+</div>
+<div class="contenu{$description|test:1:$organisation|test:'':' active-tab'}">
 <!--
 IF $id && $admin_confirmed <= $contact_modified
 	IF d$is_admin_confirmed
@@ -49,8 +83,8 @@ END:IF
 <!-- END:LOOP -->
 
 <!-- IF $f_activite_add -->
-<span class="acordeon onglet-{$iteratorPosition} additem"><!-- AGENT $f_activite_add value="✚ Ajouter une activité" class='additem' _preserveScroll_=1 --></span>
-<div class="contenu contenu-{$iteratorPosition}"></div>
+<div class="additem"><!-- AGENT $f_activite_add value="✚ Ajouter une activité" class='additem' _preserveScroll_=1 --></div>
+<div class="contenu"></div>
 <!-- END:IF -->
 
 <!-- END:IF -->

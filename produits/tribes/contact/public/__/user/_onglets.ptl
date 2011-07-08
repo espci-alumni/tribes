@@ -5,33 +5,30 @@ $(function()
 {
     $('div.tab-group').each(function()
     {
-        var tab = $('<div class="tab-titles">'),
-            contenus = $('.acordeon+.contenu', this),
-            tab_group = this,
-            size = $('.acordeon+.contenu', this).height();
+        var contenus = $('.acordeon+.contenu', this);
         contenus.each(function(index)
         {
-        contenus.css('height','10px');
-        $(contenus).find('*').css('visibility','hidden');
-        $(contenus[0]).css('height',size+50);
-        $(contenus[0]).find('*').css('visibility','visible');
-               
             var h = $(this).prev();
             h.click(function()
             {
+                if($(this).next().hasClass('focus')){
+                    $(this).next().slideUp('slow');
+                    $('.focus').removeClass('focus');
+                    $('.open-arrow', this).text("▼");
+                }
+                else{
+                    $('.open-arrow').text("▼");
+                    $('.focus').slideUp('slow');
+                    $('.focus').removeClass('focus');
+                    
+                    $(this).next().addClass('focus');
+                    $('.open-arrow', this).text("▲");
+                    $(this).next().slideToggle('slow');
+                }
+                              
                 
-                contenus.animate({
-                height : '10px'
-                }, function(){
-                    $(contenus).find('*').css('visibility','hidden')
-                });
-                $(contenus[index]).animate({
-                height : size+50
-                }, function(){
-                    $(contenus[index]).find('*').css('visibility','visible')
-                });
-                });
             });
+        });
     });
 });
 </script>

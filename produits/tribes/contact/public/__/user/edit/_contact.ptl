@@ -1,8 +1,10 @@
 <!-- IF $f_nom_civil -->
 
 <!-- IF $f_photo && $f_cv -->
-<span class="acordeon onglet-first"><h3>Photo &amp; CV</h3></span>
-<div class="contenu contenu-first">
+<div class="acordeon">
+<div class="open-arrow">▼</div>
+<h3>Photo &amp; CV</h3><br>gérez ici votre photo et votre cv</div>
+<div class="contenu">
 <table width="100%">
 <tr>
 	<td width="50%">
@@ -53,7 +55,9 @@
 </div>
 <!-- END:IF -->
 
-<span class="acordeon"><h3>État civil</h3></span>
+<div class="acordeon">
+<div class="open-arrow">▼</div>
+<h3>État civil</h3><br>configurez ici vos informations personnelles</div>
 <div class="contenu">
 
 <h4>Prénom et nom usuels</h4>
