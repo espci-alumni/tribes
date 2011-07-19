@@ -1,53 +1,51 @@
-
 #body-contenu
 {
-border:none;
-background-color:white;
+    border: none;
+    background-color: white;
 }
 
 div.contenu
 {
-border:solid 1px #4bafb8;
+    border: solid 1px #4bafb8;
 }
 
 h3
 {
-display:none;
+    display: none;
 }
 
 h2
 {
-margin:10px;
+    margin: 10px;
 }
 
 #step-content h3
 {
-font-size:25px;
-font-weight:bold;
-text-align:center;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
 }
 
 #steps
 {
-padding:10px;
-margin-bottom:20px;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
 #steps li
 {
-display:inline-block;
-margin-left:20px;
+    display: inline-block;
+    margin-left: 20px;
 }
 
 .step-current
 {
-font-size:16px;
-font-weight:bold;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-.step-done, .step-todo
+.step-done,
+.step-todo
 {
-font-size:12px;
+    font-size: 12px;
 }
-
-

@@ -2,10 +2,9 @@
 	{$organisation}
     <!-- IF $date_debut -->
         <span class="datation">
-            Depuis {$date_debut|replace:'(....)-(..)-..':'$2/$1'} jusqu'<!-- IF $date_fin -->à {$date_fin|replace:'(....)-(..)-..':'$2/$1'}<!-- ELSE -->à aujourd'hui<!-- END:IF -->
+            Depuis {$date_debut|replace:'(....)-(..)-..':'$2/$1'} jusqu'à <!-- IF $date_fin -->{$date_fin|replace:'(....)-(..)-..':'$2/$1'}<!-- ELSE -->aujourd'hui<!-- END:IF -->
         </span>
     <!-- END:IF -->
-
 </h2>
 
 <table class="activite-table">

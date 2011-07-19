@@ -45,7 +45,7 @@ AGENT 'header' title=$_title head=$_head
         &nbsp;Pas de cv à télécharger
     </p>
     <!-- END:IF -->
-    
+
     <!-- IF $adresses -->
     <h3>Coordonnées</h3>
 

@@ -1,61 +1,61 @@
 <!-- IF $f_nom_civil -->
 
 <!-- IF $f_photo && $f_cv -->
-<div class="acordeon">
+<div class="accordeon">
 <div class="open-arrow">▼</div>
 <h3>Photo &amp; CV</h3><br>gérez ici votre photo et votre cv</div>
 <div class="contenu">
 <table width="100%">
 <tr>
-	<td width="50%">
-		<h4>Photo</h4>
-	</td>
-	<td width="50%">
-		<h4>Curriculum Vitæ</h4>
-	</td>
+    <td width="50%">
+        <h4>Photo</h4>
+    </td>
+    <td width="50%">
+        <h4>Curriculum Vitæ</h4>
+    </td>
 </tr>
 <tr>
-	<td align="center">
-		<p><img src="{userDoc:'photo':$photo_token:$login:0}" alt="Photo"></p>
-		<!--
-		IF $hasPhoto
-			AGENT $f_del_photo _format_='<p>%1%2</p>'
-		END:IF
-		-->
-	</td>
-	<td align="center">
-		<!-- IF $hasCv -->
-		<p>
-		<a href="{userDoc:'cv':$cv_token:$login:0}" title="Téléchargez le CV">
-			<img src="{~}img/pdf.png" border="0" alt="PDF">
-			<br>Télécharger le CV
-		</a>
-		</p>
-		<p><!-- AGENT $f_del_cv _format_='%1%2' --></p>
-		<!-- ELSE-->
-		<p>
-		<img src="{~}img/pdf-off.png" border="0" alt="PDF">
-		<br><em>(Aucun CV déposé actuellement)</em>
-		</p>
-		<!-- END:IF -->
-		<p><small>Les CV déposés sont indexés dans l'annuaire.</small></p>
-	</td>
+    <td align="center">
+        <p><img src="{userDoc:'photo':$photo_token:$login:0}" alt="Photo"></p>
+        <!--
+        IF $hasPhoto
+            AGENT $f_del_photo _format_='<p>%1%2</p>'
+        END:IF
+        -->
+    </td>
+    <td align="center">
+        <!-- IF $hasCv -->
+        <p>
+        <a href="{userDoc:'cv':$cv_token:$login:0}" title="Téléchargez le CV">
+            <img src="{~}img/pdf.png" border="0" alt="PDF">
+            <br>Télécharger le CV
+        </a>
+        </p>
+        <p><!-- AGENT $f_del_cv _format_='%1%2' --></p>
+        <!-- ELSE-->
+        <p>
+        <img src="{~}img/pdf-off.png" border="0" alt="PDF">
+        <br><em>(Aucun CV déposé actuellement)</em>
+        </p>
+        <!-- END:IF -->
+        <p><small>Les CV déposés sont indexés dans l'annuaire.</small></p>
+    </td>
 </tr>
 <tr>
-	<td align="center">
-		<p><!-- AGENT $f_photo _caption_="Photo" _format_='%1%2' --></p>
-		<p class="explication">(JPG, GIF ou PNG uniquement)</p>
-	</td>
-	<td align="center">
-		<p><!-- AGENT $f_cv _caption_='CV' _format_='%1%2' --></p>
-		<p class="explication">(PDF uniquement)</p>
-	</td>
+    <td align="center">
+        <p><!-- AGENT $f_photo _caption_="Photo" _format_='%1%2' --></p>
+        <p class="explication">(JPG, GIF ou PNG uniquement)</p>
+    </td>
+    <td align="center">
+        <p><!-- AGENT $f_cv _caption_='CV' _format_='%1%2' --></p>
+        <p class="explication">(PDF uniquement)</p>
+    </td>
 </tr>
 </table>
 </div>
 <!-- END:IF -->
 
-<div class="acordeon">
+<div class="accordeon">
 <div class="open-arrow">▼</div>
 <h3>État civil</h3><br>configurez ici vos informations personnelles</div>
 <div class="contenu">
@@ -69,13 +69,13 @@ AGENT $f_prenom_usuel _caption_="Prénom usuel"
 AGENT $f_nom_usuel    _caption_="Nom usuel" _format_=$_f
 
 IF $f_nom_etudiant
-	SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom de famille porté au début du cycle d'études.</small>"}<!-- END:SET
-	AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$_f
+    SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>Le nom de famille porté au début du cycle d'études.</small>"}<!-- END:SET
+    AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$_f
 END:IF
 
 IF $f_conjoint_email
-	SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>L'adresse email du conjoint.</small>"}<!-- END:SET
-	AGENT $f_conjoint_email _caption_="Conjoint" _format_=$_f
+    SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br><small>L'adresse email du conjoint.</small>"}<!-- END:SET
+    AGENT $f_conjoint_email _caption_="Conjoint" _format_=$_f
 END:IF
 
 -->
@@ -85,7 +85,7 @@ END:IF
 <table>
 <!--
 IF $f_sexe
-	AGENT $f_sexe _glue_=' ' _format_='<tr><td>&nbsp;</td><td class="input">%1%2</td></tr>'
+    AGENT $f_sexe _glue_=' ' _format_='<tr><td>&nbsp;</td><td class="input">%1%2</td></tr>'
 END:IF
 AGENT $f_prenom_civil _caption_="Prénom"
 AGENT $f_nom_civil _caption_="Nom de naissance"

@@ -1,15 +1,15 @@
 <!--
 
 SET $_title
-	IF $steps > 1
-		-->Étape {$step_position+1} sur {$steps} - {$step_title}<!--
-	ELSE
-		-->{$step_title}<!--
-	END:IF
+    IF $steps > 1
+        -->Étape {$step_position+1} sur {$steps} - {$step_title}<!--
+    ELSE
+        -->{$step_title}<!--
+    END:IF
 END:SET
 
 SET $_head
-    --><style><!--	INLINE css/_steps.css --></style>
+    --><style><!-- INLINE css/_steps.css --></style>
     {$_head}<!--
 END:SET
 
@@ -23,10 +23,10 @@ AGENT 'header' title=$_title head=$_head
 <!-- LOOP $steps -->
 <!--
 SET $_class
-	IF $iteratorPosition == d$step_position    -->step-current<!--
-	ELSEIF $iteratorPosition < d$step_position -->step-done<!--
-	ELSE                          -->step-todo<!--
-	END:IF
+    IF $iteratorPosition == d$step_position -->step-current<!--
+    ELSEIF $iteratorPosition < d$step_position -->step-done<!--
+    ELSE -->step-todo<!--
+    END:IF
 END:SET
 -->
 <li class="{$_class}"><span class="ol-bullet">{$iteratorPosition+1}.&nbsp;</span>{$VALUE}</li>

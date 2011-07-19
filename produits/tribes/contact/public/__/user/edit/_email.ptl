@@ -1,60 +1,60 @@
 <!-- IF $f_email_add -->
-<div class="acordeon"><div class="open-arrow">▼</div><h3>Emails tiers</h3></div>
+<div class="accordeon"><div class="open-arrow">▼</div><h3>Emails tiers</h3></div>
 <div class="contenu">
 <!-- IF $emails -->
 <table class="delitem">
 <!--
 SET $f --><!-- END:SET
 LOOP $emails
-	IF $deleted
-		IF $email
-			-->
-			<tr>
-				<td><del>{$email}</del></td>
-				<td>&nbsp;</td>
-			</tr>
-			<!--
-		END:IF
-	ELSE
-		-->
-		<tr>
-			<td width="100%">
-			<!--
+    IF $deleted
+        IF $email
+            -->
+            <tr>
+                <td><del>{$email}</del></td>
+                <td>&nbsp;</td>
+            </tr>
+            <!--
+        END:IF
+    ELSE
+        -->
+        <tr>
+            <td width="100%">
+            <!--
 
-			IF !$email_id
-				AGENT $f_email _caption_="Email" _format_='%1%2' autocomplete='off'
-			ELSEIF $admin_confirmed
-				--><span class="email{$is_active|test:' active'}">{$email}</span><!--
-			ELSE
-				--><span class="email unconfirmed{$is_active|test:' active'}">{$email} (<abbr title="Le lien de confirmation envoyé à cette adresse n'a pas été activé">non confirmé</abbr>)</span><!--
-			END:IF
+            IF !$email_id
+                AGENT $f_email _caption_="Email" _format_='%1%2' autocomplete='off'
+            ELSEIF $admin_confirmed
+                --><span class="email{$is_active|test:' active'}">{$email}</span><!--
+            ELSE
+                --><span class="email unconfirmed{$is_active|test:' active'}">{$email} (<abbr title="Le lien de confirmation envoyé à cette adresse n'a pas été activé">non confirmé</abbr>)</span><!--
+            END:IF
 
-			-->
-			</td>
-			<td><!-- AGENT $f_is_active _format_='%1%2' --></td>
-			<td>
-				<!--
-				IF $f_email_del
-					AGENT $f_email_del value='✘ Supprimer' class='delitem' _preserveScroll_=1
-				ELSE -->&nbsp;<!--
-				END:IF
-				-->
-			</td>
-		</tr>
-		<!--
-	END:IF
+            -->
+            </td>
+            <td><!-- AGENT $f_is_active _format_='%1%2' --></td>
+            <td>
+                <!--
+                IF $f_email_del
+                    AGENT $f_email_del value='✘ Supprimer' class='delitem' _preserveScroll_=1
+                ELSE -->&nbsp;<!--
+                END:IF
+                -->
+            </td>
+        </tr>
+        <!--
+    END:IF
 
 END:LOOP
 
 -->
 </table>
 <!-- END:IF -->
-<div class="acordeon"><!-- AGENT $f_email_add value="✚ Ajouter un autre email" class='additem' _preserveScroll_=1 --></div><div class="contenu"></div>
+<div class="accordeon"><!-- AGENT $f_email_add value="✚ Ajouter un autre email" class='additem' _preserveScroll_=1 --></div><div class="contenu"></div>
 </div>
 <!-- END:IF -->
 
 <!-- IF $f_login -->
-<div class="acordeon">
+<div class="accordeon">
 <div class="open-arrow">▼</div>
 <h3>Email Universel</h3>
 </div>
