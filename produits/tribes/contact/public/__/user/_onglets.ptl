@@ -10,6 +10,16 @@ $(function()
         contenus.each(function(index)
         {
             var h = $(this).prev();
+            if ($('.new').length != 0)
+            {
+                if (index == contenus.length-1)
+                {
+                    contenus.last().addClass('focus');
+                    $('.open-arrow', contenus.last().prev()).text("▲");
+                    contenus.last().slideToggle('slow');
+                }
+            }
+
             h.click(function()
             {
                 if ($(this).next().hasClass('focus'))

@@ -52,7 +52,7 @@ END:LOOP
 -->
 </table>
 <!-- END:IF -->
-<div class="accordeon"><!-- AGENT $f_email_add value="✚ Ajouter un autre email" class='additem' _preserveScroll_=1 --></div><div class="contenu"></div>
+<div class="additem"><!-- AGENT $f_email_add value="✚ Ajouter un autre email" class='additem' _preserveScroll_=1 --></div><div class="contenu"></div>
 </div>
 <!-- END:IF -->
 
