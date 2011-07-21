@@ -1,9 +1,3 @@
-div.nobg
-{
-    background: none;
-    box-shadow: none;
-}
-
 h4.h4-section:first-child
 {
     margin-top: 0;
@@ -103,4 +97,21 @@ address
 {
     background: none;
     border: none;
+}
+
+.unknow
+{
+    text-align: center;
+}
+
+.unknow h3
+{
+    font-size: 27px;
+    border-bottom: 1px solid #aaa;
+}
+
+.unknow p
+{
+    font-size: 17px;
+    color: #000;
 }
