@@ -56,7 +56,9 @@ class extends loop_edit_contact_adresse
 
 	function filterAdresse($o)
 	{
-		$o = (object) ((array) $o + unserialize($o->contact_data));
+		if (!empty($o->contact_data) && $v = unserialize($o->contact_data))
+			foreach ($v as $k => $v)
+				isset($o->$k) || $o->$k = $v;
 
 		!(int) $o->admin_confirmed && $o->new_adresse = 1;
 

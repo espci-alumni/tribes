@@ -27,7 +27,9 @@ class extends loop_sql
 
 	function filterRow($o)
 	{
-		$o = (object) ((array) $o + unserialize($o->contact_data));
+		if (!empty($o->contact_data) && $v = unserialize($o->contact_data))
+			foreach ($v as $k => $v)
+				isset($o->$k) || $o->$k = $v;
 
 		unset($o->contact_data);
 

@@ -38,16 +38,26 @@ class
 
 	function &fetchRow($select, $row_id = 0)
 	{
+		if (false !== strpos($select, 'contact_data') && $this->dataFields)
+		{
+			$select .= ',' . implode(',', $this->dataFields);
+		}
+
 		$sql = $this->sqlSelect($select, $row_id);
 
 		$data = DB()->queryRow($sql, null, MDB2_FETCHMODE_ASSOC);
 		$data || p::forbidden();
 
-		if (!empty($data['contact_data']))
-		{
-			$this->contactData = unserialize($data['contact_data']);
-			$data = array_merge($data, $this->contactData);
-		}
+		$this->contactData = array();
+
+		if ($this->dataFields)
+			foreach ($this->dataFields as $f)
+				isset($data[$f]) && $this->contactData[$f] = $data[$f];
+
+		if (!empty($data['contact_data']) && $sql = unserialize($data['contact_data']))
+			$this->contactData = $sql + $this->contactData;
+
+		$this->contactData && $data = array_merge($data, $this->contactData);
 
 		return $data;
 	}

@@ -21,6 +21,7 @@ class extends agent
 				WHERE password!=''
 					AND acces=''
 					AND is_obsolete=0
+					AND contact_modified
 				ORDER BY contact_modified";
 
 		$o->contacts = new loop_sql($sql, array($this, 'filterContact'));
@@ -30,7 +31,9 @@ class extends agent
 
 	function filterContact($o)
 	{
-		$o->contact_data && $o = (array) $o + unserialize($o->contact_data);
+		if (!empty($o->contact_data) && $v = unserialize($o->contact_data))
+			foreach ($v as $k => $v)
+				isset($o->$k) || $o->$k = $v;
 
 		unset($o->contact_data);
 

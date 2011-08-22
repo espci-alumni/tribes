@@ -45,7 +45,8 @@ class extends agent
 					FROM contact_contact
 					WHERE contact_id={$o->origine_contact_id}";
 
-			$o = (object) ((array) $o + (array) DB()->queryRow($sql));
+			foreach (DB()->queryRow($sql) as $k => $v)
+				isset($o->$k) || $o->$k = $v;
 		}
 		else
 		{

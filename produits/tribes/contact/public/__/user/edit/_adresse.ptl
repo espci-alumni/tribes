@@ -21,7 +21,8 @@ Merci de renseigner l'adresse à laquelle vous souhaitez recevoir les courriers 
     <del>{$titre}</del><br>
     <h3><del>{$description|default:$organisation}</del></h3>
     <br>
-    <del>{$ville}</del></div>
+    <del>{$ville}</del>
+    </div>
     <div class="contenu">
     (bloc marqué pour suppression à l'enregistrement de cette page)
     </div>
@@ -31,8 +32,10 @@ Merci de renseigner l'adresse à laquelle vous souhaitez recevoir les courriers 
 <div class="accordeon">
 <div class="open-arrow">▼</div>
 {$titre}<br>
-<h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3><br>
-{$ville}</div>
+<h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3>
+<br>
+{$ville}
+</div>
 <div class="contenu">
 <!--
 IF $id && $admin_confirmed <= $contact_modified

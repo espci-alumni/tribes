@@ -3,7 +3,9 @@
 <!-- IF $f_photo && $f_cv -->
 <div class="accordeon">
 <div class="open-arrow">▼</div>
-<h3>Photo &amp; CV</h3><br>gérez ici votre photo et votre cv</div>
+<h3>Photo &amp; CV</h3>
+<br>gérez ici votre photo et votre cv
+</div>
 <div class="contenu">
 <table width="100%">
 <tr>
@@ -57,7 +59,9 @@
 
 <div class="accordeon">
 <div class="open-arrow">▼</div>
-<h3>État civil</h3><br>configurez ici vos informations personnelles</div>
+<h3>État civil</h3>
+<br>configurez ici vos informations personnelles
+</div>
 <div class="contenu">
 
 <h4>Prénom et nom usuels</h4>
@@ -95,6 +99,5 @@ AGENT $f_date_naissance _caption_="Date de naissance"  _format_=$_f
 
 -->
 </table>
-
 </div>
 <!-- END:IF -->

@@ -33,7 +33,7 @@ class extends self
 			$update = array();
 			$aliases = array();
 
-			if (isset($data['password']))
+			if (!empty($data['password']))
 			{
 				$update['password'] = crypt($data['password']);
 			}
@@ -45,7 +45,7 @@ class extends self
 					$update['display'] = $data['prenom_usuel'] . ' ' . $data['nom_usuel'] . ' - ' . $domain;
 				}
 
-				if (isset($data['login']))
+				if (!empty($data['login']))
 				{
 					$aliases[] = $data['login'];
 
@@ -54,8 +54,8 @@ class extends self
 
 				for ($i = 0; $i < count(self::$alias); ++$i)
 				{
-					if (!isset($data[self::$alias[$i][0]])) continue;
-					if (!isset($data[self::$alias[$i][1]])) continue;
+					if (empty($data[self::$alias[$i][0]])) continue;
+					if (empty($data[self::$alias[$i][1]])) continue;
 
 					$alias = tribes::makeIdentifier($data[self::$alias[$i][0]], "- 'a-z")
 					 . '.' . tribes::makeIdentifier($data[self::$alias[$i][1]], "- 'a-z");
@@ -85,7 +85,9 @@ class extends self
 				$update['user']   = $contact->user;
 				$update['domain'] = $domain;
 
-				$contact->login !== $contact->user && $update['canonic'] = $contact->login;
+				!empty($contact->login)
+					&& $contact->login !== $contact->user
+					&& $update['canonic'] = $contact->login;
 
 				$sql = array('created', 'NOW()', 'created=created');
 
