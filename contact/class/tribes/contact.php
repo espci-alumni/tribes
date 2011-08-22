@@ -59,6 +59,8 @@ class extends tribes_common
 			$data['cv_token']    = p::strongid(8);
 		}
 
+		if (empty($data['login'])) unset($data['login']);
+
 		if ( !$this->confirmed
 			&& !empty($data['login'])
 			&& !empty($this->contactData['login'])

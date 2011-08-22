@@ -1,5 +1,8 @@
 <!-- IF $f_email_add -->
-<div class="accordeon"><div class="open-arrow">▼</div><h3>Emails tiers</h3></div>
+<div class="accordeon">
+<div class="open-arrow">▼</div>
+<h3>Emails tiers</h3>
+</div>
 <div class="contenu">
 <!-- IF $emails -->
 <table class="delitem">

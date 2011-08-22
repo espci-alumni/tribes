@@ -15,6 +15,7 @@ class extends agent
 					contact_modified
 				FROM contact_contact
 				WHERE acces!=''
+					AND contact_modified
 					AND admin_confirmed<=contact_modified
 				ORDER BY contact_modified";
 

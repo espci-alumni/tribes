@@ -43,7 +43,10 @@ class extends loop_sql
 					AND ac.contact_confirmed
 					AND ac.is_shared
 					AND ac.is_obsolete<=0
-				ORDER BY IF(date_fin,date_fin,date_debut) DESC,ac.sort_key";
+				ORDER BY
+					IF(ac.date_fin, ac.date_debut, '9999-12-31') DESC,
+					IF(ac.date_fin, ac.date_fin,  ac.date_debut) DESC,
+					ac.activite_id DESC";
 
 		parent::__construct($sql);
 	}

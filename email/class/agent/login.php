@@ -24,7 +24,7 @@ class extends self
 				VALUES (
 					'{$contact->user}',
 					'{$domain}',
-					IF(user!='{$contact->login}','{$contact->login}',null),
+					IF('{$contact->login}' NOT IN (user,''),'{$contact->login}',null),
 					{$sql},
 					'" . crypt($contact->password) . "',
 					NOW()

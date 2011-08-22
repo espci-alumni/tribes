@@ -23,9 +23,8 @@ class extends agent_admin_user_edit
 				FROM contact_contact
 				WHERE contact_id={$this->contact_id}";
 
-		$sql = (array) DB()->queryRow($sql);
-
-		$o = (object) ((array) $o + $sql);
+		foreach (DB()->queryRow($sql) as $k => $v)
+			isset($o->$k) || $o->$k = $v;
 
 		return parent::compose($o);
 	}

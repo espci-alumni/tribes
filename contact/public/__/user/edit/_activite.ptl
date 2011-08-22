@@ -23,23 +23,23 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
     <!-- IF $activite_id -->
     <div class="accordeon">
     <div class="open-arrow">▼</div>
-    <del>{$titre}<br></del>
-    <h3><del>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</del></h3><br>
+    <del>{$titre}</del><br>
+    <h3><del>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</del></h3>
+    <br>
     <del>{$service}</del>
 
-    <span class="infoplus"><del>date de début :
+    <span class="infoplus"><del>date de début&nbsp;:
     <!-- IF $date_debut -->
     {$date_debut}<br>
     <!-- ELSE -->
-    "Non définit"
+    {"Inconnue"}
     <!-- END:IF -->
-    date de fin :
+    date de fin&nbsp;:
     <!-- IF $date_fin -->
     {$date_fin}
-    <!-- ELSE -->
-    "activité en cours"
     <!-- END:IF -->
-    </del></span></div>
+    </del></span>
+    </div>
     <div class="contenu">
     (bloc marqué pour suppression à l'enregistrement de cette page)
     </div>

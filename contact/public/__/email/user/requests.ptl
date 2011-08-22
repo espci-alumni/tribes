@@ -1,20 +1,29 @@
 <!-- AGENT 'email/header' title="Fiches à valider en attente" -->
 
 <p>
-Fiches à valider en attente&nbsp;:
+{$contacts} fiche(s) à valider en attente&nbsp;:
 </p>
 
-<!-- LOOP $contacts -->
-<p>
-Depuis le {$contact_modified|formatDate} :
-<ul>
-	<li>Nom&nbsp;: {$nom_civil}</li>
-	<li>Prénom&nbsp;: {$prenom_civil}</li>
-</ul>
+<!-- SET a$cols -->{a$cols|default:4}<!-- END:SET -->
+<!-- IF a$cols <= 0 --><!-- SET a$cols -->4<!-- END:SET --><!-- END:IF -->
 
-<a href="{~}admin/user/request/{$contact_id}">Cliquez ici pour traiter cette modification</a>.
-</p>
-<hr>
+<table>
+<tr>
+<!-- LOOP a$cols -->
+<th>Liste {$iteratorPosition+1}</th>
 <!-- END:LOOP -->
+</tr>
+<tr>
+<!-- LOOP a$cols -->
+<td valign="top">
+<!-- LOOP $$contacts -->
+<!-- IF $$iteratorPosition == $contact_id % a$cols -->
+<a href="{~}admin/user/request/{$contact_id}" title="Depuis le {$contact_modified|formatDate}">{$prenom_civil} {$nom_civil}</a><br>
+<!-- END:IF -->
+<!-- END:LOOP -->
+</td>
+<!-- END:LOOP -->
+</tr>
+</table>
 
 <!-- AGENT 'email/footer' -->
