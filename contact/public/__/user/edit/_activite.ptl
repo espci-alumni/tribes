@@ -20,26 +20,60 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 <!-- LOOP $activites -->
 
 <!-- IF $deleted -->
-	<!-- IF $activite_id -->
-	<h3><del>{$description|default:$organisation}</del></h3>
-	<div class="contenu">
-	(bloc marqué pour suppression à l'enregistrement de cette page)
-	</div>
-	<!-- END:IF -->
+    <!-- IF $activite_id -->
+    <div class="accordeon">
+    <div class="open-arrow">▼</div>
+    <del>{$titre}<br></del>
+    <h3><del>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</del></h3><br>
+    <del>{$service}</del>
+
+    <span class="infoplus"><del>date de début :
+    <!-- IF $date_debut -->
+    {$date_debut}<br>
+    <!-- ELSE -->
+    "Non définit"
+    <!-- END:IF -->
+    date de fin :
+    <!-- IF $date_fin -->
+    {$date_fin}
+    <!-- ELSE -->
+    "activité en cours"
+    <!-- END:IF -->
+    </del></span></div>
+    <div class="contenu">
+    (bloc marqué pour suppression à l'enregistrement de cette page)
+    </div>
+    <!-- END:IF -->
 
 <!-- ELSE -->
-<h3>{$description|default:$organisation|default:'✰'}</h3>
+<div class="accordeon">
+<div class="open-arrow">▼</div>
+    {$titre}<br>
+    <h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3>
+    <br>
+    {$service}
+
+    <span class="infoplus">date de début :
+    {$date_debut}<br>
+    date de fin :
+    <!-- IF $date_fin -->
+    {$date_fin}
+    <!-- ELSE -->
+    "activité en cours"
+    <!-- END:IF -->
+    </span>
+</div>
 <div class="contenu{$description|test:1:$organisation|test:'':' active-tab'}">
 <!--
 IF $id && $admin_confirmed <= $contact_modified
-	IF d$is_admin_confirmed
-		--><p class="explication">Bloc refusé par l'administrateur</p><!--
-	ELSE
-		--><p class="explication">Bloc en attente de validation par l'administrateur</p><!--
-	END:IF
+    IF d$is_admin_confirmed
+        --><p class="explication">Bloc refusé par l'administrateur</p><!--
+    ELSE
+        --><p class="explication">Bloc en attente de validation par l'administrateur</p><!--
+    END:IF
 END:IF
 -->
-<table>
+<table class="onglet-table">
 <!-- INLINE user/edit/_activite_item -->
 </table>
 </div>
@@ -49,7 +83,7 @@ END:IF
 <!-- END:LOOP -->
 
 <!-- IF $f_activite_add -->
-<h3 class="additem"><!-- AGENT $f_activite_add value="✚ Ajouter une activité" class='additem' _preserveScroll_=1 --></h3>
+<div class="additem"><!-- AGENT $f_activite_add value="✚ Ajouter une activité" class='additem' _preserveScroll_=1 --></div>
 <div class="contenu"></div>
 <!-- END:IF -->
 

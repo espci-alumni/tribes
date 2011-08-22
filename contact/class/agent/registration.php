@@ -106,7 +106,9 @@ class extends agent_login
 					JOIN contact_email e USING (contact_id)
 				WHERE e.email=" . DB()->quote($data['email']) . "
 					AND ({$sql})
-					AND e.contact_confirmed";
+					AND c.password!=''
+					AND c.acces!=''
+					AND c.is_obsolete=0";
 
 		return $sql;
 	}

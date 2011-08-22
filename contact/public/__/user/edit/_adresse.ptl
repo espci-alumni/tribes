@@ -15,26 +15,35 @@ Merci de renseigner l'adresse à laquelle vous souhaitez recevoir les courriers 
 <!-- LOOP $adresses -->
 
 <!-- IF $deleted -->
-	<!-- IF $adresse_id -->
-	<h3><del>{$description|default:$organisation}</del></h3>
-	<div class="contenu">
-	(bloc marqué pour suppression à l'enregistrement de cette page)
-	</div>
-	<!-- END:IF -->
+    <!-- IF $adresse_id -->
+    <div class="accordeon">
+    <div class="open-arrow">▼</div>
+    <del>{$titre}</del><br>
+    <h3><del>{$description|default:$organisation}</del></h3>
+    <br>
+    <del>{$ville}</del></div>
+    <div class="contenu">
+    (bloc marqué pour suppression à l'enregistrement de cette page)
+    </div>
+    <!-- END:IF -->
 
 <!-- ELSE -->
-<h3>{$description|default:$organisation|default:'✰'}</h3>
-<div class="contenu{$description|test:'':' active-tab'}">
+<div class="accordeon">
+<div class="open-arrow">▼</div>
+{$titre}<br>
+<h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3><br>
+{$ville}</div>
+<div class="contenu">
 <!--
 IF $id && $admin_confirmed <= $contact_modified
-	IF d$is_admin_confirmed
-		--><p class="explication">Bloc refusé par l'administrateur</p><!--
-	ELSE
-		--><p class="explication">Bloc en attente de validation par l'administrateur</p><!--
-	END:IF
+    IF d$is_admin_confirmed
+        --><p class="explication">Bloc refusé par l'administrateur</p><!--
+    ELSE
+        --><p class="explication">Bloc en attente de validation par l'administrateur</p><!--
+    END:IF
 END:IF
 -->
-<table>
+<table class="onglet-table">
 <!-- INLINE user/edit/_adresse_item -->
 </table>
 </div>
@@ -44,7 +53,7 @@ END:IF
 <!-- END:LOOP -->
 
 <!-- IF $f_adresse_add -->
-<h3 class="additem"><!-- AGENT $f_adresse_add value="✚ Ajouter une adresse" class='additem' _preserveScroll_=1 --></h3>
+<div class="accordeon"><!-- AGENT $f_adresse_add value="✚ Ajouter une adresse" class='additem' _preserveScroll_=1 --></div>
 <div class="contenu"></div>
 <!-- END:IF -->
 

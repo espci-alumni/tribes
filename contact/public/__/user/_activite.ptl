@@ -1,16 +1,19 @@
-<h4>
+<h2 class="organisation">
 	{$organisation}
-	<!-- IF $titre  --><br><small>{$titre}</small>
-	<!-- ELSEIF $fonction --><br><small>{$fonction}</small>
-	<!-- END:IF -->
-</h4>
+    <!-- IF $date_debut -->
+        <span class="datation">
+            Depuis {$date_debut|replace:'(....)-(..)-..':'$2/$1'} jusqu'à <!-- IF $date_fin -->{$date_fin|replace:'(....)-(..)-..':'$2/$1'}<!-- ELSE -->aujourd'hui<!-- END:IF -->
+        </span>
+    <!-- END:IF -->
+</h2>
 
-<table>
-<!-- IF $date_debut --><tr><td colspan="2">Depuis {$date_debut|replace:'(....)-(..)-..':'$2/$1'} jusqu'<!-- IF $date_fin -->à {$date_fin|replace:'(....)-(..)-..':'$2/$1'}<!-- ELSE -->à aujourd'hui<!-- END:IF --></td></tr><!-- END:IF -->
+<table class="activite-table">
+<!-- IF $titre  --><tr><td colspan="2"><h4 class="user-poste">{$titre}</h4></td></tr><!-- ELSEIF $fonction --><tr><td colspan="2"><h4 class="user-poste">{$fonction}</h4></td></tr><!-- END:IF -->
 <!-- IF $service  -->{g$inputFormat|echo:"Service":$service}<!-- END:IF -->
 <!-- IF $titre && $fonction -->{g$inputFormat|echo:"Département":$fonction}<!-- END:IF -->
 <!-- IF $secteur  -->{g$inputFormat|echo:"Secteur":$secteur}<!-- END:IF -->
 <!-- IF $site_web -->{g$inputFormat|echo:"Site web":$site_web|urlize}<!-- END:IF -->
+<!-- IF $keyword  -->{g$inputFormat|echo:"Mot-clés":$keyword}<!-- END:IF -->
 <!-- IF $adresse_id -->
 <tr>
 	<td colspan="2"><!-- INLINE user/_adresse --></td>

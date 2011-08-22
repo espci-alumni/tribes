@@ -37,6 +37,7 @@ AGENT $f_message _caption_="Message"
 
 INLINE user/edit/_contact
 INLINE user/edit/_email
+INLINE user/edit/_activite
 INLINE user/edit/_adresse
 
 -->

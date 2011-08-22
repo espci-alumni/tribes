@@ -2,21 +2,21 @@
 
 <table>
 <tr>
-	<td colspan="2">
-	<address>
-	<!-- IF $adresse -->{$adresse|nl2br}<br><!-- END:IF -->
-	<!-- IF $ville -->
-		<!-- IF $ville_avant -->{$ville_avant}<!-- END:IF -->
-		{$ville}
-		<!-- IF $ville_apres -->{$ville_apres}<!-- END:IF -->
-		<!-- IF $pays --><br>{$pays}<!-- END:IF -->
-		<br>
-	<!-- ELSE -->
-		<!-- IF $pays -->{$pays}<!-- END:IF -->
-		<br>
-	<!-- END:IF -->
-	</address>
-	</td>
+    <td colspan="2">
+    <address>
+    <!-- IF $adresse -->{$adresse|nl2br}<br><!-- END:IF -->
+    <!-- IF $ville -->
+        <!-- IF $ville_avant -->{$ville_avant}<!-- END:IF -->
+        {$ville}
+        <!-- IF $ville_apres -->{$ville_apres}<!-- END:IF -->
+        <!-- IF $pays --><br>{$pays}<!-- END:IF -->
+        <br>
+    <!-- ELSE -->
+        <!-- IF $pays -->{$pays}<!-- END:IF -->
+        <br>
+    <!-- END:IF -->
+    </address>
+    </td>
 </tr>
 <!-- IF $tel_portable || $tel_fixe || $tel_fax -->
 <!-- IF $tel_portable -->{g$inputFormat|echo:"Portable":$tel_portable}<!-- END:IF -->
