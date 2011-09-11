@@ -1,5 +1,7 @@
+<div class="accordeon">
+<div class="open-arrow">▼</div>
 <h3>Bloc-note</h3>
-
+</div>
 <div class="contenu">
 <!-- IF $f_note -->
 

@@ -3,7 +3,7 @@
 <div class="open-arrow">▼</div>
 <h3>Emails tiers</h3>
 </div>
-<div class="contenu">
+<div class="contenu email-contenu">
 <!-- IF $emails -->
 <table class="delitem">
 <!--
@@ -38,7 +38,7 @@ LOOP $emails
             <td>
                 <!--
                 IF $f_email_del
-                    AGENT $f_email_del value='✘ Supprimer' class='delitem' _preserveScroll_=1
+                    AGENT $f_email_del value='✘ Suppr.' class='delitem' _preserveScroll_=1
                 ELSE -->&nbsp;<!--
                 END:IF
                 -->
@@ -52,7 +52,7 @@ END:LOOP
 -->
 </table>
 <!-- END:IF -->
-<div class="accordeon"><!-- AGENT $f_email_add value="✚ Ajouter un autre email" class='additem' _preserveScroll_=1 --></div><div class="contenu"></div>
+<div class="additem"><!-- AGENT $f_email_add value="✚ Ajouter un autre email" class='additem' _preserveScroll_=1 --></div><div class="contenu"></div>
 </div>
 <!-- END:IF -->
 

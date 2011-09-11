@@ -1,7 +1,9 @@
 <!-- IF $cotisations || $f_cotisation_date -->
 
+<div class="accordeon">
+<div class="open-arrow">▼</div>
 <h3>Cotisation</h3>
-
+</div>
 <div class="contenu">
 <!-- AGENT $form -->
 <table>

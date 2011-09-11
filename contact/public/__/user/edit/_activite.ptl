@@ -46,7 +46,7 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
     <!-- END:IF -->
 
 <!-- ELSE -->
-<div class="accordeon">
+<div class="accordeon{$activite_id|test:'':' new'}">
 <div class="open-arrow">▼</div>
     {$titre}<br>
     <h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3>

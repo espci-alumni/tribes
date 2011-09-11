@@ -32,8 +32,16 @@ class extends agent_admin_user_edit
 		$doublon_contact_items = tribes::getDoublonSuggestions($this->contact_id, $doublon_contact_items);
 		$doublon_contact_items += array(
 			$this->contact_id => '(ajouter un nouveau nom au fichier)',
-			0 => '(refuser la demande)'
 		);
+
+		$refuse = $f->add('submit', 'refuse');
+
+		$refuse->attach('message', '', '');
+
+        if ($refuse->isOn())
+        {
+			return $this->save($refuse->getData());
+        }
 
 		$f->add('check', 'doublon_contact_id', array('item' => $doublon_contact_items));
 		$f->add('submit', 'updateDoublons');

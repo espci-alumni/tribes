@@ -29,7 +29,7 @@ Merci de renseigner l'adresse à laquelle vous souhaitez recevoir les courriers 
     <!-- END:IF -->
 
 <!-- ELSE -->
-<div class="accordeon">
+<div class="accordeon{$adresse_id|test:'':' new'}">
 <div class="open-arrow">▼</div>
 {$titre}<br>
 <h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3>
@@ -56,7 +56,7 @@ END:IF
 <!-- END:LOOP -->
 
 <!-- IF $f_adresse_add -->
-<div class="accordeon"><!-- AGENT $f_adresse_add value="✚ Ajouter une adresse" class='additem' _preserveScroll_=1 --></div>
+<div class="additem"><!-- AGENT $f_adresse_add value="✚ Ajouter une adresse" class='additem' _preserveScroll_=1 --></div>
 <div class="contenu"></div>
 <!-- END:IF -->
 
