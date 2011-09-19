@@ -2,15 +2,15 @@
 
 class extends notification
 {
-	protected function doSend()
-	{
-		parent::doSend();
+    protected function doSend()
+    {
+        parent::doSend();
 
-		$c =& $this->context;
+        $c =& $this->context;
 
-		if (!empty($c['token']) && !empty($c['email']))
-		{
-			$this->mail($c['email']);
-		}
-	}
+        if (!empty($c['token']) && !empty($c['email']))
+        {
+            $this->mail($c['email']);
+        }
+    }
 }

@@ -7,12 +7,12 @@ AGENT $form
 SET $f
 -->
 <tr valign="top">
-	<td class="label">
-	%0&nbsp;:<br>
-	<!-- AGENT $f_updateDoublons value="Actualiser" --><br><br>
-	<!-- AGENT $f_refuse value="Refuser la demande" onclick='return confirm(\'Voulez-vous vraiment refuser cette demande ?\')' -->
-	</td>
-	<td class="input">%1%2</td>
+    <td class="label">
+    %0&nbsp;:<br>
+    <!-- AGENT $f_updateDoublons value="Actualiser" --><br><br>
+    <!-- AGENT $f_refuse value="Refuser la demande" onclick='return confirm(\'Voulez-vous vraiment refuser cette demande ?\')' -->
+    </td>
+    <td class="input">%1%2</td>
 </tr>
 <!--
 END:SET
@@ -23,8 +23,8 @@ END:SET
 <!--
 
 IF $f_login
-	AGENT $f_login _caption_="Identifiant"
-	SET $f_login --><!-- END:SET
+    AGENT $f_login _caption_="Identifiant"
+    SET $f_login --><!-- END:SET
 END:IF
 AGENT $f_acces _caption_="Privilèges"
 AGENT $f_doublon_contact_id _caption_="Fusionner avec" _format_=$f

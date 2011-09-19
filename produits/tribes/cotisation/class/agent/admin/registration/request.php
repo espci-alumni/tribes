@@ -2,10 +2,10 @@
 
 class extends self
 {
-	static function __constructStatic()
-	{
-		parent::__constructStatic();
+    static function __constructStatic()
+    {
+        parent::__constructStatic();
 
-		self::$mergeTableUpdate['cotisation'] = array();
-	}
+        self::$mergeTableUpdate['cotisation'] = array();
+    }
 }

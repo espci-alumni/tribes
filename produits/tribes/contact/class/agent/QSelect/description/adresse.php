@@ -2,21 +2,21 @@
 
 class extends agent_QSelect
 {
-	protected
+    protected
 
-	$template = 'QSelect/Search.js',
-	$requiredAuth = false;
+    $template = 'QSelect/Search.js',
+    $requiredAuth = false;
 
 
-	function compose($o)
-	{
-		$sql = "SELECT description AS VALUE
-				FROM contact_adresse
-				WHERE description!=''
-				GROUP BY description";
+    function compose($o)
+    {
+        $sql = "SELECT description AS VALUE
+                FROM contact_adresse
+                WHERE description!=''
+                GROUP BY description";
 
-		$o->DATA = new loop_sql($sql);
+        $o->DATA = new loop_sql($sql);
 
-		return $o;
-	}
+        return $o;
+    }
 }

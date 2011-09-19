@@ -2,20 +2,20 @@
 
 class extends agent_user_photo
 {
-	const contentType = '';
+    const contentType = '';
 
-	function compose($o)
-	{
-		$file = patchworkPath('data/cv/') . $this->file;
+    function compose($o)
+    {
+        $file = patchworkPath('data/cv/') . $this->file;
 
-		switch (strrchr($this->file, '.'))
-		{
-		case '.pdf': $this->contentType = 'application/pdf';    break;
-		case '.doc': $this->contentType = 'application/msword'; break;
-		}
+        switch (strrchr($this->file, '.'))
+        {
+        case '.pdf': $this->contentType = 'application/pdf'; break;
+        case '.doc': $this->contentType = 'application/msword'; break;
+        }
 
-		$this->sendfile($file);
+        $this->sendfile($file);
 
-		return $o;
-	}
+        return $o;
+    }
 }

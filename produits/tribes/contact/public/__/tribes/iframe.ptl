@@ -15,51 +15,51 @@
 
 html
 {
-	overflow-y: auto !important;
+    overflow-y: auto !important;
 }
 
 #iframe_body, #iframe_menu, #iframe_shadow, #iframe_main, #iframe
 {
-	position: absolute;
+    position: absolute;
 
-	top:   0;
-	left:  0;
-	right: 0;
+    top:   0;
+    left:  0;
+    right: 0;
 
-	width: 100%;
+    width: 100%;
 
-	margin:  0;
-	padding: 0;
-	border:  0;
+    margin:  0;
+    padding: 0;
+    border:  0;
 }
 
 #iframe_body, #iframe
 {
-	height: 100%;
-	bottom: 0;
+    height: 100%;
+    bottom: 0;
 }
 
 #iframe_menu
 {
-	height: {$iframe_menu_height|default:0}px;
+    height: {$iframe_menu_height|default:0}px;
 
-	white-space: nowrap;
-	overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 #iframe_shadow
 {
-	top:    {$iframe_menu_height|default:0}px;
-	height: 4px;
-	border-top:  1px solid #f3f3f3;
-	margin-top: -1px;
-	background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAECAYAAABP2FU6AAAAAXNSR0IArs4c6QAAABxJREFUCNdjeP78eRgTAwPDNSYGBoZHTAwMDF8BRd0Fv5rb4D0AAAAASUVORK5CYII=) repeat-x top;
+    top:    {$iframe_menu_height|default:0}px;
+    height: 4px;
+    border-top:  1px solid #f3f3f3;
+    margin-top: -1px;
+    background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAECAYAAABP2FU6AAAAAXNSR0IArs4c6QAAABxJREFUCNdjeP78eRgTAwPDNSYGBoZHTAwMDF8BRd0Fv5rb4D0AAAAASUVORK5CYII=) repeat-x top;
 }
 
 #iframe_main
 {
-	top:    {$iframe_menu_height|default:0}px;
-	bottom: 0px; /* always use pixel unit for IE7 and below */
+    top:    {$iframe_menu_height|default:0}px;
+    bottom: 0px; /* always use pixel unit for IE7 and below */
 }
 </style>
 {$iframe_head}
@@ -77,131 +77,131 @@ var iframe;
 
 setTimeout(function()
 {
-	// Be aware that firefox url-decodes location.hash, but not location.href
+    // Be aware that firefox url-decodes location.hash, but not location.href
 
-	var f = location,
-		bSrc = {$iframe_src|default:'/'|js},
-		bUrl = f.href,
-		rUrl = f.protocol + '//' + f.hostname + '/',
-		fPath = bUrl.indexOf('#'),
-		fLoc = document.getElementsByTagName('A'),
-		fUrl = fLoc.length;
+    var f = location,
+        bSrc = {$iframe_src|default:'/'|js},
+        bUrl = f.href,
+        rUrl = f.protocol + '//' + f.hostname + '/',
+        fPath = bUrl.indexOf('#'),
+        fLoc = document.getElementsByTagName('A'),
+        fUrl = fLoc.length;
 
-	while (fUrl--)
-		if (/^\w+:/.test(fLoc[fUrl].href) && 0 != fLoc[fUrl].href.indexOf(rUrl) && !fLoc[fUrl].target)
-			fLoc[fUrl].target = '_self';
+    while (fUrl--)
+        if (/^\w+:/.test(fLoc[fUrl].href) && 0 != fLoc[fUrl].href.indexOf(rUrl) && !fLoc[fUrl].target)
+            fLoc[fUrl].target = '_self';
 
-	try {f = document.createElement('<iframe name="iframe">');}
-	catch (fLoc) {f = document.createElement('iframe');}
+    try {f = document.createElement('<iframe name="iframe">');}
+    catch (fLoc) {f = document.createElement('iframe');}
 
-	iframe = f;
-	f.id = f.name = 'iframe';
-	f.frameBorder = 0;
-	f.allowTransparency = true;
-	f.onload = updateIframe;
+    iframe = f;
+    f.id = f.name = 'iframe';
+    f.frameBorder = 0;
+    f.allowTransparency = true;
+    f.onload = updateIframe;
 
-	if (0 <= fPath)
-	{
-		fUrl = '#' + bUrl.substr(fPath + 1);
-		if ('#' == fUrl) fUrl = '';
-		bUrl = bUrl.substr(0, fPath);
-	}
-	else fUrl = '';
+    if (0 <= fPath)
+    {
+        fUrl = '#' + bUrl.substr(fPath + 1);
+        if ('#' == fUrl) fUrl = '';
+        bUrl = bUrl.substr(0, fPath);
+    }
+    else fUrl = '';
 
-	fUrl = '' == fUrl ? bSrc : fUrlGet(fUrl);
-	fPath = fPathGet(fUrl);
+    fUrl = '' == fUrl ? bSrc : fUrlGet(fUrl);
+    fPath = fPathGet(fUrl);
 
-	if (location.hash != fPath) location.replace(bUrl + fPath);
+    if (location.hash != fPath) location.replace(bUrl + fPath);
 
-	f.src = fLoc = fUrl;
-	document.getElementById('iframe_main').appendChild(f);
+    f.src = fLoc = fUrl;
+    document.getElementById('iframe_main').appendChild(f);
 
-	function fUrlGet(url)
-	{
-		url = rUrl + (url && url.substr(1).replace(/\s+$/, ''));
+    function fUrlGet(url)
+    {
+        url = rUrl + (url && url.substr(1).replace(/\s+$/, ''));
 
-		return url != bUrl ? url : bSrc;
-	}
+        return url != bUrl ? url : bSrc;
+    }
 
-	function fPathGet(url)
-	{
-		if (0 == url.indexOf(rUrl)) url = url.substr(rUrl.length);
+    function fPathGet(url)
+    {
+        if (0 == url.indexOf(rUrl)) url = url.substr(rUrl.length);
 
-		url = url.replace(/^\/+/, '');
+        url = url.replace(/^\/+/, '');
 
-		return '' != url ? '#' + url : '';
-	}
+        return '' != url ? '#' + url : '';
+    }
 
-	setInterval(function()
-	{
-		var fHash = location.href, fDoc = fHash.indexOf('#');
+    setInterval(function()
+    {
+        var fHash = location.href, fDoc = fHash.indexOf('#');
 
-		fHash = 0 <= fDoc ? '#' + fHash.substr(fDoc + 1) : '';
-		if ('#' == fHash) fHash = '';
+        fHash = 0 <= fDoc ? '#' + fHash.substr(fDoc + 1) : '';
+        if ('#' == fHash) fHash = '';
 
-		try
-		{
-			fDoc = f.contentDocument || frames['iframe'].contentWindow;
+        try
+        {
+            fDoc = f.contentDocument || frames['iframe'].contentWindow;
 
-			if (fLoc && fLoc != fDoc.location.href) return;
+            if (fLoc && fLoc != fDoc.location.href) return;
 
-			fLoc = false;
+            fLoc = false;
 
-			if (fDoc.title && fDoc.title != document.title) document.title = fDoc.title;
+            if (fDoc.title && fDoc.title != document.title) document.title = fDoc.title;
 
-			if (fDoc.location.href != fUrl && /^https?:$/.test(fDoc.location.protocol))
-			{
-				fUrl  = fDoc.location.href;
-				fPath = fPathGet(fUrl);
+            if (fDoc.location.href != fUrl && /^https?:$/.test(fDoc.location.protocol))
+            {
+                fUrl  = fDoc.location.href;
+                fPath = fPathGet(fUrl);
 
-				if (fHash != fPath) location.replace(bUrl + fPath);
+                if (fHash != fPath) location.replace(bUrl + fPath);
 
-				return;
-			}
-		}
-		catch (e)
-		{
-			fDoc = 0;
+                return;
+            }
+        }
+        catch (e)
+        {
+            fDoc = 0;
 
-			if ('' != fPath)
-			{
-				fPath = '';
-				location.replace(bUrl + '#');
+            if ('' != fPath)
+            {
+                fPath = '';
+                location.replace(bUrl + '#');
 
-				return;
-			}
-		}
+                return;
+            }
+        }
 
-		if (fHash == fPath) return;
+        if (fHash == fPath) return;
 
-		fUrl  = fUrlGet(fHash);
-		fPath = fPathGet(fUrl);
-		fLoc  = fUrl;
+        fUrl  = fUrlGet(fHash);
+        fPath = fPathGet(fUrl);
+        fLoc  = fUrl;
 
-		if (fHash != fPath) location.replace(bUrl + fPath);
+        if (fHash != fPath) location.replace(bUrl + fPath);
 
-		if (fDoc) fDoc.location.replace(fUrl);
-		else f.src = fUrl;
-	},
-		200
-	);
+        if (fDoc) fDoc.location.replace(fUrl);
+        else f.src = fUrl;
+    },
+        200
+    );
 
-	function updateIframe()
-	{
-		var a, r, i;
+    function updateIframe()
+    {
+        var a, r, i;
 
-		try
-		{
-			// Set external links' target to the current page (_parent);
+        try
+        {
+            // Set external links' target to the current page (_parent);
 
-			a = (f.contentDocument || frames['iframe'].contentWindow.document).getElementsByTagName('A'), i = a.length, r = rUrl;
+            a = (f.contentDocument || frames['iframe'].contentWindow.document).getElementsByTagName('A'), i = a.length, r = rUrl;
 
-			while (i--)
-				if (0 != a[i].href.indexOf(r) && !a[i].target)
-					a[i].target = '_parent';
-		}
-		catch (a) {}
-	}
+            while (i--)
+                if (0 != a[i].href.indexOf(r) && !a[i].target)
+                    a[i].target = '_parent';
+        }
+        catch (a) {}
+    }
 }, 0);
 </script>
 <!--[if lt IE 8]>

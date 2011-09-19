@@ -3,9 +3,9 @@
 <div class="submit">
 <!--
 IF $step_position+1 == $steps
-	AGENT $f_send value="Terminer"
+    AGENT $f_send value="Terminer"
 ELSE
-	AGENT $f_send value="Suite"
+    AGENT $f_send value="Suite"
 END:IF
 -->
 </div>

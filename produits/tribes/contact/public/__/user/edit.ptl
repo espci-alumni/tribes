@@ -25,10 +25,10 @@
 <div class="tab-group"><!-- INLINE user/edit/_activite --></div>
 
 <div class="submit">
-	<!-- IF $f_cur_pwd -->
-	<table><!-- AGENT $f_cur_pwd _caption_="Votre mot de passe actuel" --></table>
-	<!-- END:IF -->
-	<!-- AGENT $f_send value="Enregistrer" -->
+    <!-- IF $f_cur_pwd -->
+    <table><!-- AGENT $f_cur_pwd _caption_="Votre mot de passe actuel" --></table>
+    <!-- END:IF -->
+    <!-- AGENT $f_send value="Enregistrer" -->
 </div>
 
 <!-- AGENT $form _mode_='close' -->

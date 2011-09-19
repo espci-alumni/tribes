@@ -5,17 +5,17 @@ AGENT 'header' title="Confirmation de données"
 
 SET $f -->
 <tr>
-	<td class="label">%0&nbsp;:</td>
-	<td>{old}</td>
-	<td class="input">{new}</td>
+    <td class="label">%0&nbsp;:</td>
+    <td>{old}</td>
+    <td class="input">{new}</td>
 </tr><!--
 END:SET
 
 SET $fnew -->
 <tr>
-	<td class="label">%0&nbsp;:</td>
-	<td>&nbsp;</td>
-	<td class="input">%1%2</td>
+    <td class="label">%0&nbsp;:</td>
+    <td>&nbsp;</td>
+    <td class="input">%1%2</td>
 </tr><!--
 END:SET
 
@@ -28,9 +28,9 @@ AGENT $form
 <div class="contenu">
 <table>
 <tr>
-	<th>&nbsp;</th>
-	<th>Données publiées</th>
-	<th>Données à valider</th>
+    <th>&nbsp;</th>
+    <th>Données publiées</th>
+    <th>Données à valider</th>
 </tr>
 <!--
 

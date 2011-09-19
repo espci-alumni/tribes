@@ -8,12 +8,12 @@ Votre bulletin de cotisation a bien été enregistré.
 </p>
 
 <ul>
-	<li>Référence&nbsp;: C/{a$token}</li>
-	<li>Date&nbsp;: {a$cotisation_date}</li>
-	<li>Type&nbsp;: {a$type} - {printf:'%d':a$cotisation}€</li>
-	<!-- IF a$paiement_euro -->
-	<li>Payé&nbsp;: {printf:'%0.2f':a$paiement_euro}€</li>
-	<!-- END:IF -->
+    <li>Référence&nbsp;: C/{a$token}</li>
+    <li>Date&nbsp;: {a$cotisation_date}</li>
+    <li>Type&nbsp;: {a$type} - {printf:'%d':a$cotisation}€</li>
+    <!-- IF a$paiement_euro -->
+    <li>Payé&nbsp;: {printf:'%0.2f':a$paiement_euro}€</li>
+    <!-- END:IF -->
 </ul>
 
 <p>

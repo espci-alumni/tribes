@@ -5,8 +5,8 @@
 <!-- LOOP $notes -->
 <fieldset>
 <ul>
-	<li><strong>Note&nbsp;:</strong> {$note}</li>
-	<li>{$date_contact}</li>
+    <li><strong>Note&nbsp;:</strong> {$note}</li>
+    <li>{$date_contact}</li>
 </ul>
 </fieldset>
 <!-- END:LOOP -->

@@ -2,22 +2,22 @@
 
 class extends agent_user_step_registration
 {
-	protected function composeForm($o,$f,$send)
-	{
-		$o = $this->composeContact($o, $f, $send);
+    protected function composeForm($o,$f,$send)
+    {
+        $o = $this->composeContact($o, $f, $send);
 
-		unset($o->f_sexe, $o->f_conjoint_email);
+        unset($o->f_sexe, $o->f_conjoint_email);
 
-		return $o;
-	}
+        return $o;
+    }
 
-	protected function composePhoto($o, $f, $send) {return $o;}
-	protected function composeCv   ($o, $f, $send) {return $o;}
+    protected function composePhoto($o, $f, $send) {return $o;}
+    protected function composeCv($o, $f, $send) {return $o;}
 
-	protected function save($data)
-	{
-		$this->saveContact($data);
+    protected function save($data)
+    {
+        $this->saveContact($data);
 
-		return parent::save($data);
-	}
+        return parent::save($data);
+    }
 }

@@ -2,5 +2,5 @@
 
 class extends self
 {
-	static $authVars = array('contact_id');
+    static $authVars = array('contact_id');
 }

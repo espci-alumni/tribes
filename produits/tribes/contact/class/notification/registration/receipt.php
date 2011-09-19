@@ -2,10 +2,10 @@
 
 class extends notification
 {
-	protected function doSend()
-	{
-		parent::doSend();
+    protected function doSend()
+    {
+        parent::doSend();
 
-		$this->mail($this->context['email']);
-	}
+        $this->mail($this->context['email']);
+    }
 }

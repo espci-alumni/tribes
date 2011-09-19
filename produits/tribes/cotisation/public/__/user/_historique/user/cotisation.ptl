@@ -5,8 +5,8 @@
 <h3>Cotisation</h3>
 
 <ul>
-	<li>Date&nbsp;: {$cotisation_date}</li>
-	<li>Type&nbsp;: {$type} - {printf:'%d':$cotisation}€</li>
-	<li>Payé&nbsp;: {printf:'%0.2f':$paiement_euro}€</li>
+    <li>Date&nbsp;: {$cotisation_date}</li>
+    <li>Type&nbsp;: {$type} - {printf:'%d':$cotisation}€</li>
+    <li>Payé&nbsp;: {printf:'%0.2f':$paiement_euro}€</li>
 </ul>
 <!-- END:LOOP -->

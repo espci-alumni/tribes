@@ -15,11 +15,11 @@
 </div>
 
 <div class="submit">
-	<!-- AGENT $f_send_login value="Connexion" -->
-	<p>
-	Mot de passe perdu&nbsp;?<br>
-	Merci de remplir le formulaire ci-dessous.
-	</p>
+    <!-- AGENT $f_send_login value="Connexion" -->
+    <p>
+    Mot de passe perdu&nbsp;?<br>
+    Merci de remplir le formulaire ci-dessous.
+    </p>
 </div>
 <!-- AGENT $form _mode_='close' -->
 

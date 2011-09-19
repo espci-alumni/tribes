@@ -20,15 +20,15 @@ SET g$ACTION_INSERT  -->1<!-- END:SET
 
 AGENT "user/_historique/{$historique}"
 
-	details = $details
+    details = $details
 
-	contact_login  = $login
-	contact_prenom = $prenom_usuel
-	contact_nom    = $nom_usuel
+    contact_login  = $login
+    contact_prenom = $prenom_usuel
+    contact_nom    = $nom_usuel
 
-	origine_login  = $origine_login
-	origine_prenom = $origine_prenom
-	origine_nom    = $origine_nom
+    origine_login  = $origine_login
+    origine_prenom = $origine_prenom
+    origine_nom    = $origine_nom
 
 -->
 
@@ -44,9 +44,9 @@ Origine de l'action&nbsp;: <a href="{~}user/{$origine_contact_id}">{$origine_pre
 
 AGENT 'widget/pagination'
 
-	results_nb       = $results_nb
-	results_per_page = $results_per_page
-	page             = $page
+    results_nb       = $results_nb
+    results_per_page = $results_per_page
+    page             = $page
 
 -->
 

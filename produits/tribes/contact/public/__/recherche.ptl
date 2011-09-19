@@ -4,16 +4,16 @@ AGENT 'header' title="Moteur de recherche"-->
 
 <!-- AGENT $form -->
 <fieldset>
-	<legend>critères de filtrage</legend>
+    <legend>critères de filtrage</legend>
 
 <table>
-	<!-- AGENT $f_where _caption_="Clause where" -->
-		<div class="notice">
-			La clause where permet d'identifier vos critères de recherche. Pour en profiter, il faut que vous utilisez les comparateurs possibles et qui se trouve dans cette liste : ( LIKE, =, !=, =<, >=, <>, <, >, OR, AND, XOR).
-		</div>
+    <!-- AGENT $f_where _caption_="Clause where" -->
+        <div class="notice">
+            La clause where permet d'identifier vos critères de recherche. Pour en profiter, il faut que vous utilisez les comparateurs possibles et qui se trouve dans cette liste : ( LIKE, =, !=, =<, >=, <>, <, >, OR, AND, XOR).
+        </div>
 </table>
 <table>
-	<!-- AGENT $f_send value="Envoyer" -->
+    <!-- AGENT $f_send value="Envoyer" -->
 </table>
 </fieldset>
 
@@ -21,18 +21,18 @@ AGENT 'header' title="Moteur de recherche"-->
 <!-- AGENT $form _mode_='close' -->
 <!-- IF $resultats -->
 <fieldset>
-	<legend>Résultats de la recherche</legend>
+    <legend>Résultats de la recherche</legend>
 <table align="center">
 <tr>
-	<!-- LOOP $headers -->
-	<th>{$VALUE}</th>
-	<!-- END:LOOP -->	
+    <!-- LOOP $headers -->
+    <th>{$VALUE}</th>
+    <!-- END:LOOP -->
 </tr>
 <!-- LOOP $resultats -->
 <tr>
-	<!-- LOOP $fields -->
-	<td><a href="{~}user/{$$contact_id}">{$VALUE}</a></td>
-	<!-- END:LOOP -->
+    <!-- LOOP $fields -->
+    <td><a href="{~}user/{$$contact_id}">{$VALUE}</a></td>
+    <!-- END:LOOP -->
 </tr>
 <!-- END:LOOP -->
 </table>
