@@ -10,7 +10,7 @@ SET g$ACTION_INSERT  -->1<!-- END:SET
 -->
 <!-- INLINE user/_onglets -->
 
-<div class="contenu">
+<div>
 <!-- LOOP $historiques -->
 
 <fieldset>

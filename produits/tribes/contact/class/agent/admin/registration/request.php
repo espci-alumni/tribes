@@ -63,6 +63,10 @@ class extends agent_admin_user_edit
 		$o = $this->composeAdresse($o, $f, $send, -1);
 		$o = $this->composeActivite($o, $f, $send, -1);
 
+		$this->emails   ->adminMode = true;
+		$this->adresses ->adminMode = true;
+		$this->activites->adminMode = true;
+
 		$f->add('textarea', 'message');
 		$f->add('select', 'acces', array('item' => array(
 			'membre' => 'Utilisateur',

@@ -6,7 +6,7 @@
 <!-- ELSE -->
 <h3>Merci de confirmer que cet email est bien le vôtre&nbsp;:</h3>
 <!-- END:IF -->
-<div class="contenu">
+<div>
 <table>
 <!-- LOOP $emails -->
 <tr>

@@ -1,6 +1,6 @@
 <h3>Bloc-note</h3>
 
-<div class="contenu">
+<div>
 <!-- IF $notes -->
 <!-- LOOP $notes -->
 <fieldset>
