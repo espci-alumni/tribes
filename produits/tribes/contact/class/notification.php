@@ -1,6 +1,6 @@
 <?php
 
-class
+class notification
 {
     protected $message, $contact_id, $context;
 

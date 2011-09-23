@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class agent_user extends self
 {
     protected static $selectFieldsDiplome = ', ecole, promotion';
 

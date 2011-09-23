@@ -5,7 +5,7 @@
 // sa fiche dans l'annuaire, sans rompre le processus mental en cours !
 // Peut-être simplement un lien dans cotiser/merci ?
 
-class extends agent
+class agent_cotiser_paiement extends agent
 {
     public $get = array('__1__:c:[-_A-Za-z0-9]{8}');
 

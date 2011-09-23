@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class tribes_common extends self
 {
     protected static $sync = false;
 

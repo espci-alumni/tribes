@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_admin_user_edit
+class agent_admin_registration_request extends agent_admin_user_edit
 {
     protected static
 

@@ -1,6 +1,6 @@
 <?php
 
-class extends pTask_periodic
+class pTask_registration_requests extends pTask_periodic
 {
     function execute()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_admin_user_secretariat
+class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secretariat
 {
     protected static $paiement_mode = array(
         'ESP' => 'Espèces',

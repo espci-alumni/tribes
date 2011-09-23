@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_user___x5Flogout extends agent
 {
     protected
 

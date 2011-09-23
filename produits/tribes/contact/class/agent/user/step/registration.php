@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_user_step
+class agent_user_step_registration extends agent_user_step
 {
     protected function getStep()
     {

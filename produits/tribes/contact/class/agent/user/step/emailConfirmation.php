@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_pForm
+class agent_user_step_emailConfirmation extends agent_pForm
 {
     protected $form, $send, $emails;
 

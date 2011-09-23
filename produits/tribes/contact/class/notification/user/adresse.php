@@ -1,5 +1,5 @@
 <?php
 
-class extends notification
+class notification_user_adresse extends notification
 {
 }

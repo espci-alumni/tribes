@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class agent_admin_registration_request extends self
 {
     protected function createAccount($contact)
     {

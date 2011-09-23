@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class patchwork_antiCSRF extends self
 {
     static function postAlert()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_confirm_email extends agent
 {
     public $get = '__1__:c:[-_A-Za-z0-9]{8}';
 

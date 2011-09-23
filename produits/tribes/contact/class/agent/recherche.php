@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_recherche extends agent
 {
     protected static $definition = array(
         'Informations personnelles' => array(

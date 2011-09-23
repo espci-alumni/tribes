@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_registration_collision
+class agent_registration_password extends agent_registration_collision
 {
     public $get = array();
 

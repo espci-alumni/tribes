@@ -1,6 +1,6 @@
 <?php
 
-class
+class pipe_diffFormat
 {
     static function php($f, $old, $new)
     {

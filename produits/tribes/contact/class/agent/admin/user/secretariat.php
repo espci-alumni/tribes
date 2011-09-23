@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_pForm
+class agent_admin_user_secretariat extends agent_pForm
 {
     public $get = array('contact_id:i:1');
 

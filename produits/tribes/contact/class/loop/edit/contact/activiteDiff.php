@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_edit_contact_activite
+class loop_edit_contact_activiteDiff extends loop_edit_contact_activite
 {
     protected
 

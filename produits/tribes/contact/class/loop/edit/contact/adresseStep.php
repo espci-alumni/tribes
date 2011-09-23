@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_edit_contact_adresse
+class loop_edit_contact_adresseStep extends loop_edit_contact_adresse
 {
     function __construct($f, $send)
     {

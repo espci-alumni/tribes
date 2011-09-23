@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_admin_registration_requests extends agent
 {
     protected $requiredAuth = 'admin';
 

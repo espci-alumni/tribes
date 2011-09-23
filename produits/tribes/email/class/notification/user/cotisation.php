@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class notification_user_cotisation extends self
 {
     protected function doSend()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_user_historique extends agent
 {
     public $get = array('p:i:1' => 1);
 

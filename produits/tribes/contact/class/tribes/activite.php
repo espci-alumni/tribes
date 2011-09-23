@@ -1,6 +1,6 @@
 <?php
 
-class extends tribes_adresse
+class tribes_activite extends tribes_adresse
 {
     protected
 

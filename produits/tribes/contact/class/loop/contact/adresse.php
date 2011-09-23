@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_sql
+class loop_contact_adresse extends loop_sql
 {
     function __construct($contact_id, $new = false)
     {

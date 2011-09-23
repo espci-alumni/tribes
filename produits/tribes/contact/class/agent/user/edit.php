@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_pForm
+class agent_user_edit extends agent_pForm
 {
     const
 

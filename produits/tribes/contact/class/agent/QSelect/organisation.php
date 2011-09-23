@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_QSelect
+class agent_QSelect_organisation extends agent_QSelect
 {
     protected
 

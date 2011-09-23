@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_pForm
+class agent_registration_collision extends agent_pForm
 {
     public $get = '__1__:c:[-_A-Za-z0-9]{8}';
 

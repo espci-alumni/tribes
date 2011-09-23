@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_edit
+class loop_edit_contact_adresse extends loop_edit
 {
     public $adminMode = false;
 

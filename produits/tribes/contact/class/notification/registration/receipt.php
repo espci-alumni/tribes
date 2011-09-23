@@ -1,6 +1,6 @@
 <?php
 
-class extends notification
+class notification_registration_receipt extends notification
 {
     protected function doSend()
     {

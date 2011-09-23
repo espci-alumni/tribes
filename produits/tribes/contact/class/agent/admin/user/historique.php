@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_user_historique
+class agent_admin_user_historique extends agent_user_historique
 {
     public $get = array(
         '__1__:i:1' => 0,

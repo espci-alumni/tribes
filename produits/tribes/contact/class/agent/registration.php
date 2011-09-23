@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_login
+class agent_registration extends agent_login
 {
     protected function composeForm($o, $f, $send)
     {

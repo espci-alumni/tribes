@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_contact_email
+class loop_contact_activite extends loop_contact_email
 {
     protected
 

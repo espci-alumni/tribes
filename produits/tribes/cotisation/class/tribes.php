@@ -2,7 +2,7 @@
 
 // TODO : reprendre l'info "promotion" sans créer de dépendence forte, sinon la documenter
 
-class extends self
+class tribes extends self
 {
     protected static $cotisation_type;
 

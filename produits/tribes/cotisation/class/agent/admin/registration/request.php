@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class agent_admin_registration_request extends self
 {
     static function __constructStatic()
     {

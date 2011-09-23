@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_tpe_cmcic_request
+class agent_tpe_cmcic_response extends agent_tpe_cmcic_request
 {
     const contentType = 'text/plain';
 

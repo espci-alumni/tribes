@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_pForm
+class agent_login extends agent_pForm
 {
     protected
 

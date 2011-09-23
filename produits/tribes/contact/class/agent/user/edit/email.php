@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_user_edit
+class agent_user_edit_email extends agent_user_edit
 {
     protected function composeForm($o, $f, $send)
     {

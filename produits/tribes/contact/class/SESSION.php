@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class SESSION extends self
 {
     static $authVars = array('contact_id');
 }

@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class agent_user_edit extends self
 {
     protected function composeContact($o, $f, $send)
     {

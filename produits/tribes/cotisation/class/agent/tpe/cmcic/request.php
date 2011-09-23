@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_tpe_cmcic_request extends agent
 {
     protected static
 

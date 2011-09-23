@@ -1,6 +1,6 @@
 <?php
 
-class extends pForm_date
+class pForm_monthyear extends pForm_date
 {
     protected function init(&$param)
     {

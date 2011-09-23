@@ -1,6 +1,6 @@
 <?php
 
-class extends tribes_step
+class tribes_step_registration extends tribes_step
 {
     protected $steps = array(
         'registration/contact' => "État civil / Formation",

@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_edit_contact_activite
+class loop_edit_contact_activiteStep extends loop_edit_contact_activite
 {
     function __construct($f, $send)
     {

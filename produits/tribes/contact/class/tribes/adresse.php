@@ -1,6 +1,6 @@
 <?php
 
-class extends tribes_common
+class tribes_adresse extends tribes_common
 {
     protected
 

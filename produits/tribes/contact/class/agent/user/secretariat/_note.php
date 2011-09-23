@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_user_secretariat
+class agent_user_secretariat___x5Fnote extends agent_user_secretariat
 {
     function compose($o)
     {

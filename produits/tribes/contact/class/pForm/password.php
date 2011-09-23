@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class pForm_password extends self
 {
     protected
 

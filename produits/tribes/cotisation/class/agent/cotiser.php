@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_registration
+class agent_cotiser extends agent_registration
 {
     function control()
     {

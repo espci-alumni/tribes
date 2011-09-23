@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_confirm_email
+class agent_confirm_registration extends agent_confirm_email
 {
     function control()
     {

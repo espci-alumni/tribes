@@ -1,6 +1,6 @@
 <?php
 
-class extends pTask_periodic
+class pTask_user_resetToken extends pTask_periodic
 {
     function execute()
     {

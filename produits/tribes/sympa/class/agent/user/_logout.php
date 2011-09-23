@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class agent_user___x5Flogout extends self
 {
     protected function logout()
     {

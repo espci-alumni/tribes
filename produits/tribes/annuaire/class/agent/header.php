@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class agent_header extends self
 {
     function compose($o)
     {

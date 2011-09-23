@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_tpe_request
+class agent_tpe___x5Fcotisation extends agent_tpe_request
 {
     public $get = array('__1__:c:[-_A-Za-z0-9]{8}');
 

@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_user_secretariat extends agent
 {
     public $get = array('contact_id:i:1' => 0);
 

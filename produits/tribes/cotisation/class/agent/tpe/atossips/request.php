@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_tpe_atossips_request extends agent
 {
     protected static
 

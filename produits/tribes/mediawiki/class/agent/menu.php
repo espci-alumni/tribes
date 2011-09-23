@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class agent_menu extends self
 {
     const ACCUEIL_CONNECTED = 'wiki/Accueil';
 

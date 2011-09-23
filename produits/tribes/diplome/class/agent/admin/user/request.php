@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class agent_admin_user_request extends self
 {
     protected function composeDiplome($o, $f, $send)
     {

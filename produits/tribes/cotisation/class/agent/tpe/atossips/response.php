@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_tpe_atossips_request
+class agent_tpe_atossips_response extends agent_tpe_atossips_request
 {
     protected static function composeResponse($o, $data)
     {

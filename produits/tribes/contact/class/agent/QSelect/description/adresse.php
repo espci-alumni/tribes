@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_QSelect
+class agent_QSelect_description_adresse extends agent_QSelect
 {
     protected
 

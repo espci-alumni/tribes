@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_tpe_response
+class agent_tpe_callback extends agent_tpe_response
 {
     function compose($o)
     {

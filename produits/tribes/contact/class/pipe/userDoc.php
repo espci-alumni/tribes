@@ -1,6 +1,6 @@
 <?php
 
-class
+class pipe_userDoc
 {
     static function php($type, $token, $login, $confirmed)
     {

@@ -1,6 +1,6 @@
 <?php
 
-class
+class pipe_formatDate
 {
     protected static $format = '$3/$2/$1';
 

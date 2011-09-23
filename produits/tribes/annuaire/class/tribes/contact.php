@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class tribes_contact extends self
 {
     function delete($row_id)
     {

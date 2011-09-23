@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_QSelect
+class agent_QSelect_activite extends agent_QSelect
 {
     public $get = '__1__:c:titre';
 

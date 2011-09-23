@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_sql
+class loop_user_activite extends loop_sql
 {
     function __construct($contact_id)
     {

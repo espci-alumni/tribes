@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_user extends agent
 {
     public $get = '__1__:i:1';
 

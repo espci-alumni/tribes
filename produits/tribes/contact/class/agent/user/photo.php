@@ -1,7 +1,7 @@
 <?php
 
 
-class extends agent
+class agent_user_photo extends agent
 {
     const contentType = 'image/jpeg';
 

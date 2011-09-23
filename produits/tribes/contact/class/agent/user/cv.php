@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_user_photo
+class agent_user_cv extends agent_user_photo
 {
     const contentType = '';
 

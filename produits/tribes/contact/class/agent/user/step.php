@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_user_edit
+class agent_user_step extends agent_user_edit
 {
     protected
 

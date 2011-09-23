@@ -1,6 +1,6 @@
 <?php
 
-class extends agent
+class agent_menu extends agent
 {
     const
 

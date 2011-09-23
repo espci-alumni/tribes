@@ -7,7 +7,7 @@
 // Et envoyer un lien de récuparation de mot de passe, le cas échéant.
 // cf. notification::send('user/password/request',...) dans agent/registration/collision
 
-class extends agent_pForm
+class agent_cotiser_bulletin extends agent_pForm
 {
     protected static
 

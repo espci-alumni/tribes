@@ -1,6 +1,6 @@
 <?php
 
-class extends loop_sql
+class loop_contact_email extends loop_sql
 {
     protected
 

@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class tribes_email extends self
 {
     function save($data, $message = null, &$id = 0)
     {

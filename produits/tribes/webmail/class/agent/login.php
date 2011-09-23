@@ -1,6 +1,6 @@
 <?php
 
-class extends self
+class agent_login extends self
 {
     protected function login($contact)
     {

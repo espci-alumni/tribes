@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_user_edit
+class agent_user_edit_adresse extends agent_user_edit
 {
     public $get = array('__1__:c:activite');
 

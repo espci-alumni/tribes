@@ -1,6 +1,6 @@
 <?php
 
-class extends agent_QSelect
+class agent_QSelect_suggestions extends agent_QSelect
 {
     public $get = array('__0__');
 
