@@ -55,8 +55,8 @@ class tribes_contact extends tribes_common
 
         if (!$this->contact_id)
         {
-            $data['photo_token'] = p::strongid(8);
-            $data['cv_token'] = p::strongid(8);
+            $data['photo_token'] = patchwork::strongid(8);
+            $data['cv_token'] = patchwork::strongid(8);
         }
 
         if (empty($data['login'])) unset($data['login']);

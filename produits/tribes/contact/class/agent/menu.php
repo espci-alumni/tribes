@@ -16,14 +16,14 @@ class agent_menu extends agent
     function control()
     {
         $this->connected_id = tribes::getConnectedId();
-        $this->connected_id || p::redirect(self::ACCUEIL_PUBLIC);
+        $this->connected_id || patchwork::redirect(self::ACCUEIL_PUBLIC);
     }
 
     function compose($o)
     {
-        $o->prenom_usuel = s::get('prenom_usuel');
-        $o->nom_usuel = s::get('nom_usuel');
-        $o->acces = s::get('acces');
+        $o->prenom_usuel = SESSION::get('prenom_usuel');
+        $o->nom_usuel = SESSION::get('nom_usuel');
+        $o->acces = SESSION::get('acces');
 
         $o->accueil_url = $o->acces ? self::ACCUEIL_CONNECTED : 'user/edit';
         $o->public_url = self::ACCUEIL_PUBLIC;

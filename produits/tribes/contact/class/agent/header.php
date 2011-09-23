@@ -6,7 +6,7 @@ class agent_header extends self
 
     function compose($o)
     {
-        switch ($o->message = s::flash('headerMessage'))
+        switch ($o->message = SESSION::flash('headerMessage'))
         {
         case 'create': $o->message = 'Ajout effectué'; break;
         case 'save': $o->message = 'Modifications enregistrées'; break;

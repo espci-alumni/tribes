@@ -13,7 +13,7 @@ class agent_QSelect_suggestions extends agent_QSelect
 
     function control()
     {
-        if (!isset(self::$types[$this->get->__0__])) p::forbidden();
+        if (!isset(self::$types[$this->get->__0__])) patchwork::forbidden();
 
         $this->template = self::$types[$this->get->__0__] ? 'QSelect/Suggest.js' : 'QSelect/Search.js';
 

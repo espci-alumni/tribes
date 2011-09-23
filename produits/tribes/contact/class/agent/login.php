@@ -47,7 +47,7 @@ class agent_login extends agent_pForm
         $result = DB()->query($sql);
 
         while ($row = $result->fetchRow())
-            if (p::matchSaltedHash($data['password'], $row->password))
+            if (patchwork::matchSaltedHash($data['password'], $row->password))
                 break;
 
         if (!$row) return 'login/failed';
@@ -56,17 +56,17 @@ class agent_login extends agent_pForm
 
         $row->saltedPassword = $row->password;
         $row->password = $data['password'];
-        $row->referer = s::flash('referer');
+        $row->referer = SESSION::flash('referer');
         $row->email = $row->login ? $row->login . $CONFIG['tribes.emailDomain'] : '';
 
-        if ($sql = s::flash('confirmed_email_id'))
+        if ($sql = SESSION::flash('confirmed_email_id'))
         {
             $email = new tribes_email($contact->contact_id);
             $email->save(array('contact_confirmed' => true), null, $sql);
         }
 
-        s::regenerateId(true, true);
-        s::set($row);
+        SESSION::regenerateId(true, true);
+        SESSION::set($row);
 
         $row->acces && $this->login($row);
 
@@ -82,7 +82,7 @@ class agent_login extends agent_pForm
                     AND is_obsolete<=0";
         if (DB()->queryOne($sql)) return 'user/step/emailConfirmation';
 
-        $sql = s::flash('referer');
+        $sql = SESSION::flash('referer');
 
         return $row->acces ? ($sql ? $sql : agent_menu::ACCUEIL_CONNECTED) : 'user/edit/contact';
     }

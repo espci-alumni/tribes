@@ -41,9 +41,9 @@ class agent_tpe_cmcic_request extends agent
         );
 
         $data['MAC'] = self::macRequest($data);
-        $data['url_retour' ] = p::__BASE__();
-        $data['url_retour_ok' ] = p::__BASE__() . 'cotiser/merci';
-        $data['url_retour_err'] = p::__BASE__() . 'cotiser/paiement/' . $ref;
+        $data['url_retour' ] = patchwork::__BASE__();
+        $data['url_retour_ok' ] = patchwork::__BASE__() . 'cotiser/merci';
+        $data['url_retour_err'] = patchwork::__BASE__() . 'cotiser/paiement/' . $ref;
 
         $f = new pForm($o);
         $f->action = self::$url . 'paiement.cgi';

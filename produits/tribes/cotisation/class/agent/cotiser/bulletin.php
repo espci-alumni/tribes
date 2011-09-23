@@ -23,10 +23,10 @@ class agent_cotiser_bulletin extends agent_pForm
     function control()
     {
         $this->contact_id = tribes::getConnectedId();
-        $this->contact_id || $this->contact_id = s::get('cotisation_contact_id');
-        $this->contact_id || p::redirect('cotiser');
+        $this->contact_id || $this->contact_id = SESSION::get('cotisation_contact_id');
+        $this->contact_id || patchwork::redirect('cotiser');
 
-        $this->data = s::get('cotisation_bulletin');
+        $this->data = SESSION::get('cotisation_bulletin');
     }
 
     function compose($o)
@@ -48,7 +48,7 @@ class agent_cotiser_bulletin extends agent_pForm
                 WHERE contact_id={$this->contact_id}";
         $o = DB()->queryRow($sql);
 
-        s::get('cotisation_email') || s::set('cotisation_email', $o->email);
+        SESSION::get('cotisation_email') || SESSION::set('cotisation_email', $o->email);
 
         $sql = "SELECT *
                 FROM cotisation
@@ -88,13 +88,13 @@ class agent_cotiser_bulletin extends agent_pForm
 
     protected function save($data)
     {
-        s::set('cotisation_bulletin', $data);
+        SESSION::set('cotisation_bulletin', $data);
 
         $data += array(
-            'token' => p::strongId(8),
+            'token' => patchwork::strongId(8),
             'contact_id' => $this->contact_id,
             'cotisation_date' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']),
-            'email' => s::get('cotisation_email'),
+            'email' => SESSION::get('cotisation_email'),
         );
 
         list($data['nb_mois'], $data['cotisation'], $data['type']) = explode('-', $data['type'], 3);

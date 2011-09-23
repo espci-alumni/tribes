@@ -1,6 +1,6 @@
 <?php
 
-// TODO : exploiter s::get('cotisation_next_step');
+// TODO : exploiter SESSION::get('cotisation_next_step');
 // Trouver un moyen (dans cette page ou une autre) pour que l'user soit invité à mettre à jour
 // sa fiche dans l'annuaire, sans rompre le processus mental en cours !
 // Peut-être simplement un lien dans cotiser/merci ?
@@ -14,7 +14,7 @@ class agent_cotiser_paiement extends agent
 
     function control()
     {
-        $this->get->__1__ || p::redirect('cotiser');
+        $this->get->__1__ || patchwork::redirect('cotiser');
 
         $sql = "SELECT
                     p.token,
@@ -32,7 +32,7 @@ class agent_cotiser_paiement extends agent
                     JOIN contact_contact c ON c.contact_id=p.contact_id
                 WHERE p.token='{$this->get->__1__}'";
         $this->data = DB()->queryRow($sql);
-        $this->data || p::redirect('cotiser');
+        $this->data || patchwork::redirect('cotiser');
     }
 
     function compose($o)

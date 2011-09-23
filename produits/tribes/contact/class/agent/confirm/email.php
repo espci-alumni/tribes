@@ -6,8 +6,8 @@ class agent_confirm_email extends agent
 
     function control()
     {
-        $this->get->__1__ || p::forbidden();
+        $this->get->__1__ || patchwork::forbidden();
 
-        tribes_email::confirm("confirm/email/{$this->get->__1__}") || p::redirect('error/token');
+        tribes_email::confirm("confirm/email/{$this->get->__1__}") || patchwork::redirect('error/token');
     }
 }

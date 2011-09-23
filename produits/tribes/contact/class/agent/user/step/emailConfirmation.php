@@ -38,7 +38,7 @@ class agent_user_step_emailConfirmation extends agent_pForm
             }
         }
 
-        $sql = s::flash('referer');
+        $sql = SESSION::flash('referer');
 
         return $sql ? $sql : agent_menu::ACCUEIL_CONNECTED;
     }

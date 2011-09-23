@@ -23,7 +23,7 @@ class agent_user___x5Flogout extends agent
 
     protected function logout()
     {
-        s::destroy();
-        p::redirect('index');
+        SESSION::destroy();
+        patchwork::redirect('index');
     }
 }

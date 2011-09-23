@@ -11,7 +11,7 @@ class pipe_formatDate
 
     static function php($s)
     {
-        $s = p::string($s);
+        $s = patchwork::string($s);
         $s = str_replace('0000-00-00', '', $s);
         return preg_replace("'(\d\d\d\d)-(\d\d)-(\d\d)'", self::$format, $s);
     }

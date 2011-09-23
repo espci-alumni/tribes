@@ -11,7 +11,7 @@ class agent_confirm_registration extends agent_confirm_email
                 WHERE e.token='confirm/registration/{$this->get->__1__}'
                     AND e.token_expires>NOW()";
         $data = DB()->queryRow($sql);
-        $data || p::redirect('error/token');
+        $data || patchwork::redirect('error/token');
 
         tribes_email::confirm("confirm/registration/{$this->get->__1__}");
 

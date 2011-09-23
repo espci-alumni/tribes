@@ -11,7 +11,7 @@ class agent_login extends self
             $sql = "SELECT cotisation_expires>=NOW()
                     FROM contact_contact
                     WHERE contact_id={$contact->contact_id}";
-            s::set('is_cotisant', DB()->queryOne($sql));
+            SESSION::set('is_cotisant', DB()->queryOne($sql));
         }
     }
 }

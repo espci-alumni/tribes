@@ -19,7 +19,7 @@ class loop_edit_contact_activite extends loop_edit
         $loop = new loop_contact_activite($contact_id, $new > 0);
 
         $new && $this->allowAddDel = false;
-        $this->defaultLength = s::get('contact_id') == $contact_id ? 1 : 0;
+        $this->defaultLength = SESSION::get('contact_id') == $contact_id ? 1 : 0;
 
         parent::__construct($f, $loop);
 

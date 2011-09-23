@@ -16,11 +16,11 @@ class agent extends self
 
             if (!$this->connected_id)
             {
-                s::flash('referer', substr(p::__URI__(), strlen(p::__BASE__())));
-                p::redirect('login');
+                SESSION::flash('referer', substr(patchwork::__URI__(), strlen(patchwork::__BASE__())));
+                patchwork::redirect('login');
             }
 
-            tribes::connectedIsAuth($this->requiredAuth) || p::forbidden();
+            tribes::connectedIsAuth($this->requiredAuth) || patchwork::forbidden();
 
             $this->connected_is_admin = tribes::connectedIsAuth('admin');
         }

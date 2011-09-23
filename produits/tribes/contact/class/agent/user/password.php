@@ -6,7 +6,7 @@ class agent_user_password extends agent_pForm
 
     function control()
     {
-        $this->get->__1__ || p::forbidden();
+        $this->get->__1__ || patchwork::forbidden();
 
         $sql = "SELECT c.contact_id, c.login, c.nom_usuel, c.prenom_usuel
                 FROM contact_contact c
@@ -15,7 +15,7 @@ class agent_user_password extends agent_pForm
                     AND e.token_expires>NOW()";
 
         $this->data = DB()->queryRow($sql);
-        $this->data || p::redirect('error/token');
+        $this->data || patchwork::redirect('error/token');
 
         tribes_email::confirm("user/password/{$this->get->__1__}", false);
     }
@@ -54,7 +54,7 @@ class agent_user_password extends agent_pForm
         $contact->save($data, 'user/password/confirmation');
 
         tribes_email::confirm("user/password/{$this->get->__1__}");
-        s::flash('referer', 'user/edit/contact');
+        SESSION::flash('referer', 'user/edit/contact');
 
         return array('login', 'Mot de passe mis à jour');
     }

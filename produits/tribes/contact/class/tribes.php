@@ -10,7 +10,7 @@ class tribes
 
     static function getConnectedId()
     {
-        return (int) s::get('contact_id');
+        return (int) SESSION::get('contact_id');
     }
 
     static function connectedIsAuth($type)
@@ -21,8 +21,8 @@ class tribes
         if (-1 === $id) return true;
         if (true === $type) return true;
 
-        if ($type === s::get('acces')) return true;
-        if ('admin' === s::get('acces')) return true;
+        if ($type === SESSION::get('acces')) return true;
+        if ('admin' === SESSION::get('acces')) return true;
 
         return false;
     }
@@ -31,7 +31,7 @@ class tribes
     {
         if (!self::getConnectedId())
         {
-            s::set('contact_id', -1);
+            SESSION::set('contact_id', -1);
 
             SESSION::regenerateId(false, false);
         }
@@ -39,7 +39,7 @@ class tribes
 
     static function makeIdentifier($a, $auth_chars = 'a-z')
     {
-        $a = p::toASCII($a);
+        $a = patchwork::toASCII($a);
         $a = strtolower($a);
         $a = preg_replace("/[^{$auth_chars}]+/", '', $a);
 
