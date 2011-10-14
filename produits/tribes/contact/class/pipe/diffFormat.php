@@ -4,10 +4,10 @@ class pipe_diffFormat
 {
     static function php($f, $old, $new)
     {
-        $old = patchwork::string($old);
-        $new = patchwork::string($new);
+        $old = (string) $old;
+        $new = (string) $new;
 
-        $f = strtr(patchwork::string($f), array(
+        $f = strtr($f, array(
             '{new}' => ($old !== $new) ? '%1%2' : '&nbsp;',
             '{old}' => $old
         ));

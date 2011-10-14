@@ -36,7 +36,7 @@ class notification
 
         if (empty($h['contact_id']))
         {
-            W("No contact_id specified for notification: {$this->message}");
+            user_error("No contact_id specified for notification: {$this->message}");
             return;
         }
 

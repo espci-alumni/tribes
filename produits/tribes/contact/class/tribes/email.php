@@ -25,7 +25,7 @@ class tribes_email extends tribes_common
 
         if (!$id && !isset($data['email']))
         {
-            W(__METHOD__ . '() input error: please provide email or email_id.');
+            user_error(__METHOD__ . '() input error: please provide email or email_id.');
             return;
         }
         else if (isset($data['email'])) $data['email'] = strtolower($data['email']);
