@@ -1,61 +1,49 @@
 <?php
 
-class agent_admin_export_excel extends agent
+class agent_admin_export_excel extends agent_admin_export
 {
     const contentType = 'application/vnd.ms-excel';
 
-    protected
-
-    $requiredAuth = 'admin',
-    $sql = 'SELECT * FROM contact_contact c WHERE NOT is_obsolete';
-
+    protected $sheet, $head;
 
     function compose($o)
     {
-        $db = DB();
+        $book = new Spreadsheet_Excel_Writer();
+        $book->setVersion(8);
+        $book->send(substr($CONFIG['tribes.emailDomain'], 1) . '-' . date('Y-m-d-His', $_SERVER['REQUEST_TIME']) . '.xls');
 
-        $xls = new Spreadsheet_Excel_Writer();
-        $xls->setVersion(8);
-        $xls->send($CONFIG['tribes.emailDomain'] . '-' . date('Y-m-d-His', $_SERVER['REQUEST_TIME']) . '.xls');
-
-        $sheet = $xls->addWorksheet('Contacts');
+        $sheet = $this->sheet = $book->addWorksheet('Contacts');
         $sheet->setInputEncoding('UTF-8');
+		$this->head = $book->addFormat();
+		$this->head->setBold();
 
-        $headFormat = $xls->addFormat();
-        $headFormat->setBold();
 
-        $xlsRow = 1;
-        $result = $db->query($this->sql);
+        $o = parent::compose($o);
 
-        while ($row = $result->fetchRow())
-        {
-            if ($headFormat)
-            {
-                $xlsCol = 0;
-                foreach ($row as $k => $v) $sheet->write(0, $xlsCol++, $k, $headFormat);
-                $headFormat = false;
-
-                $sheet->freezePanes(array(1, 0));
-            }
-
-            $xlsCol = 0;
-            foreach ($row as $v)
-            {
-                switch ($v)
-                {
-                case '0000-00-00':
-                case '0000-00-00 00:00:00': break;
-                default: $sheet->write($xlsRow, $xlsCol, $v);
-                }
-
-                ++$xlsCol;
-            }
-
-            ++$xlsRow;
-        }
-
-        $xls->close();
+        $book->close();
 
         return $o;
+    }
+
+    protected function mapRow($row, $count)
+    {
+        if (0 === $count)
+        {
+			$h = array();
+            $col = 0;
+            foreach ($row as $k => $v)
+			{
+				$this->sheet->write(0, $h[$k] = $col++, $k, $this->head);
+			}
+
+            $this->sheet->freezePanes(array(1, 0));
+			$this->head = $h;
+        }
+
+        foreach ($row as $k => $v)
+        {
+			if (isset($this->head[$k])) $this->sheet->write($count+1, $this->head[$k], $v);
+			else user_error("Key '{$k}' not found in headers names");
+        }
     }
 }
