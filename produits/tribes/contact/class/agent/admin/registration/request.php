@@ -233,6 +233,8 @@ class agent_admin_registration_request extends agent_admin_user_edit
         }
 
         notification::send('contact/fusion', array('contact_id' => $to_contact_id));
+
+        $this->contact->delete($from_contact_id);
     }
 
     protected static function buildDoublonData($f, $data)
