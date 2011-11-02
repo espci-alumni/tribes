@@ -56,7 +56,7 @@
             {$prenom_usuel} {$nom_usuel}
         <!-- END:IF --><br>
         <!-- IF !$is_cotisant -->
-        <a href="{/}fr/adherer">Cotiser</a> pour soutenir les efforts de l'Association</a>
+        <a href="{/}fr/adherer">Cotiser pour soutenir les efforts de l'Association</a>
         <!-- ELSE -->
         Tu es à jour de ta cotisation
         <!-- END:IF -->
