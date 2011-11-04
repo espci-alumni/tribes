@@ -6,12 +6,12 @@
 <!-- ELSE -->
 <h3>Merci de confirmer que cet email est bien le vôtre&nbsp;:</h3>
 <!-- END:IF -->
-<div class="contenu">
+<div>
 <table>
 <!-- LOOP $emails -->
 <tr>
-	<td><span class="email">{$email}</span>&nbsp;:</td>
-	<td><!-- AGENT $f_email_confirmed _format_='%1' _glue_='&nbsp;' --></td>
+    <td><span class="email">{$email}</span>&nbsp;:</td>
+    <td><!-- AGENT $f_email_confirmed _format_='%1' _glue_='&nbsp;' --></td>
 </tr>
 <!-- END:LOOP -->
 </table>

@@ -1,19 +1,19 @@
 <?php
 
-class extends agent_user_historique
+class agent_admin_user_historique extends agent_user_historique
 {
-	public $get = array(
-		'__1__:i:1' => 0,
-		'p:i:1'     => 1,
-	);
+    public $get = array(
+        '__1__:i:1' => 0,
+        'p:i:1' => 1,
+    );
 
-	protected $requiredAuth = 'admin';
+    protected $requiredAuth = 'admin';
 
 
-	function compose($o)
-	{
-		$this->contact_id = $this->get->__1__;
+    function compose($o)
+    {
+        $this->contact_id = $this->get->__1__;
 
-		return parent::compose($o);
-	}
+        return parent::compose($o);
+    }
 }

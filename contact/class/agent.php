@@ -1,28 +1,28 @@
 <?php
 
-class extends self
+class agent extends self
 {
-	protected
+    protected
 
-	$requiredAuth = 'membre',
-	$connected_id = 0,
-	$connected_is_admin = false;
+    $requiredAuth = 'membre',
+    $connected_id = 0,
+    $connected_is_admin = false;
 
-	function control()
-	{
-		if ($this->requiredAuth)
-		{
-			$this->connected_id = tribes::getConnectedId();
+    function control()
+    {
+        if ($this->requiredAuth)
+        {
+            $this->connected_id = tribes::getConnectedId();
 
-			if (!$this->connected_id)
-			{
-				s::flash('referer', substr(p::__URI__(), strlen(p::__BASE__())));
-				p::redirect('login');
-			}
+            if (!$this->connected_id)
+            {
+                SESSION::flash('referer', substr(patchwork::__URI__(), strlen(patchwork::__BASE__())));
+                patchwork::redirect('login');
+            }
 
-			tribes::connectedIsAuth($this->requiredAuth) || p::forbidden();
+            tribes::connectedIsAuth($this->requiredAuth) || patchwork::forbidden();
 
-			$this->connected_is_admin = tribes::connectedIsAuth('admin');
-		}
-	}
+            $this->connected_is_admin = tribes::connectedIsAuth('admin');
+        }
+    }
 }

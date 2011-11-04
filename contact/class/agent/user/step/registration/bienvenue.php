@@ -1,5 +1,5 @@
 <?php
 
-class extends agent_user_step_registration
+class agent_user_step_registration_bienvenue extends agent_user_step_registration
 {
 }

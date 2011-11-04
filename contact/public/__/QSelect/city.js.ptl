@@ -2,41 +2,41 @@
 
 function QSelectCity($liveAgent, $loop, $key)
 {
-	$liveAgent = QSelectLiveAgent($liveAgent, $loop, $key);
+    $liveAgent = QSelectLiveAgent($liveAgent, $loop, $key);
 
-	return function($this, $input, $select, $options)
-	{
-		var $driver = $liveAgent($this, $input, $select, $options);
+    return function($this, $input, $select, $options)
+    {
+        var $driver = $liveAgent($this, $input, $select, $options);
 
-		$driver.fixTab = 1;
-		$driver.setValue = function()
-		{
-			var $city, $pays, $idx = $select.selectedIndex, $i;
+        $driver.fixTab = 1;
+        $driver.setValue = function()
+        {
+            var $city, $pays, $idx = $select.selectedIndex, $i;
 
-			if (0 <= $idx)
-			{
-				$city = $options[$idx].text;
-				$pays = $input.form[$input.name.replace('ville', 'pays')];
+            if (0 <= $idx)
+            {
+                $city = $options[$idx].text;
+                $pays = $input.form[$input.name.replace('ville', 'pays')];
 
-				if ($pays)
-				{
-					$i = $city.lastIndexOf(',');
-					$pays.value = $city.substr($i + 2);
-					$city = $city.substr(0, $i);
-				}
+                if ($pays)
+                {
+                    $i = $city.lastIndexOf(',');
+                    $pays.value = $city.substr($i + 2);
+                    $city = $city.substr(0, $i);
+                }
 
-				$this.sync($city);
-				$input.select();
-				$input.focus();
+                $this.sync($city);
+                $input.select();
+                $input.focus();
 
-				return 1;
-			}
+                return 1;
+            }
 
-			return 0;
-		}
+            return 0;
+        }
 
-		return $driver;
-	}
+        return $driver;
+    }
 }
 
 onDOMLoaded.push((function(e){return function(){QSelect(e,QSelectCity({$src|js},{$loop|js},{$key|js}))}})(formStack.shift()))

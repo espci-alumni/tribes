@@ -1,94 +1,94 @@
 <?php
 
-class extends agent_pForm
+class agent_login extends agent_pForm
 {
-	protected
+    protected
 
-	$maxage = -1,
-	$requiredAuth = false;
+    $maxage = -1,
+    $requiredAuth = false;
 
-	protected static
+    protected static
 
-	$sessionFields = 'c.contact_id, password, login, user, nom_usuel, prenom_usuel, etape_suivante, acces';
+    $sessionFields = 'c.contact_id, password, login, user, nom_usuel, prenom_usuel, etape_suivante, acces';
 
 
-	protected function composeForm($o, $f, $send)
-	{
-		$f->add('text', 'login');
-		$f->add('password', 'password');
+    protected function composeForm($o, $f, $send)
+    {
+        $f->add('text', 'login');
+        $f->add('password', 'password');
 
-		$send->attach(
-			'login', 'Veuillez saisir votre identifiant', '',
-			'password', 'Veuillez saisir votre mot de passe', ''
-		);
+        $send->attach(
+            'login', 'Veuillez saisir votre identifiant', '',
+            'password', 'Veuillez saisir votre mot de passe', ''
+        );
 
-		return $o;
-	}
+        return $o;
+    }
 
-	protected function save($data)
-	{
-		$sql = $CONFIG['tribes.emailDomain'];
+    protected function save($data)
+    {
+        $sql = $CONFIG['tribes.emailDomain'];
 
-		if (0 === strcasecmp($sql, substr($data['login'], -strlen($sql))))
-		{
-			$data['login'] = substr($data['login'], 0, -strlen($sql));
-		}
+        if (0 === strcasecmp($sql, substr($data['login'], -strlen($sql))))
+        {
+            $data['login'] = substr($data['login'], 0, -strlen($sql));
+        }
 
-		$sql = str_replace('-', '', $data['login']);
+        $sql = str_replace('-', '', $data['login']);
 
-		$sql = strpos($sql, '@')
-			? ("contact_email u ON u.contact_confirmed AND u.email=" . DB()->quote($data['login']))
-			: ("contact_alias u ON u.alias=" . DB()->quote($sql));
+        $sql = strpos($sql, '@')
+            ? ("contact_email u ON u.contact_confirmed AND u.email=" . DB()->quote($data['login']))
+            : ("contact_alias u ON u.alias=" . DB()->quote($sql));
 
-		$sql = "SELECT " . self::$sessionFields . "
-				FROM contact_contact c
-					JOIN {$sql} AND u.contact_id=c.contact_id
-				WHERE password!=''";
-		$result = DB()->query($sql);
+        $sql = "SELECT " . self::$sessionFields . "
+                FROM contact_contact c
+                    JOIN {$sql} AND u.contact_id=c.contact_id
+                WHERE password!=''";
+        $result = DB()->query($sql);
 
-		while ($row = $result->fetchRow())
-			if (p::matchSaltedHash($data['password'], $row->password))
-				break;
+        while ($row = $result->fetchRow())
+            if (patchwork::matchSaltedHash($data['password'], $row->password))
+                break;
 
-		if (!$row) return 'login/failed';
+        if (!$row) return 'login/failed';
 
-		$contact_id = $row->contact_id;
+        $contact_id = $row->contact_id;
 
-		$row->saltedPassword = $row->password;
-		$row->password = $data['password'];
-		$row->referer  = s::flash('referer');
-		$row->email = $row->login ? $row->login . $CONFIG['tribes.emailDomain'] : '';
+        $row->saltedPassword = $row->password;
+        $row->password = $data['password'];
+        $row->referer = SESSION::flash('referer');
+        $row->email = $row->login ? $row->login . $CONFIG['tribes.emailDomain'] : '';
 
-		if ($sql = s::flash('confirmed_email_id'))
-		{
-			$email = new tribes_email($contact->contact_id);
-			$email->save(array('contact_confirmed' => true), null, $sql);
-		}
+        if ($sql = SESSION::flash('confirmed_email_id'))
+        {
+            $email = new tribes_email($contact->contact_id);
+            $email->save(array('contact_confirmed' => true), null, $sql);
+        }
 
-		s::regenerateId(true, true);
-		s::set($row);
+        SESSION::regenerateId(true, true);
+        SESSION::set($row);
 
-		$row->acces && $this->login($row);
+        $row->acces && $this->login($row);
 
-		if ('' !== $row->etape_suivante) return "user/step/{$row->etape_suivante}";
+        if ('' !== $row->etape_suivante) return "user/step/{$row->etape_suivante}";
 
-		// TODO: Vérifier qu'on a au moins un email actif pour ce contact
+        // TODO: Vérifier qu'on a au moins un email actif pour ce contact
 
-		$sql = "SELECT 1
-				FROM contact_email
-				WHERE contact_id={$contact_id}
-					AND NOT contact_confirmed
-					AND admin_confirmed
-					AND is_obsolete<=0";
-		if (DB()->queryOne($sql)) return 'user/step/emailConfirmation';
+        $sql = "SELECT 1
+                FROM contact_email
+                WHERE contact_id={$contact_id}
+                    AND NOT contact_confirmed
+                    AND admin_confirmed
+                    AND is_obsolete<=0";
+        if (DB()->queryOne($sql)) return 'user/step/emailConfirmation';
 
-		$sql = s::flash('referer');
+        $sql = SESSION::flash('referer');
 
-		return $row->acces ? ($sql ? $sql : agent_menu::ACCUEIL_CONNECTED) : 'user/edit/contact';
-	}
+        return $row->acces ? ($sql ? $sql : agent_menu::ACCUEIL_CONNECTED) : 'user/edit/contact';
+    }
 
-	protected function login($contact)
-	{
-		// Hook for superpositions
-	}
+    protected function login($contact)
+    {
+        // Hook for superpositions
+    }
 }

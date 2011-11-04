@@ -1,15 +1,15 @@
 <!--
 
 IF $f_login
-	SET $c -->{$f|diffFormat:$c_login:$login}<!-- END:SET
-	AGENT $f_login _caption_="Identifiant" _format_=$c placeholder=d$p
+    SET $c -->{$f|diffFormat:$c_login:$login}<!-- END:SET
+    AGENT $f_login _caption_="Identifiant" _format_=$c placeholder=d$p
 END:IF
 
 SET $c -->
 <tr>
-	<td class="label">&nbsp;</td>
-	<td>{$c_sexe}</td>
-	<td class="input"><!-- IF $c_sexe != $sexe -->%1%2<!-- ELSE -->&nbsp;<!-- END:IF --></td>
+    <td class="label">&nbsp;</td>
+    <td>{$c_sexe}</td>
+    <td class="input"><!-- IF $c_sexe != $sexe -->%1%2<!-- ELSE -->&nbsp;<!-- END:IF --></td>
 </tr><!--
 END:SET
 AGENT $f_sexe _glue_=' ' _format_=$c
@@ -24,8 +24,8 @@ SET $c -->{$f|diffFormat:$c_nom_usuel:$nom_usuel}<!-- END:SET
 AGENT $f_nom_usuel _caption_="Nom usuel" _format_=$c placeholder=d$p
 
 IF $f_nom_etudiant
-	SET $c -->{$f|diffFormat:$c_nom_etudiant:$nom_etudiant}<!-- END:SET
-	AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$c placeholder=d$p
+    SET $c -->{$f|diffFormat:$c_nom_etudiant:$nom_etudiant}<!-- END:SET
+    AGENT $f_nom_etudiant _caption_="Nom étudiant" _format_=$c placeholder=d$p
 END:IF
 
 SET $c -->{$f|diffFormat:$c_nom_civil:$nom_civil}<!-- END:SET
@@ -37,51 +37,51 @@ AGENT $f_date_naissance _caption_="Date de naissance" _format_=$c placeholder=d$
 
 SET $c -->
 <tr>
-	<td>%0&nbsp;:</td>
-	<td>&nbsp;</td>
-	<td>%1%2</td>
+    <td>%0&nbsp;:</td>
+    <td>&nbsp;</td>
+    <td>%1%2</td>
 </tr><!--
 END:SET
 
 -->
 <tr>
-	<td>&nbsp;</td>
-	<td>
-		<!-- IF $hasPhoto --><img src="{userDoc:'photo':$photo_token:$c_login:1}">
-		<!--ELSE --><img src="{~}img/photo.gif">
-		<!-- END:IF-->
-	</td>
-	<td>
-	<!--
-		IF $newPhoto
-			--><img src="{userDoc:'photo':$photo_token:$c_login:0}"><br><!--
-			AGENT $f_decision_photo _glue_=' ' _format_='%1%2'
-		ELSE -->&nbsp;<!--
-		END:IF
-	-->
-	</td>
+    <td>&nbsp;</td>
+    <td>
+        <!-- IF $hasPhoto --><img src="{userDoc:'photo':$photo_token:$c_login:1}">
+        <!--ELSE --><img src="{~}img/photo.gif">
+        <!-- END:IF-->
+    </td>
+    <td>
+    <!--
+        IF $newPhoto
+            --><img src="{userDoc:'photo':$photo_token:$c_login:0}"><br><!--
+            AGENT $f_decision_photo _glue_=' ' _format_='%1%2'
+        ELSE -->&nbsp;<!--
+        END:IF
+    -->
+    </td>
 </tr>
 <!--
 
 IF $newPhoto
-	AGENT $f_photo _caption_="Photo" _format_=$c
+    AGENT $f_photo _caption_="Photo" _format_=$c
 END:IF
 
 IF $newCv -->
 <tr>
-	<td>&nbsp;</td>
-	<td>
-		<!-- IF $hasCv --><a href="{userDoc:'cv':$cv_token:$c_login:1}">Actuel</a>
-		<!--ELSE -->&nbsp;
-		<!-- END:IF-->
-	</td>
-	<td>
-		<a href="{userDoc:'cv':$cv_token:$c_login:0}">Voir le CV proposé</a><br>
-		<!-- AGENT $f_decision_cv _glue_=' ' _format_='%1%2' -->
-	</td>
+    <td>&nbsp;</td>
+    <td>
+        <!-- IF $hasCv --><a href="{userDoc:'cv':$cv_token:$c_login:1}">Actuel</a>
+        <!--ELSE -->&nbsp;
+        <!-- END:IF-->
+    </td>
+    <td>
+        <a href="{userDoc:'cv':$cv_token:$c_login:0}">Voir le CV proposé</a><br>
+        <!-- AGENT $f_decision_cv _glue_=' ' _format_='%1%2' -->
+    </td>
 </tr><!--
 
-	AGENT $f_cv _caption_="CV" _format_=$c
+    AGENT $f_cv _caption_="CV" _format_=$c
 END:IF
 
 -->

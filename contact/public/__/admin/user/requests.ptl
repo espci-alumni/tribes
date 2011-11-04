@@ -3,9 +3,9 @@
 AGENT 'header' title="Fiches à valider en attente"
 
 IF $contacts
-	INLINE email/user/requests
+    INLINE email/user/requests
 ELSE
-	--><p>Aucune fiche à confirmer.</p><!--
+    --><p>Aucune fiche à confirmer.</p><!--
 END:IF
 
 AGENT 'footer'

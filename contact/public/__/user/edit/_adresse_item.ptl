@@ -3,8 +3,8 @@
 IF $f_adresse_del
 -->
 <tr>
-	<td>&nbsp;</td>
-	<td><!-- AGENT $f_adresse_del value="✘ Supprimer" class='delitem' _preserveScroll_=1 --></td>
+    <td>&nbsp;</td>
+    <td><!-- AGENT $f_adresse_del value="✘ Supprimer" class='delitem' _preserveScroll_=1 --></td>
 </tr>
 <!--
 END:IF
@@ -12,8 +12,8 @@ END:IF
 IF !$hide_is_active
 -->
 <tr>
-	<td>&nbsp;</td>
-	<td><!-- AGENT $f_is_active _format_='%1%2' --></td>
+    <td>&nbsp;</td>
+    <td><!-- AGENT $f_is_active _format_='%1%2' --></td>
 </tr>
 <!--
 END:IF
@@ -21,21 +21,21 @@ END:IF
 IF $activite_id
 -->
 <tr>
-	<td class="label"><strong>Activité associée</strong>&nbsp;:</td>
-	<td>
-		<strong>{$organisation}</strong><br>
-		{$titre}
-	</td>
+    <td class="label"><strong>Activité associée</strong>&nbsp;:</td>
+    <td>
+        <strong>{$organisation}</strong><br>
+        {$titre}
+    </td>
 </tr>
 <!--
 ELSE
-	AGENT $f_description _caption_="Description"
+    AGENT $f_description _caption_="Description"
 END:IF
 
 SET $_f -->{g$inputFormat|replace:'(%0&nbsp;:)':"$1<br><small>Tel qu'imprimé sur une lettre :<br>raison sociale, rue, BP, etc.<br>hors champs qui suivent.</small>"}<!-- END:SET
 AGENT $f_adresse _caption_="Adresse" _format_=$_f
 AGENT $f_ville_avant _caption_="Code postal" placeholder="ex. 75020"
-AGENT $f_ville _caption_="Ville" 
+AGENT $f_ville _caption_="Ville"
 AGENT $f_ville_apres _caption_="Complément" placeholder="ex. CEDEX 09"
 AGENT $f_pays _caption_="Pays"
 AGENT $f_email_list _caption_="Email(s)"
@@ -45,12 +45,12 @@ AGENT $f_tel_fax _caption_="Fax"
 
 -->
 <tr>
-	<td>&nbsp;</td>
-	<td>
-		<!-- AGENT $f_is_shared _glue_=' ' _format_='%1' -->
-		<p class="explication">
-		Le mode <strong>Partagé</strong> assure la visibilité de ces informations dans l'annuaire et favorise ainsi la mise en relation au sein de la communauté.
-		En mode <strong>Confidentiel</strong>, seul le secrétariat pourra les consulter.
-		</p>
-	</td>
+    <td>&nbsp;</td>
+    <td>
+        <!-- AGENT $f_is_shared _glue_=' ' _format_='%1' -->
+        <p class="explication">
+        Le mode <strong>Partagé</strong> assure la visibilité de ces informations dans l'annuaire et favorise ainsi la mise en relation au sein de la communauté.
+        En mode <strong>Confidentiel</strong>, seul le secrétariat pourra les consulter.
+        </p>
+    </td>
 </tr>

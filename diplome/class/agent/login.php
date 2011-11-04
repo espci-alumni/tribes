@@ -1,12 +1,12 @@
 <?php
 
-class extends self
+class agent_login extends self
 {
-	protected static $sessionFieldsDiplome = ', promotion';
+    protected static $sessionFieldsDiplome = ', promotion';
 
-	static function __constructStatic()
-	{
-		parent::__constructStatic();
-		self::$sessionFields .= self::$sessionFieldsDiplome;
-	}
+    static function __constructStatic()
+    {
+        parent::__constructStatic();
+        self::$sessionFields .= self::$sessionFieldsDiplome;
+    }
 }

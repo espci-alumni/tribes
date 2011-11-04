@@ -1,5 +1,5 @@
 <?php
 
-class extends notification_user_email
+class notification_user_password_request extends notification_user_email
 {
 }

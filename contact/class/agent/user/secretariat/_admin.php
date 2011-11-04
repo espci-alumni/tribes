@@ -2,6 +2,6 @@
 
 // Stub for agent_admin_user_secretariat_admin
 
-class extends agent_user_secretariat
+class agent_user_secretariat___x5Fadmin extends agent_user_secretariat
 {
 }

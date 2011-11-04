@@ -1,5 +1,5 @@
 <?php
 
-class extends agent_menu
+class agent_index extends agent_menu
 {
 }

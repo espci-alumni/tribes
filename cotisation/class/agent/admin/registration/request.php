@@ -1,11 +1,11 @@
 <?php
 
-class extends self
+class agent_admin_registration_request extends self
 {
-	static function __constructStatic()
-	{
-		parent::__constructStatic();
+    static function __constructStatic()
+    {
+        parent::__constructStatic();
 
-		self::$mergeTableUpdate['cotisation'] = array();
-	}
+        self::$mergeTableUpdate['cotisation'] = array();
+    }
 }

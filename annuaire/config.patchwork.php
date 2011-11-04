@@ -1,5 +1,5 @@
 <?php
 
 $CONFIG += array(
-	'tribes.annuaire.syncUrl' => '',
+    'tribes.annuaire.syncUrl' => '',
 );

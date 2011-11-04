@@ -60,6 +60,8 @@ AGENT 'header' title=$_title head=$_head
 
 <!-- IF !$email -->
 <div class="unknow">
+    <!-- IF $_unknow -->{$_unknow}
+    <!-- ELSE -->
     <h3>Faire passer le mot</h3>
     <p>
         Tu connais {$prenom_usuel}&nbsp;?<br>
@@ -69,16 +71,17 @@ AGENT 'header' title=$_title head=$_head
         Fait passer le mot et invite le à s'inscrire&nbsp;!
         <!-- END:IF -->
     </p>
-    </div>
+    <!-- END:IF -->
+</div>
 <!-- ELSE -->
 {$_pre_activite}
 <!-- END:IF -->
 <!-- IF $activites -->
 <div class="activite-cadre nobg">
 
-        <!-- LOOP $activites -->
-        <!-- INLINE user/_activite -->
-        <!-- END:LOOP -->
+    <!-- LOOP $activites -->
+    <!-- INLINE user/_activite -->
+    <!-- END:LOOP -->
 </div>
 <!-- END:IF -->
 

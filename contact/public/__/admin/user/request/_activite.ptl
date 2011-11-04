@@ -2,15 +2,15 @@
 
 LOOP $activites
 
-	--><tr class="requestHeading">
-		<td>Activité</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr><!--
+    --><tr class="requestHeading">
+        <td>Activité</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr><!--
 
-	AGENT $f_decision _glue_=' '
+    AGENT $f_decision _glue_=' '
 
-	INLINE admin/user/request/_activite_item
+    INLINE admin/user/request/_activite_item
 
 END:LOOP
 

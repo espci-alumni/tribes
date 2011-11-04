@@ -6,7 +6,7 @@ AGENT 'header' title= "Erreur"
 
 IF a$__0__ == 'token'
 
-	--><p>Clé d'activation non valide ou expirée</p><!--
+    --><p>Clé d'activation non valide ou expirée</p><!--
 
 END:IF
 

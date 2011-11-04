@@ -2,15 +2,15 @@
 
 LOOP $adresses
 
-	--><tr class="requestHeading">
-		<td>Coordonnées</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr><!--
+    --><tr class="requestHeading">
+        <td>Coordonnées</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr><!--
 
-	AGENT $f_decision _glue_=' '
+    AGENT $f_decision _glue_=' '
 
-	INLINE admin/user/request/_adresse_item
+    INLINE admin/user/request/_adresse_item
 
 END:LOOP
 

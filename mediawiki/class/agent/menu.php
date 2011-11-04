@@ -1,16 +1,16 @@
 <?php
 
-class extends self
+class agent_menu extends self
 {
-	const ACCUEIL_CONNECTED = 'wiki/Accueil';
+    const ACCUEIL_CONNECTED = 'wiki/Accueil';
 
-	static function __constructStatic()
-	{
-		self::$onglets['wiki'] = array(
-			'titre'  => 'Wiki',
-			'linkto' => 'wiki/',
-		);
+    static function __constructStatic()
+    {
+        self::$onglets['wiki'] = array(
+            'titre' => 'Wiki',
+            'linkto' => 'wiki/',
+        );
 
-		parent::__constructStatic();
-	}
+        parent::__constructStatic();
+    }
 }

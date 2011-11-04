@@ -1,14 +1,14 @@
 <!--
 
 IF !$_title
-	SET $_title
-		-->{$prenom_usuel} {$nom_usuel}<!--
-		IF $promotion
-			--> - promotion <!--
-			IF $ecole -->{$ecole}/<!-- END:IF
-			-->{$promotion}<!--
-		END:IF
-	END:SET
+    SET $_title
+        -->{$prenom_usuel} {$nom_usuel}<!--
+        IF $promotion
+            --> - promotion <!--
+            IF $ecole -->{$ecole}/<!-- END:IF
+            -->{$promotion}<!--
+        END:IF
+    END:SET
 END:IF
 
 INLINE user
