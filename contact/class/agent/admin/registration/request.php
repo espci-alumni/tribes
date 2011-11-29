@@ -130,6 +130,7 @@ class agent_admin_registration_request extends agent_admin_user_edit
                 $accountCreated = DB()->queryOne($sql);
 
                 self::mergeContacts($this->contact_id, $this->doublon_contact_id);
+                $this->contact->delete($this->contact_id);
             }
             else $accountCreated = false;
 
@@ -233,8 +234,6 @@ class agent_admin_registration_request extends agent_admin_user_edit
         }
 
         notification::send('contact/fusion', array('contact_id' => $to_contact_id));
-
-        $this->contact->delete($from_contact_id);
     }
 
     protected static function buildDoublonData($f, $data)

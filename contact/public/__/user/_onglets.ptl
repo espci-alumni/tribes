@@ -1,9 +1,10 @@
 <style><!-- INLINE css/_onglets.css --></style>
 
 <script>
+document.write('<style>.tab-group .contenu {display: none;}<\/style>');
+
 $(function()
 {
-
     if ($('input:text', '.email-contenu').length)
     {
         $('.email-contenu').addClass('focus');
