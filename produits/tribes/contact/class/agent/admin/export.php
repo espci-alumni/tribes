@@ -31,7 +31,7 @@ class agent_admin_export extends agent
         return $o;
     }
 
-    protected function filterRow($row, $count)
+    protected function filterRow(&$row, $count)
     {
         $db = DB();
 
