@@ -24,7 +24,7 @@ class agent_cotiser_bulletin extends agent_pForm
     {
         $this->contact_id = tribes::getConnectedId();
         $this->contact_id || $this->contact_id = SESSION::get('cotisation_contact_id');
-        $this->contact_id || patchwork::redirect('cotiser');
+        $this->contact_id || Patchwork::redirect('cotiser');
 
         $this->data = SESSION::get('cotisation_bulletin');
     }
@@ -91,7 +91,7 @@ class agent_cotiser_bulletin extends agent_pForm
         SESSION::set('cotisation_bulletin', $data);
 
         $data += array(
-            'token' => patchwork::strongId(8),
+            'token' => Patchwork::strongId(8),
             'contact_id' => $this->contact_id,
             'cotisation_date' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']),
             'email' => SESSION::get('cotisation_email'),

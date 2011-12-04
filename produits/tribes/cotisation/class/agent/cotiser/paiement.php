@@ -14,7 +14,7 @@ class agent_cotiser_paiement extends agent
 
     function control()
     {
-        $this->get->__1__ || patchwork::redirect('cotiser');
+        $this->get->__1__ || Patchwork::redirect('cotiser');
 
         $sql = "SELECT
                     p.token,
@@ -32,7 +32,7 @@ class agent_cotiser_paiement extends agent
                     JOIN contact_contact c ON c.contact_id=p.contact_id
                 WHERE p.token='{$this->get->__1__}'";
         $this->data = DB()->queryRow($sql);
-        $this->data || patchwork::redirect('cotiser');
+        $this->data || Patchwork::redirect('cotiser');
     }
 
     function compose($o)

@@ -6,7 +6,7 @@ class agent_user_password extends agent_pForm
 
     function control()
     {
-        $this->get->__1__ || patchwork::forbidden();
+        $this->get->__1__ || Patchwork::forbidden();
 
         $sql = "SELECT c.contact_id, c.login, c.nom_usuel, c.prenom_usuel
                 FROM contact_contact c
@@ -15,7 +15,7 @@ class agent_user_password extends agent_pForm
                     AND e.token_expires>NOW()";
 
         $this->data = DB()->queryRow($sql);
-        $this->data || patchwork::redirect('error/token');
+        $this->data || Patchwork::redirect('error/token');
 
         tribes_email::confirm("user/password/{$this->get->__1__}", false);
     }

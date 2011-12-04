@@ -68,7 +68,7 @@ class agent_login extends self
         }
 
         $data = array(
-            'session_id' => md5(patchwork::strongId()),
+            'session_id' => md5(Patchwork::strongId()),
             'session_user_id' => $user_id,
             'session_last_visit' => $_SERVER['REQUEST_TIME'],
             'session_start' => $_SERVER['REQUEST_TIME'],

@@ -22,7 +22,7 @@ class agent_login extends self
             'user_name' => ucfirst($contact->user),
             'user_real_name' => $contact->login,
             'user_email' => $contact->email,
-            'user_token' => patchwork::strongid(),
+            'user_token' => Patchwork::strongid(),
         );
 
         $sql = "SELECT u.user_id,

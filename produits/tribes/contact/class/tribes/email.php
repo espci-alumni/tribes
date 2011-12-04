@@ -51,11 +51,11 @@ class tribes_email extends tribes_common
 
                 if (!isset($data['token']) && !(int) $sql->admin_confirmed && $sql->token_has_expired)
                 {
-                    $data['token'] = 'confirm/email/' . patchwork::strongid(8);
+                    $data['token'] = 'confirm/email/' . Patchwork::strongid(8);
                 }
             }
             else if ($id) return;
-            else isset($data['token']) || $data['token'] = 'confirm/email/' . patchwork::strongid(8);
+            else isset($data['token']) || $data['token'] = 'confirm/email/' . Patchwork::strongid(8);
         }
 
         empty($data['token']) || $data += array('token_expires' => 'NOW() + INTERVAL ' . tribes::PENDING_PERIOD);
@@ -118,7 +118,7 @@ class tribes_email extends tribes_common
         if (!(int) $row->contact_confirmed)
         {
             SESSION::flash('confirmed_email_id', $row->email_id);
-            patchwork::redirect('login/confirmEmail');
+            Patchwork::redirect('login/confirmEmail');
         }
 
         return true;

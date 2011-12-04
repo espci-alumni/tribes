@@ -24,6 +24,6 @@ class agent_user___x5Flogout extends agent
     protected function logout()
     {
         SESSION::destroy();
-        patchwork::redirect('index');
+        Patchwork::redirect('index');
     }
 }

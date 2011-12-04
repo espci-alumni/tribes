@@ -55,7 +55,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
             list($data['nb_mois'], $data['cotisation'], $data['type']) = explode('-', $data['type'], 3);
 
             $data += array(
-                'token' => patchwork::strongId(8),
+                'token' => Patchwork::strongId(8),
                 'soutien' => $data['paiement_euro'] - $data['cotisation'],
                 'contact_id' => $this->contact_id,
             );

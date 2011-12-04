@@ -37,7 +37,7 @@ class agent_registration extends agent_login
             $this->data = (object) $data;
             $this->data->contact_id = $contact;
 
-            $token = patchwork::strongid(8);
+            $token = Patchwork::strongid(8);
 
             $sql = "UPDATE contact_email
                     SET token='registration/collision/{$token}',
@@ -58,9 +58,9 @@ class agent_registration extends agent_login
             'nom_etudiant' => $data['nom_civil'],
             'nom_usuel' => $data['nom_civil'],
             'prenom_usuel' => $data['prenom_civil'],
-            'photo_token' => patchwork::strongid(8),
-            'cv_token' => patchwork::strongid(8),
-            'token' => 'confirm/registration/' . patchwork::strongid(8),
+            'photo_token' => Patchwork::strongid(8),
+            'cv_token' => Patchwork::strongid(8),
+            'token' => 'confirm/registration/' . Patchwork::strongid(8),
             'origine' => 'registration',
             'etape_suivante' => $next_step,
             'contact_confirmed' => true,
