@@ -39,7 +39,7 @@ class tribes
 
     static function makeIdentifier($a, $auth_chars = 'a-z')
     {
-        $a = patchwork::toASCII($a);
+        $a = Patchwork\Utf8::toASCII($a);
         $a = strtolower($a);
         $a = preg_replace("/[^{$auth_chars}]+/", '', $a);
 

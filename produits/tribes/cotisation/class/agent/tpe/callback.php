@@ -4,7 +4,7 @@ class agent_tpe_callback extends agent_tpe_response
 {
     function compose($o)
     {
-        if (IS_POSTING)
+        if ('POST' === $_SERVER['REQUEST_METHOD'])
         {
             if ($o = self::composeResponse($o, $_POST))
             {

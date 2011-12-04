@@ -4,9 +4,9 @@ class agent_login extends self
 {
     protected static $sessionFieldsDiplome = ', promotion';
 
-    static function __constructStatic()
+    static function __init()
     {
-        parent::__constructStatic();
+        parent::__init();
         self::$sessionFields .= self::$sessionFieldsDiplome;
     }
 }
