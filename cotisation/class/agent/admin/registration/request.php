@@ -2,9 +2,9 @@
 
 class agent_admin_registration_request extends self
 {
-    static function __constructStatic()
+    static function __init()
     {
-        parent::__constructStatic();
+        parent::__init();
 
         self::$mergeTableUpdate['cotisation'] = array();
     }

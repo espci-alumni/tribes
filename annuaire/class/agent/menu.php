@@ -2,7 +2,7 @@
 
 class agent_menu extends self
 {
-    static function __constructStatic()
+    static function __init()
     {
         self::$onglets['annuaire'] = array(
             'titre' => 'Annuaire',
@@ -14,6 +14,6 @@ class agent_menu extends self
             'linkto' => 'annuaire/atlas/',
         );
 
-        parent::__constructStatic();
+        parent::__init();
     }
 }

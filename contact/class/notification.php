@@ -10,7 +10,7 @@ class notification
 
         is_array($context) || $context = (array) $context;
 
-        $m = patchworkPath("class/{$m}.php") ? patchwork_file2class($m) : __CLASS__;
+        $m = patchworkPath("class/{$m}.php") ? Patchwork\Superloader::file2class($m) : __CLASS__;
 
         $message = new $m($message, $context);
         $message->doSend();

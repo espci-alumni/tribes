@@ -2,13 +2,13 @@
 
 class agent_menu extends self
 {
-    static function __constructStatic()
+    static function __init()
     {
         self::$onglets['sympa'] = array(
             'titre' => 'Sympa',
             'linkto' => 'wws/',
         );
 
-        parent::__constructStatic();
+        parent::__init();
     }
 }

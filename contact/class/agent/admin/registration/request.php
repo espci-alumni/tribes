@@ -167,7 +167,7 @@ class agent_admin_registration_request extends agent_admin_user_edit
     }
 
 
-    static function __constructStatic()
+    static function __init()
     {
         $a = array(
             'is_active' => "IF(VALUES(is_active)=1 OR is_active=1,1,0)",

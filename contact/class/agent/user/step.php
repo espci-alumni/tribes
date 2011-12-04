@@ -23,7 +23,7 @@ class agent_user_step extends agent_user_edit
 
     protected function getStep()
     {
-        return new tribes_step(patchwork_class2file(substr(get_class($this), strlen(__CLASS__)+1)));
+        return new tribes_step(Patchwork\Superloader::class2file(substr(get_class($this), strlen(__CLASS__)+1)));
     }
 
     protected function composeForm($o, $f, $send)

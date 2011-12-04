@@ -4,7 +4,7 @@ class pipe_formatDate
 {
     protected static $format = '$3/$2/$1';
 
-    static function __constructStatic()
+    static function __init()
     {
         self::$format = T(self::$format);
     }

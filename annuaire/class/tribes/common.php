@@ -20,7 +20,7 @@ class tribes_common extends self
         self::$sync = true;
     }
 
-    static function __destructStatic()
+    static function __free()
     {
         self::$sync && tool_url::touch($CONFIG['tribes.annuaire.syncUrl']);
     }
