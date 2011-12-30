@@ -43,12 +43,12 @@ class agent_user_photo extends agent
 
             if (file_exists($file . '~'))
             {
-                patchwork::readfile($file . '~', $this->contentType);
+                Patchwork::readfile($file . '~', $this->contentType);
                 return;
             }
         }
 
-        if (file_exists($file)) patchwork::readfile($file, $this->contentType);
-        else patchwork::redirect('img/photo.gif');
+        if (file_exists($file)) Patchwork::readfile($file, $this->contentType);
+        else Patchwork::redirect('img/photo.gif');
     }
 }

@@ -16,7 +16,7 @@ class agent_menu extends agent
     function control()
     {
         $this->connected_id = tribes::getConnectedId();
-        $this->connected_id || patchwork::redirect(self::ACCUEIL_PUBLIC);
+        $this->connected_id || Patchwork::redirect(self::ACCUEIL_PUBLIC);
     }
 
     function compose($o)

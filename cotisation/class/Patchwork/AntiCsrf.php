@@ -1,6 +1,8 @@
 <?php
 
-class patchwork_antiCSRF extends self
+namespace Patchwork;
+
+class AntiCsrf extends self
 {
     static function postAlert()
     {

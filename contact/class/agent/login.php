@@ -47,7 +47,7 @@ class agent_login extends agent_pForm
         $result = DB()->query($sql);
 
         while ($row = $result->fetchRow())
-            if (patchwork::matchSaltedHash($data['password'], $row->password))
+            if (Patchwork::matchSaltedHash($data['password'], $row->password))
                 break;
 
         if (!$row) return 'login/failed';

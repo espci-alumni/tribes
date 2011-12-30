@@ -14,17 +14,17 @@ class agent_user extends agent
 
     function control()
     {
-        $this->get->__1__ || patchwork::forbidden();
+        $this->get->__1__ || Patchwork::forbidden();
 
         parent::control();
 
-        if (!SESSION::get('acces') && $this->get->__1__ != $this->connected_id) patchwork::forbidden();
+        if (!SESSION::get('acces') && $this->get->__1__ != $this->connected_id) Patchwork::forbidden();
 
         $sql = "SELECT " . self::$selectFields . "
                 FROM contact_contact
                 WHERE contact_id={$this->get->__1__}";
         $this->contact = DB()->queryRow($sql);
-        $this->contact || patchwork::forbidden();
+        $this->contact || Patchwork::forbidden();
     }
 
     function compose($o)

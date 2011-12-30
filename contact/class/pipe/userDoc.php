@@ -6,7 +6,7 @@ class pipe_userDoc
     {
         $token = explode('.', $token);
 
-        return patchwork::base("user/{$type}/{$token[0]}/" . ($confirmed ? '' : '~') . $login . '.' . ($confirmed ? $token[1] : $token[2]), 1);
+        return Patchwork::base("user/{$type}/{$token[0]}/" . ($confirmed ? '' : '~') . $login . '.' . ($confirmed ? $token[1] : $token[2]), 1);
     }
 
     static function js()

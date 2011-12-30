@@ -6,7 +6,7 @@ class agent_cotiser extends agent_registration
     {
         parent::control();
 
-        tribes::getConnectedId() && patchwork::redirect('cotiser/bulletin');
+        tribes::getConnectedId() && Patchwork::redirect('cotiser/bulletin');
     }
 
     protected function composeForm($o, $f, $send)
@@ -23,7 +23,7 @@ class agent_cotiser extends agent_registration
 
             if ('login/failed' === $data)
             {
-                patchwork::redirect('cotiser/failed');
+                Patchwork::redirect('cotiser/failed');
             }
             else if (false !== $data)
             {
@@ -32,7 +32,7 @@ class agent_cotiser extends agent_registration
                     'cotisation_next_step' => $data,
                 ));
 
-                patchwork::redirect('cotiser/bulletin');
+                Patchwork::redirect('cotiser/bulletin');
             }
         }
 

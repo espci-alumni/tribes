@@ -83,7 +83,7 @@ class agent_user_edit extends agent_pForm
 
         if ($e = $f->getElement('cur_pwd'))
         {
-            if (!patchwork::matchSaltedHash($e->getValue(), SESSION::get('saltedPassword')))
+            if (!Patchwork::matchSaltedHash($e->getValue(), SESSION::get('saltedPassword')))
             {
                 $e->setError('Mot de passe incorrect');
                 return false;
@@ -476,7 +476,7 @@ class agent_user_edit extends agent_pForm
 
         if (!$this->data->photo_token)
         {
-            $token[0] = $this->data->photo_token = $data['photo_token'] = patchwork::strongid(8);
+            $token[0] = $this->data->photo_token = $data['photo_token'] = Patchwork::strongid(8);
         }
 
         if (isset($this->photoField) && $this->photoField->getStatus())
@@ -518,7 +518,7 @@ class agent_user_edit extends agent_pForm
         {
             $file = array(patchworkPath('data/photo/'), $token[0], ".{$token[2]}");
 
-            $token = patchwork::strongid(8);
+            $token = Patchwork::strongid(8);
 
             if (@rename($file[0] . $file[1] . $file[2] . '~', $file[0] . $token . $file[2]))
             {
@@ -555,7 +555,7 @@ class agent_user_edit extends agent_pForm
 
         if (!$this->data->cv_token)
         {
-            $token[0] = $this->data->cv_token = $data['cv_token'] = patchwork::strongid(8);
+            $token[0] = $this->data->cv_token = $data['cv_token'] = Patchwork::strongid(8);
         }
 
         if (isset($this->cvField) && $this->cvField->getStatus())
@@ -589,7 +589,7 @@ class agent_user_edit extends agent_pForm
         {
             $file = array(patchworkPath('data/cv/'), $token[0], ".{$token[2]}");
 
-            $token = patchwork::strongid(8);
+            $token = Patchwork::strongid(8);
 
             if (@rename($file[0] . $file[1] . $file[2] . '~', $file[0] . $token . $file[2]))
             {
