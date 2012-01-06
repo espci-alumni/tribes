@@ -19,12 +19,14 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 
 <!-- LOOP $activites -->
 
+<!-- SET $default_org -->{$activite_id|test:'':'✰ Nouvelle entrée ✰'}<!-- END:SET -->
+
 <!-- IF $deleted -->
     <!-- IF $activite_id -->
     <div class="accordeon">
     <div class="open-arrow">▼</div>
     <del>{$titre}</del><br>
-    <h3><del>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</del></h3>
+    <h3><del>{$description|default:$organisation|default:$default_org}</del></h3>
     <br>
     <del>{$service}</del>
 
@@ -49,7 +51,7 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 <div class="accordeon{$activite_id|test:'':' new'}">
 <div class="open-arrow">▼</div>
     {$titre}<br>
-    <h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3>
+    <h3>{$description|default:$organisation|default:$default_org}</h3>
     <br>
     {$service}
 
