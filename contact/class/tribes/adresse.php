@@ -1,5 +1,7 @@
 <?php
 
+use Patchwork\Utf8 as u;
+
 class tribes_adresse extends tribes_common
 {
     protected

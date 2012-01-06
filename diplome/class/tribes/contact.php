@@ -1,5 +1,7 @@
 <?php
 
+use Patchwork\Utf8 as u;
+
 class tribes_contact extends self
 {
     function __construct($contact_id, $confirmed = false)
