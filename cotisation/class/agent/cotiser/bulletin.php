@@ -62,7 +62,7 @@ class agent_cotiser_bulletin extends agent_pForm
 
     protected function composeForm($o, $f, $send)
     {
-        $item = array('item' => tribes::getCotisationType());
+        $item = array('item' => tribes::getCotisationTypes($this->contact_id));
         $f->add('check', 'type', $item);
 
         $item= array('item' => self::$soutien + array(
@@ -97,7 +97,7 @@ class agent_cotiser_bulletin extends agent_pForm
             'email' => SESSION::get('cotisation_email'),
         );
 
-        list($data['nb_mois'], $data['cotisation'], $data['type']) = explode('-', $data['type'], 3);
+        list($data['cotisation'], $data['type']) = explode('-', $data['type'], 2);
 
         if ($data['soutien_suggestion']) $data['soutien'] = $data['soutien_suggestion'];
         unset($data['soutien_suggestion']);
@@ -106,18 +106,12 @@ class agent_cotiser_bulletin extends agent_pForm
         {
             $data['paiement_date'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
             $data['paiement_euro'] = 0;
-
-            $sql = "UPDATE contact_contact SET
-                        cotisation_expires=NOW()+INTERVAL {$data['nb_mois']} MONTH
-                    WHERE contact_id={$this->contact_id}";
-            DB()->exec($sql);
-
-            notification::send('user/cotisation', $data);
         }
 
         DB()->autoExecute('cotisation', $data);
+        empty($data['paiement_date']) || notification::send('user/cotisation', $data);
 
-        return $data['cotisation'] || $data['soutien']
+        return 0 == $data['cotisation'] || $data['soutien']
             ? 'cotiser/paiement/' . $data['token']
             : 'cotiser/merci';
     }

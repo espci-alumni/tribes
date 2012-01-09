@@ -27,42 +27,28 @@ class agent_tpe_callback extends agent_tpe_response
     {
         $db = DB();
 
-        $token = $db->quote($token);
-        $ref   = $db->quote($ref);
+        $data = array('paiement_ref' => $ref);
 
         if ($is_ok)
         {
-            $euro = sprintf('%0.2f', $euro);
-
-            $sql = 0 < $is_ok ? 'CB' : 'TST';
-            $sql = "UPDATE contact_contact c, cotisation p SET
-                        c.cotisation_expires=GREATEST(NOW(), c.cotisation_expires) + INTERVAL p.nb_mois MONTH,
-                        p.paiement_euro={$euro},
-                        p.paiement_date=NOW(),
-                        p.paiement_mode='{$sql}',
-                        p.paiement_ref ={$ref}
-                    WHERE c.contact_id=p.contact_id
-                        AND p.token={$token}";
-            if ($db->exec($sql))
-            {
-                $sql = "SELECT * FROM cotisation WHERE token={$token}";
-                notification::send('user/cotisation', (array) $db->queryRow($sql));
-
-                return true;
-            }
+            $data += array(
+                'paiement_euro' => sprintf('%0.2f', $euro),
+                'paiement_date' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']),
+                'paiement_mode' => 0 < $is_ok ? 'CB' : 'TST',
+            );
         }
-        else
+        else $data['paiement_mode'] = 'ERR';
+
+        if ($db->autoExecute('cotisation', $data, MDB2_AUTOQUERY_UPDATE, 'token=' . $db->quote($token)))
         {
-            $sql = "UPDATE cotisation p SET
-                        p.paiement_mode='ERR',
-                        p.paiement_ref ={$ref}
-                    WHERE p.token={$token}";
-            if ($db->exec($sql))
+            if ($is_ok)
             {
-                return true;
+                $sql = "SELECT * FROM cotisation WHERE token=" . $db->quote($token);
+                notification::send('user/cotisation', (array) $db->queryRow($sql));
             }
-        }
 
-        return false;
+            return true;
+        }
+        else return false;
     }
 }

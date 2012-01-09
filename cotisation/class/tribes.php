@@ -6,7 +6,7 @@ class tribes extends self
 {
     protected static $cotisation_type;
 
-    static function getCotisationType()
+    static function getCotisationTypes($contact_id)
     {
         if (!isset(self::$cotisation_type))
         {
@@ -15,9 +15,9 @@ class tribes extends self
 
             while ($row = $result->fetchRow())
             {
-                $c = explode('-', $row->value, 3);
+                $c = explode('-', $row->value, 2);
 
-                self::$cotisation_type[$row->value] = $c[2] . ' - ' . $c[1] . ' €';
+                self::$cotisation_type[$row->value] = $c[1] . ' - ' . $c[0] . ' €';
             }
         }
 

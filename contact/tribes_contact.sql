@@ -244,7 +244,6 @@ CREATE TABLE cotisation (
   cotisation_date datetime NOT NULL,
   token varbinary(8) NOT NULL,
   `type` varchar(255) NOT NULL,
-  nb_mois int(10) unsigned NOT NULL,
   cotisation decimal(10,2) unsigned NOT NULL,
   soutien decimal(10,2) NOT NULL,
   email varbinary(255) NOT NULL,
