@@ -6,8 +6,12 @@ class notification_user_cotisation extends notification
     {
         parent::doSend();
 
+        empty($this->context['paiement_date']) || $this->updateCotisationExpires();
+
         if (!((float) $this->context['paiement_euro']) && ((float) $this->context['soutien']))
         {
+            // Cotisation gratuite et soutien complémentaire déclaré :
+            // on attend la réception du soutien pour envoyer l'email de notification.
         }
         else if (empty($this->context['email']))
         {
@@ -17,15 +21,13 @@ class notification_user_cotisation extends notification
                     FROM contact_email
                     WHERE contact_id={$this->contact_id}
                         AND is_obsolete<=0
-                    ORDER BY is_active DESC";
+                    ORDER BY is_active DESC, is_obsolete DESC";
             $result = DB()->query($sql);
 
             while ($row = $result->fetchRow())
             {
                 if ($has_active && !$row->is_active) break;
-
                 $this->mail($row->email);
-
                 $row->is_active && $has_active = true;
             }
         }
@@ -33,5 +35,14 @@ class notification_user_cotisation extends notification
         {
             $this->mail($this->context['email']);
         }
+    }
+
+    protected function updateCotisationExpires()
+    {
+        $sql = substr($this->context['cotisation_date'], 0, 4);
+        $sql = "UPDATE contact_contact
+                SET cotisation_expires=GREATEST(cotisation_expires, '{$sql}-12-31')
+                WHERE contact_id={$this->contact_id}";
+        DB()->exec($sql);
     }
 }

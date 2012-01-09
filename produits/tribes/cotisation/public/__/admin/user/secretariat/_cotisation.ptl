@@ -9,8 +9,7 @@
 <table>
 <!--
 
-SET $_f -->{g$inputFormat|replace:'%1%2':"%1%2<br /><small>Point de départ pour calculer la date d'échéance de la cotisation.</small>"}<!-- END:SET
-AGENT $f_cotisation_date _caption_="Date de cotisation"  _format_=$_f
+AGENT $f_cotisation_date _caption_="Date de cotisation"
 AGENT $f_type            _caption_="Catégorie de cotisation"
 AGENT $f_paiement_euro   _caption_="Montant du paiement" _format_='<td>%0&nbsp;:</td><td>%1&nbsp;€ %2</td>' style='text-align:right'
 AGENT $f_paiement_mode   _caption_="Mode de paiement" _glue_=' - '
