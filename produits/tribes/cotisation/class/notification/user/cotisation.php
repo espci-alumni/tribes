@@ -41,7 +41,7 @@ class notification_user_cotisation extends notification
     {
         $sql = substr($this->context['cotisation_date'], 0, 4);
         $sql = "UPDATE contact_contact
-                SET cotisation_expires=GREATEST(cotisation_expires, '{$sql}-12-31')
+                SET cotisation_expires='{$sql}-12-31'
                 WHERE contact_id={$this->contact_id}";
         DB()->exec($sql);
     }
