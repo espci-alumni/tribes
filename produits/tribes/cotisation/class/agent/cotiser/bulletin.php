@@ -111,7 +111,7 @@ class agent_cotiser_bulletin extends agent_pForm
         DB()->autoExecute('cotisation', $data);
         empty($data['paiement_date']) || notification::send('user/cotisation', $data);
 
-        return 0 == $data['cotisation'] || $data['soutien']
+        return 0 != $data['cotisation'] || $data['soutien']
             ? 'cotiser/paiement/' . $data['token']
             : 'cotiser/merci';
     }

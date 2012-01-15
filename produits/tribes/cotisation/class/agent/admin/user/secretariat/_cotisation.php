@@ -36,6 +36,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
         if (isset($data['paiement_euro']) && '' !== $data['paiement_euro'])
         {
             $data = array(
+                'token' => Patchwork::strongId(8),
                 'cotisation_date' => $data['cotisation_date'],
                 'type' => $data['type'],
                 'paiement_euro' => $data['paiement_euro'],
