@@ -63,8 +63,7 @@ class agent_cotiser_bulletin extends agent_pForm
 
     protected function composeForm($o, $f, $send)
     {
-        $item = array('item' => tribes::getCotisationTypes($this->contact_id));
-        $f->add('check', 'type', $item);
+        $f->add('check', 'type', self::getCotisationTypeOptions($this->contact_id));
 
         $item= array('item' => self::$soutien + array(
             0 => (object) array(
@@ -78,7 +77,7 @@ class agent_cotiser_bulletin extends agent_pForm
         $f->add('textarea', 'commentaire');
 
         $send->attach(
-            'type', 'Merci de choisir votre catégorie de cotisation', '',
+            'type', 'Merci de choisir la situation qui vous correspond dans le barème de cotisation', '',
             'soutien_suggestion', '', '',
             'soutien', '', '',
             'commentaire', '', ''
@@ -112,8 +111,26 @@ class agent_cotiser_bulletin extends agent_pForm
         DB()->autoExecute('cotisation', $data);
         empty($data['paiement_date']) || notification::send('user/cotisation', $data);
 
-        return 0 == $data['cotisation'] || $data['soutien']
+        return 0 != $data['cotisation'] || $data['soutien']
             ? 'cotiser/paiement/' . $data['token']
             : 'cotiser/merci';
+    }
+
+
+    static function getCotisationTypeOptions($contact_id)
+    {
+        $types = array();
+
+        $sql = "SELECT value FROM item_lists WHERE type='cotisation/type' ORDER BY sort_key";
+        $result = DB()->query($sql);
+
+        while ($row = $result->fetchRow())
+        {
+            $c = explode('-', $row->value, 2);
+
+            $types[$row->value] = $c[1] . ' - ' . $c[0] . ' €';
+        }
+
+        return array('item' => $types);
     }
 }

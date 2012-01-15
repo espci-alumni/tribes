@@ -5,13 +5,13 @@
 
 <div class="contenu">
 <!-- IF $cotisation_expires -->
-<p class="explication">Vous êtes actuellement à jour de votre cotisation jusqu'au {$cotisation_expires|formatDate}.</p>
+<p class="explication">Vous êtes actuellement à jour de votre cotisation jusqu'au {$cotisation_expires|formatDate|replace:'(....)$':'<strong>$1</strong>'}.</p>
 <!-- ELSEIF $cotisation_expired -->
 <p class="explication">Votre précédente cotisation a expiré le {$cotisation_expired|formatDate}.</p>
 <!-- END:IF -->
 
 <table>
-<!-- AGENT $f_type _caption_="Barème de cotisation" onclick='var s=this.form.f_soutien;setTimeout(function(){s.focus()},1)' -->
+<!-- AGENT $f_type _caption_="Barème de cotisation" -->
 <tr>
     <!-- AGENT $f_soutien_suggestion _glue_=' - ' _caption_='Soutien complémentaire' _format_='<td class="label">%0&nbsp;:</td><td class="input">%1%2'  -->
     <!-- AGENT $f_soutien _format_='&nbsp;: %1&nbsp;€ %2</td>' style='width: 40px' onfocus='var s=this.form.f_soutien_suggestion;s[s.length-1].click()' -->
@@ -22,8 +22,8 @@
 
 <div class="submit">
 <p class="explication">
-Votre cotisation sera prise en compte dès réception du paiement correspondant.<br>
-La page suivante vous permettra de payer en ligne ou selon un autre moyen de votre choix&nbsp;:
+La cotisation sera prise en compte dès réception du paiement correspondant.<br>
+La page suivante permet de payer en ligne ou selon d'autres moyens plus traditionnels&nbsp;:
 </p>
 
 <!-- AGENT $f_send value="Enregistrer" -->
