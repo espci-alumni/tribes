@@ -11,7 +11,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
     protected function composeForm($o, $f, $send)
     {
         $f->add('date', 'cotisation_date');
-        $f->add('check', 'type', array('item' => tribes::getCotisationTypes($this->contact_id)));
+        $f->add('check', 'type', agent_cotiser_bulletin::getCotisationTypeOptions($this->contact_id));
         $f->add('text', 'paiement_euro', array('valid' => 'float'));
         $f->add('date', 'paiement_date');
         $f->add('check', 'paiement_mode', array('item' => self::$paiement_mode));
