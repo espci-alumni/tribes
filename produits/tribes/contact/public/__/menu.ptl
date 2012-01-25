@@ -58,7 +58,7 @@
         <!-- IF !$is_cotisant -->
         <a href="{/}fr/adherer">Cotiser pour soutenir les efforts de l'Association</a>
         <!-- ELSE -->
-        Tu es à jour de ta cotisation
+        Tu es à jour de ta cotisation {$cotisation_expires|substr:0:4}
         <!-- END:IF -->
     </td>
 </tr>

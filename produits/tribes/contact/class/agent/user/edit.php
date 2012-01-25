@@ -320,7 +320,7 @@ class agent_user_edit extends agent_pForm
                 if ('' !== implode('', $a))
                 {
                     $a += array(
-                        'is_active' => $b->f_is_active->getValue() ? 1 : 0,
+                        'is_active' => (bool) $b->f_is_active->getValue(),
                         'contact_id' => $this->contact_id,
                         'sort_key' => ++$counter,
                     );
@@ -369,7 +369,7 @@ class agent_user_edit extends agent_pForm
                 if ('' !== implode('', $a))
                 {
                     $a += array(
-                        'is_active' => $b->f_is_active->getValue() ? 1 : 0,
+                        'is_active' => (bool) $b->f_is_active->getValue(),
                         'contact_id' => $this->contact_id,
                         'sort_key' => ++$counter,
                     );

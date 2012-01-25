@@ -8,10 +8,10 @@ class agent_login extends self
 
         if ($contact->acces)
         {
-            $sql = "SELECT cotisation_expires>=NOW()
+            $sql = "SELECT cotisation_expires>=NOW() AS is_cotisant, cotisation_expires
                     FROM contact_contact
                     WHERE contact_id={$contact->contact_id}";
-            SESSION::set('is_cotisant', DB()->queryOne($sql));
+            SESSION::set(DB()->queryRow($sql));
         }
     }
 }
