@@ -60,9 +60,16 @@ class agent_user_historique extends agent
             empty($sql['photo_token']) || $sql['photo_token'] = implode('.', explode('.', $sql['photo_token']) + array(1 => 'jpg', 'jpg'));
             empty($sql['cv_token']) || $sql['cv_token'] = implode('.', explode('.', $sql['cv_token']) + array(1 => 'pdf', 'pdf'));
 
-            $o->details = new loop_array(array($sql), 'filter_rawArray');
+            $o->details = new loop_array(array($sql), array(__CLASS__, 'filterDetails'));
         }
 
+        return $o;
+    }
+
+    static function filterDetails($o)
+    {
+        $o = $o->VALUE;
+        foreach ($o as &$v) is_array($v) && $v = '[' . implode(', ', $v) . ']';
         return $o;
     }
 }
