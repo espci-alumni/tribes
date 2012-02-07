@@ -2,6 +2,8 @@
 
 use Patchwork\Utf8 as u;
 
+// TODO: remplir conjoint_contact_id à partir de conjoint_email lorsque possible sans ambiguïté
+
 class tribes_contact extends tribes_common
 {
     protected

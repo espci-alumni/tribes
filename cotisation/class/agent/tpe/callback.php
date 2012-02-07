@@ -27,28 +27,24 @@ class agent_tpe_callback extends agent_tpe_response
     {
         $db = DB();
 
-        $data = array('paiement_ref' => $ref);
+        $sql = "SELECT * FROM cotisation WHERE token=" . $db->quote($token);
+        if (!$data = $db->queryRow($sql, null, MDB2_FETCHMODE_ASSOC)) return false;
+        else if ($data['paiement_mode']) return true;
+
+        $data['paiement_ref'] = $ref;
 
         if ($is_ok)
         {
-            $data += array(
-                'paiement_euro' => sprintf('%0.2f', $euro),
-                'paiement_date' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']),
-                'paiement_mode' => 0 < $is_ok ? 'CB' : 'TST',
-            );
+            $data['paiement_euro'] = sprintf('%0.2f', $euro);
+            $data['paiement_date'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
+            $data['paiement_mode'] = 0 < $is_ok ? 'CB' : 'TST';
         }
         else $data['paiement_mode'] = 'ERR';
 
-        if ($db->autoExecute('cotisation', $data, MDB2_AUTOQUERY_UPDATE, 'token=' . $db->quote($token)))
-        {
-            if ($is_ok)
-            {
-                $sql = "SELECT * FROM cotisation WHERE token=" . $db->quote($token);
-                notification::send('user/cotisation', (array) $db->queryRow($sql));
-            }
+        $ref = $db->autoExecute('cotisation', $data, MDB2_AUTOQUERY_UPDATE, 'paiement_mode="" AND token=' . $db->quote($token));
 
-            return true;
-        }
-        else return false;
+        if ($ref && $is_ok) notification::send('user/cotisation', $data);
+
+        return true;
     }
 }
