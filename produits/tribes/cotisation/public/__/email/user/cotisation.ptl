@@ -1,7 +1,7 @@
 <!-- AGENT 'email/header' title="Confirmation de réception de votre cotisation" -->
 
-{* TODO : afficher plus de détails sur la cotisation *}
-{* TODO : inciter le contact à s'inscrire si besoin *}
+{* TODO: afficher plus de détails sur la cotisation *}
+{* TODO: inciter le contact à s'inscrire si besoin *}
 
 <p>
 Votre bulletin de cotisation a bien été enregistré.

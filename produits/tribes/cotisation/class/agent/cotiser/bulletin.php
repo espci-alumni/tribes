@@ -1,6 +1,6 @@
 <?php
 
-// TODO : cas mot de passe perdu
+// TODO: cas mot de passe perdu
 // Dans le cas où cette page s'affiche suite à un passage par registration
 // alors que le contact est déjà accepté, il faudrait ajouter une question
 // dans le formulaire "Envoyer un nouveau mot de passe ? O/N".
@@ -39,6 +39,7 @@ class agent_cotiser_bulletin extends agent_pForm
                 LIMIT 1";
 
         $sql = "SELECT
+                    contact_id,
                     sexe,
                     nom_usuel AS nom,
                     prenom_usuel AS prenom,
@@ -51,19 +52,12 @@ class agent_cotiser_bulletin extends agent_pForm
 
         SESSION::get('cotisation_email') || SESSION::set('cotisation_email', $o->email);
 
-        $sql = "SELECT *
-                FROM cotisation
-                WHERE contact_id={$this->contact_id}
-                    AND paiement_date
-                ORDER BY cotisation_id DESC";
-        $o->cotisations = new loop_sql($sql);
-
         return parent::compose($o);
     }
 
     protected function composeForm($o, $f, $send)
     {
-        $f->add('check', 'type', self::getCotisationTypeOptions($this->contact_id));
+        $f->add('check', 'type', self::getCotisationTypeOptions($o));
 
         $item= array('item' => self::$soutien + array(
             0 => (object) array(
@@ -102,22 +96,13 @@ class agent_cotiser_bulletin extends agent_pForm
         if ($data['soutien_suggestion']) $data['soutien'] = $data['soutien_suggestion'];
         unset($data['soutien_suggestion']);
 
-        if (0 == $data['cotisation'])
-        {
-            $data['paiement_date'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
-            $data['paiement_euro'] = 0;
-        }
-
         DB()->autoExecute('cotisation', $data);
-        empty($data['paiement_date']) || notification::send('user/cotisation', $data);
 
-        return 0 != $data['cotisation'] || $data['soutien']
-            ? 'cotiser/paiement/' . $data['token']
-            : 'cotiser/merci';
+        return 'cotiser/paiement/' . $data['token'];
     }
 
 
-    static function getCotisationTypeOptions($contact_id)
+    static function getCotisationTypeOptions($o)
     {
         $types = array();
 
