@@ -73,7 +73,7 @@ class agent_tpe_atossips_request extends agent
         $p['pathfile'] = patchworkPath($p['pathfile']);
         $p['amount'] = $euro * 100;
         $p['normal_return_url'] = Patchwork::__BASE__() . 'cotiser/merci?T$=' . Patchwork::getAntiCSRFtoken();
-        $p['cancel_return_url'] = Patchwork::__BASE__() . 'cotiser/paiement/' . $ref . '?T$=' . Patchwork::getAntiCSRFtoken();
+        $p['cancel_return_url'] = Patchwork::__BASE__() . 'cotiser?T$=' . Patchwork::getAntiCSRFtoken();
         $p['automatic_response_url'] = Patchwork::__BASE__() . 'tpe/callback';
         $p['customer_id'] = $ref;
         $p['customer_email'] = $email;
