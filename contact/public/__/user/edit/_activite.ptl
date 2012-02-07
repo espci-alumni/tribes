@@ -32,13 +32,13 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 
     <span class="infoplus"><del>date de début&nbsp;:
     <!-- IF $date_debut -->
-    {$date_debut}<br>
+    {$date_debut|replace:'(....)-(..)-..':'$2/$1'}<br>
     <!-- ELSE -->
     {"Inconnue"}
     <!-- END:IF -->
     date de fin&nbsp;:
     <!-- IF $date_fin -->
-    {$date_fin}
+    {$date_fin|replace:'(....)-(..)-..':'$2/$1'}
     <!-- END:IF -->
     </del></span>
     </div>
@@ -56,10 +56,10 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
     {$service}
 
     <span class="infoplus">date de début :
-    {$date_debut}<br>
+    {$date_debut|replace:'(....)-(..)-..':'$2/$1'}<br>
     date de fin :
     <!-- IF $date_fin -->
-    {$date_fin}
+    {$date_fin|replace:'(....)-(..)-..':'$2/$1'}
     <!-- ELSE -->
     "activité en cours"
     <!-- END:IF -->

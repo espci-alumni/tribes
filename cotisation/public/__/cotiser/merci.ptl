@@ -1,13 +1,12 @@
-<!-- AGENT 'header' title="Merci et à bientôt" public=1 -->
+<!-- AGENT 'header' title="Merci !" public=1 -->
 
 <div class="contenu">
 <p>
-Vous pouvez à tout moment retrouver votre historique de cotisation dans la <a href="{~}user/secretariat">rubrique <em>Secrétariat</em></a> de votre profil.
+Votre cotisation a bien été enregistrée, merci&nbsp;!
 </p>
 
 <p>
-Il est possible que vous deviez vous déconnecter
-puis vous reconnecter pour en voir l'effet sur le site.
+Pour que l'annuaire soit toujours à jour, n'oubliez pas de <a href="{~}user/edit">mettre à jour votre profil</a> si besoin.
 </p>
 </div>
 

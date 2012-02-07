@@ -13,7 +13,7 @@
 <table>
 <!-- AGENT $f_type _caption_="Barème de cotisation" -->
 <tr>
-    <!-- AGENT $f_soutien_suggestion _glue_=' - ' _caption_='Soutien complémentaire' _format_='<td class="label">%0&nbsp;:</td><td class="input">%1%2'  -->
+    <!-- AGENT $f_soutien_suggestion _glue_=' - ' _caption_='Soutien / Don' _format_='<td class="label">%0&nbsp;:</td><td class="input">%1%2'  -->
     <!-- AGENT $f_soutien _format_='&nbsp;: %1&nbsp;€ %2</td>' style='width: 40px' onfocus='var s=this.form.f_soutien_suggestion;s[s.length-1].click()' -->
 </tr>
 <!-- AGENT $f_commentaire _caption_="Commentaire éventuel" -->
@@ -26,7 +26,7 @@ La cotisation sera prise en compte dès réception du paiement correspondant.<br
 La page suivante permet de payer en ligne ou selon d'autres moyens plus traditionnels&nbsp;:
 </p>
 
-<!-- AGENT $f_send value="Enregistrer" -->
+<!-- AGENT $f_send value="Continuer" -->
 </div>
 
 <!-- AGENT $form _mode_='close' -->

@@ -6,18 +6,33 @@
 <!-- SET $_euro -->{$cotisation+$soutien-$paiement_euro}<!-- END:SET -->
 <!-- SET $_tpe -->tpe/_cotisation/{g$__1__}<!-- END:SET -->
 
-<!-- IF $_euro -->
-<p>
-Vous pouvez maintenant procéder au paiement de votre cotisation&nbsp;:
-</p>
+<style>
+.recap td
+{
+    padding: 3px;
+}
 
-<ul>
-<!-- INLINE cotiser/_paiement -->
-</ul>
+.recap td
+{
+    width: 200px;
+}
 
-<!-- END:IF -->
+.recap td:first-child
+{
+    text-align: right;
+    width: 100px;
+}
 
-<table>
+.recap td:nth-child(2)
+{
+    font-weight: bold;
+    width: 200px;
+    overflow: visible;
+    display: block;
+}
+</style>
+
+<table class="recap" align="center">
 <tr>
     <td>Référence&nbsp;:</td>
     <td>C/{$token}</td>
@@ -38,25 +53,48 @@ Vous pouvez maintenant procéder au paiement de votre cotisation&nbsp;:
     <td>Catégorie&nbsp;:</td>
     <td>{$type}</td>
 </tr>
+<tr><td colspan="2">&nbsp;</td></tr>
 <tr>
-    <td>Montant de la cotisation&nbsp;:</td>
+    <td>Cotisation&nbsp;:</td>
     <td align="right">{$cotisation}&nbsp;€</td>
 </tr>
 <tr>
-    <td>Soutien complémentaire&nbsp;:</td>
+    <td>Soutien / Don&nbsp;:</td>
     <td align="right">{$soutien}&nbsp;€</td>
 </tr>
 <tr>
-    <td>TOTAL&nbsp;:</td>
+    <td><b>Total à payer&nbsp;:</b></td>
     <td align="right">{'%0.2f'|printf:$_euro}&nbsp;€</td>
 </tr>
+<!-- IF $commentaire -->
+<tr><td colspan="2">&nbsp;</td></tr>
 <tr>
-    <td colspan="2">
-    Commentaire&nbsp;:<br />
-    {$commentaire|nl2br}
-    </td>
+    <td valign="top">Commentaire&nbsp;:</td>
+    <td style="text-align: left; font-weight: normal">{$commentaire|nl2br}</td>
 </tr>
+<!-- END:IF -->
 </table>
+
+<!-- IF $_euro -->
+<p>
+Vous pouvez maintenant procéder au paiement de votre cotisation&nbsp;:
+</p>
+
+<ul>
+<!-- INLINE cotiser/_paiement -->
+</ul>
+<!-- ELSEIF $form -->
+<p>
+Si ce récapitulatif vous convient, merci de valider définitivement votre bulletin&nbsp;:
+</p>
+<!-- AGENT $form -->
+<div class="submit">
+<p><!-- AGENT $f_confirm _format_='%1%2' --></p>
+<!-- AGENT $f_send value="Enregistrer" -->
+</div>
+<!-- AGENT $form _mode_='close' -->
+<!-- END:IF -->
+
 </div>
 
 <!-- AGENT 'footer' -->

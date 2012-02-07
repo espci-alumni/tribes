@@ -1,11 +1,8 @@
 <?php
 
-// TODO : exploiter SESSION::get('cotisation_next_step');
-// Trouver un moyen (dans cette page ou une autre) pour que l'user soit invité à mettre à jour
-// sa fiche dans l'annuaire, sans rompre le processus mental en cours !
-// Peut-être simplement un lien dans cotiser/merci ?
+// TODO: exploiter SESSION::get('cotisation_next_step');
 
-class agent_cotiser_paiement extends agent
+class agent_cotiser_paiement extends agent_pForm
 {
     public $get = array('__1__:c:[-_A-Za-z0-9]{8}');
 
@@ -37,6 +34,28 @@ class agent_cotiser_paiement extends agent
 
     function compose($o)
     {
-        return $this->data;
+        if ($this->data->cotisation > 0) return $this->data;
+        else return parent::compose($this->data);
+    }
+
+    protected function composeForm($o, $f, $send)
+    {
+        $f->add('check', 'confirm', array('multiple' => true, 'item' => array(1 => "Je certifie que les informations ci-dessus correspondent à ma situation actuelle.")));
+        $send->attach('confirm', 'Merci de préciser si les informations de ce récapitulatif correspondent à votre situation actuelle.', '');
+
+        return $o;
+    }
+
+    protected function save($data)
+    {
+        $db = DB();
+
+        $sql = "UPDATE cotisation SET soutien=0, paiement_date=NOW() WHERE token=" . $db->quote($this->data->token);
+        $db->exec($sql);
+
+        $sql = "SELECT * FROM cotisation WHERE token=" . $db->quote($this->data->token);
+        notification::send('user/cotisation', (array) $db->queryRow($sql));
+
+        return 'cotiser/merci';
     }
 }
