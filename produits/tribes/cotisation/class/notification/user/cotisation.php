@@ -6,7 +6,8 @@ class notification_user_cotisation extends notification
     {
         parent::doSend();
 
-        empty($this->context['paiement_date']) || $this->updateCotisationExpires();
+        if (!empty($this->context['paiement_date']) && 0 <= $this->context['paiement_euro'])
+            $this->updateCotisationExpires();
 
         // Empêche d'avoir deux bulletins en attente de paiement en même temps
         $sql = "DELETE FROM cotisation WHERE NOT paiement_date AND paiement_mode='' AND contact_id={$this->contact_id}";
