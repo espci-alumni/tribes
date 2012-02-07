@@ -75,7 +75,7 @@
 <!-- END:IF -->
 </table>
 
-<!-- IF $_euro -->
+<!-- IF 0 < $_euro -->
 <p>
 Vous pouvez maintenant procéder au paiement de votre cotisation&nbsp;:
 </p>

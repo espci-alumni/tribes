@@ -11,7 +11,8 @@ class agent_tpe___x5Fcotisation extends agent_tpe_request
                     token,
                     email
                 FROM cotisation
-                WHERE token='{$this->get->__1__}'";
+                WHERE token='{$this->get->__1__}'
+                HAVING euro > 0";
         $o = DB()->queryRow($sql);
 
         return $o ? self::composeTpe($o, 'C/' . $o->token, $o->euro, $o->email) : array();

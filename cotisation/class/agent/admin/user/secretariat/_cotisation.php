@@ -10,8 +10,11 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
 
     protected function composeForm($o, $f, $send)
     {
+        $type_options = agent_cotiser_bulletin::getCotisationTypeOptions($o);
+        $type_options['item'] += array('0-remboursement' => 'Remboursement');
+
         $f->add('date', 'cotisation_date');
-        $f->add('check', 'type', agent_cotiser_bulletin::getCotisationTypeOptions($o));
+        $f->add('check', 'type', $type_options);
         $f->add('text', 'paiement_euro', array('valid' => 'float'));
         $f->add('date', 'paiement_date');
         $f->add('check', 'paiement_mode', array('item' => self::$paiement_mode));
@@ -46,6 +49,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
                 'conjoint_email' => isset($data['conjoint_email']) ? $data['conjoint_email'] : '',
             );
 
+            if ('0-remboursement' === $data['type']) $data['paiement_euro'] = -$data['paiement_euro'];
             if (empty($data['conjoint_email'])) unset($data['conjoint_email']);
 
             $data['cotisation_date'] || $data['cotisation_date'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
