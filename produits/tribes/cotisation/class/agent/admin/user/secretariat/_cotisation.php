@@ -11,7 +11,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
     protected function composeForm($o, $f, $send)
     {
         $type_options = agent_cotiser_bulletin::getCotisationTypeOptions($o);
-        $type_options['item'] += array('0-remboursement' => 'Remboursement');
+        $type_options['item'] += array('0-don' => 'Don seul', '0-remboursement' => 'Remboursement');
 
         $f->add('date', 'cotisation_date');
         $f->add('check', 'type', $type_options);
