@@ -8,6 +8,8 @@ class tribes_activite extends tribes_adresse
 
     $table = 'activite',
     $dataFields = array(
+        'ville',
+        'pays',
         'service',
         'titre',
         'fonction',
@@ -23,8 +25,6 @@ class tribes_activite extends tribes_adresse
     function __construct($contact_id, $confirmed = false)
     {
         parent::__construct($contact_id, $confirmed);
-
-        $this->metaFields['adresse_id'] = 'intNull';
 
         unset($this->metaFields['is_active']);
     }
@@ -147,18 +147,12 @@ class tribes_activite extends tribes_adresse
             $this->updateContactModified($id);
         }
 
-        if ($this->confirmed && !empty($data['adresse_id']))
-        {
-            $sql = "UPDATE contact_adresse SET description='' WHERE adresse_id={$data['adresse_id']}";
-            $db->exec($sql);
-        }
-
         return $message;
     }
 
     protected function filterData($data)
     {
-        $data = tribes_common::filterData($data);
+        $data = parent::filterData($data);
 
         isset($data['service']) && $data['service'] = u::ucfirst($data['service']);
 

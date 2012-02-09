@@ -84,7 +84,7 @@ class agent_admin_export extends agent
 
         $k = explode(' ',
                 'login etape_suivante user password photo_token cv_token cv_text is_obsolete contact_data origine sort_key'
-            . ' activite_activite_id activite_contact_id activite_adresse_id activite_is_obsolete activite_admin_confirmed activite_contact_confirmed activite_contact_modified activite_contact_data activite_origine activite_sort_key activite_is_shared'
+            . ' activite_activite_id activite_contact_id activite_city_id activite_is_obsolete activite_admin_confirmed activite_contact_confirmed activite_contact_modified activite_contact_data activite_origine activite_sort_key activite_is_shared'
             . ' adresse_adresse_id adresse_contact_id adresse_city_id adresse_email_list adresse_is_obsolete adresse_admin_confirmed adresse_contact_confirmed adresse_contact_modified adresse_contact_data adresse_origine adresse_sort_key'
         );
 

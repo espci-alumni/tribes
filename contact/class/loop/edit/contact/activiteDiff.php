@@ -25,14 +25,16 @@ class loop_edit_contact_activiteDiff extends loop_edit_contact_activite
                         GROUP BY ''
                     ) AS organisation,
 
+                    ville AS c_ville,
+                    pays AS c_pays,
                     service AS c_service,
                     titre AS c_titre,
-                    IF(date_debut,date_debut,'') AS c_date_debut,
-                    IF(date_fin,date_fin,'') AS c_date_fin,
+                    date_debut AS c_date_debut,
+                    date_fin AS c_date_fin,
                     site_web AS c_site_web,
                     keyword AS c_keyword,
                     is_shared,
-                    IF(admin_confirmed,admin_confirmed,'') AS admin_confirmed,
+                    admin_confirmed,
                     contact_data
                 FROM contact_activite
                 WHERE contact_id={$contact_id}
@@ -66,10 +68,6 @@ class loop_edit_contact_activiteDiff extends loop_edit_contact_activite
 
     function filterActivite($o)
     {
-        if (!empty($o->contact_data) && $v = unserialize($o->contact_data))
-            foreach ($v as $k => $v)
-                isset($o->$k) || $o->$k = $v;
-
         !(int) $o->admin_confirmed && $o->new_activite = 1;
 
         $a = explode('/', $o->organisation);
@@ -85,6 +83,14 @@ class loop_edit_contact_activiteDiff extends loop_edit_contact_activite
 
         $o->c_organisation = implode(' / ', $c_org);
         $o->organisation = implode(' / ', $org);
+
+        if (!empty($o->contact_data) && $v = unserialize($o->contact_data))
+            foreach ($v as $k => $v)
+                $o->$k = $v;
+
+        foreach ($o as $k => $v)
+            if ('0000-00-00' === $v || '0000-00-00 00:00:00' === $v)
+                $o->$k = '';
 
         return $o;
     }

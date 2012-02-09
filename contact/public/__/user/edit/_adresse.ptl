@@ -18,8 +18,7 @@ Merci de renseigner l'adresse à laquelle vous souhaitez recevoir les courriers 
     <!-- IF $adresse_id -->
     <div class="accordeon">
     <div class="open-arrow">▼</div>
-    <del>{$titre}</del><br>
-    <h3><del>{$description|default:$organisation}</del></h3>
+    <h3><del>{$description|default:'&nbsp;'}</del></h3>
     <br>
     <del>{$ville}</del>
     </div>
@@ -31,8 +30,7 @@ Merci de renseigner l'adresse à laquelle vous souhaitez recevoir les courriers 
 <!-- ELSE -->
 <div class="accordeon{$adresse_id|test:'':' new'}">
 <div class="open-arrow">▼</div>
-{$titre}<br>
-<h3>{$description|default:$organisation|default:'✰ Nouvelle entrée ✰'}</h3>
+<h3>{$adresse_id|test:$description:'✰ Nouvelle entrée ✰'|default:'&nbsp;'}</h3>
 <br>
 {$ville}
 </div>

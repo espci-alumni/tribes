@@ -8,22 +8,17 @@ class loop_edit_contact_activite extends loop_edit
 
     $type = 'activite',
     $exposeLoopData = true,
-    $adresses = array(),
-    $activites = array(),
-    $send,
-    $editAdresse = true;
+    $send;
 
 
-    function __construct($f, $contact_id, $send, $new = false)
+    function __construct($f, $contact_id, $send, $freeze = false)
     {
-        $loop = new loop_contact_activite($contact_id, $new > 0);
+        $loop = new loop_contact_activite($contact_id);
 
-        $new && $this->allowAddDel = false;
+        $freeze && $this->allowAddDel = false;
         $this->defaultLength = SESSION::get('contact_id') == $contact_id ? 1 : 0;
 
         parent::__construct($f, $loop);
-
-        $this->loadAdresses($contact_id);
 
         $this->send = $send;
     }
@@ -31,6 +26,7 @@ class loop_edit_contact_activite extends loop_edit
     function populateForm($a, $data, $counter)
     {
         if (isset($data->is_shared) && $data->is_shared < 0) unset($data->is_shared);
+        empty($data->pays) || $data->ville .= ', ' . $data->pays;
 
         $f = $this->form;
         $f->setDefaults($data);
@@ -39,6 +35,7 @@ class loop_edit_contact_activite extends loop_edit
             'isdata' => false,
             'src' => 'QSelect/organisation',
         ));
+        $f->add('city', 'ville', array('isdata' => false));
         $f->add('text', 'service');
         $f->add('QSelect', 'titre', array(
             'src' => 'QSelect/activite/titre',
@@ -85,26 +82,6 @@ class loop_edit_contact_activite extends loop_edit
         $f->add('monthyear', 'date_debut');
         $f->add('monthyear', 'date_fin');
 
-        if ($this->editAdresse)
-        {
-            $a = $this->activites
-                ? array("Coordonnées ci-dessus" => $this->activites)
-                : array();
-
-            $this->adresses && $a["Coordonnées existantes"] =& $this->adresses;
-            $a["Nouvelles coordonnées" ] = array('new' => 'Nouvelles coordonnées');
-
-            $organisation = $organisation->getValue();
-
-            $this->activites[-$counter] = "Idem \"{$organisation}\" ci-dessus";
-
-            $f->add('select', 'adresse_id', array(
-                'firstItem' => '- Préciser vos coordonnées -',
-                'item' => $a,
-                'default' => $this->adresses ? null : 'new',
-            ));
-        }
-
         $f->add('text', 'site_web');
         $f->add('QSelect', 'keyword', array(
             'src' => 'QSelect/suggestions/keyword',
@@ -112,7 +89,8 @@ class loop_edit_contact_activite extends loop_edit
         $f->add('check', 'is_shared', array('item' => array(1 => 'Partagé', 0 => 'Confidentiel')));
 
         $this->send->attach(
-            'organisation', $this->adminMode ? '' : "Veuillez renseigner le ou les organisations", '',
+            'organisation', $this->adminMode ? '' : "Veuillez renseigner au moins une organisation", '',
+            'ville', $this->adminMode ? '' : "Veuillez renseigner une ville", '',
             'is_shared', $this->adminMode ? '' : "Veuillez choisir le niveau de partage de cette activité", ''
         );
 
@@ -125,15 +103,5 @@ class loop_edit_contact_activite extends loop_edit
             'keyword', '', '',
             'is_shared', '', ''
         );
-    }
-
-    protected function loadAdresses($contact_id)
-    {
-        $a = new loop_contact_adresse($contact_id);
-
-        while ($b = $a->loop())
-        {
-            $this->adresses[$b->adresse_id] = $b->adresse . ('' !== $b->adresse ? ', ' : '') . $b->ville . '...';
-        }
     }
 }

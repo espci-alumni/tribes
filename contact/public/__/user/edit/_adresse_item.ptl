@@ -18,17 +18,7 @@ IF !$hide_is_active
 <!--
 END:IF
 
-IF $activite_id
--->
-<tr>
-    <td class="label"><strong>Activité associée</strong>&nbsp;:</td>
-    <td>
-        <strong>{$organisation}</strong><br>
-        {$titre}
-    </td>
-</tr>
-<!--
-ELSE
+IF $f_description
     AGENT $f_description _caption_="Description"
 END:IF
 

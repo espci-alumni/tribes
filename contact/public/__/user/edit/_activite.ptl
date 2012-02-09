@@ -1,6 +1,6 @@
 <!-- IF $f_activite_add || $activites -->
 
-<h2>{$f_activite_add|test:"Activités":"Activité professionnelle actuelle"}</h2>
+<h2>{$f_activite_add|test:"Activités":"Activité principale actuelle"}</h2>
 
 <table>
 <!-- AGENT $f_statut_activite _caption_="Statut principal actuel" -->
@@ -19,14 +19,14 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 
 <!-- LOOP $activites -->
 
-<!-- SET $default_org -->{$activite_id|test:'':'✰ Nouvelle entrée ✰'}<!-- END:SET -->
+<!-- SET $default_org -->{$activite_id|test:'&nbsp;':'✰ Nouvelle entrée ✰'}<!-- END:SET -->
 
 <!-- IF $deleted -->
     <!-- IF $activite_id -->
     <div class="accordeon">
     <div class="open-arrow">▼</div>
     <del>{$titre}</del><br>
-    <h3><del>{$description|default:$organisation|default:$default_org}</del></h3>
+    <h3><del>{$organisation|default:$default_org}</del></h3>
     <br>
     <del>{$service}</del>
 
@@ -51,7 +51,7 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 <div class="accordeon{$activite_id|test:'':' new'}">
 <div class="open-arrow">▼</div>
     {$titre}<br>
-    <h3>{$description|default:$organisation|default:$default_org}</h3>
+    <h3>{$organisation|default:$default_org}</h3>
     <br>
     {$service}
 
@@ -65,7 +65,7 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
     <!-- END:IF -->
     </span>
 </div>
-<div class="contenu{$description|test:1:$organisation|test:'':' active-tab'}">
+<div class="contenu{$organisation|test:'':' active-tab'}">
 <!--
 IF $id && $admin_confirmed <= $contact_modified
     IF d$is_admin_confirmed
