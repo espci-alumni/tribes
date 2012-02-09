@@ -26,27 +26,18 @@ class loop_user_activite extends loop_sql
                     IF(date_fin,date_fin,'') AS date_fin,
                     site_web,
                     keyword,
-                    ad.adresse_id,
-                    adresse,
-                    ville_avant,
                     ville,
-                    ville_apres,
-                    pays,
-                    tel_portable,
-                    tel_fixe,
-                    tel_fax
+                    pays
                 FROM contact_activite ac
-                    LEFT JOIN contact_adresse ad
-                        ON ad.adresse_id=ac.adresse_id AND ad.is_shared
-                WHERE ac.contact_id={$contact_id}
-                    AND ac.admin_confirmed
-                    AND ac.contact_confirmed
-                    AND ac.is_shared
-                    AND ac.is_obsolete<=0
+                WHERE contact_id={$contact_id}
+                    AND admin_confirmed
+                    AND contact_confirmed
+                    AND is_shared
+                    AND is_obsolete<=0
                 ORDER BY
-                    IF(ac.date_fin, ac.date_debut, '9999-12-31') DESC,
-                    IF(ac.date_fin, ac.date_fin, ac.date_debut) DESC,
-                    ac.activite_id DESC";
+                    IF(date_fin, date_debut, '9999-12-31') DESC,
+                    IF(date_fin, date_fin, date_debut) DESC,
+                    activite_id DESC";
 
         parent::__construct($sql);
     }

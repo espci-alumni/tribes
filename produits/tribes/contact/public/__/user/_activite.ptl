@@ -1,5 +1,5 @@
 <h2 class="organisation">
-    {$organisation}
+    {$organisation}{$ville|test:', '}{$ville}{$pays|test:', '}{$pays}
     <!-- IF $date_debut -->
         <span class="datation">
             Depuis {$date_debut|replace:'(....)-(..)-..':'$2/$1'} jusqu'à <!-- IF $date_fin -->{$date_fin|replace:'(....)-(..)-..':'$2/$1'}<!-- ELSE -->aujourd'hui<!-- END:IF -->
@@ -14,9 +14,4 @@
 <!-- IF $secteur  -->{g$inputFormat|echo:"Secteur":$secteur}<!-- END:IF -->
 <!-- IF $site_web -->{g$inputFormat|echo:"Site web":$site_web|urlize}<!-- END:IF -->
 <!-- IF $keyword  -->{g$inputFormat|echo:"Mot-clés":$keyword}<!-- END:IF -->
-<!-- IF $adresse_id -->
-<tr>
-    <td colspan="2"><!-- INLINE user/_adresse --></td>
-</tr>
-<!-- END:IF -->
 </table>

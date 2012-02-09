@@ -11,11 +11,11 @@ class loop_edit_contact_adresse extends loop_edit
     $send;
 
 
-    function __construct($f, $contact_id, $send, $new = false)
+    function __construct($f, $contact_id, $send, $freeze = false)
     {
-        $loop = new loop_contact_adresse($contact_id, $new > 0);
+        $loop = new loop_contact_adresse($contact_id);
 
-        $new && $this->allowAddDel = false;
+        $freeze && $this->allowAddDel = false;
         $this->defaultLength = SESSION::get('contact_id') == $contact_id ? 1 : 0;
 
         parent::__construct($f, $loop);
@@ -33,7 +33,6 @@ class loop_edit_contact_adresse extends loop_edit
         $s = $f->add('QSelect', 'description', array(
             'isdata' => false,
             'src' => 'QSelect/description/adresse',
-            'disabled' => isset($data->c_description) ? !$data->c_description : !empty($data->activite_id),
         ));
         $f->add('check', 'is_active', array('item' => array(1 => 'Adresse de correspondance'), 'multiple' => true));
         $f->add('textarea', 'adresse');
@@ -48,8 +47,8 @@ class loop_edit_contact_adresse extends loop_edit
         $f->add('check', 'is_shared', array('item' => array (1 => 'Partagé', 0 => 'Confidentiel')));
 
         $this->send->attach(
-            'description', $this->adminMode ? '' : "Veuillez indiquer la description de votre adresse", '',
-            'ville', $this->adminMode ? '' : "Veuillez choisir ou ajouter une ville", '',
+            'description', $this->adminMode ? '' : "Veuillez indiquer une courte description de votre adresse", '',
+            'ville', $this->adminMode ? '' : "Veuillez renseigner une ville", '',
             'is_shared', $this->adminMode ? '' : "Veuillez choisir le niveau de confidentialité de cette adresse", ''
         );
 

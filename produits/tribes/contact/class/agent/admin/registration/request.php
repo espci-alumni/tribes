@@ -60,8 +60,8 @@ class agent_admin_registration_request extends agent_admin_user_edit
 
         $o = $this->composeContact($o, $f, $send);
         $o = $this->composeEmail($o, $f, $send);
-        $o = $this->composeAdresse($o, $f, $send, -1);
-        $o = $this->composeActivite($o, $f, $send, -1);
+        $o = $this->composeAdresse($o, $f, $send, true);
+        $o = $this->composeActivite($o, $f, $send, true);
 
         $this->emails->adminMode = true;
         $this->adresses ->adminMode = true;

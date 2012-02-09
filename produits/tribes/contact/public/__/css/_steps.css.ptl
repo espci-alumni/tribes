@@ -9,7 +9,7 @@ div.contenu
     border: solid 1px #4bafb8;
 }
 
-h3
+h3, .accordeon
 {
     display: none;
 }

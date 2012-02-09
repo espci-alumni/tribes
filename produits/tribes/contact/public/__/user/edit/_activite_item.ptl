@@ -11,11 +11,7 @@ END:IF
 
 SET $_f -->{g$inputFormat|replace:'%1%2':'%1%2<br><small><em>Groupe, entreprise, université, école… séparés par des /</em></small>'}<!-- END:SET
 AGENT $f_organisation _caption_="Organisation(s)"  _format_=$_f
-IF $f_ville
-    AGENT $f_ville _caption_="Ville"
-ELSEIF $f_adresse_id
-    AGENT $f_adresse_id _caption_="Coordonnées"
-END:IF
+AGENT $f_ville _caption_="Ville"
 AGENT $f_service _caption_="Service"
 AGENT $f_titre _caption_="Fonction"
 IF $f_fonction

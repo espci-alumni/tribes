@@ -257,14 +257,14 @@ class agent_user_edit extends agent_pForm
         return $o;
     }
 
-    protected function composeAdresse($o, $f, $send, $new = false)
+    protected function composeAdresse($o, $f, $send, $freeze = false)
     {
-        $this->adresses = new loop_edit_contact_adresse($f, $this->contact_id, $send, $new);
+        $this->adresses = new loop_edit_contact_adresse($f, $this->contact_id, $send, $freeze);
 
         return $o;
     }
 
-    protected function composeActivite($o, $f, $send, $new = false)
+    protected function composeActivite($o, $f, $send, $freeze = false)
     {
         $sql = "SELECT `value` AS K, `group` AS G, `value` AS V
                 FROM item_lists
@@ -279,7 +279,7 @@ class agent_user_edit extends agent_pForm
             'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', ''
         );
 
-        $this->activites = new loop_edit_contact_activite($f, $this->contact_id, $send, $new);
+        $this->activites = new loop_edit_contact_activite($f, $this->contact_id, $send, $freeze);
 
         return $o;
     }
@@ -395,19 +395,8 @@ class agent_user_edit extends agent_pForm
 
         $counter = 0;
         $i = 0;
-        $adresse_id = array();
 
         $db = DB();
-
-        $sql = "DELETE FROM contact_adresse
-                WHERE contact_id={$this->contact_id}
-                    AND origine='contact/{$this->connected_id}'
-                    AND NOT contact_data
-                    AND NOT admin_confirmed
-                    AND NOT contact_confirmed";
-        $db->exec($sql);
-
-        $has_new_adresse = false;
 
         while ($b = $this->activites->loop())
         {
@@ -417,29 +406,8 @@ class agent_user_edit extends agent_pForm
             {
                 $a = $b->f_organisation->getData() + array(
                     'organisation' => $b->f_organisation->getDbValue(),
+                    'ville' => $b->f_ville->getDbValue(),
                 );
-
-                if (isset($b->f_adresse_id))
-                {
-                    $adresse_id[$i] = $b->f_adresse_id->getDbValue();
-
-                    if ('new' === $adresse_id[$i])
-                    {
-                        $has_new_adresse = true;
-
-                        $sql = "INSERT INTO contact_adresse (contact_id, origine)
-                                VALUES ({$this->contact_id}, 'contact/{$this->connected_id}')";
-                        $db->exec($sql);
-
-                        $adresse_id[$i] = $db->lastInsertId();
-                    }
-                    else if ($adresse_id[$i] < 0)
-                    {
-                        $adresse_id[$i] = $adresse_id[-$adresse_id[$i]];
-                    }
-
-                    $a['adresse_id'] = $adresse_id[$i];
-                }
 
                 if ('' !== implode('', $a))
                 {
@@ -459,7 +427,7 @@ class agent_user_edit extends agent_pForm
             }
         }
 
-        return $has_new_adresse ? 'user/edit/adresse/activite' : '';
+        return '';
     }
 
     protected function savePhoto(&$data)

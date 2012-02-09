@@ -20,7 +20,6 @@ class loop_user_adresse extends loop_sql
                     AND contact_confirmed
                     AND is_shared
                     AND is_obsolete<=0
-                    AND description!=''
                 ORDER BY sort_key";
 
         parent::__construct($sql);

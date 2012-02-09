@@ -20,6 +20,8 @@ class tribes_adresse extends tribes_common
         'tel_fax',
     );
 
+    protected static $paysDefault = 'France';
+
 
     function __construct($contact_id, $confirmed = false)
     {
@@ -46,8 +48,15 @@ class tribes_adresse extends tribes_common
     {
         $data = parent::filterData($data);
 
-        if (isset($data['ville']) && isset($data['pays']))
+        if (isset($data['ville']))
         {
+            if (false !== $sql = strrpos($data['ville'], ','))
+            {
+                $data['pays'] = trim(substr($data['ville'], $sql+1));
+                $data['ville'] = trim(substr($data['ville'], 0, $sql));
+            }
+            else empty($data['pays']) && $data['pays'] = self::$paysDefault;
+
             $data['city_id'] = geodb::getCityId($data['ville'] . ', ' . $data['pays']);
 
             if ($data['city_id'] && $this->confirmed)
