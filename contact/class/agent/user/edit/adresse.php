@@ -9,6 +9,7 @@ class agent_user_edit_adresse extends agent_user_edit
 
     protected function save($data)
     {
-        return $this->saveAdresse($data);
+        $this->saveAdresse($data);
+        return '';
     }
 }

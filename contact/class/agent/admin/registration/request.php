@@ -170,7 +170,6 @@ class agent_admin_registration_request extends agent_admin_user_edit
     static function __init()
     {
         $a = array(
-            'is_active' => "IF(VALUES(is_active)=1 OR is_active=1,1,0)",
             'is_obsolete' => "IF(VALUES(is_obsolete)=1 OR is_obsolete=1,1,IF(VALUES(is_obsolete)=-1 OR is_obsolete=-1,-1,0))",
         );
 
@@ -179,11 +178,10 @@ class agent_admin_registration_request extends agent_admin_user_edit
             'contact_adresse' => array('adresse_id', $a),
             'contact_activite' => array('activite_id', $a),
             'contact_contact' => array('contact_id', $a + array(
-                'acces' => "IF(VALUES(acces)='admin' OR acces='admin','admin',IF(VALUES(acces)='membre' OR acces='membre','membre',''))"
+                'acces' => "IF(VALUES(acces)='admin' OR acces='admin','admin',IF(VALUES(acces)='membre' OR acces='membre','membre',''))",
+                'is_active' => "IF(VALUES(is_active)=1 OR is_active=1,1,0)",
             ))
         );
-
-        unset(self::$mergeTableInsert['contact_activite'][1]['is_active']);
 
         self::$mergeTableUpdate = array(
             'contact_historique' => array('origine_contact_id' => "IF(origine_contact_id=%d,%d,origine_contact_id)"),

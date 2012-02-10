@@ -32,7 +32,7 @@ class tribes_adresse extends tribes_common
 
     function save($data, $message = null, &$id = 0)
     {
-        if ($this->confirmed) unset($data['is_active'], $data['sort_key']);
+        if ($this->confirmed) unset($data['sort_key']);
 
         $message = parent::save($data, $message, $id);
 
@@ -50,12 +50,15 @@ class tribes_adresse extends tribes_common
 
         if (isset($data['ville']))
         {
-            if (false !== $sql = strrpos($data['ville'], ','))
+            if (empty($data['pays']))
             {
-                $data['pays'] = trim(substr($data['ville'], $sql+1));
-                $data['ville'] = trim(substr($data['ville'], 0, $sql));
+                if (false !== $sql = strrpos($data['ville'], ','))
+                {
+                    $data['pays'] = trim(substr($data['ville'], $sql+1));
+                    $data['ville'] = trim(substr($data['ville'], 0, $sql));
+                }
+                else $data['pays'] = self::$paysDefault;
             }
-            else empty($data['pays']) && $data['pays'] = self::$paysDefault;
 
             $data['city_id'] = geodb::getCityId($data['ville'] . ', ' . $data['pays']);
 

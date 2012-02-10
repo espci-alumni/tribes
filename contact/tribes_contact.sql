@@ -45,7 +45,6 @@ CREATE TABLE city (
 CREATE TABLE contact_activite (
   activite_id int(10) unsigned NOT NULL AUTO_INCREMENT,
   contact_id int(10) unsigned NOT NULL,
-  adresse_id int(10) unsigned DEFAULT NULL,
   service varchar(255) NOT NULL,
   titre varchar(255) NOT NULL,
   fonction varchar(255) NOT NULL,
@@ -65,7 +64,6 @@ CREATE TABLE contact_activite (
   sort_key int(10) unsigned NOT NULL,
   PRIMARY KEY (activite_id),
   KEY contact_id (contact_id),
-  KEY adresse_id (adresse_id),
   KEY titre (titre(5))
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
@@ -90,7 +88,6 @@ CREATE TABLE contact_adresse (
   tel_fixe varchar(255) NOT NULL,
   tel_fax varchar(255) NOT NULL,
   is_shared tinyint(4) NOT NULL,
-  is_active tinyint(4) NOT NULL,
   is_obsolete tinyint(4) NOT NULL,
   admin_confirmed datetime NOT NULL,
   contact_confirmed datetime NOT NULL,

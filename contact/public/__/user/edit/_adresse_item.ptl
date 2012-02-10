@@ -9,15 +9,6 @@ IF $f_adresse_del
 <!--
 END:IF
 
-IF !$hide_is_active
--->
-<tr>
-    <td>&nbsp;</td>
-    <td><!-- AGENT $f_is_active _format_='%1%2' --></td>
-</tr>
-<!--
-END:IF
-
 IF $f_description
     AGENT $f_description _caption_="Description"
 END:IF
@@ -39,7 +30,7 @@ AGENT $f_tel_fax _caption_="Fax"
     <td>
         <!-- AGENT $f_is_shared _glue_=' ' _format_='%1' -->
         <p class="explication">
-        Le mode <strong>Partagé</strong> assure la visibilité de ces informations dans l'annuaire et favorise ainsi la mise en relation au sein de la communauté.
+        Le mode <strong>Partagé</strong> permet la publication dans l'annuaire et favorise ainsi la mise en relation au sein de la communauté.
         En mode <strong>Confidentiel</strong>, seul le secrétariat pourra les consulter.
         </p>
     </td>

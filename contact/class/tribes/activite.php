@@ -22,13 +22,6 @@ class tribes_activite extends tribes_adresse
     );
 
 
-    function __construct($contact_id, $confirmed = false)
-    {
-        parent::__construct($contact_id, $confirmed);
-
-        unset($this->metaFields['is_active']);
-    }
-
     function save($data, $message = null, &$id = 0)
     {
         $db = DB();

@@ -20,7 +20,6 @@ class tribes_common
     $dataFields = array(),
     $metaFields = array(
         'origine' => 'string',
-        'is_active' => 'int',
         'is_obsolete' => 'int',
         'sort_key' => 'int',
         'admin_confirmed' => 'int',
