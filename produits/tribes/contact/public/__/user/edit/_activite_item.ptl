@@ -35,7 +35,7 @@ IF $activite_id && !$is_shared
     <td>
         <!-- AGENT $f_is_shared _glue_=' ' _format_='%1' -->
         <p class="explication">
-        Le mode <strong>Partagé</strong> assure la visibilité de ces informations dans l'annuaire et favorise ainsi la mise en relation au sein de la communauté.
+        Le mode <strong>Partagé</strong> permet la publication dans l'annuaire et favorise ainsi la mise en relation au sein de la communauté.
         En mode <strong>Confidentiel</strong>, seul le secrétariat pourra les consulter.
         </p>
     </td>

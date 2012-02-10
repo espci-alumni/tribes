@@ -71,7 +71,7 @@ class agent_admin_export extends agent
             $sql = "SELECT *
                     FROM contact_adresse
                     WHERE contact_id={$row->contact_id} AND is_obsolete=0
-                    ORDER BY is_active DESC, contact_modified DESC
+                    ORDER BY contact_modified DESC
                     LIMIT 1";
 
             foreach ($db->queryRow($sql) as $k => $v) $row->{'adresse_' . $k} = $v;

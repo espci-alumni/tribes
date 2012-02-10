@@ -39,6 +39,7 @@ class tribes_contact extends tribes_common
     function __construct($contact_id, $confirmed = false)
     {
         $this->metaFields += array(
+            'is_active' => 'int',
             'conjoint_email' => 'stringNull',
             'acces' => 'string',
             'password' => 'saltedHash',

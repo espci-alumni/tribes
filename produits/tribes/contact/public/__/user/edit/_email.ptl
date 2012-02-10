@@ -29,7 +29,7 @@ LOOP $emails
             ELSEIF $admin_confirmed
                 --><span class="email{$is_active|test:' active'}">{$email}</span><!--
             ELSE
-                --><span class="email unconfirmed{$is_active|test:' active'}">{$email} (<abbr title="Le lien de confirmation envoyé à cette adresse n'a pas été activé">non confirmé</abbr>)</span><!--
+                --><span class="email unconfirmed{$is_active|test:' active'}">{$email} (<abbr title="Le lien de confirmation envoyé à cette adresse n'a pas été activé">à confirmer</abbr>)</span><!--
             END:IF
 
             -->

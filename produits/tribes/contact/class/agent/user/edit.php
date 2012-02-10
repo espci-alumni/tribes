@@ -112,19 +112,6 @@ class agent_user_edit extends agent_pForm
             }
         }
 
-        if (isset($this->adresses) && !$this->adresses->adminMode)
-        {
-            if (!$this->hasActiveItem($this->adresses))
-            {
-                if ($e = $f->getElement('adresse_add'))
-                {
-                    $e->setError('Veuillez sélectionner au moins une adresse de correspondance');
-                    return false;
-                }
-                else E('adresse_add non défini ?!');
-            }
-        }
-
         return true;
     }
 
@@ -290,7 +277,9 @@ class agent_user_edit extends agent_pForm
         $this->saveContact($data);
         $this->saveEmail($data);
         $this->saveAdresse($data);
-        return $this->saveActivite($data);
+        $this->saveActivite($data);
+
+        return '';
     }
 
     protected function saveContact($data)
@@ -369,7 +358,6 @@ class agent_user_edit extends agent_pForm
                 if ('' !== implode('', $a))
                 {
                     $a += array(
-                        'is_active' => (bool) $b->f_is_active->getValue(),
                         'contact_id' => $this->contact_id,
                         'sort_key' => ++$counter,
                     );
@@ -426,8 +414,6 @@ class agent_user_edit extends agent_pForm
                 $this->activite->delete($b->id);
             }
         }
-
-        return '';
     }
 
     protected function savePhoto(&$data)

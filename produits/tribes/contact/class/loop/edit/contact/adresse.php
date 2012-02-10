@@ -34,7 +34,6 @@ class loop_edit_contact_adresse extends loop_edit
             'isdata' => false,
             'src' => 'QSelect/description/adresse',
         ));
-        $f->add('check', 'is_active', array('item' => array(1 => 'Adresse de correspondance'), 'multiple' => true));
         $f->add('textarea', 'adresse');
         $f->add('text', 'ville_avant');
         $f->add('city', 'ville', array('isdata' => false));

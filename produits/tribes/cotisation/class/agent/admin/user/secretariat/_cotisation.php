@@ -6,6 +6,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
         'ESP' => 'Espèces',
         'CHQ' => 'Chèque',
         'VIR' => 'Virement',
+        'NSP' => 'Autre',
     );
 
     protected function composeForm($o, $f, $send)
