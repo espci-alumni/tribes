@@ -120,8 +120,11 @@ class tribes_contact extends tribes_common
 
                     if ($db->exec($sql))
                     {
+                        $this->contactData['login'] = $login;
+
                         $sql = "UPDATE contact_contact
-                                SET login='{$login}', user=REPLACE(login,'-','')
+                                SET login='{$login}', user=REPLACE(login,'-',''),
+                                    contact_data=REPLACE(contact_data,'s:5:\"login\";s:0:\"\";','s:5:\"login\";" . serialize($login) . "')
                                 WHERE contact_id={$this->contact_id}
                                     AND login=''";
                         $db->exec($sql);

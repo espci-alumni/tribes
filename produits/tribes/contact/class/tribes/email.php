@@ -12,6 +12,7 @@ class tribes_email extends tribes_common
     function __construct($contact_id, $confirmed = false)
     {
         $this->metaFields += array(
+            'is_active' => 'int',
             'token' => 'stringNull',
             'token_expires' => 'sql',
         );
