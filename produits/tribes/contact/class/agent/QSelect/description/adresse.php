@@ -12,8 +12,9 @@ class agent_QSelect_description_adresse extends agent_QSelect
     {
         $sql = "SELECT description AS VALUE
                 FROM contact_adresse
-                WHERE description!=''
-                GROUP BY description";
+                WHERE description!='' AND is_obsolete<=0 AND admin_confirmed
+                GROUP BY description
+                ORDER BY COUNT(*) DESC";
 
         $o->DATA = new loop_sql($sql);
 
