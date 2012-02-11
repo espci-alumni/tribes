@@ -17,7 +17,8 @@ class agent_QSelect_activite extends agent_QSelect
         $sql = "SELECT {$sql} AS VALUE
                 FROM contact_activite
                 WHERE {$sql}!='' AND is_obsolete<=0 AND admin_confirmed
-                GROUP BY {$sql}";
+                GROUP BY {$sql}
+                ORDER BY COUNT(*) DESC";
 
         $o->DATA = new loop_sql($sql);
 

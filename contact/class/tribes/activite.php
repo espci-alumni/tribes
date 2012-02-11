@@ -54,6 +54,12 @@ class tribes_activite extends tribes_adresse
 
         $message = parent::save($data, $message, $id);
 
+        if (!empty($data['principale']))
+        {
+            $sql = "UPDATE contact_contact SET principale_activite_id={$id} WHERE contact_id={$this->contact_id}";
+            DB()->exec($sql);
+        }
+
         $org_inserted = false;
 
         if (!empty($data['organisation']))
@@ -141,6 +147,16 @@ class tribes_activite extends tribes_adresse
         }
 
         return $message;
+    }
+
+    function delete($row_id)
+    {
+        $sql = "UPDATE contact_contact SET
+                    principale_activite_id=IF(principale_activite_id={$row_id},NULL,principale_activite_id)
+                WHERE contact_id={$this->contact_id}";
+        DB()->exec($sql);
+
+        parent::delete($row_id);
     }
 
     protected function filterData($data)

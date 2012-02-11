@@ -18,7 +18,6 @@ class tribes_contact extends tribes_common
         'prenom_usuel',
         'nom_etudiant',
         'date_naissance',
-        'date_deces',
         'conjoint_email',
         'statut_activite',
         'login',
@@ -40,7 +39,7 @@ class tribes_contact extends tribes_common
     {
         $this->metaFields += array(
             'is_active' => 'int',
-            'conjoint_email' => 'stringNull',
+            'date_deces' => 'string',
             'acces' => 'string',
             'password' => 'saltedHash',
             'photo_token' => 'string',
