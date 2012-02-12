@@ -7,7 +7,7 @@ class agent_user_step_registration_adresse extends agent_user_step_registration
         return $this->composeAdresse($o, $f, $send);
     }
 
-    protected function composeAdresse($o, $f, $send, $new = false)
+    protected function composeAdresse($o, $f, $send, $freeze = false)
     {
         $o = parent::composeAdresse($o, $f, $send, true);
 

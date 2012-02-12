@@ -69,9 +69,9 @@ Celle-ci sera publiée dans l'annuaire des membres de la communauté.
 <!--
 IF $id && $admin_confirmed <= $contact_modified
     IF d$is_admin_confirmed
-        --><p class="explication">Bloc refusé par l'administrateur</p><!--
+        --><p class="explication">Section refusée par l'administrateur</p><!--
     ELSE
-        --><p class="explication">Bloc en attente de validation par l'administrateur</p><!--
+        --><p class="explication">Section en attente de validation par l'administrateur</p><!--
     END:IF
 END:IF
 -->

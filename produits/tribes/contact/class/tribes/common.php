@@ -58,6 +58,8 @@ class tribes_common
 
         $this->contactData && $data = array_merge($data, $this->contactData);
 
+        unset($data['contact_data']);
+
         return $data;
     }
 

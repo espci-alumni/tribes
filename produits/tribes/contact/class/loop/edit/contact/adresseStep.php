@@ -35,5 +35,6 @@ class loop_edit_contact_adresseStep extends loop_edit_contact_adresse
         parent::populateForm($a, $data, $counter);
         $this->form->add('hidden', 'correspondance', array('default' => 1, 'readonly' => 1));
         $this->form->getElement('description')->attach('correspondance', '', '');
+        $a->hide_email_list = 1;
     }
 }

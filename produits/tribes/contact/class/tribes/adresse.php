@@ -34,11 +34,38 @@ class tribes_adresse extends tribes_common
     {
         if ($this->confirmed) unset($data['sort_key']);
 
+        if ( !empty($data['correspondance'])
+          && !empty($data['description'])
+          && ($id || !empty($data['adresse_id'])) )
+        {
+            if (false !== stripos($data['description'], 'perso')) $p = 'pro';
+            else if (false !== stripos($data['description'], 'pro')) $p = 'perso';
+            else $p = "pro%' OR '%perso";
+
+            $id || $id = $data['adresse_id'];
+
+            $sql = "SELECT perso_adresse_id AS pro, pro_adresse_id AS perso
+                    FROM contact_adresse a JOIN contact_contact c USING (contact_id)
+                    WHERE adresse_id={$id} AND (description LIKE '%{$p}%')";
+            if ($sql = DB()->queryRow($sql))
+            {
+                $id = $data['adresse_id'] = isset($sql->$p) ? $sql->$p : 0;
+            }
+        }
+
         $message = parent::save($data, $message, $id);
 
         if (!empty($data['correspondance']))
         {
-            $sql = "UPDATE contact_contact SET corresp_adresse_id={$id} WHERE contact_id={$this->contact_id}";
+            $sql = "UPDATE contact_contact SET corresp_adresse_id={$id}";
+
+            if (isset($p))
+            {
+                if ('pro' === $p) $sql .= ",perso_adresse_id={$id}";
+                if ('perso' === $p) $sql .= ",pro_adresse_id={$id}";
+            }
+
+            $sql .= " WHERE contact_id={$this->contact_id}";
             DB()->exec($sql);
         }
 

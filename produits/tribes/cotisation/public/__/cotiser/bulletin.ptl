@@ -20,6 +20,22 @@
 </table>
 </div>
 
+<style>
+.accordeon
+{
+    display: none;
+}
+</style>
+
+<!-- INLINE user/edit/_adresse -->
+
+<h3><!-- IF $login -->Destination(s) pour <i>{$email}</i><!-- ELSE -->Correspondance électronique<!-- END:IF --></h3>
+<p class="explication">
+Merci de cocher « Adresse de correspondance » pour chaque email où vous souhaitez recevoir les communications de l'Association.
+Utiliser le bouton « ✚ Ajouter un autre email » si nécessaire.
+</p>
+<!-- INLINE user/edit/_email -->
+
 <div class="submit">
 <p class="explication">
 La cotisation sera prise en compte dès réception du paiement correspondant.<br>
