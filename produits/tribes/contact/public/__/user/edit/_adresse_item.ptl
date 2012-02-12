@@ -20,9 +20,9 @@ AGENT $f_adresse _caption_="Adresse" _format_=$_f
 <tr>
     <td class="label"><label>C.P. – <span class="required">Ville</span></label>&nbsp;:</td><td class="input">
     <!--
-    AGENT $f_ville_avant _format_='%0%1' style='width: 15%' placeholder="ex.75021"
-    AGENT $f_ville _format_='%0%1 ' style='width: 42%'
-    AGENT $f_ville_apres _format_='%0%1' style='width: 20%' placeholder="ex.CEDEX 09"
+    AGENT $f_ville_avant _format_='%0%1' style='width: 70px' placeholder="ex.75021"
+    AGENT $f_ville _format_='%0%1 ' style='width: 182px'
+    AGENT $f_ville_apres _format_='%0%1' style='width: 85px' placeholder="ex.CEDEX 09"
     -->
     </td>
 </tr>
