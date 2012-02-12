@@ -58,6 +58,8 @@ class tribes_common
 
         $this->contactData && $data = array_merge($data, $this->contactData);
 
+        unset($data['contact_data']);
+
         return $data;
     }
 
@@ -117,7 +119,7 @@ class tribes_common
         else
         {
             $data = array_merge(
-                $id ? array(): array_map(array($db, 'quote'), $data),
+                $id ? array() : array_map(array($db, 'quote'), $data),
                 $meta
             );
 
@@ -137,7 +139,7 @@ class tribes_common
             foreach ($meta as $k) isset($data[$k]) && $sql .= ",{$k}=" . $data[$k];
             $sql .= " WHERE contact_id={$this->contact_id}
                         AND {$this->table}_id={$id}";
-            $action = $db->exec($sql) || empty($data['contact_confirmed']) ? self::ACTION_UPDATE: self::ACTION_CONFIRM;
+            $action = $db->exec($sql) || empty($data['contact_confirmed']) ? self::ACTION_UPDATE : self::ACTION_CONFIRM;
         }
         else
         {
@@ -214,7 +216,7 @@ class tribes_common
             case 'intNull': $meta[$k] = $data[$k] ? (int) $data[$k] : 'NULL'; break;
             case 'saltedHash': empty($data[$k]) || $meta[$k] = $db->quote(Patchwork::saltedHash($data[$k])); break;
             case 'string': $meta[$k] = $db->quote($data[$k]); break;
-            case 'stringNull': $meta[$k] = $data[$k] ? $db->quote($data[$k]): 'NULL'; break;
+            case 'stringNull': $meta[$k] = $data[$k] ? $db->quote($data[$k]) : 'NULL'; break;
             }
         }
 

@@ -13,15 +13,29 @@ IF $f_description
     AGENT $f_description _caption_="Description"
 END:IF
 
-SET $_f -->{g$inputFormat|replace:'(%0&nbsp;:)':"$1<br><small>Tel qu'imprimé sur une lettre :<br>raison sociale, rue, BP, etc.<br>hors champs qui suivent.</small>"}<!-- END:SET
+--><tr><td colspan="2" class="label">&nbsp;</td></tr><!--
+SET $_f -->{g$inputFormat|replace:'(%0&nbsp;:)':"$1<br><small>Ligne(s) après votre nom,<br>hors ligne ci-dessous.</small>"}<!-- END:SET
 AGENT $f_adresse _caption_="Adresse" _format_=$_f
-AGENT $f_ville_avant _caption_="Code postal" placeholder="ex. 75020"
-AGENT $f_ville _caption_="Ville"
-AGENT $f_ville_apres _caption_="Complément" placeholder="ex. CEDEX 09"
+-->
+<tr>
+    <td class="label"><label>C.P. – <span class="required">Ville</span></label>&nbsp;:</td><td class="input">
+    <!--
+    AGENT $f_ville_avant _format_='%0%1' style='width: 70px' placeholder="ex.75021"
+    AGENT $f_ville _format_='%0%1 ' style='width: 182px'
+    AGENT $f_ville_apres _format_='%0%1' style='width: 85px' placeholder="ex.CEDEX 09"
+    -->
+    </td>
+</tr>
+<!--
 AGENT $f_pays _caption_="Pays"
-AGENT $f_email_list _caption_="Email(s)"
-AGENT $f_tel_portable _caption_="Téléphone portable"
-AGENT $f_tel_fixe _caption_="Téléphone fixe"
+
+--><tr><td colspan="2" class="label">&nbsp;</td></tr><!--
+IF !$hide_email_list
+    AGENT $f_email_list _caption_="Email(s)"
+END:IF
+
+AGENT $f_tel_portable _caption_="Tél. portable"
+AGENT $f_tel_fixe _caption_="Tél. fixe"
 AGENT $f_tel_fax _caption_="Fax"
 
 -->

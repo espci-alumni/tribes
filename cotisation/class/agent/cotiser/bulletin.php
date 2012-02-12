@@ -7,7 +7,7 @@
 // Et envoyer un lien de récuparation de mot de passe, le cas échéant.
 // cf. notification::send('user/password/request',...) dans agent/registration/collision
 
-class agent_cotiser_bulletin extends agent_pForm
+class agent_cotiser_bulletin extends agent_user_edit
 {
     protected static
 
@@ -17,7 +17,7 @@ class agent_cotiser_bulletin extends agent_pForm
         200 => '200€',
     );
 
-    protected $contact_id;
+    protected $requiredAuth = false; // Assume own acces control
 
 
     function control()
@@ -25,8 +25,13 @@ class agent_cotiser_bulletin extends agent_pForm
         $this->contact_id = tribes::getConnectedId();
         $this->contact_id || $this->contact_id = SESSION::get('cotisation_contact_id');
         $this->contact_id || Patchwork::redirect('cotiser');
+        $this->connected_id = $this->contact_id;
 
-        $this->data = SESSION::get('cotisation_bulletin');
+        parent::control();
+
+        if ($k = SESSION::get('cotisation_bulletin'))
+            foreach ($k as $k => $v)
+                $this->data->$k = $v;
     }
 
     function compose($o)
@@ -77,11 +82,24 @@ class agent_cotiser_bulletin extends agent_pForm
             'commentaire', '', ''
         );
 
+        $o = $this->composeEmail($o, $f, $send);
+        $o = $this->composeAdresse($o, $f, $send);
+
+        return $o;
+    }
+
+    protected function composeAdresse($o, $f, $send, $freeze = false)
+    {
+        $this->adresses = new loop_edit_contact_adresseStep($f, $send, $this->contact_id);
+
         return $o;
     }
 
     protected function save($data)
     {
+        $this->saveEmail($data);
+        $this->saveAdresse($data);
+
         SESSION::set('cotisation_bulletin', $data);
 
         $data += array(

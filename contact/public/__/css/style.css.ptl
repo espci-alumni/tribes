@@ -24,9 +24,16 @@ a:hover
     text-decoration: underline;
 }
 
-.label
+td.label
 {
     white-space: nowrap;
+    text-align: right;
+}
+
+td.label, td.input
+{
+    padding: 1px 5px;
+    margin: 0;
 }
 
 .contenu input.text,

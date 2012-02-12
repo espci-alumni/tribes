@@ -7,7 +7,7 @@ class agent_user_step_registration_activite extends agent_user_step_registration
         return $this->composeActivite($o, $f, $send);
     }
 
-    protected function composeActivite($o, $f, $send, $new = false)
+    protected function composeActivite($o, $f, $send, $freeze = false)
     {
         $o = parent::composeActivite($o, $f, $send, true);
 
