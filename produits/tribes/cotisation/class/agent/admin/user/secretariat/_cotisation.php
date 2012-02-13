@@ -30,7 +30,37 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
             'paiement_ref', '', ''
         );
 
-        return parent::composeForm($o, $f, $send);
+        $o = parent::composeForm($o, $f, $send);
+
+        $o->cotisations->addFilter(array($this, 'filterCotisation'));
+
+        if ('POST' === $_SERVER['REQUEST_METHOD'])
+        {
+            $cs = array();
+            while ($c = $o->cotisations->loop())
+            {
+                if (isset($c->f_del) && $c->f_del->isOn())
+                {
+                    $sql = "DELETE FROM cotisation WHERE cotisation_id={$c->cotisation_id}";
+                    DB()->exec($sql);
+                    Patchwork::redirect();
+                }
+            }
+
+            $o->cotisations = new loop_array($cs, 'filter_rawArray');
+        }
+
+        return $o;
+    }
+
+    function filterCotisation($o)
+    {
+        if (in_array($o->paiement_mode, ['ESP','CHQ','VIR','NSP']))
+        {
+            $o->f_del = new pForm_submit($this->form, 'del_cotisation_' . $o->cotisation_id, array());
+        }
+
+        return $o;
     }
 
     protected function save($data)

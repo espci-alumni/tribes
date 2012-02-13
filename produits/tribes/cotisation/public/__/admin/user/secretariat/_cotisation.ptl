@@ -20,29 +20,35 @@ AGENT $f_paiement_ref    _caption_="Référence du paiement"
 </table>
 
 <div class="submit"><!-- AGENT $f_send value="Enregistrer" --></div>
-<!-- AGENT $form _mode_='close' -->
 
 <h4>Historique de cotisation</h4>
 
 <!-- IF $cotisations -->
 <table>
 <tr>
+    <th>&nbsp;</th>
     <th>Date</th>
     <th colspan="2">Cotisation</th>
-    <th>Soutien</th>
-    <th>Payé</th>
+    <th>Versé</th>
     <th>Mode</th>
     <th>Réf.<th>
 </tr>
 <!-- LOOP $cotisations -->
 <tr class="{$iteratorPosition%2|test:'odd':'even'}">
+    <td>
+        <!--
+        IF $f_del
+            AGENT $f_del value='✘' class='delitem' _preserveScroll_=1 onclick='return confirm("Toute suppression est définive !")'
+        ELSE -->&nbsp;<!--
+        END:IF
+        -->
+    </td>
     <td>{$paiement_date|replace:' .*$':''|formatDate}</td>
     <td>{$type}</td>
     <td align="right">{$cotisation}&nbsp;€</td>
-    <td align="right"><!-- IF $soutien/1 -->{$soutien}&nbsp;€<!-- ELSE -->-<!-- END:IF --></td>
     <td align="right">{$paiement_euro}&nbsp;€</td>
     <td align="center">{$paiement_mode}</td>
-    <td><!-- IF 'ESP'==$paiement_mode || 'CHQ'==$paiement_mode || 'VIR'==$paiement_mode -->{$paiement_ref}<!-- ELSE -->&nbsp;<!-- END:IF --></td>
+    <td><!-- IF 'CB'!=$paiement_mode && 'ERR'!=$paiement_mode -->{$paiement_ref}<!-- ELSE -->&nbsp;<!-- END:IF --></td>
 </tr>
 <!-- END:LOOP -->
 </table>
@@ -51,6 +57,8 @@ AGENT $f_paiement_ref    _caption_="Référence du paiement"
 
 <p class="explication">Aucun historique n'est enregistré actuellement.</p>
 <!-- END:IF -->
+
+<!-- AGENT $form _mode_='close' -->
 </div>
 
 <!-- END:IF -->
