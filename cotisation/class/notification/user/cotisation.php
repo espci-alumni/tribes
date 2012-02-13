@@ -20,21 +20,7 @@ class notification_user_cotisation extends notification
         }
         else if (empty($this->context['email']))
         {
-            $has_active = false;
-
-            $sql = "SELECT email, is_active
-                    FROM contact_email
-                    WHERE contact_id={$this->contact_id}
-                        AND is_obsolete<=0
-                    ORDER BY is_active DESC, is_obsolete DESC";
-            $result = DB()->query($sql);
-
-            while ($row = $result->fetchRow())
-            {
-                if ($has_active && !$row->is_active) break;
-                $this->mail($row->email);
-                $row->is_active && $has_active = true;
-            }
+            user_error('No email to notify', E_USER_WARNING);
         }
         else
         {

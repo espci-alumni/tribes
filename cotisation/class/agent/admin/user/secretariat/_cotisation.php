@@ -88,9 +88,18 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
 
             list($data['cotisation'], $data['type']) = explode('-', $data['type'], 2);
 
+            $sql = "SELECT email
+                    FROM contact_email
+                    WHERE contact_id={$this->contact_id}
+                        AND is_obsolete<=0
+                        AND contact_confirmed
+                    ORDER BY is_active DESC, is_obsolete DESC
+                    LIMIT 1";
+
             $data += array(
                 'soutien' => $data['paiement_euro'] - $data['cotisation'],
                 'contact_id' => $this->contact_id,
+                'email' => DB()->queryOne($sql),
             );
 
             $db->autoExecute('cotisation', $data);
