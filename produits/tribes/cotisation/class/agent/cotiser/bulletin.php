@@ -39,8 +39,9 @@ class agent_cotiser_bulletin extends agent_user_edit
         $sql = "SELECT email
                 FROM contact_email
                 WHERE contact_id={$this->contact_id}
-                    AND is_active
+                    AND is_obsolete<=0
                     AND contact_confirmed
+                ORDER BY is_active DESC, is_obsolete DESC
                 LIMIT 1";
 
         $sql = "SELECT
@@ -48,7 +49,7 @@ class agent_cotiser_bulletin extends agent_user_edit
                     sexe,
                     nom_usuel AS nom,
                     prenom_usuel AS prenom,
-                    ({$sql}) AS email,
+                    IF(login!='',CONCAT(login,'{$CONFIG['tribes.emailDomain']}'),({$sql})) AS email,
                     IF (cotisation_expires>=NOW()+INTERVAL 1 DAY, cotisation_expires, 0) AS cotisation_expires,
                     IF (cotisation_expires && cotisation_expires<NOW()+INTERVAL 1 DAY, cotisation_expires, 0) AS cotisation_expired
                 FROM contact_contact
