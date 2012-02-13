@@ -80,13 +80,17 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
                 'conjoint_email' => isset($data['conjoint_email']) ? $data['conjoint_email'] : '',
             );
 
-            if ('0-remboursement' === $data['type']) $data['paiement_euro'] = -$data['paiement_euro'];
             if (empty($data['conjoint_email'])) unset($data['conjoint_email']);
 
             $data['cotisation_date'] || $data['cotisation_date'] = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
             $data['paiement_date'] || $data['paiement_date'] = $data['cotisation_date'];
 
-            list($data['cotisation'], $data['type']) = explode('-', $data['type'], 2);
+            if ('0-remboursement' === $data['type'])
+            {
+                $data['type'] = 'remboursement';
+                $data['paiement_euro'] = $data['cotisation'] = -$data['paiement_euro'];
+            }
+            else list($data['cotisation'], $data['type']) = explode('-', $data['type'], 2);
 
             $sql = "SELECT email
                     FROM contact_email
