@@ -8,7 +8,14 @@ class agent_login extends self
 
         if ($contact->acces && $CONFIG['tribes.phpbbDb'])
         {
-            self::phpbbLogin($contact);
+            try
+            {
+                self::phpbbLogin($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/phpbb exception', $e);
+            }
         }
     }
 

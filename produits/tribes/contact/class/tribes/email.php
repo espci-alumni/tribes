@@ -72,7 +72,7 @@ class tribes_email extends tribes_common
 
         if (!$this->confirmed)
         {
-            DB()->update('contact_email' array('token' => null), array('contact_id' => $this->contact_id, 'is_obsolete' => 1));
+            DB()->update('contact_email', array('token' => null), array('contact_id' => $this->contact_id, 'is_obsolete' => 1));
         }
     }
 

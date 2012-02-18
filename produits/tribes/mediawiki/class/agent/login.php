@@ -6,7 +6,14 @@ class agent_login extends self
     {
         if ($contact->acces && $CONFIG['tribes.mediaWikiDb'])
         {
-            self::mediaWikiLogin($contact);
+            try
+            {
+                self::mediaWikiLogin($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/mediawiki exception', $e);
+            }
         }
 
         return parent::login($contact);

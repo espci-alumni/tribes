@@ -4,7 +4,17 @@ class agent_admin_registration_request extends self
 {
     protected function createAccount($contact)
     {
-        $CONFIG['tribes.phpbbDb'] && self::phpbbCreateAccount($contact);
+        if ($CONFIG['tribes.phpbbDb'])
+        {
+            try
+            {
+                self::phpbbCreateAccount($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/phpbb exception', $e);
+            }
+        }
 
         return parent::createAccount($contact);
     }

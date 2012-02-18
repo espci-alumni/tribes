@@ -6,7 +6,14 @@ class agent_login extends self
     {
         if ($contact->acces && $CONFIG['tribes.email.dsn'])
         {
-            self::sympaLogin($contact);
+            try
+            {
+                self::sympaLogin($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/sympa exception', $e);
+            }
         }
 
         return parent::login($contact);

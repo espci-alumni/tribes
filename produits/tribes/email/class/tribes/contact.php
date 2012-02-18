@@ -91,7 +91,7 @@ class tribes_contact extends self
             foreach ($update as $alias => $update)
             {
                 $sql[0] .= ',' . $alias;
-                $sql[1] .= ',' . $db->quote($update);
+                $sql[1] .= ',' . (isset($update) ? $db->quote($update) : 'NULL');
                 $sql[2] .= ',' . "{$alias}=VALUES({$alias})";
             }
 

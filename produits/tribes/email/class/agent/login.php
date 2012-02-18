@@ -6,7 +6,14 @@ class agent_login extends self
     {
         if ($contact->acces && $CONFIG['tribes.email.dsn'])
         {
-            self::emailLogin($contact);
+            try
+            {
+                self::emailLogin($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/email exception', $e);
+            }
         }
 
         return parent::login($contact);

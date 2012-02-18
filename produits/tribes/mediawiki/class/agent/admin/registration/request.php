@@ -4,7 +4,17 @@ class agent_admin_registration_request extends self
 {
     protected function createAccount($contact)
     {
-        $CONFIG['tribes.mediaWikiDb'] && self::mediaWikiCreateAccount($contact);
+        if ($CONFIG['tribes.mediaWikiDb'])
+        {
+            try
+            {
+                self::mediaWikiCreateAccount($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/mediawiki exception', $e);
+            }
+        }
 
         return parent::createAccount($contact);
     }
