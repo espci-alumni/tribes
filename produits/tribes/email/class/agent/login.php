@@ -4,7 +4,7 @@ class agent_login extends self
 {
     protected function login($contact)
     {
-        if ($contact->acces && $CONFIG['tribes.emailDSN'])
+        if ($contact->acces && $CONFIG['tribes.email.dsn'])
         {
             self::emailLogin($contact);
         }
@@ -14,7 +14,7 @@ class agent_login extends self
 
     protected static function emailLogin($contact)
     {
-        $db = DB($CONFIG['tribes.emailDSN']);
+        $db = DB($CONFIG['tribes.email.dsn']);
 
         $domain = substr($CONFIG['tribes.emailDomain'], 1);
 
@@ -46,20 +46,19 @@ class agent_login extends self
                     WHERE contact_id={$contact->contact_id}
                         AND is_obsolete<=0
                         AND contact_confirmed";
-            $result = DB()->query($sql);
 
-            $sql = array();
+            $ins = array();
 
-            while ($row = $result->fetchRow())
+            foreach (DB()->query($sql) as $row)
             {
-                    $sql[] = "('{$row->email}',{$user_id},{$row->is_active},NOW())";
+                $ins[] = "('{$row['email']}',{$user_id},{$row['is_active']},NOW())";
             }
 
-            if ($sql)
+            if ($ins)
             {
                 $sql = "INSERT IGNORE INTO postfix_alt
                             (alt,user_id,forward,created)
-                        VALUES " . implode(',', $sql);
+                        VALUES " . implode(',', $ins);
                 $db->exec($sql);
             }
 
@@ -72,26 +71,26 @@ class agent_login extends self
                     WHERE contact_id={$contact->contact_id}";
             $result = DB()->query($sql);
 
-            $sql = array();
+            $ins = array();
 
-            while ($row = $result->fetchRow())
+            foreach (DB()->query($sql) as $row)
             {
-                $sql[] = "(
-                    '{$row->alias}',
+                $ins[] = "(
+                    '{$row['alias']}',
                     '{$domain}',
                     'alias',
                     1,
                     '{$contact->user}@{$domain}',
-                    '" . ($row->alias !== $row->hyphen ? $row->hyphen : '') . "',
+                    '" . ($row['alias'] !== $row['hyphen'] ? $row['hyphen'] : '') . "',
                     NOW()
                 )";
             }
 
-            if ($sql)
+            if ($ins)
             {
                 $sql = "INSERT IGNORE INTO postfix_alias
                             (alias,domain,type,local,recipient,hyphen,created)
-                        VALUES " . implode(',', $sql);
+                        VALUES " . implode(',', $ins);
                 $db->exec($sql);
             }
         }

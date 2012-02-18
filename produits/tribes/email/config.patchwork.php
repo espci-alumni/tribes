@@ -3,6 +3,6 @@
 #patchwork ../contact
 
 $CONFIG += array(
-//    'tribes.emailDSN' => '...',
+//    'tribes.email.dsn' => array(...),
     'tribes.emailLocalRestricted' => 0,
 );

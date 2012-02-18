@@ -22,7 +22,7 @@ class agent_admin_registration_request extends self
             'user_email_authenticated' => date('YmdHis'),
         );
 
-        $db->autoExecute($mediaWikiDb . '.user', $data);
+        $db->insert($mediaWikiDb . '.user', $data);
         $user_id = $db->lastInsertId();
 
         $sql = "INSERT IGNORE INTO {$mediaWikiDb}.user_groups (ug_user,ug_group)

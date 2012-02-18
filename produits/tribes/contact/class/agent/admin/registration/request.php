@@ -103,7 +103,7 @@ class agent_admin_registration_request extends agent_admin_user_edit
         $db = DB();
 
         $sql = "SELECT 1 FROM contact_contact WHERE contact_id={$d}";
-        if (!$db->queryOne($sql)) return false;
+        if (!$db->fetchColumn($sql)) return false;
 
         $this->doublon_contact_id = $d;
 
@@ -127,7 +127,7 @@ class agent_admin_registration_request extends agent_admin_user_edit
             {
                 $sql = "SELECT 1 FROM contact_contact
                         WHERE contact_id={$this->doublon_contact_id} AND acces";
-                $accountCreated = DB()->queryOne($sql);
+                $accountCreated = DB()->fetchColumn($sql);
 
                 self::mergeContacts($this->contact_id, $this->doublon_contact_id);
                 $this->contact->delete($this->contact_id);
@@ -138,9 +138,9 @@ class agent_admin_registration_request extends agent_admin_user_edit
                         CONCAT(login,'{$CONFIG['tribes.emailDomain']}') AS email
                     FROM contact_contact
                     WHERE contact_id={$this->doublon_contact_id}";
-            $data = DB()->queryRow($sql);
+            $data = DB()->fetchAssoc($sql);
 
-            $accountCreated || $this->createAccount($data);
+            $accountCreated || $this->createAccount((object) $data);
 
             notification::send('registration/accepted', $data);
         }
@@ -196,11 +196,9 @@ class agent_admin_registration_request extends agent_admin_user_edit
         foreach (self::$mergeTableInsert as $table => $info)
         {
             $sql = "SELECT * FROM {$table} WHERE contact_id={$from_contact_id}";
-            $result = $db->query($sql);
-            while ($from = (array) $result->fetchRow())
+            foreach ($db->query($sql) as $from)
             {
-                $sql = "DELETE FROM {$table} WHERE {$info[0]}={$from[$info[0]]}";
-                $db->exec($sql);
+                $db->delete($table, array($info[0] => $from[$info[0]]));
 
                 $from['contact_id'] = $to_contact_id;
                 $from = array_map(array($db, 'quote'), $from);
@@ -211,7 +209,7 @@ class agent_admin_registration_request extends agent_admin_user_edit
                 foreach ($info[1] as $k => $v) $info[1][$k] = sprintf($v, $from_contact_id, $to_contact_id);
 
                 $from = $info[1] + $from;
-                $sql .= "ON DUPLICATE KEY UPDATE contact_id={$to_contact_id}";
+                $sql .= " ON DUPLICATE KEY UPDATE contact_id={$to_contact_id}";
                 foreach ($from as $k => $v) if ("''" !== $v) $sql .= ",{$k}={$v}";
 
                 $db->exec($sql);
@@ -226,9 +224,7 @@ class agent_admin_registration_request extends agent_admin_user_edit
             $sql .= " WHERE contact_id={$from_contact_id}";
             $db->exec($sql);
 
-            $sql = "DELETE FROM {$table}
-                    WHERE contact_id={$from_contact_id}";
-            $db->exec($sql);
+            $db->delete($table, array('contact_id' => $from_contact_id));
         }
 
         notification::send('contact/fusion', array('contact_id' => $to_contact_id));
@@ -257,7 +253,7 @@ class agent_admin_registration_request extends agent_admin_user_edit
                     FROM contact_alias
                     WHERE alias='{$sql}'";
 
-            if (!$db->queryOne($sql)) return false;
+            if (!$db->fetchColumn($sql)) return false;
         }
 
         return true;

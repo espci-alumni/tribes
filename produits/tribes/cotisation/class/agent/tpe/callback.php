@@ -28,7 +28,7 @@ class agent_tpe_callback extends agent_tpe_response
         $db = DB();
 
         $sql = "SELECT * FROM cotisation WHERE token=" . $db->quote($token);
-        if (!$data = $db->queryRow($sql, null, MDB2_FETCHMODE_ASSOC)) return false;
+        if (!$data = $db->fetchAssoc($sql)) return false;
         else if ($data['paiement_mode']) return true;
 
         $data['paiement_ref'] = $ref;
@@ -41,7 +41,7 @@ class agent_tpe_callback extends agent_tpe_response
         }
         else $data['paiement_mode'] = 'ERR';
 
-        $ref = $db->autoExecute('cotisation', $data, MDB2_AUTOQUERY_UPDATE, 'paiement_mode="" AND token=' . $db->quote($token));
+        $ref = $db->update('cotisation', $data, array('paiement_mode' => '', 'token' => $token));
 
         if ($ref && $is_ok) notification::send('user/cotisation', $data);
 

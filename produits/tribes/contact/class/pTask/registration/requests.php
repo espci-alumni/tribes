@@ -10,7 +10,7 @@ class pTask_registration_requests extends pTask_periodic
                     AND acces=''
                 LIMIT 1";
 
-        if (DB()->queryOne($sql))
+        if (DB()->fetchColumn($sql))
         {
             tribes::startFakeSession();
             notification::send('registration/requests');

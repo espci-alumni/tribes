@@ -19,14 +19,14 @@ class agent_registration extends self
 
         $result = DB()->query($sql);
 
-        if ($row = $result->fetchRow())
+        if ($row = $result->fetch())
         {
-            while ($sql = $result->fetchRow())
+            while (false !== $sql = $result->fetch())
             {
-                $promotions[$sql->promotion] = $sql->promotion;
+                $promotions[$sql['promotion']] = $sql['promotion'];
             }
 
-            $row = explode(':', $row->promotion, 2);
+            $row = explode(':', $row['promotion'], 2);
 
             if (2 === count($row))
             {

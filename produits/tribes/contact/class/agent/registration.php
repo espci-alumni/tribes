@@ -32,7 +32,7 @@ class agent_registration extends agent_login
 
         $sql = self::sqlSelectMatchingContact($data);
 
-        if ($contact = $db->queryOne($sql))
+        if ($contact = $db->fetchColumn($sql))
         {
             $this->data = (object) $data;
             $this->data->contact_id = $contact;

@@ -14,8 +14,8 @@ class agent_user_password extends agent_pForm
                 WHERE e.token='user/password/{$this->get->__1__}'
                     AND e.token_expires>NOW()";
 
-        $this->data = DB()->queryRow($sql);
-        $this->data || Patchwork::redirect('error/token');
+        $this->data = DB()->fetchAssoc($sql) or Patchwork::redirect('error/token');
+        $this->data = (object) $this->data;
 
         tribes_email::confirm("user/password/{$this->get->__1__}", false);
     }

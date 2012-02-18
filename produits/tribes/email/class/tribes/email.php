@@ -11,27 +11,28 @@ class tribes_email extends self
         $sql = "SELECT email, user, e.is_active, e.is_obsolete, e.contact_confirmed
                 FROM contact_email e JOIN contact_contact USING (contact_id)
                 WHERE contact_id={$this->contact_id} AND email='{$data['email']}' AND user!=''";
-        if ($row = DB()->queryRow($sql))
+
+        if ($row = DB()->fetchAssoc($sql))
         {
             $sql = substr($CONFIG['tribes.emailDomain'], 1);
 
-            if ($row->is_obsolete > 0 || !(int) $row->contact_confirmed)
+            if ($row['is_obsolete'] > 0 || !(int) $row['contact_confirmed'])
             {
                 $sql = "DELETE FROM a USING postfix_alt a
                             JOIN postfix_user USING (user_id)
-                        WHERE alt='{$row->email}'
+                        WHERE alt='{$row['email']}'
                             AND domain='{$sql}'
-                            AND user='{$row->user}'";
+                            AND user='{$row['user']}'";
             }
             else
             {
-                $sql = "SELECT user_id FROM postfix_user WHERE domain='{$sql}' AND user='{$row->user}'";
+                $sql = "SELECT user_id FROM postfix_user WHERE domain='{$sql}' AND user='{$row['user']}'";
                 $sql = "INSERT INTO postfix_alt (alt,user_id,forward,created)
-                        VALUES ('{$row->email}',({$sql}),{$row->is_active},NOW())
-                        ON DUPLICATE KEY UPDATE forward={$row->is_active}";
+                        VALUES ('{$row['email']}',({$sql}),{$row['is_active']},NOW())
+                        ON DUPLICATE KEY UPDATE forward={$row['is_active']}";
             }
 
-            DB($CONFIG['tribes.emailDSN'])->exec($sql);
+            DB($CONFIG['tribes.email.dsn'])->exec($sql);
         }
 
         return $message;
@@ -44,15 +45,16 @@ class tribes_email extends self
             $sql = "SELECT email, user
                     FROM contact_email JOIN contact_contact USING (contact_id)
                     WHERE contact_id={$this->contact_id} AND email_id={$row_id}";
-            if ($row = DB()->queryRow($sql))
+
+            if ($row = DB()->fetchAssoc($sql))
             {
                 $sql = substr($CONFIG['tribes.emailDomain'], 1);
                 $sql = "DELETE FROM a USING postfix_alt a
                             JOIN postfix_user USING (user_id)
-                        WHERE alt='{$row->email}'
+                        WHERE alt='{$row['email']}'
                             AND domain='{$sql}'
-                            AND user='{$row->user}'";
-                DB($CONFIG['tribes.emailDSN'])->exec($sql);
+                            AND user='{$row['user']}'";
+                DB($CONFIG['tribes.email.dsn'])->exec($sql);
             }
         }
 

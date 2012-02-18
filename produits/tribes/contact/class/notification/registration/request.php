@@ -14,6 +14,6 @@ class notification_registration_request extends notification
                     AND e.contact_confirmed
                     AND e.admin_confirmed";
 
-        $this->mail(DB()->queryCol($sql));
+        $this->mail(DB()->query($sql)->fetchAll(PDO::FETCH_COLUMN));
     }
 }

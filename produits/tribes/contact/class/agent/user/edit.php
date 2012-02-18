@@ -576,7 +576,7 @@ class agent_user_edit extends agent_pForm
                 FROM contact_alias
                 WHERE alias='{$sql}'
                     AND contact_id!={$contact_id}";
-        if (DB()->queryOne($sql))
+        if (DB()->fetchColumn($sql))
         {
             $this->loginField->setError('Identifiant déjà utilisé');
             return true;

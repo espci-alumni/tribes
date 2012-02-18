@@ -41,8 +41,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
             {
                 if (isset($c->f_del) && $c->f_del->isOn())
                 {
-                    $sql = "DELETE FROM cotisation WHERE cotisation_id={$c->cotisation_id}";
-                    DB()->exec($sql);
+                    DB()->delete('cotisation', array('cotisation_id' => $c->cotisation_id));
                     Patchwork::redirect();
                 }
             }
@@ -103,10 +102,10 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
             $data += array(
                 'soutien' => $data['paiement_euro'] - $data['cotisation'],
                 'contact_id' => $this->contact_id,
-                'email' => DB()->queryOne($sql),
+                'email' => DB()->fetchColumn($sql),
             );
 
-            $db->autoExecute('cotisation', $data);
+            $db->insert('cotisation', $data);
 
             notification::send('user/cotisation', $data);
         }

@@ -4,7 +4,7 @@ class agent_user___x5Flogout extends self
 {
     protected function logout()
     {
-        $CONFIG['tribes.emailDSN'] && self::sympaLogout();
+        $CONFIG['tribes.email.dsn'] && self::sympaLogout();
 
         return parent::logout();
     }

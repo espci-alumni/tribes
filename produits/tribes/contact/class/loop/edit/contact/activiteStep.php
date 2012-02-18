@@ -11,13 +11,11 @@ class loop_edit_contact_activiteStep extends loop_edit_contact_activite
                 FROM contact_activite a
                     JOIN contact_contact c ON a.activite_id=c.principale_activite_id
                 WHERE c.contact_id={$contact_id}";
-        if ($default = DB()->queryRow($sql))
+        if ($default = DB()->fetchAssoc($sql))
         {
-            if (!empty($default->contact_data) && $v = unserialize($default->contact_data))
+            if (!empty($default['contact_data']) && $v = unserialize($default['contact_data']))
                 foreach ($v as $k => $v)
-                    $default->$k = $v;
-
-            $default = (array) $default;
+                    $default[$k] = $v;
         }
         else
         {

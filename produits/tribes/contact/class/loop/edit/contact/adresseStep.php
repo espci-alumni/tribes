@@ -11,13 +11,12 @@ class loop_edit_contact_adresseStep extends loop_edit_contact_adresse
                 FROM contact_adresse a
                     JOIN contact_contact c ON a.adresse_id=c.corresp_adresse_id
                 WHERE c.contact_id={$contact_id}";
-        if ($default = DB()->queryRow($sql))
-        {
-            if (!empty($default->contact_data) && $v = unserialize($default->contact_data))
-                foreach ($v as $k => $v)
-                    $default->$k = $v;
 
-            $default = (array) $default;
+        if ($default = DB()->fetchAssoc($sql))
+        {
+            if (!empty($default['contact_data']) && $v = unserialize($default['contact_data']))
+                foreach ($v as $k => $v)
+                    $default[$k] = $v;
         }
         else
         {
