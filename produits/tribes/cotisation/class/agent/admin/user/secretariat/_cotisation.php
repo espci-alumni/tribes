@@ -54,7 +54,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
 
     function filterCotisation($o)
     {
-        if (in_array($o->paiement_mode, ['ESP','CHQ','VIR','NSP']))
+        if (in_array($o->paiement_mode, array('ESP','CHQ','VIR','NSP')))
         {
             $o->f_del = new pForm_submit($this->form, 'del_cotisation_' . $o->cotisation_id, array());
         }

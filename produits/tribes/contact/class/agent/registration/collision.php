@@ -12,7 +12,7 @@ class agent_registration_collision extends agent_pForm
                 FROM contact_email
                 WHERE token='registration/collision/{$this->get->__1__}'
                     AND token_expires>NOW()";
-        $this->data = DB()->fetchAssoc($sql) or Patchwork::forbidden()
+        $this->data = DB()->fetchAssoc($sql) or Patchwork::forbidden();
         $this->data = (object) $this->data;
     }
 
