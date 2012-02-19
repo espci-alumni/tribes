@@ -4,7 +4,17 @@ class agent_admin_registration_request extends self
 {
     protected function createAccount($contact)
     {
-        $CONFIG['tribes.phpbbDb'] && self::phpbbCreateAccount($contact);
+        if ($CONFIG['tribes.phpbbDb'])
+        {
+            try
+            {
+                self::phpbbCreateAccount($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/phpbb exception', $e);
+            }
+        }
 
         return parent::createAccount($contact);
     }
@@ -23,7 +33,7 @@ class agent_admin_registration_request extends self
             'group_id' => 2,
         );
 
-        $db->autoExecute($phpbb . 'users', $data);
+        $db->insert($phpbb . 'users', $data);
         $user_id = $db->lastInsertId();
 
         $sql = "INSERT IGNORE INTO {$phpbb}user_group (user_id,group_id,user_pending)

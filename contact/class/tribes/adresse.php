@@ -47,9 +47,9 @@ class tribes_adresse extends tribes_common
             $sql = "SELECT perso_adresse_id AS pro, pro_adresse_id AS perso
                     FROM contact_adresse a JOIN contact_contact c USING (contact_id)
                     WHERE adresse_id={$id} AND (description LIKE '%{$p}%')";
-            if ($sql = DB()->queryRow($sql))
+            if ($sql = DB()->fetchAssoc($sql))
             {
-                $id = $data['adresse_id'] = isset($sql->$p) ? $sql->$p : 0;
+                $id = $data['adresse_id'] = isset($sql[$p]) ? $sql[$p] : 0;
             }
         }
 
@@ -111,11 +111,11 @@ class tribes_adresse extends tribes_common
             {
                 $sql = "SELECT 1 FROM city WHERE city_id={$data['city_id']}";
 
-                if (!DB()->queryOne($sql))
+                if (!DB()->fetchColumn($sql))
                 {
                     $sql = geodb::getCityInfo($data['city_id']);
                     unset($sql['city']);
-                    DB()->autoExecute('city', $sql);
+                    DB()->insert('city', $sql);
                 }
             }
         }

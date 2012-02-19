@@ -77,7 +77,7 @@ class tribes_contact extends tribes_common
                     WHERE contact_id={$this->contact_id}
                         AND alias='{$login}'";
 
-            if ($db->queryOne($sql))
+            if ($db->fetchColumn($sql))
             {
                 $this->contactData['login'] = $data['login'];
                 $login = $db->quote(serialize($this->contactData));
@@ -149,8 +149,7 @@ class tribes_contact extends tribes_common
 
     function delete($contact_id)
     {
-        $sql = "DELETE FROM contact_alias WHERE contact_id={$contact_id}";
-        DB()->exec($sql);
+        DB()->delete('contact_alias', array('contact_id' => $contact_id));
 
         parent::delete($contact_id);
     }

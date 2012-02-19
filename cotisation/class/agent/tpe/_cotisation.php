@@ -13,8 +13,8 @@ class agent_tpe___x5Fcotisation extends agent_tpe_request
                 FROM cotisation
                 WHERE token='{$this->get->__1__}'
                 HAVING euro > 0";
-        $o = DB()->queryRow($sql);
+        $o = DB()->fetchAssoc($sql);
 
-        return $o ? self::composeTpe($o, 'C/' . $o->token, $o->euro, $o->email) : array();
+        return $o ? self::composeTpe((object) $o, 'C/' . $o['token'], $o['euro'], $o['email']) : array();
     }
 }

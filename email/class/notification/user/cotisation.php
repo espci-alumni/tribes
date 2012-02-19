@@ -12,7 +12,7 @@ class notification_user_cotisation extends self
                         AND admin_confirmed
                         AND contact_confirmed
                         AND login!=''";
-            if ($this->context['email'] = DB()->queryOne($sql))
+            if ($this->context['email'] = DB()->fetchColumn($sql))
             {
                 $this->context['email'] .= $CONFIG['tribes.emailDomain'];
             }

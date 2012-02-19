@@ -74,9 +74,10 @@ class tribes
                 FROM contact_contact
                 WHERE contact_id!={$contact_id}";
 
-        $result = DB()->query($sql);
-        while ($row = $result->fetchRow())
+        foreach (DB()->query($sql) as $row)
         {
+            $row = (object) $row;
+
             $d = self::getDoublonDistance($data, self::buildDoublonReference($row));
 
             if ($d <= self::MAX_DOUBLON_DISTANCE)

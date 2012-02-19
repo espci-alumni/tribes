@@ -55,7 +55,7 @@ class notification
 
         $sql = 'INSERT INTO contact_historique (date_contact,' . implode(',', array_keys($h)) . ')
                 VALUES (NOW()';
-        foreach ($h as $k => $h) $sql .= ',' . $db->quote($h);
+        foreach ($h as $k => $h) $sql .= ',' . (isset($h) ? $db->quote($h) : 'NULL');
         $sql .= ')';
         $db->exec($sql);
     }

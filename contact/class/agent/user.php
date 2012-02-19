@@ -23,8 +23,8 @@ class agent_user extends agent
         $sql = "SELECT " . self::$selectFields . "
                 FROM contact_contact
                 WHERE contact_id={$this->get->__1__}";
-        $this->contact = DB()->queryRow($sql);
-        $this->contact || Patchwork::forbidden();
+        $this->contact = DB()->fetchAssoc($sql) or Patchwork::forbidden();
+        $this->contact = (object) $this->contact;
     }
 
     function compose($o)

@@ -6,7 +6,14 @@ class agent_login extends self
     {
         if ($contact->acces && $CONFIG['tribes.mediaWikiDb'])
         {
-            self::mediaWikiLogin($contact);
+            try
+            {
+                self::mediaWikiLogin($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/mediawiki exception', $e);
+            }
         }
 
         return parent::login($contact);
@@ -30,27 +37,25 @@ class agent_login extends self
                 FROM {$mediaWikiDb}.user u
                     LEFT JOIN {$mediaWikiDb}.user_groups g ON g.ug_user=u.user_id AND ug_group='bureaucrat'
                 WHERE user_name='{$data['user_name']}'";
-        $user = $db->queryRow($sql);
 
-        if ($user)
+        if ($user = $db->fetchAssoc($sql))
         {
-            $user_id = $user->user_id;
+            $user_id = $user['user_id'];
 
-            $db->autoExecute(
+            $db->update(
                 $mediaWikiDb . '.user',
                 $data,
-                MDB2_AUTOQUERY_UPDATE,
-                "user_id={$user_id}"
+                array('user_id' => $user_id)
             );
 
             $sql = '';
 
-            if ($is_admin && !$user->is_admin)
+            if ($is_admin && !$user['is_admin'])
             {
                 $sql = "INSERT IGNORE INTO {$mediaWikiDb}.user_groups (ug_user,ug_group)
                         VALUES ({$user_id},'bureaucrat')";
             }
-            else if (!$is_admin && $user->is_admin)
+            else if (!$is_admin && $user['is_admin'])
             {
                 $sql = "DELETE FROM {$mediaWikiDb}.user_groups WHERE ug_user={$user_id} AND ug_group='bureaucrat'";
             }

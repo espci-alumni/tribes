@@ -22,7 +22,6 @@ class agent_admin_user_secretariat___x5Fnote extends agent_admin_user_secretaria
             $ids = implode(',', $ids);
 
             $sql = "DELETE FROM contact_historique WHERE historique_id IN ({$ids})";
-
             DB()->exec($sql);
         }
 

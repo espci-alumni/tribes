@@ -10,8 +10,7 @@ class agent_confirm_registration extends agent_confirm_email
                     JOIN contact_email e USING (contact_id)
                 WHERE e.token='confirm/registration/{$this->get->__1__}'
                     AND e.token_expires>NOW()";
-        $data = DB()->queryRow($sql);
-        $data || Patchwork::redirect('error/token');
+        $data = DB()->fetchAssoc($sql) or Patchwork::redirect('error/token');
 
         tribes_email::confirm("confirm/registration/{$this->get->__1__}");
 

@@ -12,5 +12,4 @@ class pForm_date extends self
 
         return $a;
     }
-
 }

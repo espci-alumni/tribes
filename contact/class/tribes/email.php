@@ -45,12 +45,12 @@ class tribes_email extends tribes_common
                     FROM contact_email
                     WHERE contact_id={$this->contact_id}
                         AND email" . (!$id ? "=" . DB()->quote($data['email']) : "_id={$id}");
-            if ($sql = DB()->queryRow($sql))
+            if ($sql = DB()->fetchAssoc($sql))
             {
-                $id = $sql->email_id;
-                $data['email'] = $sql->email;
+                $id = $sql['email_id'];
+                $data['email'] = $sql['email'];
 
-                if (!isset($data['token']) && !(int) $sql->admin_confirmed && $sql->token_has_expired)
+                if (!isset($data['token']) && !(int) $sql['admin_confirmed'] && $sql['token_has_expired'])
                 {
                     $data['token'] = 'confirm/email/' . Patchwork::strongid(8);
                 }
@@ -72,11 +72,7 @@ class tribes_email extends tribes_common
 
         if (!$this->confirmed)
         {
-            $sql = "UPDATE contact_email
-                    SET token=NULL
-                    WHERE contact_id={$this->contact_id}
-                        AND is_obsolete=1";
-            DB()->exec($sql);
+            DB()->update('contact_email', array('token' => null), array('contact_id' => $this->contact_id, 'is_obsolete' => 1));
         }
     }
 
@@ -96,29 +92,28 @@ class tribes_email extends tribes_common
                 FROM contact_email e
                 WHERE token='{$token}'
                     AND token_expires>=NOW()";
-        $row = DB()->queryRow($sql);
-        if (!$row) return false;
+        if (!$row = DB()->fetchAssoc($sql)) return false;
 
-        $email = new self($row->contact_id, true);
+        $email = new self($row['contact_id'], true);
 
-        $data = $row->contact_data ? unserialize($row->contact_data) : array();
+        $data = $row['contact_data'] ? unserialize($row['contact_data']) : array();
 
         $resetToken && $data['token'] = '';
         $data['is_obsolete'] = 0;
         $data['admin_confirmed'] = true;
-        $row->has_active_email || $data['is_active'] = 1;
+        $row['has_active_email'] || $data['is_active'] = 1;
 
-        if ($row->contact_id && $row->contact_id == tribes::getConnectedId())
+        if ($row['contact_id'] && $row['contact_id'] == tribes::getConnectedId())
         {
             $data['contact_confirmed'] = true;
-            $row->contact_confirmed = true;
+            $row['contact_confirmed'] = true;
         }
 
-        $email->save($data, 'user/email/confirmation', $row->email_id);
+        $email->save($data, 'user/email/confirmation', $row['email_id']);
 
-        if (!(int) $row->contact_confirmed)
+        if (!(int) $row['contact_confirmed'])
         {
-            SESSION::flash('confirmed_email_id', $row->email_id);
+            SESSION::flash('confirmed_email_id', $row['email_id']);
             Patchwork::redirect('login/confirmEmail');
         }
 

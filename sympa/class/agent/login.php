@@ -4,9 +4,16 @@ class agent_login extends self
 {
     protected function login($contact)
     {
-        if ($contact->acces && $CONFIG['tribes.emailDSN'])
+        if ($contact->acces && $CONFIG['tribes.email.dsn'])
         {
-            self::sympaLogin($contact);
+            try
+            {
+                self::sympaLogin($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/sympa exception', $e);
+            }
         }
 
         return parent::login($contact);
@@ -14,7 +21,7 @@ class agent_login extends self
 
     protected static function sympaLogin($contact)
     {
-        $db = DB($CONFIG['tribes.emailDSN']);
+        $db = DB($CONFIG['tribes.email.dsn']);
 
         $data = array(
             'id_session' => mt_rand(1000000, 9999999) . mt_rand(1000000, 9999999),
@@ -27,7 +34,7 @@ class agent_login extends self
             'data_session' => ';auth="classic";data=""',
         );
 
-        $db->autoExecute('sympa.session_table', $data);
+        $db->insert('sympa.session_table', $data);
 
         setcookie('sympa_session', $data['id_session'], 0, '/', $CONFIG['session.cookie_domain']);
     }

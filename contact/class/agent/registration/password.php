@@ -40,10 +40,12 @@ class agent_registration_password extends agent_registration_collision
 
         $sql = DB()->query($sql);
 
-        if ($this->data = $sql->fetchRow())
+        if ($this->data = $sql->fetch())
         {
-            do parent::save($data);
-            while ($this->data = $sql->fetchRow());
+            do {
+                $this->data = (object) $this->data;
+                parent::save($data);
+            } while ($this->data = $sql->fetch());
 
             return 'registration/collision/sent';
         }

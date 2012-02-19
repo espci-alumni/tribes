@@ -28,8 +28,8 @@ class agent_cotiser_paiement extends agent_pForm
                 FROM cotisation p
                     JOIN contact_contact c ON c.contact_id=p.contact_id
                 WHERE p.token='{$this->get->__1__}'";
-        $this->data = DB()->queryRow($sql);
-        $this->data || Patchwork::redirect('cotiser');
+        $this->data = DB()->fetchAssoc($sql) or Patchwork::redirect('cotiser');
+        $this->data = (object) $this->data;
     }
 
     function compose($o)
@@ -54,7 +54,7 @@ class agent_cotiser_paiement extends agent_pForm
         $db->exec($sql);
 
         $sql = "SELECT * FROM cotisation WHERE token=" . $db->quote($this->data->token);
-        notification::send('user/cotisation', (array) $db->queryRow($sql));
+        notification::send('user/cotisation', $db->fetchAssoc($sql));
 
         return 'cotiser/merci';
     }

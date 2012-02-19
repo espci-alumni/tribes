@@ -44,13 +44,14 @@ class agent_login extends agent_pForm
                 FROM contact_contact c
                     JOIN {$sql} AND u.contact_id=c.contact_id
                 WHERE password!=''";
-        $result = DB()->query($sql);
+        $sql = DB()->query($sql);
 
-        while ($row = $result->fetchRow())
-            if (Patchwork::matchSaltedHash($data['password'], $row->password))
+        while ($row = $sql->fetch())
+            if (Patchwork::matchSaltedHash($data['password'], $row['password']))
                 break;
 
         if (!$row) return 'login/failed';
+        $row = (object) $row;
 
         $contact_id = $row->contact_id;
 
@@ -80,7 +81,7 @@ class agent_login extends agent_pForm
                     AND NOT contact_confirmed
                     AND admin_confirmed
                     AND is_obsolete<=0";
-        if (DB()->queryOne($sql)) return 'user/step/emailConfirmation';
+        if (DB()->fetchColumn($sql)) return 'user/step/emailConfirmation';
 
         $sql = SESSION::flash('referer');
 

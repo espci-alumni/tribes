@@ -10,8 +10,7 @@ class notification_user_cotisation extends notification
             $this->updateCotisationExpires();
 
         // Empêche d'avoir deux bulletins en attente de paiement en même temps
-        $sql = "DELETE FROM cotisation WHERE NOT paiement_date AND paiement_mode='' AND contact_id={$this->contact_id}";
-        DB()->exec($sql);
+        DB()->delete('cotisation', array('paiement_date' => 0, 'paiement_mode' => '', 'contact_id' => $this->contact_id));
 
         if (!((float) $this->context['paiement_euro']) && ((float) $this->context['soutien']))
         {
@@ -31,9 +30,10 @@ class notification_user_cotisation extends notification
     protected function updateCotisationExpires()
     {
         $sql = substr($this->context['cotisation_date'], 0, 4);
-        $sql = "UPDATE contact_contact
-                SET cotisation_expires='{$sql}-12-31'
-                WHERE contact_id={$this->contact_id}";
-        DB()->exec($sql);
+        DB()->update(
+            'contact_contact',
+            array('cotisation_expires' => "{$sql}-12-31"),
+            array('contact_id' => $this->contact_id)
+        );
     }
 }

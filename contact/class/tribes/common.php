@@ -44,8 +44,7 @@ class tribes_common
 
         $sql = $this->sqlSelect($select, $row_id);
 
-        $data = DB()->queryRow($sql, null, MDB2_FETCHMODE_ASSOC);
-        $data || Patchwork::forbidden();
+        $data = DB()->fetchAssoc($sql) or Patchwork::forbidden();
 
         $this->contactData = array();
 

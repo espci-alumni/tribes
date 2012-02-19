@@ -4,7 +4,17 @@ class agent_admin_registration_request extends self
 {
     protected function createAccount($contact)
     {
-        $CONFIG['tribes.mediaWikiDb'] && self::mediaWikiCreateAccount($contact);
+        if ($CONFIG['tribes.mediaWikiDb'])
+        {
+            try
+            {
+                self::mediaWikiCreateAccount($contact);
+            }
+            catch (Exception $e)
+            {
+                E('tribes/mediawiki exception', $e);
+            }
+        }
 
         return parent::createAccount($contact);
     }
@@ -22,7 +32,7 @@ class agent_admin_registration_request extends self
             'user_email_authenticated' => date('YmdHis'),
         );
 
-        $db->autoExecute($mediaWikiDb . '.user', $data);
+        $db->insert($mediaWikiDb . '.user', $data);
         $user_id = $db->lastInsertId();
 
         $sql = "INSERT IGNORE INTO {$mediaWikiDb}.user_groups (ug_user,ug_group)

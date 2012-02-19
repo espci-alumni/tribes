@@ -54,7 +54,7 @@ class agent_cotiser_bulletin extends agent_user_edit
                     IF (cotisation_expires && cotisation_expires<NOW()+INTERVAL 1 DAY, cotisation_expires, 0) AS cotisation_expired
                 FROM contact_contact
                 WHERE contact_id={$this->contact_id}";
-        $o = DB()->queryRow($sql);
+        $o = (object) DB()->fetchAssoc($sql);
 
         SESSION::get('cotisation_email') || SESSION::set('cotisation_email', $o->email);
 
@@ -115,7 +115,7 @@ class agent_cotiser_bulletin extends agent_user_edit
         if ($data['soutien_suggestion']) $data['soutien'] = $data['soutien_suggestion'];
         unset($data['soutien_suggestion']);
 
-        DB()->autoExecute('cotisation', $data);
+        DB()->insert('cotisation', $data);
 
         return 'cotiser/paiement/' . $data['token'];
     }
@@ -126,13 +126,12 @@ class agent_cotiser_bulletin extends agent_user_edit
         $types = array();
 
         $sql = "SELECT value FROM item_lists WHERE type='cotisation/type' ORDER BY sort_key";
-        $result = DB()->query($sql);
 
-        while ($row = $result->fetchRow())
+        foreach (DB()->query($sql) as $row)
         {
-            $c = explode('-', $row->value, 2);
+            $c = explode('-', $row['value'], 2);
 
-            $types[$row->value] = $c[1] . ' - ' . $c[0] . ' €';
+            $types[$row['value']] = $c[1] . ' - ' . $c[0] . ' €';
         }
 
         return array('item' => $types);

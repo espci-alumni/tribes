@@ -45,14 +45,14 @@ class loop_edit_contact_activite extends loop_edit
                     EXISTS(SELECT * FROM item_lists WHERE type='activite/statut') AS has_statut,
                     EXISTS(SELECT * FROM item_lists WHERE type='activite/fonction') AS has_fonction,
                     EXISTS(SELECT * FROM item_lists WHERE type='activite/secteur') AS has_secteur";
-        $a = DB()->queryRow($sql);
+        $a = DB()->fetchAssoc($sql);
 
         $sql = "SELECT `value` AS K, `group` AS G, `value` AS V
                 FROM item_lists
                 WHERE type='activite/%s'
                 ORDER BY sort_key, `group`, `value`";
 
-        if ($a->has_statut)
+        if ($a['has_statut'])
         {
             $f->add('select', 'statut', array(
                 'firstItem' => '- Choisir dans la liste -',
@@ -61,7 +61,7 @@ class loop_edit_contact_activite extends loop_edit
             $s->attach('statut', '', '');
         }
 
-        if ($a->has_fonction)
+        if ($a['has_fonction'])
         {
             $f->add('select', 'fonction', array(
                 'firstItem' => '- Choisir dans la liste -',
@@ -70,7 +70,7 @@ class loop_edit_contact_activite extends loop_edit
             $s->attach('fonction', '', '');
         }
 
-        if ($a->has_secteur)
+        if ($a['has_secteur'])
         {
             $f->add('select', 'secteur', array(
                 'firstItem' => '- Choisir dans la liste -',

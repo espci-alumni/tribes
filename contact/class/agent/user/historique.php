@@ -16,7 +16,7 @@ class agent_user_historique extends agent
         $length = self::$perPage;
 
         $sql = "SELECT COUNT(*) FROM contact_historique WHERE contact_id={$this->contact_id}";
-        $o->results_nb = DB()->queryOne($sql);
+        $o->results_nb = DB()->fetchColumn($sql);
         $o->results_per_page = self::$perPage;
         $o->page = $this->get->p;
 
@@ -45,7 +45,7 @@ class agent_user_historique extends agent
                     FROM contact_contact
                     WHERE contact_id={$o->origine_contact_id}";
 
-            foreach (DB()->queryRow($sql) as $k => $v)
+            foreach (DB()->fetchAssoc($sql) as $k => $v)
                 isset($o->$k) || $o->$k = $v;
         }
         else

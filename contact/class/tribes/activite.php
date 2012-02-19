@@ -90,22 +90,22 @@ class tribes_activite extends tribes_adresse
                         FROM contact_organisation
                         WHERE organisation={$q_org}";
 
-                if ($org_id = $db->queryRow($sql))
+                if ($org_id = $db->fetchAssoc($sql))
                 {
-                    if ($org_id->is_obsolete > 0)
+                    if ($org_id['is_obsolete'] > 0)
                     {
-                        $o[] = $org_id->organisation_id;
+                        $o[] = $org_id['organisation_id'];
                     }
 
-                    if ($confirmed && $org !== $org_id->organisation)
+                    if ($confirmed && $org !== $org_id['organisation'])
                     {
                         $sql = "UPDATE contact_organisation
                                 SET organisation={$q_org}
-                                WHERE organisation_id={$org_id->organisation_id}";
+                                WHERE organisation_id={$org_id['organisation_id']}";
                         $db->exec($sql);
                     }
 
-                    $org_id = $org_id->organisation_id;
+                    $org_id = $org_id['organisation_id'];
                 }
                 else
                 {

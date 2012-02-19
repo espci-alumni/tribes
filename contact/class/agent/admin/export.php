@@ -21,11 +21,10 @@ class agent_admin_export extends agent
                 ORDER BY c.nom_usuel, c.prenom_usuel";
 
         $db = DB();
-        $result = $db->query($sql);
         $count = 0;
 
-        while ($row = $result->fetchRow())
-            if ($this->filterRow($row, $count))
+        foreach ($db->query($sql) as $row)
+            if ($row = (object) $row and $this->filterRow($row, $count))
                 $this->mapRow($row, $count++);
 
         return $o;
@@ -58,12 +57,12 @@ class agent_admin_export extends agent
                         activite_id DESC
                     LIMIT 1";
 
-            foreach ($db->queryRow($sql) as $k => $v) $row->{'activite_' . $k} = $v;
+            foreach ($db->fetchAssoc($sql) as $k => $v) $row->{'activite_' . $k} = $v;
         }
         else if (0 === $count)
         {
             $sql = "SELECT '' AS organisation, ac.* FROM contact_activite ac LIMIT 1";
-            foreach ($db->queryRow($sql) as $k => $v) $row->{'activite_' . $k} = '';
+            foreach ($db->fetchAssoc($sql) as $k => $v) $row->{'activite_' . $k} = '';
         }
 
         if ($row->nb_adresse)
@@ -74,12 +73,12 @@ class agent_admin_export extends agent
                     ORDER BY contact_modified DESC
                     LIMIT 1";
 
-            foreach ($db->queryRow($sql) as $k => $v) $row->{'adresse_' . $k} = $v;
+            foreach ($db->fetchAssoc($sql) as $k => $v) $row->{'adresse_' . $k} = $v;
         }
         else if (0 === $count)
         {
             $sql = "SELECT * FROM contact_adresse LIMIT 1";
-            foreach ($db->queryRow($sql) as $k => $v) $row->{'adresse_' . $k} = '';
+            foreach ($db->fetchAssoc($sql) as $k => $v) $row->{'adresse_' . $k} = '';
         }
 
         $k = explode(' ',

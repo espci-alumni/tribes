@@ -11,7 +11,7 @@ class agent_admin_user_request extends self
                 FROM contact_contact
                 WHERE contact_id={$this->contact_id}";
 
-        foreach (DB()->queryRow($sql) as $k => $v)
+        foreach (DB()->fetchAssoc($sql) as $k => $v)
             isset($o->$k) || $o->$k = $v;
 
         return agent_user_edit::composeDiplome($o, $f, $send);
