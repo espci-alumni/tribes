@@ -2,21 +2,19 @@
 
 class agent_admin_export_excel extends agent_admin_export
 {
-    const contentType = 'application/vnd.ms-excel';
+    public $contentType = 'application/vnd.ms-excel';
 
-    protected $sheet, $head;
+    protected $sheet, $head, $extension = '.xls';
 
     function compose($o)
     {
-        $book = new Spreadsheet_Excel_Writer();
+        $book = new Spreadsheet_Excel_Writer($this->tmp);
         $book->setVersion(8);
-        $book->send(substr($CONFIG['tribes.emailDomain'], 1) . '-' . date('Y-m-d-His', $_SERVER['REQUEST_TIME']) . '.xls');
 
         $sheet = $this->sheet = $book->addWorksheet('Contacts');
         $sheet->setInputEncoding('UTF-8');
 		$this->head = $book->addFormat();
 		$this->head->setBold();
-
 
         $o = parent::compose($o);
 

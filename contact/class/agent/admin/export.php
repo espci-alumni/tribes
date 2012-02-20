@@ -3,13 +3,39 @@
 class agent_admin_export extends agent
 {
     const contentType = '';
+    public $get = '__1__';
+    protected $requiredAuth = 'admin', $tmp, $extension = '';
 
-    protected $requiredAuth = 'admin';
+    function control()
+    {
+        $this->tmp = PATCHWORK_ZCACHE . 'tribes-export';
 
+        parent::control();
+
+        if ($this->get->__1__)
+        {
+            if (file_exists($this->tmp))
+            {
+                Patchwork::readfile(
+                    $this->tmp,
+                    $this->contentType,
+                    $this->get->__1__
+                );
+            }
+
+            exit;
+        }
+        else
+        {
+            $this->contentType = 'text/html';
+        }
+    }
 
     function compose($o)
     {
         set_time_limit(0);
+        SESSION::close();
+        Patchwork::disable();
 
         $sql = "SELECT c.*,
                     IF (login!='',CONCAT(login,'{$CONFIG['tribes.emailDomain']}'),COALESCE((SELECT email FROM contact_email WHERE contact_id=c.contact_id AND is_obsolete=0 ORDER BY is_active DESC, contact_confirmed DESC LIMIT 1),'')) as email,
@@ -23,9 +49,23 @@ class agent_admin_export extends agent
         $db = DB();
         $count = 0;
 
+        echo '<h1>Génération du fichier en cours...</h1><p>Ligne n°<span id="counter">0</span>.</p><script>var c = document.getElementById("counter"); function up(i) {c.innerHTML = i;}</script>';
+
         foreach ($db->query($sql) as $row)
-            if ($row = (object) $row and $this->filterRow($row, $count))
+        {
+            $row = (object) $row;
+
+            if ($this->filterRow($row, $count))
                 $this->mapRow($row, $count++);
+
+            echo '<script>up(', $count, ')</script>'; flush();
+        }
+
+        echo '<p>Finalisation...</p>'; flush();
+
+        $row = substr($CONFIG['tribes.emailDomain'], 1) . '-' . date('Y-m-d-His', $_SERVER['REQUEST_TIME']) . $this->extension;
+
+        echo '<p><a href="' . Patchwork::__BASE__() . 'admin/export/' . $row . '">Cliquer ici pour télécharger le fichier</a>.</p>';
 
         return $o;
     }
