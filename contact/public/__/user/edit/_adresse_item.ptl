@@ -45,7 +45,7 @@ AGENT $f_tel_fax _caption_="Fax"
         <!-- AGENT $f_is_shared _glue_=' ' _format_='%1' -->
         <p class="explication">
         Le mode <strong>Partagé</strong> permet la publication dans l'annuaire et favorise ainsi la mise en relation au sein de la communauté.
-        En mode <strong>Confidentiel</strong>, seul le secrétariat pourra les consulter.
+        En mode <strong>Confidentiel</strong>, seul le secrétariat pourra s'en servir.
         </p>
     </td>
 </tr>

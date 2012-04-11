@@ -85,7 +85,7 @@ Vous pouvez maintenant procéder au paiement de votre cotisation&nbsp;:
 </ul>
 <!-- ELSEIF $form -->
 <p>
-Si ce récapitulatif vous convient, merci de valider définitivement votre bulletin&nbsp;:
+Si ce récapitulatif est correct, merci de le valider une dernière fois ci-dessous&nbsp;:
 </p>
 <!-- AGENT $form -->
 <div class="submit">

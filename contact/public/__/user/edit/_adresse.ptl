@@ -4,11 +4,11 @@
 
 <!-- IF $f_adresse_add -->
 <p class="explication">
-N'hésitez pas à renseigner plusieurs adresses, professionnelles ou personnelles, confidentielles ou partagées.
+Plusieurs adresses sont possibles&nbsp;: professionnelles ou personnelles, confidentielles ou partagées.
 </p>
 <!-- ELSE -->
 <p class="explication">
-Merci de renseigner l'adresse à laquelle vous souhaitez recevoir les courriers envoyées par le secrétariat.
+Merci de renseigner l'adresse à laquelle les courriers du secrétariat doivent être envoyés.
 </p>
 <!-- END:IF -->
 

@@ -10,6 +10,8 @@
 <p class="explication">Votre précédente cotisation a expiré le {$cotisation_expired|formatDate}.</p>
 <!-- END:IF -->
 
+<p class="explication">Merci de cocher les cases idoines&nbsp;:</p>
+
 <table>
 <!-- AGENT $f_type _caption_="Barème de cotisation" -->
 <tr>
@@ -31,7 +33,7 @@
 
 <h3><!-- IF $login -->Destination(s) pour <i>{$email}</i><!-- ELSE -->Correspondance électronique<!-- END:IF --></h3>
 <p class="explication">
-Merci de cocher « Adresse de correspondance » pour chaque email où vous souhaitez recevoir les communications de l'Association.
+Merci de cocher « Adresse de correspondance » pour chaque email où envoyer les communications de l'Association.
 Utiliser le bouton « ✚ Ajouter un autre email » si nécessaire.
 </p>
 <!-- INLINE user/edit/_email -->

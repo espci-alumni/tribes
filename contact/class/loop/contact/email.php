@@ -16,7 +16,7 @@ class loop_contact_email extends loop_sql
                     {$this->table}_id AS id
                     {$sql}
                 FROM contact_{$this->table}
-                WHERE contact_id={$contact_id} AND is_obsolete<=0 AND contact_data!='' AND contact_confirmed
+                WHERE contact_id={$contact_id} AND is_obsolete<=0 AND contact_confirmed
                 ORDER BY sort_key";
 
         parent::__construct($sql, array($this, 'filterRow'));

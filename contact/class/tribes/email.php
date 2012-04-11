@@ -84,7 +84,6 @@ class tribes_email extends tribes_common
                 WHERE is_active
                     AND contact_id=e.contact_id
                     AND is_obsolete<=0
-                    AND contact_data!=''
                 LIMIT 1";
 
         $sql = "SELECT email_id, contact_id, contact_data, email, contact_confirmed,

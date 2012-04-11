@@ -11,53 +11,9 @@ class agent_admin_registration_request extends agent_admin_user_edit
     protected $doublon_contact_id = 0;
 
 
-    function control()
-    {
-        parent::control();
-
-        if ($this->isAliasCollision())
-        {
-            $this->data->login = tribes::makeIdentifier($this->data->prenom_civil, "- 'a-z")
-                         . '.' . tribes::makeIdentifier($this->data->nom_usuel, "- 'a-z");
-            $this->data->login = preg_replace("/[- ']+/", '-', $this->data->login);
-        }
-    }
-
-    function compose($o)
-    {
-        $o = parent::compose($o);
-        $f = $o->form;
-
-        $doublon_contact_items = self::buildDoublonData($f, clone $this->data);
-        $doublon_contact_items = tribes::getDoublonSuggestions($this->contact_id, $doublon_contact_items);
-        $doublon_contact_items += array(
-            $this->contact_id => '(ajouter un nouveau nom au fichier)',
-        );
-
-        $refuse = $f->add('submit', 'refuse');
-
-        $refuse->attach('message', '', '');
-
-        if ($refuse->isOn())
-        {
-            return $this->save($refuse->getData());
-        }
-
-        $f->add('check', 'doublon_contact_id', array('item' => $doublon_contact_items));
-        $f->add('submit', 'updateDoublons');
-
-        $o->f_send->attach('doublon_contact_id', 'Fusionner avec : merci de choisir un des items proposés', '');
-
-        return $o;
-    }
-
     protected function composeForm($o, $f, $send)
     {
-        if (!empty($this->data->login))
-        {
-            $o = $this->composeLogin($o, $f, $send);
-        }
-
+        $o = $this->composeLogin($o, $f, $send);
         $o = $this->composeContact($o, $f, $send);
         $o = $this->composeEmail($o, $f, $send);
         $o = $this->composeAdresse($o, $f, $send, true);
@@ -78,15 +34,44 @@ class agent_admin_registration_request extends agent_admin_user_edit
             'acces', "Veuillez spécifier le type d'accès fourni à l'utilisateur", ''
         );
 
+        $doublon_contact_items = self::buildDoublonData($f, clone $this->data);
+        $doublon_contact_items = tribes::getDoublonSuggestions($this->contact_id, $doublon_contact_items);
+        $doublon_contact_items += array(
+            $this->contact_id => '(ajouter un nouveau nom au fichier)',
+        );
+
+        $refuse = $f->add('submit', 'refuse');
+
+        $refuse->attach('message', '', '');
+
+        if ($refuse->isOn())
+        {
+            $refuse = $this->save($refuse->getData());
+            Patchwork::redirect($refuse[0]);
+        }
+
+        $f->add('check', 'doublon_contact_id', array('item' => $doublon_contact_items));
+        $f->add('submit', 'updateDoublons');
+
+        $send->attach('doublon_contact_id', 'Fusionner avec : merci de choisir un des noms proposés', '');
 
         return $o;
     }
 
     protected function composeLogin($o, $f, $send)
     {
+        if (empty($this->data->login))
+        {
+            if ($this->data->login = $this->getFreeLogin($would_be_login)) $would_be_login = false;
+            else $this->data->login = $would_be_login;
+        }
+
         $o = parent::composeLogin($o, $f, $send);
 
-        $send->getStatus() || $this->loginField->setError("Attention, identifiant déjà utilisé");
+        if (!$send->getStatus() && $would_be_login)
+        {
+            $this->loginField->setError("Attention, identifiant déjà utilisé");
+        }
 
         return $o;
     }
@@ -238,25 +223,31 @@ class agent_admin_registration_request extends agent_admin_user_edit
         return $data;
     }
 
-    protected function isAliasCollision()
+    protected function getFreeLogin(&$would_be_login)
     {
         $db = DB();
 
         for ($i = 0; $i < count(tribes_contact::$alias); ++$i)
         {
-            $sql = tribes_contact::$alias[$i];
+            $login = tribes_contact::$alias[$i];
 
-            $sql = tribes::makeIdentifier($this->data->{$sql[0]})
-                . '.' . tribes::makeIdentifier($this->data->{$sql[1]});
+            if (empty($this->data->{$login[0]})) continue;
+            if (empty($this->data->{$login[1]})) continue;
+
+            $login = tribes::makeIdentifier($this->data->{$login[0]}) . '.'
+                   . tribes::makeIdentifier($this->data->{$login[1]});
+            $login = preg_replace("/[- ']+/", '-', $login);
+
+            0 === $i and $would_be_login = $login;
 
             $sql = "SELECT 1
                     FROM contact_alias
-                    WHERE alias='{$sql}'";
+                    WHERE alias=REPLACE('{$login}','-','')";
 
-            if (!$db->fetchColumn($sql)) return false;
+            if (!$db->fetchColumn($sql)) return $login;
         }
 
-        return true;
+        return false;
     }
 
     protected function createAccount($contact)
