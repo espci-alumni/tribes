@@ -97,15 +97,18 @@ class tribes
         return levenshtein($a, $b) / max(strlen($a), strlen($b));
     }
 
-    protected static $sqlSelectDoublonReference = 'nom_civil, prenom_civil';
+    protected static $sqlSelectDoublonReference = 'nom_civil, nom_usuel, prenom_civil, prenom_usuel';
 
     protected static function buildDoublonReference($data)
     {
-        return self::makeIdentifier($data->nom_civil) . '.' . self::makeIdentifier($data->prenom_civil);
+        return self::makeIdentifier($data->nom_civil) . '.'
+             . self::makeIdentifier($data->nom_usuel) . '.'
+             . self::makeIdentifier($data->prenom_civil) . '.'
+             . self::makeIdentifier($data->prenom_usuel) . '.';
     }
 
     protected static function buildDoublonLabel($data)
     {
-        return $data->nom_civil . ' ' . $data->prenom_civil;
+        return $data->nom_usuel . ' ' . $data->prenom_civil . ($data->nom_usuel !== $data->nom_civil ? " ({$data->nom_civil})" : '');
     }
 }
