@@ -218,7 +218,9 @@ class agent_admin_registration_request extends agent_admin_user_edit
     protected static function buildDoublonData($f, $data)
     {
         $data->nom_civil = $f->getElement('nom_civil')->getValue();
+        $data->nom_usuel = $f->getElement('nom_usuel')->getValue();
         $data->prenom_civil = $f->getElement('prenom_civil')->getValue();
+        $data->prenom_usuel = $f->getElement('prenom_usuel')->getValue();
 
         return $data;
     }
