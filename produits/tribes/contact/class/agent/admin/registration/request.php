@@ -236,8 +236,8 @@ class agent_admin_registration_request extends agent_admin_user_edit
             if (empty($this->data->{$login[0]})) continue;
             if (empty($this->data->{$login[1]})) continue;
 
-            $login = tribes::makeIdentifier($this->data->{$login[0]}) . '.'
-                   . tribes::makeIdentifier($this->data->{$login[1]});
+            $login = tribes::makeIdentifier($this->data->{$login[0]}, "- 'a-z") . '.'
+                   . tribes::makeIdentifier($this->data->{$login[1]}, "- 'a-z");
             $login = preg_replace("/[- ']+/", '-', $login);
 
             0 === $i and $would_be_login = $login;
