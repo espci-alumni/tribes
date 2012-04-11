@@ -54,8 +54,8 @@ class tribes_contact extends self
                 if (empty($data[self::$alias[$i][0]])) continue;
                 if (empty($data[self::$alias[$i][1]])) continue;
 
-                $alias = tribes::makeIdentifier($data[self::$alias[$i][0]], "- 'a-z")
-                 . '.' . tribes::makeIdentifier($data[self::$alias[$i][1]], "- 'a-z");
+                $alias = tribes::makeIdentifier($data[self::$alias[$i][0]], "- 'a-z") . '.'
+                       . tribes::makeIdentifier($data[self::$alias[$i][1]], "- 'a-z");
                 $aliases[] = preg_replace("/[- ']+/", '-', $alias);
             }
         }

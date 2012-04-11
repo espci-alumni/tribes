@@ -28,7 +28,7 @@
 
 <!-- IF a$cotiserlink --><!-- SET $_cotiserTarget -->target="_blank"<!-- END:SET --><!-- END:IF -->
 <p>
-Si vous souhaitez cotiser, <a href="{~}{a$cotiserlink|test:a$cotiserlink:'cotiser'}" {$_cotiserTarget}>merci de suivre ce lien</a>.
+Pour cotiser, <a href="{~}{a$cotiserlink|test:a$cotiserlink:'cotiser'}" {$_cotiserTarget}>merci de suivre ce lien</a>.
 </p>
 <!-- END:IF -->
 </div>

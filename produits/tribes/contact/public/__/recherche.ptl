@@ -9,7 +9,7 @@ AGENT 'header' title="Moteur de recherche"-->
 <table>
     <!-- AGENT $f_where _caption_="Clause where" -->
         <div class="notice">
-            La clause where permet d'identifier vos critères de recherche. Pour en profiter, il faut que vous utilisez les comparateurs possibles et qui se trouve dans cette liste : ( LIKE, =, !=, =<, >=, <>, <, >, OR, AND, XOR).
+            Opérateurs de recherche disponibles&nbsp;: LIKE, =, !=, =<, >=, <>, <, >, OR, AND, XOR.
         </div>
 </table>
 <table>
