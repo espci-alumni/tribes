@@ -38,8 +38,8 @@ class agent_admin_export extends agent
         Patchwork::disable();
 
         $sql = "SELECT c.*,
-                    IF (login!='',CONCAT(login,'{$CONFIG['tribes.emailDomain']}'),COALESCE((SELECT email FROM contact_email WHERE contact_id=c.contact_id AND is_obsolete=0 ORDER BY is_active DESC, contact_confirmed DESC LIMIT 1),'')) as email,
-                    (SELECT COUNT(*) FROM contact_activite WHERE contact_id=c.contact_id AND is_obsolete=0 AND (NOT date_fin OR date_fin > NOW())) AS nb_activite,
+                    IF (login!='',CONCAT(login,'{$CONFIG['tribes.emailDomain']}'),COALESCE((SELECT email FROM contact_email WHERE contact_id=c.contact_id AND is_obsolete<=0 ORDER BY is_active DESC, is_obsolete DESC, contact_confirmed DESC LIMIT 1),'')) as email,
+                    (SELECT COUNT(*) FROM contact_activite WHERE contact_id=c.contact_id AND is_obsolete=0) AS nb_activite,
                     (SELECT COUNT(*) FROM contact_adresse  WHERE contact_id=c.contact_id AND is_obsolete=0) AS nb_adresse
                 FROM contact_contact c
                 WHERE NOT c.is_obsolete
@@ -90,7 +90,7 @@ class agent_admin_export extends agent
 
             $sql = "SELECT ({$sql}) AS organisation, ac.*
                     FROM contact_activite ac
-                    WHERE contact_id={$row->contact_id} AND is_obsolete=0 AND (NOT date_fin OR date_fin > NOW())
+                    WHERE contact_id={$row->contact_id} AND is_obsolete=0
                     ORDER BY
                         IF(date_fin, date_debut, '9999-12-31') DESC,
                         IF(date_fin, date_fin, date_debut) DESC,
@@ -105,29 +105,33 @@ class agent_admin_export extends agent
             foreach ($db->fetchAssoc($sql) as $k => $v) $row->{'activite_' . $k} = '';
         }
 
-        if ($row->nb_adresse)
+        foreach (array('pro', 'perso', 'corresp') as $type)
+        if ($row->{$type . '_adresse_id'})
         {
             $sql = "SELECT *
                     FROM contact_adresse
-                    WHERE contact_id={$row->contact_id} AND is_obsolete=0
-                    ORDER BY contact_modified DESC
-                    LIMIT 1";
+                    WHERE adresse_id={$row->{$type . '_adresse_id'}}";
 
-            foreach ($db->fetchAssoc($sql) as $k => $v) $row->{'adresse_' . $k} = $v;
+            foreach ($db->fetchAssoc($sql) as $k => $v) $row->{$type . '_' . $k} = $v;
         }
         else if (0 === $count)
         {
             $sql = "SELECT * FROM contact_adresse LIMIT 1";
-            foreach ($db->fetchAssoc($sql) as $k => $v) $row->{'adresse_' . $k} = '';
+            foreach ($db->fetchAssoc($sql) as $k => $v) $row->{$type . '_' . $k} = '';
         }
 
         $k = explode(' ',
-                'login etape_suivante user password photo_token cv_token cv_text is_obsolete contact_data origine sort_key'
-            . ' activite_activite_id activite_contact_id activite_city_id activite_is_obsolete activite_admin_confirmed activite_contact_confirmed activite_contact_modified activite_contact_data activite_origine activite_sort_key activite_is_shared'
-            . ' adresse_adresse_id adresse_contact_id adresse_city_id adresse_email_list adresse_is_obsolete adresse_admin_confirmed adresse_contact_confirmed adresse_contact_modified adresse_contact_data adresse_origine adresse_sort_key'
+                'login etape_suivante user password photo_token cv_token cv_text is_obsolete contact_data origine sort_key corresp_adresse_id perso_adresse_id pro_adresse_id principale_activite_id'
+            . ' activite_activite_id activite_contact_id activite_city_id activite_is_obsolete activite_admin_confirmed activite_contact_confirmed activite_contact_modified activite_contact_data activite_origine activite_sort_key activite_is_shared activite_adresse_id'
         );
 
         foreach ($k as $k) unset($row->$k);
+
+        $k = explode(' ', 'adresse_id contact_id city_id email_list is_obsolete admin_confirmed contact_confirmed contact_modified contact_data origine sort_key');
+
+        foreach ($k as $k)
+            foreach (array('pro', 'perso', 'corresp') as $type)
+                 unset($row->{$type . '_' . $k});
 
         foreach ($row as $k => $v)
         {
