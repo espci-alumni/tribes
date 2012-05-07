@@ -342,7 +342,7 @@ class agent_user_edit extends agent_pForm
 
                 if ('' !== $a['email_list'])
                 {
-                    preg_match_all("'" . FILTER::EMAIL_RX . "'", $a['email_list'], $email);
+                    preg_match_all('/' . FILTER::EMAIL_RX . '/', $a['email_list'], $email);
 
                     $a['email_list'] = '';
 
