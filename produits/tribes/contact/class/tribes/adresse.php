@@ -93,7 +93,7 @@ class tribes_adresse extends tribes_common
     {
         $data = parent::filterData($data);
 
-        if (isset($data['ville']))
+        if (!empty($data['ville']))
         {
             if (empty($data['pays']))
             {

@@ -26,7 +26,7 @@ class loop_edit_contact_activite extends loop_edit
     function populateForm($a, $data, $counter)
     {
         if (isset($data->is_shared) && $data->is_shared < 0) unset($data->is_shared);
-        empty($data->pays) || $data->ville .= ', ' . $data->pays;
+        if (!empty($data->ville) && !empty($data->pays)) $data->ville .= ', ' . $data->pays;
 
         $f = $this->form;
         $f->setDefaults($data);
