@@ -114,7 +114,6 @@ class tribes_adresse extends tribes_common
                 if (!DB()->fetchColumn($sql))
                 {
                     $sql = geodb::getCityInfo($data['city_id']);
-                    unset($sql['city']);
                     DB()->insert('city', $sql);
                 }
             }
