@@ -93,37 +93,10 @@ class tribes_adresse extends tribes_common
     {
         $data = parent::filterData($data);
 
-        if (!empty($data['ville']))
-        {
-            if (empty($data['pays']))
-            {
-                if (false !== $sql = strrpos($data['ville'], ','))
-                {
-                    $data['pays'] = trim(substr($data['ville'], $sql+1));
-                    $data['ville'] = trim(substr($data['ville'], 0, $sql));
-                }
-                else $data['pays'] = self::$paysDefault;
-            }
-
-            $data['city_id'] = geodb::getCityId($data['ville'] . ', ' . $data['pays']);
-
-            if ($data['city_id'] && $this->confirmed)
-            {
-                $sql = "SELECT 1 FROM city WHERE city_id={$data['city_id']}";
-
-                if (!DB()->fetchColumn($sql))
-                {
-                    $sql = geodb::getCityInfo($data['city_id']);
-                    DB()->insert('city', $sql);
-                }
-            }
-        }
-
         isset($data['description']) && $data['description'] = u::ucfirst(mb_strtolower($data['description']));
 
         return $data;
     }
-
 
     function updateContactModified($id)
     {

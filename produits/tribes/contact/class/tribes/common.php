@@ -197,6 +197,32 @@ class tribes_common
             if (isset($data[$f])) $table[$f] = $data[$f];
         }
 
+        if (!empty($table['ville']))
+        {
+            if (empty($table['pays']))
+            {
+                if (false !== $sql = strrpos($table['ville'], ','))
+                {
+                    $table['pays'] = trim(substr($table['ville'], $sql+1));
+                    $table['ville'] = trim(substr($table['ville'], 0, $sql));
+                }
+                else $table['pays'] = self::$paysDefault;
+            }
+
+            $table['city_id'] = geodb::getCityId($table['ville'] . ', ' . $table['pays']);
+
+            if ($table['city_id'] && $this->confirmed)
+            {
+                $sql = "SELECT 1 FROM city WHERE city_id={$table['city_id']}";
+
+                if (!DB()->fetchColumn($sql))
+                {
+                    $sql = geodb::getCityInfo($table['city_id']);
+                    DB()->insert('city', $sql);
+                }
+            }
+        }
+
         return $table;
     }
 

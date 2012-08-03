@@ -2,7 +2,7 @@
 
 use Patchwork\Utf8 as u;
 
-class tribes_activite extends tribes_adresse
+class tribes_activite extends tribes_common
 {
     protected
 
@@ -21,6 +21,13 @@ class tribes_activite extends tribes_adresse
         'keyword',
     );
 
+
+    function __construct($contact_id, $confirmed = false)
+    {
+        parent::__construct($contact_id, $confirmed);
+
+        $this->metaFields['is_shared'] = 'int';
+    }
 
     function save($data, $message = null, &$id = 0)
     {
@@ -141,7 +148,7 @@ class tribes_activite extends tribes_adresse
             $db->exec($sql);
         }
 
-        if (!$this->confirmed && self::ACTION_CONFIRM === $message && $org_inserted)
+        if (!$this->confirmed && (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message || (self::ACTION_CONFIRM === $message && $org_inserted)))
         {
             $this->updateContactModified($id);
         }
@@ -175,5 +182,16 @@ class tribes_activite extends tribes_adresse
         else $data['secteur'] = u::ucfirst($data['secteur']);
 
         return $data;
+    }
+
+    function updateContactModified($id)
+    {
+        $sql = "UPDATE contact_{$this->table}
+                SET contact_modified=NOW()
+                WHERE contact_id={$this->contact_id}
+                    AND {$this->table}_id={$id}";
+        DB()->exec($sql);
+
+        parent::updateContactModified($this->contact_id);
     }
 }

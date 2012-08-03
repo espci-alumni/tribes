@@ -148,7 +148,7 @@ class tribes_contact extends tribes_common
         return $message;
     }
 
-    protected function filterDiplomeData($data)
+    protected function filterData($data)
     {
         if (empty($data['statut_activite'])) unset($data['statut_activite']);
         else $data['statut_activite'] = u::ucfirst($data['statut_activite']);
