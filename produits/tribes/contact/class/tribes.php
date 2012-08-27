@@ -76,6 +76,8 @@ class tribes
 
         foreach (DB()->query($sql) as $row)
         {
+            // FIXME: this scans the full database. Any idea to filter some rows on MySQL side?
+
             $row = (object) $row;
 
             $d = self::getDoublonDistance($data, self::buildDoublonReference($row));
@@ -101,10 +103,7 @@ class tribes
 
     protected static function buildDoublonReference($data)
     {
-        return self::makeIdentifier($data->nom_civil) . '.'
-             . self::makeIdentifier($data->nom_usuel) . '.'
-             . self::makeIdentifier($data->prenom_civil) . '.'
-             . self::makeIdentifier($data->prenom_usuel) . '.';
+        return self::makeIdentifier("{$data->nom_civil}.{$data->nom_usuel}.{$data->prenom_civil}.{$data->prenom_usuel}", 'a-z.');
     }
 
     protected static function buildDoublonLabel($data)
