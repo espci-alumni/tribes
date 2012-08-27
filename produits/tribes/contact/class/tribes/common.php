@@ -25,7 +25,8 @@ class tribes_common
         'admin_confirmed' => 'int',
         'contact_confirmed' => 'int',
     ),
-    $contactData;
+    $contactData,
+    $paysDefault = 'France';
 
 
     function __construct($contact_id, $confirmed = false)
@@ -206,7 +207,7 @@ class tribes_common
                     $table['pays'] = trim(substr($table['ville'], $sql+1));
                     $table['ville'] = trim(substr($table['ville'], 0, $sql));
                 }
-                else $table['pays'] = self::$paysDefault;
+                else $table['pays'] = $this->paysDefault;
             }
 
             $table['city_id'] = geodb::getCityId($table['ville'] . ', ' . $table['pays']);

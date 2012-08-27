@@ -20,8 +20,6 @@ class tribes_adresse extends tribes_common
         'tel_fax',
     );
 
-    protected static $paysDefault = 'France';
-
 
     function __construct($contact_id, $confirmed = false)
     {
