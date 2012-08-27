@@ -168,8 +168,6 @@ class tribes_activite extends tribes_common
 
     protected function filterData($data)
     {
-        $data = parent::filterData($data);
-
         isset($data['service']) && $data['service'] = u::ucfirst($data['service']);
 
         if (empty($data['statut'])) unset($data['statut']);
@@ -181,7 +179,7 @@ class tribes_activite extends tribes_common
         if (empty($data['secteur'])) unset($data['secteur']);
         else $data['secteur'] = u::ucfirst($data['secteur']);
 
-        return $data;
+        return parent::filterData($data);
     }
 
     function updateContactModified($id)

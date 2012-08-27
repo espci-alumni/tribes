@@ -89,11 +89,9 @@ class tribes_adresse extends tribes_common
 
     protected function filterData($data)
     {
-        $data = parent::filterData($data);
-
         isset($data['description']) && $data['description'] = u::ucfirst(mb_strtolower($data['description']));
 
-        return $data;
+        return parent::filterData($data);
     }
 
     function updateContactModified($id)
