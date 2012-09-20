@@ -7,4 +7,3 @@ IF 1 == g$headerNestingTribes && 'user/' == g$__AGENT__
 END:IF
 
 -->
-

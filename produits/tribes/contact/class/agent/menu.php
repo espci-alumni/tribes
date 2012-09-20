@@ -21,6 +21,7 @@ class agent_menu extends agent
 
     function compose($o)
     {
+        $o->connected_id = $this->connected_id;
         $o->prenom_usuel = SESSION::get('prenom_usuel');
         $o->nom_usuel = SESSION::get('nom_usuel');
         $o->acces = SESSION::get('acces');

@@ -50,7 +50,7 @@
 <tr>
     <td align="right">
         <!-- IF $acces -->
-            <a href="{~}user/edit/contact">{$prenom_usuel} {$nom_usuel}</a>
+            <a href="{~}user/{$connected_id}">{$prenom_usuel} {$nom_usuel}</a>
             <!-- IF 'admin' == $acces --> | <a href="{~}admin">Administration</a><!-- END:IF -->
         <!-- ELSE -->
             {$prenom_usuel} {$nom_usuel}

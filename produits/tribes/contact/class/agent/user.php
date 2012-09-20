@@ -32,6 +32,7 @@ class agent_user extends agent
         $o = $this->contact;
         $o->email = $o->login ? $o->login . $CONFIG['tribes.emailDomain'] : '';
         $o->connected_is_admin = $this->connected_is_admin;
+        $o->connected_is_user = $this->connected_id == $this->contact->contact_id;
 
         $file = explode('.', $o->photo_token) + array(1 => 'jpg', 'jpg');
         $o->photo_token = implode('.', $file);

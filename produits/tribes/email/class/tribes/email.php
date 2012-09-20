@@ -26,9 +26,10 @@ class tribes_email extends self
             }
             else
             {
-                $sql = "SELECT user_id FROM postfix_user WHERE domain='{$sql}' AND user='{$row['user']}'";
                 $sql = "INSERT INTO postfix_alt (alt,user_id,forward,created)
-                        VALUES ('{$row['email']}',({$sql}),{$row['is_active']},NOW())
+                        SELECT '{$row['email']}',user_id,{$row['is_active']},NOW()
+                        FROM postfix_user
+                        WHERE domain='{$sql}' AND user='{$row['user']}'
                         ON DUPLICATE KEY UPDATE forward={$row['is_active']}";
             }
 
