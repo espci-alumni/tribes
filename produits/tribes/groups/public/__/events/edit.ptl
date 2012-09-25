@@ -1,0 +1,139 @@
+<link href="{~}js/wdCalendar/css/main.css" rel="stylesheet">
+<link href="{~}js/wdCalendar/css/dp.css" rel="stylesheet">
+<link href="{~}js/wdCalendar/css/dropdown.css" rel="stylesheet">
+<link href="{~}js/wdCalendar/css/colorselect.css" rel="stylesheet">
+
+<script src="{~}js/wdCalendar/src/jquery.js"></script>
+<script src="{~}js/wdCalendar/src/Plugins/Common.js"></script>
+<script src="{~}js/wdCalendar/src/Plugins/jquery.form.js"></script>
+<script src="{~}js/wdCalendar/src/Plugins/jquery.validate.js"></script>
+<script src="{~}js/wdCalendar/src/Plugins/datepicker_lang_US.js"></script>
+<script src="{~}js/wdCalendar/src/Plugins/jquery.datepicker.js"></script>
+<script src="{~}js/wdCalendar/src/Plugins/jquery.dropdown.js"></script>
+<script src="{~}js/wdCalendar/src/Plugins/jquery.colorselect.js"></script>
+
+<script>
+    var list = {a$list|js};
+    var agent = "events";
+    <!-- IF $event_id -->
+    var event_id = {$event_id|js};
+    <!-- ELSE -->
+    var event_id = 0;
+    <!-- END:IF -->
+    var surf = '&T$=' + antiCSRF;
+</script>
+
+<script src="{~}js/edit.js"></script>
+
+<style type="text/css">
+    .calpick {
+        width: 16px;
+        height: 16px;
+        border: none;
+        cursor: pointer;
+        background: url("{~}js/wdCalendar/sample-css/cal.gif") no-repeat center 2px;
+        margin-left: -22px;
+    }
+</style>
+
+<div>
+    <div class="toolBotton">
+        <a id="Savebtn" class="imgbtn">
+            <span class="Save" title="Save the calendar">{"Enregistrer"}</span>
+        </a>
+        <!-- IF $event_id -->
+        <a id="Deletebtn" class="imgbtn">
+            <span class="Delete" title="Cancel the calendar">{"Supprimer"}</span>
+        </a>
+        <!-- END:IF -->
+        <!--
+        <a id="Closebtn" class="imgbtn">
+            <span class="Close" title="Close the window">{"Fermer"}</span>
+        </a>
+        -->
+    </div>
+    <div style="clear: both"></div>
+
+    <div class="infocontainer">
+        <!-- IF $event_id -->
+        <!-- SET $url -->{~}events?method=adddetails&id={$event_id}<!-- END:SET -->
+        <!-- ELSE -->
+        <!-- SET $url -->{~}events?method=adddetails<!-- END:SET -->
+        <!--END:IF -->
+        <form action="{$url}" class="fform" id="fmEdit" method="post">
+            <label>
+                <span>*{"Objet&nbsp;:"}</span>
+                <input id="colorvalue" name="colorvalue" type="hidden" value="{$event_color}"/>
+
+                <div id="calendarcolor"></div>
+                <input MaxLength="200"
+                       class="required safe"
+                       id="Subject"
+                       name="Subject"
+                       style="width:85%;"
+                       type="text"
+                       value="{$event_subject}"/>
+            </label>
+            <label>
+                <span>*{"Date&nbsp;:"}</span>
+
+                <div>
+                    <input MaxLength="10"
+                           class="required date"
+                           id="stpartdate"
+                           name="stpartdate"
+                           style="padding-left:2px;width:90px;"
+                           type="text"
+                           value="{$event_start_day}"/>
+                    <input MaxLength="5"
+                           class="required time"
+                           id="stparttime"
+                           name="stparttime"
+                           style="width:40px;"
+                           type="text"
+                           value="{$event_start_time}"/>
+                    {"À"}
+                    <input MaxLength="10"
+                           class="required date"
+                           id="etpartdate"
+                           name="etpartdate"
+                           style="padding-left:2px;width:90px;"
+                           type="text"
+                           value="{$event_end_day}"/>
+                    <input MaxLength="50"
+                           class="required time"
+                           id="etparttime"
+                           name="etparttime"
+                           style="width:40px;"
+                           type="text"
+                           value="{$event_end_time}"/>
+                    <label class="checkp">
+                        <!-- IF $event_is_all_day -->
+                        <!-- SET $is_all_day_checked -->checked="checked"<!-- END:SET -->
+                        <!-- END:IF -->
+                        <input id="IsAllDayEvent" name="IsAllDayEvent" type="checkbox" value="1" {$is_all_day_checked}/>
+                        {"Toute la journée"}
+                    </label>
+                </div>
+            </label>
+            <label>
+                <span>{"Lieu&nbsp;:"}</span>
+                <input MaxLength="200"
+                       id="Location"
+                       name="Location"
+                       style="width:95%;"
+                       type="text"
+                       value="{$event_location}"/>
+            </label>
+            <label>
+                <span>{"Description&nbsp;:"}</span>
+                <textarea cols="20"
+                          id="Description"
+                          name="Description"
+                          rows="2"
+                          style="width:95%; height:70px">{$event_description}</textarea>
+            </label>
+            <input id="timezone" name="timezone" type="hidden" value=""/>
+        </form>
+    </div>
+</div>
