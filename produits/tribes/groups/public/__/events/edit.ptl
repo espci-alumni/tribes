@@ -7,7 +7,7 @@
 <script src="{~}js/wdCalendar/src/Plugins/Common.js"></script>
 <script src="{~}js/wdCalendar/src/Plugins/jquery.form.js"></script>
 <script src="{~}js/wdCalendar/src/Plugins/jquery.validate.js"></script>
-<script src="{~}js/wdCalendar/src/Plugins/datepicker_lang_US.js"></script>
+<script src="{~}js/wdCalendar/src/Plugins/datepicker_lang_FR.js"></script>
 <script src="{~}js/wdCalendar/src/Plugins/jquery.datepicker.js"></script>
 <script src="{~}js/wdCalendar/src/Plugins/jquery.dropdown.js"></script>
 <script src="{~}js/wdCalendar/src/Plugins/jquery.colorselect.js"></script>

@@ -6,7 +6,7 @@
 
 <script src="{~}js/wdCalendar/src/jquery.js"></script>
 <script src="{~}js/wdCalendar/src/Plugins/Common.js"></script>
-<script src="{~}js/wdCalendar/src/Plugins/datepicker_lang_US.js"></script>
+<script src="{~}js/wdCalendar/src/Plugins/datepicker_lang_FR.js"></script>
 <script src="{~}js/wdCalendar/src/Plugins/jquery.datepicker.js"></script>
 <script src="{~}js/wdCalendar/src/Plugins/jquery.alert.js"></script>
 <script src="{~}js/wdCalendar/src/Plugins/jquery.ifrmdailog.js" defer></script>
