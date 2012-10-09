@@ -169,7 +169,7 @@ class agent_user_edit extends agent_pForm
 
     protected function composeLogin($o, $f, $send)
     {
-        if (!empty($this->data->login))
+        if (!empty($this->data->login) && (!empty($CONFIG['tribes.emailDomain']) || $this->confirmed))
         {
             $this->loginField = $f->add('text', 'login', array('[a-z]+(?:-?[a-z]+)+\.[a-z]+(?:-?[a-z]+)+', 'default' => $this->data->login));
             $send->attach('login', 'Veuillez saisir un identifiant', "Seul le format prenom.nom sans caractères spéciaux est autorisé");

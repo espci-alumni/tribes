@@ -119,14 +119,29 @@ class agent_admin_registration_request extends agent_admin_user_edit
             }
             else $accountCreated = false;
 
+            if (empty($CONFIG['tribes.emailDomain']))
+            {
+                $sql = "SELECT email FROM contact_email
+                        WHERE contact_id={$this->doublon_contact_id}
+                            AND is_active
+                            AND is_obsolete<=0
+                            AND contact_confirmed
+                        ORDER BY email_id LIMIT 1";
+            }
+            else
+            {
+                $sql = "CONCAT(login, '{$CONFIG['tribes.emailDomain']}')";
+            }
+
             $sql = "SELECT contact_id, login, user, nom_usuel, prenom_usuel, acces,
-                        CONCAT(login,'{$CONFIG['tribes.emailDomain']}') AS email
+                      ({$sql}) AS email
                     FROM contact_contact
                     WHERE contact_id={$this->doublon_contact_id}";
             $data = DB()->fetchAssoc($sql);
 
             $accountCreated || $this->createAccount((object) $data);
 
+            $data['auth_login'] = empty($CONFIG['tribes.emailDomain']) ? $data['email'] : $data['login'];
             notification::send('registration/accepted', $data);
         }
         else

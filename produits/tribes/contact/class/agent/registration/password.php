@@ -21,9 +21,8 @@ class agent_registration_password extends agent_registration_collision
 
     protected function save($data)
     {
-        $sql = $CONFIG['tribes.emailDomain'];
-
-        if (0 === strcasecmp($sql, substr($data['email'], -strlen($sql))))
+        if ( !empty($CONFIG['tribes.emailDomain'])
+          && 0 === strcasecmp($CONFIG['tribes.emailDomain'], substr($data['email'], -strlen($sql))) )
         {
             $sql = substr($data['email'], 0, -strlen($sql));
             $sql = str_replace('-', '', $sql);

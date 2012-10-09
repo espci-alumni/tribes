@@ -60,7 +60,7 @@ AGENT 'header' title=$_title head=$_head
 </div>
 <div id="contact-right">
 
-<!-- IF !$email -->
+<!-- IF !$login -->
 <div class="unknow">
     <!-- IF $_unknow -->{$_unknow}
     <!-- ELSE -->

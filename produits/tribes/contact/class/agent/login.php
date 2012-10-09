@@ -27,18 +27,25 @@ class agent_login extends agent_pForm
 
     protected function save($data)
     {
-        $sql = $CONFIG['tribes.emailDomain'];
-
-        if (0 === strcasecmp($sql, substr($data['login'], -strlen($sql))))
+        if (!empty($CONFIG['tribes.emailDomain']))
         {
-            $data['login'] = substr($data['login'], 0, -strlen($sql));
+            $sql = $CONFIG['tribes.emailDomain'];
+
+            if (0 === strcasecmp($sql, substr($data['login'], -strlen($sql))))
+            {
+                $data['login'] = substr($data['login'], 0, -strlen($sql));
+            }
+
+            $sql = str_replace('-', '', $data['login']);
+
+            $sql = strpos($sql, '@')
+                ? ("contact_email u ON u.contact_confirmed AND u.email=" . DB()->quote($data['login']))
+                : ("contact_alias u ON u.alias=" . DB()->quote($sql));
         }
-
-        $sql = str_replace('-', '', $data['login']);
-
-        $sql = strpos($sql, '@')
-            ? ("contact_email u ON u.contact_confirmed AND u.email=" . DB()->quote($data['login']))
-            : ("contact_alias u ON u.alias=" . DB()->quote($sql));
+        else
+        {
+            $sql = "contact_email u ON u.contact_confirmed AND u.email=" . DB()->quote($data['login']);
+        }
 
         $sql = "SELECT " . self::$sessionFields . "
                 FROM contact_contact c
@@ -58,7 +65,11 @@ class agent_login extends agent_pForm
         $row->saltedPassword = $row->password;
         $row->password = $data['password'];
         $row->referer = SESSION::flash('referer');
-        $row->email = $row->login ? $row->login . $CONFIG['tribes.emailDomain'] : '';
+
+        if (!empty($CONFIG['tribes.emailDomain']))
+            $row->email = $row->login ? $row->login . $CONFIG['tribes.emailDomain'] : '';
+        else
+            $row->email = $row->login ? $data['login'] : '';
 
         if ($sql = SESSION::flash('confirmed_email_id'))
         {

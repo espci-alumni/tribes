@@ -10,7 +10,8 @@ class notification_registration_accepted extends notification
                 FROM contact_email
                 WHERE contact_id={$this->contact_id}
                     AND is_active
-                    AND contact_confirmed";
+                    AND contact_confirmed
+                    AND is_obsolete<=0";
 
         $this->mail(DB()->query($sql)->fetchAll(PDO::FETCH_COLUMN));
     }
