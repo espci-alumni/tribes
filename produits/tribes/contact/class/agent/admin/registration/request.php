@@ -103,6 +103,8 @@ class agent_admin_registration_request extends agent_admin_user_edit
     {
         if ($this->doublon_contact_id)
         {
+            $data['is_obsolete'] = 0;
+
             $this->saveContact($data);
             $this->saveEmail($data);
             $this->saveAdresse($data);
@@ -110,7 +112,8 @@ class agent_admin_registration_request extends agent_admin_user_edit
 
             if ($this->doublon_contact_id != $this->contact_id)
             {
-                $sql = "SELECT 1 FROM contact_contact
+                $sql = "SELECT 1
+                        FROM contact_contact
                         WHERE contact_id={$this->doublon_contact_id} AND acces";
                 $accountCreated = DB()->fetchColumn($sql);
 
@@ -121,7 +124,8 @@ class agent_admin_registration_request extends agent_admin_user_edit
 
             if (empty($CONFIG['tribes.emailDomain']))
             {
-                $sql = "SELECT email FROM contact_email
+                $sql = "SELECT email
+                        FROM contact_email
                         WHERE contact_id={$this->doublon_contact_id}
                             AND is_active
                             AND is_obsolete<=0
@@ -177,7 +181,8 @@ class agent_admin_registration_request extends agent_admin_user_edit
             'contact_email' => array('email_id', $a),
             'contact_adresse' => array('adresse_id', $a),
             'contact_activite' => array('activite_id', $a),
-            'contact_contact' => array('contact_id', $a + array(
+            'contact_contact' => array('contact_id', array(
+                'is_obsolete' => "IF(VALUES(is_obsolete)=0 OR is_obsolete=0,0,IF(VALUES(is_obsolete)=-1 AND is_obsolete=-1,-1,1))",
                 'acces' => "IF(VALUES(acces)='admin' OR acces='admin','admin',IF(VALUES(acces)='membre' OR acces='membre','membre',''))",
                 'is_active' => "IF(VALUES(is_active)=1 OR is_active=1,1,0)",
             ))
