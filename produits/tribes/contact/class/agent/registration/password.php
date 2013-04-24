@@ -22,9 +22,9 @@ class agent_registration_password extends agent_registration_collision
     protected function save($data)
     {
         if ( !empty($CONFIG['tribes.emailDomain'])
-          && 0 === strcasecmp($CONFIG['tribes.emailDomain'], substr($data['email'], -strlen($sql))) )
+          && 0 === strcasecmp($CONFIG['tribes.emailDomain'], substr($data['email'], -strlen($CONFIG['tribes.emailDomain']))) )
         {
-            $sql = substr($data['email'], 0, -strlen($sql));
+            $sql = substr($data['email'], 0, -strlen($CONFIG['tribes.emailDomain']));
             $sql = str_replace('-', '', $sql);
             $sql = "SELECT e.contact_id, e.email
                     FROM contact_email e

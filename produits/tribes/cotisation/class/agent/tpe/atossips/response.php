@@ -6,7 +6,7 @@ class agent_tpe_atossips_response extends agent_tpe_atossips_request
     {
         if (isset($data['DATA']) && is_string($data['DATA']))
         {
-            $data = patchworkPath(self::$response_bin)
+            $data = self::$response_bin
                 . ' ' . escapeshellarg('pathfile=' . patchworkPath(self::$parameters['pathfile']))
                 . ' ' . escapeshellarg('message=' . $data['DATA']);
 

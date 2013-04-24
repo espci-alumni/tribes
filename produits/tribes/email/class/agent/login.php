@@ -33,7 +33,7 @@ class agent_login extends self
                     '{$domain}',
                     IF('{$contact->login}' NOT IN (user,''),'{$contact->login}',null),
                     {$sql},
-                    '" . crypt($contact->password) . "',
+                    '" . crypt($contact->password, '$1$' . substr(password_hash('', PASSWORD_DEFAULT), 10, 8)) . "',
                     NOW()
                 )
                 ON DUPLICATE KEY UPDATE

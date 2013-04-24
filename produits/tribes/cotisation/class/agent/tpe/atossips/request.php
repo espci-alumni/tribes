@@ -4,8 +4,8 @@ class agent_tpe_atossips_request extends agent
 {
     protected static
 
-    $request_bin = 'data/atossips/request',
-    $response_bin = 'data/atossips/response',
+    $request_bin = 'data/atossips/%d/request',
+    $response_bin = 'data/atossips/%d/response',
 
     $parameters = array(
         // XXX Deux principaux paramètres à ajuster
@@ -60,6 +60,12 @@ class agent_tpe_atossips_request extends agent
     protected $requiredAuth = false;
 
 
+    static function __init()
+    {
+        self::$request_bin  = patchworkPath(sprintf(self::$request_bin,  PHP_INT_SIZE << 3));
+        self::$response_bin = patchworkPath(sprintf(self::$response_bin, PHP_INT_SIZE << 3));
+    }
+
     // Methods related to request handling
 
     protected static function composeTpe($o, $ref, $euro, $email)
@@ -67,7 +73,7 @@ class agent_tpe_atossips_request extends agent
         // Disable Firefox back-forward cache
         header('Cache-Control: no-store');
 
-        $request_bin = patchworkPath(self::$request_bin);
+        $request_bin = self::$request_bin;
         $p = self::$parameters;
 
         $p['pathfile'] = patchworkPath($p['pathfile']);
@@ -75,8 +81,10 @@ class agent_tpe_atossips_request extends agent
         $p['normal_return_url'] = Patchwork::__BASE__() . 'cotiser/merci?T$=' . Patchwork::getAntiCSRFtoken();
         $p['cancel_return_url'] = Patchwork::__BASE__() . 'cotiser?T$=' . Patchwork::getAntiCSRFtoken();
         $p['automatic_response_url'] = Patchwork::__BASE__() . 'tpe/callback';
+        $p['order_id'] = $email;
         $p['customer_id'] = $ref;
         $p['customer_email'] = $email;
+        $p['return_context'] = "{$ref}-{$email}";
 
         foreach ($p as $k => $v) $request_bin .= ' ' . escapeshellarg("{$k}={$v}");
 

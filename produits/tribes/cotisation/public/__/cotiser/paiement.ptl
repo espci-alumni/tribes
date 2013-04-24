@@ -58,10 +58,12 @@
     <td>Cotisation&nbsp;:</td>
     <td align="right">{$cotisation}&nbsp;€</td>
 </tr>
+<!-- IF $soutien/1 -->
 <tr>
     <td>Soutien / Don&nbsp;:</td>
     <td align="right">{$soutien}&nbsp;€</td>
 </tr>
+<!-- END:IF -->
 <tr>
     <td><b>Total à payer&nbsp;:</b></td>
     <td align="right">{'%0.2f'|printf:$_euro}&nbsp;€</td>

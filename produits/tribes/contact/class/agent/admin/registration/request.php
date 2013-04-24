@@ -68,7 +68,7 @@ class agent_admin_registration_request extends agent_admin_user_edit
 
         $o = parent::composeLogin($o, $f, $send);
 
-        if (!$send->getStatus() && $would_be_login)
+        if (!$send->getStatus() && !empty($would_be_login))
         {
             $this->loginField->setError("Attention, identifiant déjà utilisé");
         }

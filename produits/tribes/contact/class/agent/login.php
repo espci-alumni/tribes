@@ -9,7 +9,7 @@ class agent_login extends agent_pForm
 
     protected static
 
-    $sessionFields = 'c.contact_id, password, login, user, nom_usuel, prenom_usuel, etape_suivante, acces';
+    $sessionFields = 'c.contact_id, password, login, user, nom_usuel, prenom_usuel, etape_suivante, acces, photo_token, cv_token';
 
 
     protected function composeForm($o, $f, $send)
@@ -82,7 +82,7 @@ class agent_login extends agent_pForm
 
         $row->acces && $this->login($row);
 
-        if ('' !== $row->etape_suivante) return "user/step/{$row->etape_suivante}";
+        if (!empty($row->etape_suivante)) return "user/step/{$row->etape_suivante}";
 
         // TODO: Vérifier qu'on a au moins un email actif pour ce contact
 

@@ -4,20 +4,24 @@ class agent_user_password extends agent_pForm
 {
     public $get = '__1__:c:[-_A-Za-z0-9]{8}';
 
+    protected $tokenPattern = 'user/password/%s';
+
     function control()
     {
         $this->get->__1__ || Patchwork::forbidden();
 
+        $t = sprintf($this->tokenPattern, $this->get->__1__);
+
         $sql = "SELECT c.contact_id, c.login, c.nom_usuel, c.prenom_usuel
                 FROM contact_contact c
                     JOIN contact_email e USING (contact_id)
-                WHERE e.token='user/password/{$this->get->__1__}'
+                WHERE e.token='{$t}'
                     AND e.token_expires>NOW()";
 
         $this->data = DB()->fetchAssoc($sql) or Patchwork::redirect('error/token');
         $this->data = (object) $this->data;
 
-        tribes_email::confirm("user/password/{$this->get->__1__}", false);
+        tribes_email::confirm($t, false);
     }
 
     protected function composeForm($o, $f, $send)
@@ -50,11 +54,12 @@ class agent_user_password extends agent_pForm
 
     protected function save($data)
     {
+        isset($data['etape_suivante']) or $data['etape_suivante'] = 'registration/contact';
+
         $contact = new tribes_contact($this->data->contact_id);
         $contact->save($data, 'user/password/confirmation');
 
         tribes_email::confirm("user/password/{$this->get->__1__}");
-        SESSION::flash('referer', 'user/edit/contact');
 
         return array('login', 'Mot de passe mis à jour');
     }

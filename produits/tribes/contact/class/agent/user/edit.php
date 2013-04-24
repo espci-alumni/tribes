@@ -262,9 +262,7 @@ class agent_user_edit extends agent_pForm
             'sql' => $sql,
         ));
 
-        $send->attach(
-            'statut_activite', $this->connected_is_admin ? '' : 'Veuillez renseigner votre statut principal actuel', ''
-        );
+        $send->attach('statut_activite', '', '');
 
         $this->activites = new loop_edit_contact_activite($f, $this->contact_id, $send, $freeze);
 
