@@ -1,0 +1,14 @@
+<!-- AGENT 'header' title="Import de données" -->
+<!-- AGENT $form -->
+
+<p>
+Copier/coller ici depuis Excel les colonnes suivantes, dans cet ordre, sans insérer de ligne d'entête&nbsp;:
+<em>{$colList}</em>.
+</p>
+
+<!-- AGENT $f_tsv _format_='%2%1' style='width: 100%; height: 500px' -->
+
+<div class="submit"><!-- AGENT $f_send value="Importer" --></div>
+
+<!-- AGENT $form _mode_='close' -->
+<!-- AGENT 'footer' -->
