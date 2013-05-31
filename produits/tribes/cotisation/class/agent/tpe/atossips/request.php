@@ -81,7 +81,7 @@ class agent_tpe_atossips_request extends agent
         $p['normal_return_url'] = Patchwork::__BASE__() . 'cotiser/merci?T$=' . Patchwork::getAntiCSRFtoken();
         $p['cancel_return_url'] = Patchwork::__BASE__() . 'cotiser?T$=' . Patchwork::getAntiCSRFtoken();
         $p['automatic_response_url'] = Patchwork::__BASE__() . 'tpe/callback';
-        $p['order_id'] = $email;
+        $p['order_id'] = substr($email, 0, 32);
         $p['customer_id'] = $ref;
         $p['customer_email'] = $email;
         $p['return_context'] = "{$ref}-{$email}";
