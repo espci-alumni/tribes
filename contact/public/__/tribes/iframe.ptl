@@ -87,10 +87,6 @@ setTimeout(function()
         fLoc = document.getElementsByTagName('A'),
         fUrl = fLoc.length;
 
-    while (fUrl--)
-        if (/^\w+:/.test(fLoc[fUrl].href) && 0 != fLoc[fUrl].href.indexOf(rUrl) && !fLoc[fUrl].target)
-            fLoc[fUrl].target = '_self';
-
     try {f = document.createElement('<iframe name="iframe">');}
     catch (fLoc) {f = document.createElement('iframe');}
 

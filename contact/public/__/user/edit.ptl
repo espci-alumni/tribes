@@ -26,7 +26,7 @@
 
 <div class="submit">
     <!-- IF $f_cur_pwd -->
-    <table><!-- AGENT $f_cur_pwd _caption_="Votre mot de passe actuel" --></table>
+    <table><!-- AGENT $f_cur_pwd _caption_="Pour prévenir toute usurpation du compte, merci de saisir votre mot de passe actuel" --></table>
     <!-- END:IF -->
     <!-- AGENT $f_send value="Enregistrer" -->
 </div>

@@ -30,8 +30,9 @@ class agent_user extends agent
     function compose($o)
     {
         $o = $this->contact;
-        $o->email = $o->login ? $o->login . $CONFIG['tribes.emailDomain'] : '';
+        $o->email = $o->login && !empty($CONFIG['tribes.emailDomain']) ? $o->login . $CONFIG['tribes.emailDomain'] : '';
         $o->connected_is_admin = $this->connected_is_admin;
+        $o->connected_is_user = $this->connected_id == $this->contact->contact_id;
 
         $file = explode('.', $o->photo_token) + array(1 => 'jpg', 'jpg');
         $o->photo_token = implode('.', $file);
@@ -41,7 +42,7 @@ class agent_user extends agent
         $o->cv_token = implode('.', $file);
         $o->hasCv = file_exists(patchworkPath('data/cv/') . "{$file[0]}.{$file[1]}");
 
-        $o->adresses = new loop_user_adresse($this->contact->contact_id);
+        $o->adresses = new loop_user_adresse($this->contact->contact_id, !empty($CONFIG['tribes.emailDomain']));
         $o->activites = new loop_user_activite($this->contact->contact_id);
 
         return $o;

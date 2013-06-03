@@ -7,7 +7,6 @@
 <tr>
     <th>Date</th>
     <th colspan="2">Cotisation</th>
-    <th>Soutien</th>
     <th>Payé</th>
     <th>Mode</th>
 </tr>
@@ -16,8 +15,11 @@
     <td>{$paiement_date|replace:' .*$':''|formatDate}</td>
     <td>{$type}</td>
     <td align="right">{$cotisation}&nbsp;€</td>
-    <td align="right"><!-- IF $soutien/1 -->{$soutien}&nbsp;€<!-- ELSE -->-<!-- END:IF --></td>
-    <td align="right">{$paiement_euro}&nbsp;€</td>
+    <td align="right">
+        {$paiement_euro}&nbsp;€
+        <!-- IF $soutien/1 -->({$soutien>0|test:'+'}{$soutien}&nbsp;€)<!-- END:IF -->
+    </td>
+    </td>
     <td align="center">{$paiement_mode}</td>
 </tr>
 <!-- END:LOOP -->

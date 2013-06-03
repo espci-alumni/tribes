@@ -21,17 +21,16 @@ class agent_registration_password extends agent_registration_collision
 
     protected function save($data)
     {
-        $sql = $CONFIG['tribes.emailDomain'];
-
-        if (0 === strcasecmp($sql, substr($data['email'], -strlen($sql))))
+        if ( !empty($CONFIG['tribes.emailDomain'])
+          && 0 === strcasecmp($CONFIG['tribes.emailDomain'], substr($data['email'], -strlen($CONFIG['tribes.emailDomain']))) )
         {
-            $sql = substr($data['email'], 0, -strlen($sql));
+            $sql = substr($data['email'], 0, -strlen($CONFIG['tribes.emailDomain']));
             $sql = str_replace('-', '', $sql);
             $sql = "SELECT e.contact_id, e.email
-                FROM contact_email e
-                    JOIN contact_alias a USING (contact_id)
-                WHERE e.contact_confirmed
-                    AND a.alias=" . DB()->quote($sql);
+                    FROM contact_email e
+                        JOIN contact_alias a USING (contact_id)
+                    WHERE e.contact_confirmed
+                        AND a.alias=" . DB()->quote($sql);
         }
         else
         {

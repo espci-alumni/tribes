@@ -65,23 +65,30 @@ class agent_cotiser_bulletin extends agent_user_edit
     {
         $f->add('check', 'type', self::getCotisationTypeOptions($o));
 
-        $item= array('item' => self::$soutien + array(
-            0 => (object) array(
-                'caption' => 'Autre',
-                'onclick' => 'this.form.f_soutien.focus()',
-            )
-        ));
-        $f->add('check', 'soutien_suggestion', $item);
-
-        $f->add('text', 'soutien', array('valid' => 'int', 0));
         $f->add('textarea', 'commentaire');
 
         $send->attach(
             'type', 'Merci de choisir la situation qui vous correspond dans le barème de cotisation', '',
-            'soutien_suggestion', '', '',
-            'soutien', '', '',
             'commentaire', '', ''
         );
+
+        if (self::$soutien)
+        {
+            $item = array('item' => self::$soutien + array(
+                0 => (object) array(
+                    'caption' => 'Autre',
+                    'onclick' => 'this.form.f_soutien.focus()',
+                )
+            ));
+
+            $f->add('check', 'soutien_suggestion', $item);
+            $f->add('text', 'soutien', array('valid' => 'int', 0));
+
+            $send->attach(
+                'soutien_suggestion', '', '',
+                'soutien', '', ''
+            );
+        }
 
         $o = $this->composeEmail($o, $f, $send);
         $o = $this->composeAdresse($o, $f, $send);
@@ -98,6 +105,8 @@ class agent_cotiser_bulletin extends agent_user_edit
 
     protected function save($data)
     {
+        self::$soutien or $data['soutien'] = 0;
+
         $this->saveEmail($data);
         $this->saveAdresse($data);
 
@@ -112,7 +121,7 @@ class agent_cotiser_bulletin extends agent_user_edit
 
         list($data['cotisation'], $data['type']) = explode('-', $data['type'], 2);
 
-        if ($data['soutien_suggestion']) $data['soutien'] = $data['soutien_suggestion'];
+        if (!empty($data['soutien_suggestion'])) $data['soutien'] = $data['soutien_suggestion'];
         unset($data['soutien_suggestion']);
 
         DB()->insert('cotisation', $data);
@@ -131,7 +140,7 @@ class agent_cotiser_bulletin extends agent_user_edit
         {
             $c = explode('-', $row['value'], 2);
 
-            $types[$row['value']] = $c[1] . ' - ' . $c[0] . ' €';
+            $types[$row['value']] = $c[1] . ' — ' . $c[0] . ' €';
         }
 
         return array('item' => $types);

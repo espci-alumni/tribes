@@ -2,7 +2,7 @@
 
 class loop_user_adresse extends loop_sql
 {
-    function __construct($contact_id)
+    function __construct($contact_id, $hide_email_list = true)
     {
         $sql = "SELECT adresse_id,
                     description,
@@ -11,6 +11,7 @@ class loop_user_adresse extends loop_sql
                     ville,
                     ville_apres,
                     pays,
+                    " . ($hide_email_list ? '' : 'email_list,') . "
                     tel_portable,
                     tel_fixe,
                     tel_fax

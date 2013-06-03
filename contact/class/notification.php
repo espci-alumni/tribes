@@ -22,7 +22,7 @@ class notification
 
         $this->message = $message;
         $this->contact_id = empty($context['contact_id']) ? 0 : $context['contact_id'];
-        $this->context =& $context;
+        $this->context = $context;
     }
 
     protected function doSend()

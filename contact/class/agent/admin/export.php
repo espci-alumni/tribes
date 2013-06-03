@@ -37,8 +37,8 @@ class agent_admin_export extends agent
         SESSION::close();
         Patchwork::disable();
 
-        $sql = "SELECT c.*,
-                    IF (login!='',CONCAT(login,'{$CONFIG['tribes.emailDomain']}'),COALESCE((SELECT email FROM contact_email WHERE contact_id=c.contact_id AND is_obsolete<=0 ORDER BY is_active DESC, is_obsolete DESC, contact_confirmed DESC LIMIT 1),'')) as email,
+        $sql = empty($CONFIG['tribes.emailDomain']) ? '' : "IF (login!='',CONCAT(login,'{$CONFIG['tribes.emailDomain']}'),COALESCE((SELECT email FROM contact_email WHERE contact_id=c.contact_id AND is_obsolete<=0 ORDER BY is_active DESC, is_obsolete DESC, contact_confirmed DESC LIMIT 1),'')) as email,";
+        $sql = "SELECT c.*, {$sql}
                     (SELECT COUNT(*) FROM contact_activite WHERE contact_id=c.contact_id AND is_obsolete=0) AS nb_activite,
                     (SELECT COUNT(*) FROM contact_adresse  WHERE contact_id=c.contact_id AND is_obsolete=0) AS nb_adresse
                 FROM contact_contact c
@@ -63,7 +63,7 @@ class agent_admin_export extends agent
 
         echo '<p>Finalisation...</p>'; flush();
 
-        $row = substr($CONFIG['tribes.emailDomain'], 1) . '-' . date('Y-m-d-His', $_SERVER['REQUEST_TIME']) . $this->extension;
+        $row = $_SERVER['HTTP_HOST'] . '-' . date('Y-m-d-His', $_SERVER['REQUEST_TIME']) . $this->extension;
 
         echo '<p><a href="' . Patchwork::__BASE__() . 'admin/export/' . $row . '">Cliquer ici pour télécharger le fichier</a>.</p>';
 
@@ -127,7 +127,8 @@ class agent_admin_export extends agent
 
         foreach ($k as $k) unset($row->$k);
 
-        $k = explode(' ', 'adresse_id contact_id city_id email_list is_obsolete admin_confirmed contact_confirmed contact_modified contact_data origine sort_key');
+        $k = explode(' ', 'adresse_id contact_id city_id is_obsolete admin_confirmed contact_confirmed contact_modified contact_data origine sort_key');
+        if (!empty($CONFIG['tribes.emailDomain'])) $k[] = 'email_list';
 
         foreach ($k as $k)
             foreach (array('pro', 'perso', 'corresp') as $type)

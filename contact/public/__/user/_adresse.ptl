@@ -18,6 +18,7 @@
     </address>
     </td>
 </tr>
+<!-- IF $email_list -->{g$inputFormat|echo:"Email(s)":$email_list}<!-- END:IF -->
 <!-- IF $tel_portable || $tel_fixe || $tel_fax -->
 <!-- IF $tel_portable -->{g$inputFormat|echo:"Portable":$tel_portable}<!-- END:IF -->
 <!-- IF $tel_fixe     -->{g$inputFormat|echo:"Tél. fixe":$tel_fixe}<!-- END:IF -->

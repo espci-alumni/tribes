@@ -1,7 +1,7 @@
 <!-- SET $iframe_menu_height -->{$iframe_menu_height|default:85}<!-- END:SET -->
 <!-- SET $iframe_src -->{$accueil_url|base:1}<!-- END:SET -->
 <!-- SET $iframe_head -->
-<link rel="stylesheet" type="text/css" href="{base:'css/style'}">
+<link rel="stylesheet" href="{base:'css/style'}">
 <style>
 
 #iframe_menu
@@ -50,7 +50,7 @@
 <tr>
     <td align="right">
         <!-- IF $acces -->
-            <a href="{~}user/edit/contact">{$prenom_usuel} {$nom_usuel}</a>
+            <a href="{~}user/{$connected_id}">{$prenom_usuel} {$nom_usuel}</a>
             <!-- IF 'admin' == $acces --> | <a href="{~}admin">Administration</a><!-- END:IF -->
         <!-- ELSE -->
             {$prenom_usuel} {$nom_usuel}

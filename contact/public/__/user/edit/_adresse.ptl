@@ -38,9 +38,9 @@ Merci de renseigner l'adresse à laquelle les courriers du secrétariat doivent 
 <!--
 IF $id && $admin_confirmed <= $contact_modified
     IF d$is_admin_confirmed
-        --><p class="explication">Section refusée par l'administrateur</p><!--
+        --><p class="explication">Section refusée par un modérateur</p><!--
     ELSE
-        --><p class="explication">Section en attente de validation par l'administrateur</p><!--
+        --><p class="explication">Section en attente de validation avant publication</p><!--
     END:IF
 END:IF
 -->

@@ -32,7 +32,7 @@ class tribes_contact extends self
 
         if (!empty($data['password']))
         {
-            $update['password'] = crypt($data['password']);
+            $update['password'] = crypt($data['password'], '$1$' . substr(password_hash('', PASSWORD_DEFAULT), 10, 8));
         }
 
         if ($this->confirmed)

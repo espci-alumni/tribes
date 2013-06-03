@@ -15,6 +15,8 @@ AGENT 'header' title=$_title head=$_head
 
 <!-- IF $connected_is_admin -->
 <div id="b_edit"><a href="{~}admin/user/edit/{$contact_id}"><img src="{~}img/b_edit.gif" alt="modifier"></a></div>
+<!-- ELSEIF $connected_is_user -->
+<div id="b_edit"><a href="{~}user/edit/contact"><img src="{~}img/b_edit.gif" alt="modifier"></a></div>
 <!-- END:IF -->
 
 <div id="contact-left">
@@ -58,7 +60,7 @@ AGENT 'header' title=$_title head=$_head
 </div>
 <div id="contact-right">
 
-<!-- IF !$email -->
+<!-- IF !$login -->
 <div class="unknow">
     <!-- IF $_unknow -->{$_unknow}
     <!-- ELSE -->

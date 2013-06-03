@@ -5,7 +5,7 @@ Votre demande d'inscription vient d'être acceptée.
 </p>
 
 <p>
-Votre identifiant est&nbsp;: <strong>{a$login}</strong><br />
+Votre identifiant est&nbsp;: <strong>{a$auth_login}</strong><br />
 <a href="{~}">Cliquer ici pour accéder à votre espace</a>
 </p>
 

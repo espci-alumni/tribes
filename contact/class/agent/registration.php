@@ -105,10 +105,8 @@ class agent_registration extends agent_login
                 FROM contact_contact c
                     JOIN contact_email e USING (contact_id)
                 WHERE e.email=" . DB()->quote($data['email']) . "
-                    AND ({$sql})
-                    AND c.password!=''
-                    AND c.acces!=''
-                    AND c.is_obsolete=0";
+                    AND password!=''
+                    AND ({$sql})";
 
         return $sql;
     }

@@ -20,6 +20,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
         $f->add('date', 'paiement_date');
         $f->add('check', 'paiement_mode', array('item' => self::$paiement_mode));
         $f->add('text', 'paiement_ref');
+        $f->add('check', 'notif_disabled', array('item' => array(1 => "Désactiver l'email de notification"), 'multiple' => true, 'isdata' => true));
 
         $send->attach(
             'cotisation_date', '', '',
@@ -27,7 +28,8 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
             'paiement_euro', '', 'Merci de saisir un nombre entier ou décimal',
             'paiement_date', '', '',
             'paiement_mode', 'Merci de saisir le mode de paiement', '',
-            'paiement_ref', '', ''
+            'paiement_ref', '', '',
+            'notif_disabled', '', ''
         );
 
         $o = parent::composeForm($o, $f, $send);
@@ -68,6 +70,8 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
 
         if (isset($data['paiement_euro']) && '' !== $data['paiement_euro'])
         {
+            $notif_disabled = !empty($data['notif_disabled']);
+
             $data = array(
                 'token' => Patchwork::strongId(8),
                 'cotisation_date' => $data['cotisation_date'],
@@ -107,6 +111,7 @@ class agent_admin_user_secretariat___x5Fcotisation extends agent_admin_user_secr
 
             $db->insert('cotisation', $data);
 
+            if ($notif_disabled) $data['notif_disabled'] = true;
             notification::send('user/cotisation', $data);
         }
 

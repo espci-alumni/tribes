@@ -36,4 +36,9 @@ class notification_user_cotisation extends notification
             array('contact_id' => $this->contact_id)
         );
     }
+
+    protected function mail($email)
+    {
+        if (empty($this->context['notif_disabled'])) parent::mail($email);
+    }
 }

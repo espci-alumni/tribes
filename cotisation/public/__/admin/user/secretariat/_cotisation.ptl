@@ -15,6 +15,7 @@ AGENT $f_paiement_euro   _caption_="Montant du paiement" _format_='<td>%0&nbsp;:
 AGENT $f_paiement_mode   _caption_="Mode de paiement" _glue_=' - '
 AGENT $f_paiement_date   _caption_="Date de paiement"
 AGENT $f_paiement_ref    _caption_="Référence du paiement"
+AGENT $f_notif_disabled  _caption_="&nbsp;"
 
 -->
 </table>
