@@ -1,2 +1,2 @@
 version=2
-cdr={$cdr}
+cdr={$cdr|default:1}

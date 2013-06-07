@@ -23,7 +23,7 @@ class agent_tpe_cmcic_response extends agent_tpe_cmcic_request
             'bincb'       => '',
             'hpancb'      => '',
             'ipclient'    => '',
-            'origintr'    => '',
+            'originetr'   => '',
             'veres'       => '',
             'pares'       => '',
         );
@@ -34,7 +34,7 @@ class agent_tpe_cmcic_response extends agent_tpe_cmcic_request
             $token = $data['reference'];
             $euro  = (float) $data['montant'];
             $is_ok = 0;
-            $ref   = implode('|', $data);
+            $ref   = implode('*', $data);
 
             switch ($data['code-retour'])
             {
@@ -84,7 +84,7 @@ class agent_tpe_cmcic_response extends agent_tpe_cmcic_request
             $data['bincb'],       // code BIN de la banque du porteur de la carte
             $data['hpancb'],      // Hachage du numéro de la carte
             $data['ipclient'],    // IP client
-            $data['origintr'],    // code pays origine transaction
+            $data['originetr'],   // code pays origine transaction
             $data['veres'],       // Etat 3DSecure du VERes
             $data['pares']        //
         );
