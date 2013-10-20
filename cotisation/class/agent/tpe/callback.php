@@ -28,8 +28,8 @@ class agent_tpe_callback extends agent_tpe_response
         $db = DB();
 
         $sql = "SELECT * FROM cotisation WHERE token=" . $db->quote($token);
-        if (!$data = $db->fetchAssoc($sql)) return false;
-        else if ($data['paiement_mode']) return true;
+        if (! $data = $db->fetchAssoc($sql)) return false;
+        else if (! $is_ok && 'ERR' !== $data['paiement_mode']) return true;
 
         $data['paiement_ref'] = $ref;
 

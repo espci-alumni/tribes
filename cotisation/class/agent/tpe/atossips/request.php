@@ -84,7 +84,7 @@ class agent_tpe_atossips_request extends agent
         $p['order_id'] = substr($email, 0, 32);
         $p['customer_id'] = $ref;
         $p['customer_email'] = $email;
-        $p['return_context'] = "{$ref}-{$email}";
+        $p['return_context'] = $email;
 
         foreach ($p as $k => $v) $request_bin .= ' ' . escapeshellarg("{$k}={$v}");
 

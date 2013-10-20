@@ -24,7 +24,7 @@ class agent_tpe_cmcic_request extends agent
             'date' => date('d/m/Y:H:i:s', $_SERVER['REQUEST_TIME']),
             'montant' => $euro . self::$devise,
             'reference' => $ref,
-            'texte-libre' => "{$ref}-{$email}",
+            'texte-libre' => $email,
             'version' => self::$version,
             'lgue' => self::$langue,
             'societe' => self::$codeSociete,

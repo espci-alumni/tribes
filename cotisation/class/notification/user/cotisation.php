@@ -17,13 +17,10 @@ class notification_user_cotisation extends notification
             // Cotisation gratuite et soutien complémentaire déclaré :
             // on attend la réception du soutien pour envoyer l'email de notification.
         }
-        else if (empty($this->context['email']))
+        else if (empty($this->context['notif_disabled']))
         {
-            user_error('No email to notify', E_USER_WARNING);
-        }
-        else
-        {
-            $this->mail($this->context['email']);
+            if (empty($this->context['email']))  user_error('No email to notify', E_USER_WARNING);
+            else $this->mail($this->context['email']);
         }
     }
 
@@ -35,10 +32,5 @@ class notification_user_cotisation extends notification
             array('cotisation_expires' => "{$sql}-12-31"),
             array('contact_id' => $this->contact_id)
         );
-    }
-
-    protected function mail($email)
-    {
-        if (empty($this->context['notif_disabled'])) parent::mail($email);
     }
 }
