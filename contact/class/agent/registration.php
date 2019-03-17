@@ -25,6 +25,22 @@ class agent_registration extends agent_login
         return $o;
     }
 
+    protected function formIsOk($f)
+    {
+        if (!empty($CONFIG['tribes.emailDomain']))
+        {
+            $email = $f->getElement('email');
+
+            if (0 === strcasecmp($CONFIG['tribes.emailDomain'], substr($email->getValue(), -strlen($CONFIG['tribes.emailDomain']))))
+            {
+                $email->setError('Merci de saisir un autre email que celui '.$CONFIG['tribes.emailDomain']);
+
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     protected function save($data)
     {
