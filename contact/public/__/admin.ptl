@@ -6,6 +6,7 @@
     <li><a href="{~}admin/registration/requests">Demandes d'inscription à valider</a></li>
     <li><a href="{~}admin/user/requests">Fiches modifiées à publier</a></li>
     <li><a href="{~}admin/export/excel">Télécharger la base de données des contacts</a></li>
+    <li><a href="{~}admin/munin/">Monitoring des serveurs</a></li>
 </ul>
 
 <!-- AGENT 'footer' -->
