@@ -33,13 +33,15 @@ class agent_login extends self
                     '{$domain}',
                     IF('{$contact->login}' NOT IN (user,''),'{$contact->login}',null),
                     {$sql},
-                    '" . crypt($contact->password, '$1$' . substr(password_hash('', PASSWORD_DEFAULT), 10, 8)) . "',
+                    '" . crypt($contact->password ?: substr(password_hash('', PASSWORD_DEFAULT), 10, 8), '$1$' . substr(password_hash('', PASSWORD_DEFAULT), 10, 8)) . "',
                     NOW()
                 )
                 ON DUPLICATE KEY UPDATE
-                    password=VALUES(password),
                     display=VALUES(display),
                     canonic=VALUES(canonic)";
+        //if ($contact->password) {
+        //    $sql .= ',password=VALUES(password)';
+        //}
         if (1 === $db->exec($sql))
         {
             // Si l'insertion a réussi
