@@ -115,6 +115,34 @@ div.submit input.submit:hover
     background: url({~}img/spritey.png) #26c900 0px -120px repeat-x;
 }
 
+div.hsubmit
+{
+    text-align: center;
+    margin: 10px;
+    font-family: proxima-nova,Helvetica,Arial,sans-serif;
+}
+
+div.hsubmit input.submit
+{
+    border: none;
+    padding: 6px 20px 6px 20px;
+    font-size: 13px;
+    color: white;
+    border: 1px solid #4CAF50;
+    background-color: #4CAF50;
+    border-radius: 2px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+div.hsubmit input.submit:hover
+{
+    background-color: #71c174;
+}
+
+
 /* --------------------------- */
 
 /*    ONGLETS CONTEXTUELS    */
