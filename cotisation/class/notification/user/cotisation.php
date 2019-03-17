@@ -26,11 +26,10 @@ class notification_user_cotisation extends notification
 
     protected function updateCotisationExpires()
     {
-        $sql = substr($this->context['cotisation_date'], 0, 4);
-        DB()->update(
-            'contact_contact',
-            array('cotisation_expires' => "{$sql}-12-31"),
-            array('contact_id' => $this->contact_id)
-        );
+        $year = (int) substr($this->context['cotisation_date'], 0, 4);
+        $contact_id = (int) $this->contact_id;
+        $sql = "UPDATE contact_contact SET cotisation_expires='{$year}-12-31' WHERE contact_id={$contact_id} AND cotisation_expires<'{$year}-12-31'";
+
+        DB()->exec($sql);
     }
 }
