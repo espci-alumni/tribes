@@ -8,7 +8,7 @@ class agent_login extends self
 
         if ($contact->acces)
         {
-            $sql = "SELECT cotisation_expires>=NOW() AS is_cotisant, cotisation_expires
+            $sql = "SELECT cotisation_expires>=NOW() AS is_cotisant, LEAST(CAST(cotisation_expires AS CHAR),CONCAT(YEAR(NOW()),'-12-31')) AS cotisation_expires
                     FROM contact_contact
                     WHERE contact_id={$contact->contact_id}";
             SESSION::set(DB()->fetchAssoc($sql));

@@ -1,5 +1,7 @@
 <?php
 
+use Patchwork as p;
+
 class agent_login extends self
 {
     protected function login($contact)
@@ -87,7 +89,7 @@ class agent_login extends self
 
         $db->insert($phpbb . 'sessions', $data);
 
-        setcookie($phpbbDb . '_u', $user_id, 0, $CONFIG['tribes.phpbbPath'], $CONFIG['session.cookie_domain']);
-        setcookie($phpbbDb . '_sid', $data['session_id'], 0, $CONFIG['tribes.phpbbPath'], $CONFIG['session.cookie_domain']);
+        p::setcookie($phpbbDb . '_u', $user_id, 0, $CONFIG['tribes.phpbbPath']);
+        p::setcookie($phpbbDb . '_sid', $data['session_id'], 0, $CONFIG['tribes.phpbbPath']);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Patchwork as p;
+
 class agent_user___x5Flogout extends self
 {
     protected function logout()
@@ -11,6 +13,6 @@ class agent_user___x5Flogout extends self
 
     protected static function sympaLogout()
     {
-        setcookie('sympa_session', '', 1, '/wws/', $CONFIG['session.cookie_domain']);
+        p::setcookie('sympa_session', '', 1, '/');
     }
 }

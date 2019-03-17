@@ -22,8 +22,8 @@ class agent_cotiser_bulletin extends agent_user_edit
 
     function control()
     {
-        $this->contact_id = tribes::getConnectedId();
-        $this->contact_id || $this->contact_id = SESSION::get('cotisation_contact_id');
+        $this->contact_id = SESSION::get('cotisation_contact_id');
+        $this->contact_id || $this->contact_id = tribes::getConnectedId();
         $this->contact_id || Patchwork::redirect('cotiser');
         $this->connected_id = $this->contact_id;
 
@@ -50,8 +50,8 @@ class agent_cotiser_bulletin extends agent_user_edit
                     nom_usuel AS nom,
                     prenom_usuel AS prenom,
                     IF(login!='',CONCAT(login,'{$CONFIG['tribes.emailDomain']}'),({$sql})) AS email,
-                    IF (cotisation_expires>=NOW()+INTERVAL 1 DAY, cotisation_expires, 0) AS cotisation_expires,
-                    IF (cotisation_expires && cotisation_expires<NOW()+INTERVAL 1 DAY, cotisation_expires, 0) AS cotisation_expired
+                    IF (cotisation_expires+INTERVAL 1 DAY>=NOW(), cotisation_expires, 0) AS cotisation_expires,
+                    IF (cotisation_expires && cotisation_expires+INTERVAL 1 DAY<NOW(), cotisation_expires, 0) AS cotisation_expired
                 FROM contact_contact
                 WHERE contact_id={$this->contact_id}";
         $o = (object) DB()->fetchAssoc($sql);
@@ -90,9 +90,6 @@ class agent_cotiser_bulletin extends agent_user_edit
             );
         }
 
-        $o = $this->composeEmail($o, $f, $send);
-        $o = $this->composeAdresse($o, $f, $send);
-
         return $o;
     }
 
@@ -106,9 +103,6 @@ class agent_cotiser_bulletin extends agent_user_edit
     protected function save($data)
     {
         self::$soutien or $data['soutien'] = 0;
-
-        $this->saveEmail($data);
-        $this->saveAdresse($data);
 
         SESSION::set('cotisation_bulletin', $data);
 
@@ -126,11 +120,13 @@ class agent_cotiser_bulletin extends agent_user_edit
 
         DB()->insert('cotisation', $data);
 
-        return 'cotiser/paiement/' . $data['token'];
+        // TODO: envoyer un mail au secretariat si commentaire
+
+        return 'cotiser/paiement/' . $data['token'] . '/'.$this->get->__1__;
     }
 
 
-    static function getCotisationTypeOptions($o)
+    static function getCotisationTypeOptions($o, $admin = false)
     {
         $types = array();
 
@@ -141,6 +137,15 @@ class agent_cotiser_bulletin extends agent_user_edit
             $c = explode('-', $row['value'], 2);
 
             $types[$row['value']] = $c[1] . ' — ' . $c[0] . ' €';
+        }
+
+        if ($admin)
+        {
+            $types += array(
+                '0-exempté' => 'Exemption justifiée',
+                '0-don' => 'Don seul',
+                '0-remboursement' => 'Remboursement',
+            );
         }
 
         return array('item' => $types);

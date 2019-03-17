@@ -1,5 +1,7 @@
 <?php
 
+use Patchwork as p;
+
 class agent_login extends self
 {
     protected function login($contact)
@@ -14,13 +16,9 @@ class agent_login extends self
 
     protected static function webmailLogin($contact)
     {
-        setcookie(
-            'tribes_webmail',
-            self::MD5Encrypt($contact->user . $CONFIG['tribes.emailDomain'] . ':' . $contact->password, $CONFIG['tribes.webmailSecret']),
-            0,
-            $CONFIG['tribes.webmailPath'],
-            $CONFIG['session.cookie_domain']
-        );
+        $token = self::MD5Encrypt($contact->user . $CONFIG['tribes.emailDomain'] . ':' . $contact->password, $CONFIG['tribes.webmailSecret']);
+
+        p::setcookie('tribes_webmail', $token, 0, $CONFIG['tribes.webmailPath']);
     }
 
 

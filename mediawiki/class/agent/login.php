@@ -1,5 +1,7 @@
 <?php
 
+use Patchwork as p;
+
 class agent_login extends self
 {
     protected function login($contact)
@@ -67,9 +69,9 @@ class agent_login extends self
             $user_id = agent_admin_registration_request::mediaWikiCreateAccount($contact, $data['user_token']);
         }
 
-        setcookie($mediaWikiDb . 'UserID', $user_id, 0, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
-        setcookie($mediaWikiDb . 'UserName', $data['user_name'], 0, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
-        setcookie($mediaWikiDb . 'Token', $data['user_token'], 0, $CONFIG['tribes.mediaWikiPath'], $CONFIG['session.cookie_domain']);
-        setcookie($mediaWikiDb . 'LoggedOut', '', 1, '/');
+        p::setcookie($mediaWikiDb . 'UserID', $user_id, 0, $CONFIG['tribes.mediaWikiPath']);
+        p::setcookie($mediaWikiDb . 'UserName', $data['user_name'], 0, $CONFIG['tribes.mediaWikiPath']);
+        p::setcookie($mediaWikiDb . 'Token', $data['user_token'], 0, $CONFIG['tribes.mediaWikiPath']);
+        p::setcookie($mediaWikiDb . 'LoggedOut', '', 1, '/');
     }
 }

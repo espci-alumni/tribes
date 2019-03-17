@@ -1,5 +1,7 @@
 <?php
 
+use Patchwork as p;
+
 class agent_user___x5Flogout extends self
 {
     protected function logout()
@@ -11,6 +13,6 @@ class agent_user___x5Flogout extends self
 
     protected static function webmailLogout()
     {
-        setcookie('tribes_webmail', '', 1, $CONFIG['tribes.webmailPath'], $CONFIG['session.cookie_domain']);
+        p::setcookie('tribes_webmail', '', 1, $CONFIG['tribes.webmailPath']);
     }
 }

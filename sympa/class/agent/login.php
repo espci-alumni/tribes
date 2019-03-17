@@ -1,5 +1,7 @@
 <?php
 
+use Patchwork as p;
+
 class agent_login extends self
 {
     protected function login($contact)
@@ -36,6 +38,6 @@ class agent_login extends self
 
         $db->insert('sympa.session_table', $data);
 
-        setcookie('sympa_session', $data['id_session'], 0, '/', $CONFIG['session.cookie_domain']);
+        p::setcookie('sympa_session', $data['id_session'], 0, '/');
     }
 }

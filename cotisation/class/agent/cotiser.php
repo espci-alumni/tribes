@@ -2,9 +2,24 @@
 
 class agent_cotiser extends agent_registration
 {
+    public $get = array('__1__:c:[-_A-Za-z0-9]{8}');
+
     function control()
     {
         parent::control();
+
+        if ($this->get->__1__)
+        {
+            $sql = "SELECT contact_id AS cotisation_contact_id,
+                        CONCAT(login,'{$CONFIG['tribes.emailDomain']}') AS cotisation_email
+                    FROM contact_contact
+                    WHERE cotisation_token='{$this->get->__1__}'";
+            if ($user = DB()->fetchAssoc($sql))
+            {
+                SESSION::set($user);
+                Patchwork::redirect('cotiser/bulletin');
+            }
+        }
 
         tribes::getConnectedId() && Patchwork::redirect('cotiser/bulletin');
     }

@@ -65,6 +65,14 @@ class tribes_adresse extends tribes_common
 
             $sql .= " WHERE contact_id={$this->contact_id}";
             DB()->exec($sql);
+        } else if (!$this->confirmed) {
+        } else if ((false !== stripos($data['description'], 'perso') && $p = 'perso') || (false !== stripos($data['description'], 'pro') && $p = 'pro')) {
+            $sql = "UPDATE contact_contact SET
+                        perso_adresse_id=IF(perso_adresse_id={$id},NULL,perso_adresse_id),
+                        pro_adresse_id=IF(pro_adresse_id={$id},NULL,pro_adresse_id),
+                        {$p}_adresse_id={$id}
+                    WHERE contact_id={$this->contact_id}";
+            DB()->exec($sql);
         }
 
         if (!$this->confirmed && (self::ACTION_INSERT === $message || self::ACTION_UPDATE === $message))
