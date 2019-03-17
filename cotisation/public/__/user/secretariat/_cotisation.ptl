@@ -5,21 +5,23 @@
 
 <table>
 <tr>
-    <th>Date</th>
+    <th>Année</th>
     <th colspan="2">Cotisation</th>
     <th>Payé</th>
+    <th>Date</th>
     <th>Mode</th>
 </tr>
 <!-- LOOP $cotisations -->
 <tr class="{$iteratorPosition%2|test:'odd':'even'}">
-    <td>{$paiement_date|replace:' .*$':''|formatDate}</td>
+    <td>{$cotisation_date|replace:'-.*$':''}</td>
     <td>{$type}</td>
     <td align="right">{$cotisation}&nbsp;€</td>
     <td align="right">
         {$paiement_euro}&nbsp;€
-        <!-- IF $soutien/1 -->({$soutien>0|test:'+'}{$soutien}&nbsp;€)<!-- END:IF -->
+        <!-- IF $soutien>0 -->(+{$soutien}&nbsp;€)<!-- END:IF -->
+        <!-- IF $soutien<0 -->({$soutien}&nbsp;€)<!-- END:IF -->
     </td>
-    </td>
+    <td>{$paiement_date|replace:' .*$':''|formatDate}</td>
     <td align="center">{$paiement_mode}</td>
 </tr>
 <!-- END:LOOP -->

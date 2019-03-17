@@ -14,7 +14,7 @@ AGENT $f_type            _caption_="Catégorie"
 AGENT $f_paiement_euro   _caption_="Montant du paiement" _format_='<td>%0&nbsp;:</td><td>%1&nbsp;€ %2</td>' style='text-align:right'
 AGENT $f_paiement_mode   _caption_="Mode de paiement" _glue_=' - '
 AGENT $f_paiement_date   _caption_="Date de paiement"
-AGENT $f_paiement_ref    _caption_="Référence du paiement"
+AGENT $f_paiement_ref    _caption_="Référence"
 AGENT $f_notif_disabled  _caption_="&nbsp;"
 
 -->
@@ -28,9 +28,10 @@ AGENT $f_notif_disabled  _caption_="&nbsp;"
 <table>
 <tr>
     <th>&nbsp;</th>
-    <th>Date</th>
+    <th>Année</th>
     <th colspan="2">Cotisation</th>
     <th>Versé</th>
+    <th>Date</th>
     <th>Mode</th>
     <th>Réf.<th>
 </tr>
@@ -44,10 +45,11 @@ AGENT $f_notif_disabled  _caption_="&nbsp;"
         END:IF
         -->
     </td>
-    <td>{$paiement_date|replace:' .*$':''|formatDate}</td>
+    <td>{$cotisation_date|replace:'-.*$':''}</td>
     <td>{$type}</td>
     <td align="right">{$cotisation}&nbsp;€</td>
     <td align="right">{$paiement_euro}&nbsp;€</td>
+    <td>{$paiement_date|replace:' .*$':''|formatDate}</td>
     <td align="center">{$paiement_mode}</td>
     <td><!-- IF 'CB'!=$paiement_mode && 'ERR'!=$paiement_mode -->{$paiement_ref}<!-- ELSE -->&nbsp;<!-- END:IF --></td>
 </tr>

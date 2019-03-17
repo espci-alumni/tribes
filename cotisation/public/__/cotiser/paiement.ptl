@@ -60,7 +60,7 @@
 </tr>
 <!-- IF $soutien/1 -->
 <tr>
-    <td>Soutien / Don&nbsp;:</td>
+    <td>Soutien / Don compémentaire&nbsp;:</td>
     <td align="right">{$soutien}&nbsp;€</td>
 </tr>
 <!-- END:IF -->
