@@ -19,6 +19,7 @@ class agent_user extends agent
         parent::control();
 
         if (!SESSION::get('acces') && $this->get->__1__ != $this->connected_id) Patchwork::forbidden();
+        if ('admin' !== SESSION::get('acces')) Patchwork::forbidden();
 
         $sql = "SELECT " . self::$selectFields . "
                 FROM contact_contact
