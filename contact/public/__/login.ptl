@@ -9,7 +9,7 @@ Pour vérifier que cet email vous appartient réellement, merci de vous connecte
 </p>
 <!-- ELSEIF a$__1__ == 'bienvenue' -->
 <p class="explication">
-Votre demande d'inscription a bien été enregistrée.
+Votre demande d’inscription a bien été enregistrée.
 Merci de vérifier votre boîte de réception, un message électronique vous a été envoyé.
 Vous pouvez dès maintenant vous connecter pour compléter plus avant votre profil.
 </p>
@@ -29,6 +29,12 @@ Vous pouvez dès maintenant vous connecter pour compléter plus avant votre prof
     </p>
 </div>
 
+
 <!-- AGENT $form _mode_='close' -->
 
+<div class="explication">
+    <p>
+    <b>Attention, il faut maintenant se connecter avec la <a href="https://www.espci.org/login">nouvelle plateforme</a>.</b>
+    </p>
+</div>
 <!-- AGENT 'footer' -->
