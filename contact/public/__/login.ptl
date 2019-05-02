@@ -34,7 +34,7 @@ Vous pouvez dès maintenant vous connecter pour compléter plus avant votre prof
 
 <div class="explication">
     <p>
-    <b>Attention, il faut maintenant se connecter avec la <a href="https://www.espci.org/login">nouvelle plateforme</a>.</b>
+    <b style='color:red;'>Attention, il faut maintenant se connecter avec la <a href="https://www.espci.org/login">nouvelle plateforme</a>.</b>
     </p>
 </div>
 <!-- AGENT 'footer' -->
