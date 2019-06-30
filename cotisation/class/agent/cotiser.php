@@ -22,6 +22,8 @@ class agent_cotiser extends agent_registration
         }
 
         tribes::getConnectedId() && Patchwork::redirect('cotiser/bulletin');
+        
+        Patchwork::redirect('https://www.espci.org/page/cotiser');
     }
 
     protected function composeForm($o, $f, $send)
