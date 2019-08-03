@@ -9,6 +9,8 @@
 
 class agent_cotiser_bulletin extends agent_user_edit
 {
+    public $get = array('__1__:c:hivebrite');
+
     protected static
 
     $soutien = array(

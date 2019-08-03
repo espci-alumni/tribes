@@ -15,8 +15,11 @@ class tribes_contact extends self
 
     function save($data, $message = null, &$id = 0)
     {
-        $cotisation_token = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 8);
-        $this->contact_id or $data['cotisation_token'] = $cotisation_token;
+        $token = '';
+        for ($i = 0; $i < 8; ++$i) {
+            $token .= substr(str_shuffle("abcdefghjkmnpqrstuvwxyz"), 0, 1);
+        }
+        $this->contact_id or $data['cotisation_token'] = $token;
 
         return parent::save($data, $message, $id);
     }
